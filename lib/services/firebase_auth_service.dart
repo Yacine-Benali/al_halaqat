@@ -91,11 +91,11 @@ class FirebaseAuthService implements AuthService {
   @override
   Future<User> signInWithGoogle() async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
-
     final GoogleSignInAccount googleUser =
         await googleSignIn.signIn().catchError((error) {
       print('AN ERROR OCCURED');
     });
+
     if (googleUser != null) {
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
@@ -109,7 +109,7 @@ class FirebaseAuthService implements AuthService {
       } else {
         throw PlatformException(
             code: 'ERROR_MISSING_GOOGLE_AUTH_TOKEN',
-            message: 'Missing Google Auth Token');
+            message: 'Missing Google AuthService Token');
       }
     } else {
       throw PlatformException(

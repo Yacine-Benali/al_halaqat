@@ -13,7 +13,8 @@ class Strings {
   static const String signIn = 'Sign in';
   static const String signInWithEmailPassword =
       'Sign in with email and password';
-  static const String signInWithEmailLink = 'Sign in with email link';
+  static const String signInWithUsernmaePassword =
+      'sign in with username and password';
   static const String signInWithFacebook = 'Sign in with Facebook';
   static const String signInWithGoogle = 'Sign in with Google';
   static const String goAnonymous = 'Go anonymous';
@@ -36,10 +37,14 @@ class Strings {
       'Check your email to reset your password';
   static const String emailLabel = 'Email';
   static const String emailHint = 'test@test.com';
-  static const String password8CharactersLabel = 'Password (8+ characters)';
+  static const String usernameLabel = 'Username';
+  static const String usernameHint = 'mohammed.ahmed';
+  static const String password8CharactersLabel = 'Password (6+ characters)';
   static const String passwordLabel = 'Password';
   static const String invalidEmailErrorText = 'Email is invalid';
   static const String invalidEmailEmpty = 'Email can\'t be empty';
+  static const String invalidUsernameErrorText = 'username is invalid';
+  static const String invalidUsernameEmpty = 'username can\'t be empty';
   static const String invalidPasswordTooShort = 'Password is too short';
   static const String invalidPasswordEmpty = 'Password can\'t be empty';
 

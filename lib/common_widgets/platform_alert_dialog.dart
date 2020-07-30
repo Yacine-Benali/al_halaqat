@@ -1,9 +1,8 @@
 import 'dart:io';
 
-import 'package:al_halaqat/common_widgets/platform_widget.dart';
-import 'package:al_halaqat/constants/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:al_halaqat/common_widgets/platform_widget.dart';
 
 class PlatformAlertDialog extends PlatformWidget {
   PlatformAlertDialog({
@@ -24,12 +23,12 @@ class PlatformAlertDialog extends PlatformWidget {
     return Platform.isIOS
         ? await showCupertinoDialog<bool>(
             context: context,
-            builder: (BuildContext context) => this,
+            builder: (context) => this,
           )
         : await showDialog<bool>(
             context: context,
             barrierDismissible: false,
-            builder: (BuildContext context) => this,
+            builder: (context) => this,
           );
   }
 
@@ -52,24 +51,18 @@ class PlatformAlertDialog extends PlatformWidget {
   }
 
   List<Widget> _buildActions(BuildContext context) {
-    final List<Widget> actions = <Widget>[];
+    final actions = <Widget>[];
     if (cancelActionText != null) {
       actions.add(
         PlatformAlertDialogAction(
-          child: Text(
-            cancelActionText,
-            key: Key(Keys.alertCancel),
-          ),
+          child: Text(cancelActionText),
           onPressed: () => Navigator.of(context).pop(false),
         ),
       );
     }
     actions.add(
       PlatformAlertDialogAction(
-        child: Text(
-          defaultActionText,
-          key: Key(Keys.alertDefault),
-        ),
+        child: Text(defaultActionText),
         onPressed: () => Navigator.of(context).pop(true),
       ),
     );

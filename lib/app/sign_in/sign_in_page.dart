@@ -1,13 +1,10 @@
-import 'package:apple_sign_in/apple_sign_in.dart';
-import 'package:al_halaqat/app/sign_in/developer_menu.dart';
 import 'package:al_halaqat/app/sign_in/email_password/email_password_sign_in_page.dart';
-import 'package:al_halaqat/app/sign_in/email_link/email_link_sign_in_page.dart';
+import 'package:al_halaqat/app/sign_in/username_password/username_password_sign_in_page.dart';
 import 'package:al_halaqat/app/sign_in/sign_in_manager.dart';
 import 'package:al_halaqat/app/sign_in/social_sign_in_button.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/constants/keys.dart';
 import 'package:al_halaqat/constants/strings.dart';
-import 'package:al_halaqat/services/apple_sign_in_available.dart';
 import 'package:al_halaqat/services/auth_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +28,7 @@ class SignInPageBuilder extends StatelessWidget {
             builder: (_, SignInManager manager, __) => SignInPage._(
               isLoading: isLoading.value,
               manager: manager,
-              title: 'Firebase Auth Demo',
+              title: 'Al halqat',
             ),
           ),
         ),
@@ -61,14 +58,6 @@ class SignInPage extends StatelessWidget {
     ).show(context);
   }
 
-  Future<void> _signInAnonymously(BuildContext context) async {
-    try {
-      await manager.signInAnonymously();
-    } on PlatformException catch (e) {
-      _showSignInError(context, e);
-    }
-  }
-
   Future<void> _signInWithGoogle(BuildContext context) async {
     try {
       await manager.signInWithGoogle();
@@ -89,16 +78,6 @@ class SignInPage extends StatelessWidget {
     }
   }
 
-  Future<void> _signInWithApple(BuildContext context) async {
-    try {
-      await manager.signInWithApple();
-    } on PlatformException catch (e) {
-      if (e.code != 'ERROR_ABORTED_BY_USER') {
-        _showSignInError(context, e);
-      }
-    }
-  }
-
   Future<void> _signInWithEmailAndPassword(BuildContext context) async {
     final navigator = Navigator.of(context);
     await EmailPasswordSignInPage.show(
@@ -107,9 +86,9 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  Future<void> _signInWithEmailLink(BuildContext context) async {
+  Future<void> _signInWithUsernameAndPassword(BuildContext context) async {
     final navigator = Navigator.of(context);
-    await EmailLinkSignInPage.show(
+    await UsernamePasswordSignIn.show(
       context,
       onSignedIn: navigator.pop,
     );
@@ -119,12 +98,12 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         elevation: 2.0,
         title: Text(title),
       ),
       // Hide developer menu while loading in progress.
       // This is so that it's not possible to switch auth service while a request is in progress
-      drawer: isLoading ? null : DeveloperMenu(),
       backgroundColor: Colors.grey[200],
       body: _buildSignIn(context),
     );
@@ -144,7 +123,6 @@ class SignInPage extends StatelessWidget {
   }
 
   Widget _buildSignIn(BuildContext context) {
-    final appleSignInAvailable = Provider.of<AppleSignInAvailable>(context);
     // Make content scrollable so that it fits on small screens
     return SingleChildScrollView(
       child: Container(
@@ -159,15 +137,6 @@ class SignInPage extends StatelessWidget {
               child: _buildHeader(),
             ),
             SizedBox(height: 32.0),
-            if (appleSignInAvailable.isAvailable) ...[
-              AppleSignInButton(
-                // TODO: add key when supported
-                style: ButtonStyle.black,
-                type: ButtonType.signIn,
-                onPressed: isLoading ? null : () => _signInWithApple(context),
-              ),
-              SizedBox(height: 8),
-            ],
             SocialSignInButton(
               key: googleButtonKey,
               assetName: 'assets/go-logo.png',
@@ -196,25 +165,14 @@ class SignInPage extends StatelessWidget {
             SizedBox(height: 8),
             SignInButton(
               key: emailLinkButtonKey,
-              text: Strings.signInWithEmailLink,
-              onPressed: isLoading ? null : () => _signInWithEmailLink(context),
+              text: Strings.signInWithUsernmaePassword,
+              onPressed: isLoading
+                  ? null
+                  : () => _signInWithUsernameAndPassword(context),
               textColor: Colors.white,
               color: Colors.blueGrey[700],
             ),
             SizedBox(height: 8),
-            Text(
-              Strings.or,
-              style: TextStyle(fontSize: 14.0, color: Colors.black87),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 8),
-            SignInButton(
-              key: anonymousButtonKey,
-              text: Strings.goAnonymous,
-              color: Colors.lime[300],
-              textColor: Colors.black87,
-              onPressed: isLoading ? null : () => _signInAnonymously(context),
-            ),
           ],
         ),
       ),

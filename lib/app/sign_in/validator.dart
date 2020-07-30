@@ -33,7 +33,8 @@ class ValidatorInputFormatter implements TextInputFormatter {
   final StringValidator editingValidator;
 
   @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
     final bool oldValueValid = editingValidator.isValid(oldValue.text);
     final bool newValueValid = editingValidator.isValid(newValue.text);
     if (oldValueValid && !newValueValid) {
@@ -68,10 +69,37 @@ class MinLengthStringValidator extends StringValidator {
   }
 }
 
+class UsernameEditingRegexValidator extends RegexValidator {
+  UsernameEditingRegexValidator()
+      : super(
+            regexSource:
+                '^(?=.{8,20}\$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])\$');
+}
+
+class UsernameSubmitRegexValidator extends RegexValidator {
+  UsernameSubmitRegexValidator()
+      : super(
+            regexSource:
+                '^(?=.{8,20}\$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])\$');
+}
+
 class EmailAndPasswordValidators {
   final TextInputFormatter emailInputFormatter =
       ValidatorInputFormatter(editingValidator: EmailEditingRegexValidator());
   final StringValidator emailSubmitValidator = EmailSubmitRegexValidator();
-  final StringValidator passwordRegisterSubmitValidator = MinLengthStringValidator(8);
-  final StringValidator passwordSignInSubmitValidator = NonEmptyStringValidator();
+  final StringValidator passwordRegisterSubmitValidator =
+      MinLengthStringValidator(6);
+  final StringValidator passwordSignInSubmitValidator =
+      NonEmptyStringValidator();
+}
+
+class UsernameAndPasswordValidators {
+  final TextInputFormatter usernameInputFormatter = ValidatorInputFormatter(
+      editingValidator: UsernameEditingRegexValidator());
+  final StringValidator usernameSubmitValidator =
+      UsernameSubmitRegexValidator();
+  final StringValidator passwordRegisterSubmitValidator =
+      MinLengthStringValidator(6);
+  final StringValidator passwordSignInSubmitValidator =
+      NonEmptyStringValidator();
 }

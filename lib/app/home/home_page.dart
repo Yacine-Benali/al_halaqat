@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:al_halaqat/common_widgets/avatar.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
@@ -7,10 +5,17 @@ import 'package:al_halaqat/constants/keys.dart';
 import 'package:al_halaqat/constants/strings.dart';
 import 'package:al_halaqat/services/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:al_halaqat/app/home/cupertino_home_scaffold.dart';
+import 'package:al_halaqat/app/home/tab_item.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   Future<void> _signOut(BuildContext context) async {
     try {
       final AuthService auth = Provider.of<AuthService>(context, listen: false);
