@@ -3,7 +3,7 @@ import 'package:al_halaqat/common_widgets/form_submit_button.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/constants/strings.dart';
-import 'package:al_halaqat/services/auth_service.dart';
+import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +27,7 @@ class EmailPasswordSignInPage extends StatefulWidget {
   }
 
   static Widget create(BuildContext context, {VoidCallback onSignedIn}) {
-    final AuthService auth = Provider.of<AuthService>(context, listen: false);
+    final Auth auth = Provider.of<Auth>(context, listen: false);
     return ChangeNotifierProvider<EmailPasswordSignInModel>(
       create: (_) => EmailPasswordSignInModel(auth: auth),
       child: Consumer<EmailPasswordSignInModel>(

@@ -1,15 +1,52 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 
 import 'package:al_halaqat/services/api_path.dart';
-import 'package:al_halaqat/services/firestore_service.dart';
 
-abstract class Database {}
+abstract class Database {
+  Future<dynamic> uploadFile({
+    @required String path,
+    @required File file,
+  });
+  Future<void> setData({
+    @required String path,
+    @required Map<String, dynamic> data,
+    @required bool merge,
+  });
 
-String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
+  Future<void> addDocument({
+    @required String path,
+    @required Map<String, dynamic> data,
+  });
+  Stream<List<T>> collectionStream<T>({
+    @required String path,
+    @required T builder(Map<String, dynamic> data, String documentID),
+    Query queryBuilder(Query query),
+    int sort(T lhs, T rhs),
+  });
 
-class FirestoreDatabase implements Database {
-  FirestoreDatabase({@required this.uid}) : assert(uid != null);
-  final String uid;
+  Future<List<T>> fetchCollection<T>({
+    @required String path,
+    @required T builder(Map<String, dynamic> data, String documentID),
+    Query queryBuilder(Query query),
+    int sort(T lhs, T rhs),
+  });
+
+  Stream<T> userDocumentStream<T>({
+    @required String uid,
+    @required T builder(Map<String, dynamic> data),
+    @required String collection,
+  });
+
+  Stream<T> documentStream<T>(
+      {@required
+          String path,
+      @required
+          T builder(
+        Map<String, dynamic> data,
+        String documentID,
+      )});
 }

@@ -3,10 +3,8 @@ import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/constants/keys.dart';
 import 'package:al_halaqat/constants/strings.dart';
-import 'package:al_halaqat/services/auth_service.dart';
+import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:al_halaqat/app/home/cupertino_home_scaffold.dart';
-import 'package:al_halaqat/app/home/tab_item.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   Future<void> _signOut(BuildContext context) async {
     try {
-      final AuthService auth = Provider.of<AuthService>(context, listen: false);
+      final Auth auth = Provider.of<Auth>(context, listen: false);
       await auth.signOut();
     } on PlatformException catch (e) {
       await PlatformExceptionAlertDialog(
@@ -42,7 +40,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
+    final user = Provider.of<AuthUser>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(Strings.homePage),
@@ -67,7 +65,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildUserInfo(User user) {
+  Widget _buildUserInfo(AuthUser user) {
     return Column(
       children: [
         Avatar(

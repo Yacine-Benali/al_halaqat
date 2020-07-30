@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:al_halaqat/services/auth_service.dart';
+import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 
 class SignInManager {
   SignInManager({@required this.auth, @required this.isLoading});
-  final AuthService auth;
+  final Auth auth;
   final ValueNotifier<bool> isLoading;
 
-  Future<User> _signIn(Future<User> Function() signInMethod) async {
+  Future<AuthUser> _signIn(Future<AuthUser> Function() signInMethod) async {
     try {
       isLoading.value = true;
       return await signInMethod();
@@ -19,7 +19,7 @@ class SignInManager {
     }
   }
 
-  Future<User> signInAnonymously() async {
+  Future<AuthUser> signInAnonymously() async {
     return await _signIn(auth.signInAnonymously);
   }
 

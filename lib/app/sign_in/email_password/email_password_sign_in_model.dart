@@ -1,6 +1,6 @@
 import 'package:al_halaqat/app/sign_in/validator.dart';
 import 'package:al_halaqat/constants/strings.dart';
-import 'package:al_halaqat/services/auth_service.dart';
+import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/foundation.dart';
 
 enum EmailPasswordSignInFormType { signIn, register, forgotPassword }
@@ -14,7 +14,7 @@ class EmailPasswordSignInModel with EmailAndPasswordValidators, ChangeNotifier {
     this.isLoading = false,
     this.submitted = false,
   });
-  final AuthService auth;
+  final Auth auth;
 
   String email;
   String password;

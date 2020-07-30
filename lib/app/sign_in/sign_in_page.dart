@@ -5,7 +5,7 @@ import 'package:al_halaqat/app/sign_in/social_sign_in_button.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/constants/keys.dart';
 import 'package:al_halaqat/constants/strings.dart';
-import 'package:al_halaqat/services/auth_service.dart';
+import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,7 +17,7 @@ class SignInPageBuilder extends StatelessWidget {
   //     SignInPage(value)
   @override
   Widget build(BuildContext context) {
-    final AuthService auth = Provider.of<AuthService>(context, listen: false);
+    final Auth auth = Provider.of<Auth>(context, listen: false);
     return ChangeNotifierProvider<ValueNotifier<bool>>(
       create: (_) => ValueNotifier<bool>(false),
       child: Consumer<ValueNotifier<bool>>(
