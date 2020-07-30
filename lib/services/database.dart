@@ -41,12 +41,13 @@ abstract class Database {
     @required String collection,
   });
 
-  Stream<T> documentStream<T>(
-      {@required
-          String path,
-      @required
-          T builder(
-        Map<String, dynamic> data,
-        String documentID,
-      )});
+  Stream<T> documentStream<T>({
+    @required
+        String path,
+    @required
+        T builder(
+      Map<String, dynamic> data,
+      String documentID,
+    ),
+  });
 }

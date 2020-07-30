@@ -1,5 +1,7 @@
 import 'package:al_halaqat/landing_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:al_halaqat/services/firebase_auth.dart';
@@ -14,6 +16,13 @@ class MyApp extends StatelessWidget {
     return Provider<Auth>(
       create: (context) => FirebaseAuthService(),
       child: MaterialApp(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('ar'),
+        ],
         debugShowCheckedModeBanner: false,
         title: 'Time Tracker',
         theme: ThemeData(

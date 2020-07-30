@@ -21,21 +21,26 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  random_string: ^2.0.0
-  firebase_auth: ^0.15.3
-  google_sign_in: ^4.5.1 
-  flutter_facebook_login: ^3.0.0
-  apple_sign_in: ^0.1.0
+  intl: ^0.16.1
+  flutter_localizations:
+    sdk: flutter
+  #
   provider: ^4.0.1
+  rxdart: ^0.23.1
+  #ui
+  country_pickers: ^1.3.0
+  #firebase
+  firebase_auth: ^0.15.3
+  cloud_firestore: ^0.13.7
+  flutter_secure_storage: ^3.1.6
   firebase_dynamic_links:
     git:
       url: https://github.com/mrmilu/flutterfire
       path: packages/firebase_dynamic_links
       ref: firebase_dynamic_links
-  rxdart: ^0.23.1
-  flutter_secure_storage: ^3.1.6
-  package_info: ^0.4.0+13
-  cloud_firestore: ^0.13.7
+  #third party signin
+  google_sign_in: ^4.5.1 
+  flutter_facebook_login: ^3.0.0
 
   flutter:
     sdk: flutter
