@@ -10,14 +10,18 @@ class TextFormField2 extends StatelessWidget {
     @required this.maxLength,
     @required this.inputFormatter,
     @required this.onSaved,
+    this.isPhoneNumber = false,
+    this.initialValue,
   }) : super(key: key);
 
   final String title;
+  final String initialValue;
   final String hintText;
   final String errorText;
   final int maxLength;
   final TextInputFormatter inputFormatter;
   final ValueChanged<String> onSaved;
+  final bool isPhoneNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +38,9 @@ class TextFormField2 extends StatelessWidget {
             height: 8,
           ),
           TextFormField(
+            initialValue: initialValue,
+            keyboardType:
+                isPhoneNumber ? TextInputType.phone : TextInputType.text,
             inputFormatters: [inputFormatter],
             maxLength: maxLength,
             decoration: InputDecoration(

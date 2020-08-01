@@ -1,7 +1,42 @@
 import 'student.dart';
 
 abstract class User {
-  User();
+  String id;
+  String name;
+  int dateOfBirth;
+  String gender;
+  String nationality;
+  String address;
+  String phoneNumber;
+  String educationalLevel;
+  String etablissement;
+  String note;
+  String readableId;
+  String username;
+  String email;
+  String password;
+  String state;
+  int createdAt;
+  Map<String, String> createdBy;
+  User(
+    this.id,
+    this.name,
+    this.dateOfBirth,
+    this.gender,
+    this.nationality,
+    this.address,
+    this.phoneNumber,
+    this.educationalLevel,
+    this.etablissement,
+    this.note,
+    this.readableId,
+    this.username,
+    this.email,
+    this.password,
+    this.state,
+    this.createdAt,
+    this.createdBy,
+  );
 
   factory User.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) return null;
@@ -18,4 +53,5 @@ abstract class User {
 
     return user;
   }
+  Map<String, dynamic> toMap();
 }

@@ -7,6 +7,7 @@ import 'package:al_halaqat/services/firestore_database.dart';
 import 'package:flutter/material.dart';
 import 'package:al_halaqat/services/database.dart';
 import 'package:provider/provider.dart';
+import 'notApproved/pending_screen.dart';
 
 class BaseScreen extends StatefulWidget {
   const BaseScreen._({Key key, this.database, this.uid}) : super(key: key);
@@ -37,7 +38,7 @@ class _BaseScreenState extends State<BaseScreen> {
   @override
   void initState() {
     userStream = database.documentStream(
-      path: APIPath.user(widget.uid),
+      path: APIPath.userDocument(widget.uid),
       builder: (data, documentId) => User.fromMap(data, documentId),
     );
     super.initState();
@@ -48,15 +49,27 @@ class _BaseScreenState extends State<BaseScreen> {
     return StreamBuilder<User>(
       stream: userStream,
       builder: (context, snapshot) {
+        print(snapshot);
         if (snapshot.hasData) {
           final User user = snapshot.data;
-          if (user == null) {
-            print('show signup');
-            return Container();
-          } else {
-            print('wtf');
-            return Container();
-          }
+          print(user.state);
+
+          return Provider<User>.value(
+            value: user,
+            child: WillPopScope(
+              onWillPop: () async =>
+                  !await navigatorKey.currentState.maybePop(),
+              child: Navigator(
+                key: navigatorKey,
+                initialRoute: '/',
+                onGenerateRoute: (routeSettings) {
+                  return MaterialPageRoute(
+                    builder: (context) => PendingScreen(),
+                  );
+                },
+              ),
+            ),
+          );
         } else if (snapshot.hasError) {
           return Scaffold(
             body: EmptyContent(
@@ -65,10 +78,22 @@ class _BaseScreenState extends State<BaseScreen> {
             ),
           );
         }
-        if (snapshot.data == null) {
-          return JoinUsScreen();
+        if (snapshot.connectionState == ConnectionState.active &&
+            snapshot.data == null) {
+          return WillPopScope(
+            onWillPop: () async => !await navigatorKey.currentState.maybePop(),
+            child: Navigator(
+              key: navigatorKey,
+              initialRoute: '/',
+              onGenerateRoute: (routeSettings) {
+                return MaterialPageRoute(
+                  builder: (context) => JoinUsScreen(),
+                );
+              },
+            ),
+          );
         }
-//        return Scaffold(body: Center(child: CircularProgressIndicator()));
+        return Scaffold(body: Center(child: CircularProgressIndicator()));
       },
     );
   }

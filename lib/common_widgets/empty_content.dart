@@ -18,12 +18,12 @@ class EmptyContent extends StatelessWidget {
           Text(
             title,
             style: TextStyle(fontSize: 32.0, color: Colors.black54),
-             textAlign: TextAlign.center,
+            textAlign: TextAlign.center,
           ),
           Text(
             message,
-            style: TextStyle(fontSize: 16.0, color: Colors.black54),
-             textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 20.0, color: Colors.black54),
+            textAlign: TextAlign.center,
           ),
         ],
       ),

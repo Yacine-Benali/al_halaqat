@@ -26,8 +26,9 @@ class _NewUserScreenState extends State<JoinUsScreen> {
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
-                    builder: (context) => NewUserScreen(
-                      userType: 'student',
+                    builder: (context) => NewUserScreen.create(
+                      context: context,
+                      userType: UserType.student,
                     ),
                     fullscreenDialog: true,
                   ),
@@ -39,8 +40,9 @@ class _NewUserScreenState extends State<JoinUsScreen> {
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
-                    builder: (context) => NewUserScreen(
-                      userType: 'student',
+                    builder: (context) => NewUserScreen.create(
+                      context: context,
+                      userType: UserType.student,
                     ),
                     fullscreenDialog: true,
                   ),
@@ -52,8 +54,9 @@ class _NewUserScreenState extends State<JoinUsScreen> {
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
-                    builder: (context) => NewUserScreen(
-                      userType: 'student',
+                    builder: (context) => NewUserScreen.create(
+                      context: context,
+                      userType: UserType.student,
                     ),
                     fullscreenDialog: true,
                   ),

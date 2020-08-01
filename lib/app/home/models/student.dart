@@ -3,77 +3,78 @@ import 'user.dart';
 
 class Student extends User {
   Student({
-    @required this.id,
-    @required this.name,
-    @required this.dateOfBirth,
-    @required this.gender,
-    @required this.nationality,
-    @required this.address,
-    @required this.phoneNumber,
-    @required this.educationalLevel,
-    @required this.school,
-    @required this.note,
-    @required this.readableId,
-    @required this.username,
-    @required this.email,
-    @required this.password,
+    @required id,
+    @required name,
+    @required dateOfBirth,
+    @required gender,
+    @required nationality,
+    @required address,
+    @required phoneNumber,
+    @required educationalLevel,
+    @required etablissement,
+    @required note,
+    @required readableId,
+    @required username,
+    @required email,
+    @required password,
+    @required createdAt,
+    @required createdBy,
     @required this.parentPhoneNumber,
     @required this.isStudent,
     @required this.centerId,
-    @required this.state,
-    @required this.createdAt,
-    @required this.createdBy,
+    @required state,
     @required this.halaqatLearningIn,
-  });
+  }) : super(
+          id,
+          name,
+          dateOfBirth,
+          gender,
+          nationality,
+          address,
+          phoneNumber,
+          educationalLevel,
+          etablissement,
+          note,
+          readableId,
+          username,
+          email,
+          password,
+          state,
+          createdAt,
+          createdBy,
+        );
 
-  final String id;
-  final String name;
-  final int dateOfBirth;
-  final int gender;
-  final String nationality;
-  final String address;
-  final String phoneNumber;
-  final String educationalLevel;
-  final String school;
-  final String note;
-  final String readableId;
-  final String username;
-  final String email;
-  final String password;
-  final String parentPhoneNumber;
-  final String isStudent;
-  final String centerId;
-  final String state;
-  final int createdAt;
-  final Map<String, String> createdBy;
-  final List<String> halaqatLearningIn;
+  String parentPhoneNumber;
+  bool isStudent;
+  String centerId;
+  List<String> halaqatLearningIn;
 
   factory Student.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
       return null;
     }
 
-    final String id = data[''];
-    final String name = data[''];
-    final int dateOfBirth = data[''];
-    final int gender = data[''];
-    final String nationality = data[''];
-    final String address = data[''];
-    final String phoneNumber = data[''];
-    final String educationalLevel = data[''];
-    final String school = data[''];
-    final String note = data[''];
-    final String readableId = data[''];
-    final String username = data[''];
-    final String email = data[''];
-    final String password = data[''];
-    final String parentPhoneNumber = data[''];
-    final String isStudent = data[''];
-    final String centerId = data[''];
-    final String state = data[''];
-    final int createdAt = data[''];
-    final Map<String, String> createdBy = data[''];
-    final List<String> halaqatLearningIn = data[''];
+    String id = data['id'];
+    String name = data['name'];
+    int dateOfBirth = data['dateOfBirth'];
+    String gender = data['gender'];
+    String nationality = data['nationality'];
+    String address = data['address'];
+    String phoneNumber = data['phoneNumber'];
+    String educationalLevel = data['educationalLevel'];
+    String etablissement = data['etablissement'];
+    String note = data['note'];
+    String readableId = data['readableId'];
+    String username = data['username'];
+    String email = data['email'];
+    String password = data['password'];
+    String parentPhoneNumber = data['parentPhoneNumber'];
+    bool isStudent = data['isStudent'];
+    String centerId = data['centerId'];
+    String state = data['state'];
+    int createdAt = data['createdAt'];
+    Map<String, String> createdBy = Map<String, String>.from(data['createdBy']);
+    List<String> halaqatLearningIn = data['halaqatLearningIn'];
 
     return Student(
       id: id,
@@ -84,7 +85,7 @@ class Student extends User {
       address: address,
       phoneNumber: phoneNumber,
       educationalLevel: educationalLevel,
-      school: school,
+      etablissement: etablissement,
       note: note,
       readableId: readableId,
       username: username,
@@ -100,6 +101,7 @@ class Student extends User {
     );
   }
 
+  @override
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -110,7 +112,7 @@ class Student extends User {
       'address': address,
       'phoneNumber': phoneNumber,
       'educationalLevel': educationalLevel,
-      'school': school,
+      'etablissement': etablissement,
       'note': note,
       'readableId': readableId,
       'username': username,

@@ -1,3 +1,4 @@
 class APIPath {
-  static String user(String uid) => 'users/$uid';
+  static String usersCollection() => 'users';
+  static String userDocument(String uid) => 'users/$uid';
 }
