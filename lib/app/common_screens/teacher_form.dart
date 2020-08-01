@@ -1,4 +1,5 @@
-import 'package:al_halaqat/app/home/models/student.dart';
+import 'package:al_halaqat/app/home/models/teacher.dart';
+import 'package:al_halaqat/app/home/models/teacher.dart';
 import 'package:al_halaqat/app/home/models/user.dart';
 import 'package:al_halaqat/common_widgets/date_picker.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
@@ -8,23 +9,23 @@ import 'package:al_halaqat/common_widgets/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class StudentForm extends StatefulWidget {
-  const StudentForm({
+class TeacherForm extends StatefulWidget {
+  const TeacherForm({
     Key key,
-    this.student,
+    this.teacher,
     @required this.onSaved,
   }) : super(key: key);
-  final ValueChanged<Student> onSaved;
-  final Student student;
+  final ValueChanged<Teacher> onSaved;
+  final Teacher teacher;
 
   @override
   _NewStudentFormState createState() => _NewStudentFormState();
 }
 
-class _NewStudentFormState extends State<StudentForm> {
+class _NewStudentFormState extends State<TeacherForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  Student get student => widget.student;
-  // student information
+  Teacher get teacher => widget.teacher;
+  // teacher information
   String name;
   int dateOfBirth;
   String gender;
@@ -38,34 +39,35 @@ class _NewStudentFormState extends State<StudentForm> {
   String username;
   String email;
   String password;
-  String parentPhoneNumber;
-  String isStudent;
-  String centerId;
-  String state;
+  Map<String, String> centerState;
   int createdAt;
   Map<String, String> createdBy;
+  List<String> centers;
+  List<String> halaqatLearningIn;
+  //
+  bool isStudent;
+  bool isTeacher;
+  List<String> halaqatTeachingIn;
 
   @override
   void initState() {
-    name = student?.name;
-    dateOfBirth = student?.dateOfBirth ?? DateTime.now().millisecondsSinceEpoch;
-    gender = student?.gender;
-    nationality = student?.nationality ?? 'LBN';
-    address = student?.address;
-    phoneNumber = student?.phoneNumber;
-    educationalLevel = student?.educationalLevel;
-    etablissement = student?.etablissement;
-    note = student?.note;
-    parentPhoneNumber = student?.parentPhoneNumber;
-    centerId = student?.centerId;
+    name = teacher?.name;
+    dateOfBirth = teacher?.dateOfBirth ?? DateTime.now().millisecondsSinceEpoch;
+    gender = teacher?.gender;
+    nationality = teacher?.nationality ?? 'LB';
+    address = teacher?.address;
+    phoneNumber = teacher?.phoneNumber;
+    educationalLevel = teacher?.educationalLevel;
+    etablissement = teacher?.etablissement;
+    note = teacher?.note;
+    centers = teacher?.centers ?? List<String>(1);
     super.initState();
   }
 
   void _save() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      print(nationality);
-      Student student = Student(
+      Teacher teacher = Teacher(
         id: null,
         name: name,
         dateOfBirth: dateOfBirth ?? DateTime.now().millisecondsSinceEpoch,
@@ -80,15 +82,16 @@ class _NewStudentFormState extends State<StudentForm> {
         username: null,
         email: null,
         password: null,
-        parentPhoneNumber: parentPhoneNumber,
-        isStudent: true,
-        centerId: centerId,
-        state: null,
+        centerState: null,
         createdAt: null,
         createdBy: null,
-        halaqatLearningIn: null,
+        isStudent: false,
+        halaqatLearningIn: List<String>(),
+        centers: centers,
+        isTeacher: true,
+        halaqatTeachingIn: List<String>(),
       );
-      widget.onSaved(student);
+      widget.onSaved(teacher);
     }
   }
 
@@ -166,16 +169,6 @@ class _NewStudentFormState extends State<StudentForm> {
                   onSaved: (value) => phoneNumber = value,
                   isPhoneNumber: true,
                 ),
-                TextFormField2(
-                  title: 'رقم هاتف ولي الأمر',
-                  initialValue: parentPhoneNumber,
-                  hintText: 'إدخل رقم هاتف ولي الأمر',
-                  errorText: 'خطأ',
-                  maxLength: 10,
-                  inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
-                  onSaved: (value) => parentPhoneNumber = value,
-                  isPhoneNumber: true,
-                ),
                 DropdownButtonFormField2(
                   title: 'مستوى تعليمي',
                   possibleValues: [
@@ -214,12 +207,12 @@ class _NewStudentFormState extends State<StudentForm> {
                 ),
                 TextFormField2(
                   title: 'رقم التعريفي للمركز',
-                  initialValue: centerId,
+                  initialValue: centers[0],
                   hintText: 'إدخل رقم التعريفي للمركز',
                   errorText: 'خطأ',
                   maxLength: 20,
                   inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
-                  onSaved: (value) => centerId = value,
+                  onSaved: (value) => centers[0] = value,
                   isPhoneNumber: true,
                 ),
                 TextFormField2(

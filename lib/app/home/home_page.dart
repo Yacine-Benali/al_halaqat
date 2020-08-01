@@ -50,6 +50,8 @@ class _BaseScreenState extends State<HomePage> {
     return StreamBuilder<User>(
       stream: userStream,
       builder: (context, snapshot) {
+        userStream.isEmpty.then((value) => print(value));
+        print(snapshot);
         return Provider<AsyncSnapshot<User>>.value(
           value: snapshot,
           child: Provider<User>.value(

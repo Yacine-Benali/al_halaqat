@@ -166,13 +166,6 @@ class _UsernamePasswordSignInState extends State<UsernamePasswordSignIn> {
             onPressed: model.isLoading ? null : _submit,
           ),
           SizedBox(height: 8.0),
-          FlatButton(
-            key: Key('secondary-button'),
-            child: Text(model.secondaryButtonText),
-            onPressed: model.isLoading
-                ? null
-                : () => _updateFormType(model.secondaryActionFormType),
-          ),
         ],
       ),
     );

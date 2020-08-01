@@ -21,7 +21,9 @@ class UserBloc {
       'name': user.name,
       'id': '',
     };
-    user.state = 'pending';
+
+    user.centerState = {'${user.centers[0]}': 'pending'};
+
     await provider.creatUser(
       user,
       authUser.uid,

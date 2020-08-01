@@ -1,8 +1,13 @@
 import 'package:al_halaqat/app/home/models/student.dart';
+import 'package:al_halaqat/app/home/models/teacher.dart';
 import 'package:al_halaqat/app/home/models/user.dart';
 import 'package:al_halaqat/app/common_screens/user_info_screen.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
+import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
+import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class PendingScreen extends StatefulWidget {
@@ -11,11 +16,36 @@ class PendingScreen extends StatefulWidget {
 }
 
 class _PendingScreenState extends State<PendingScreen> {
+  Future<void> _signOut(BuildContext context) async {
+    try {
+      final Auth auth = Provider.of<Auth>(context, listen: false);
+      await auth.signOut();
+    } on PlatformException catch (e) {
+      await PlatformExceptionAlertDialog(
+        title: 'Strings.logoutFailed',
+        exception: e,
+      ).show(context);
+    }
+  }
+
+  Future<void> _confirmSignOut(BuildContext context) async {
+    final bool didRequestSignOut = await PlatformAlertDialog(
+      title: 'تسجيل الخروج',
+      content: 'هل أنت متأكد ؟',
+      cancelActionText: 'إلغاء',
+      defaultActionText: 'حسنا',
+    ).show(context);
+    if (didRequestSignOut == true) {
+      _signOut(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<User>(
       builder: (BuildContext context, user, Widget child) {
         UserType userType;
+        if (user is Teacher) userType = UserType.teacher;
         if (user is Student) userType = UserType.student;
 
         return Scaffold(
@@ -30,7 +60,7 @@ class _PendingScreenState extends State<PendingScreen> {
                     MaterialPageRoute(
                       builder: (context) => UserInfoScreen.create(
                         context: context,
-                        userType: UserType.student,
+                        userType: userType,
                         user: user,
                       ),
                       fullscreenDialog: true,
@@ -43,6 +73,16 @@ class _PendingScreenState extends State<PendingScreen> {
                 ),
               ),
             ],
+            leading: Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: InkWell(
+                onTap: () => _confirmSignOut(context),
+                child: Icon(
+                  Icons.exit_to_app,
+                  size: 26.0,
+                ),
+              ),
+            ),
           ),
           body: EmptyContent(
             title: 'طلبك قيد المراجعة',

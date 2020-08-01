@@ -40,10 +40,11 @@ class _NewStudentFormState extends State<StudentForm> {
   String password;
   String parentPhoneNumber;
   String isStudent;
-  String centerId;
-  String state;
+  Map<String, String> centerState;
   int createdAt;
   Map<String, String> createdBy;
+  List<String> centers;
+  List<String> halaqatLearningIn;
 
   @override
   void initState() {
@@ -57,7 +58,8 @@ class _NewStudentFormState extends State<StudentForm> {
     etablissement = student?.etablissement;
     note = student?.note;
     parentPhoneNumber = student?.parentPhoneNumber;
-    centerId = student?.centerId;
+    centers = student?.centers ?? List<String>(1);
+
     super.initState();
   }
 
@@ -81,11 +83,11 @@ class _NewStudentFormState extends State<StudentForm> {
         password: null,
         parentPhoneNumber: parentPhoneNumber,
         isStudent: true,
-        centerId: centerId,
-        state: null,
+        centerState: null,
         createdAt: null,
         createdBy: null,
-        halaqatLearningIn: null,
+        halaqatLearningIn: List<String>(),
+        centers: centers,
       );
       widget.onSaved(student);
     }
@@ -213,12 +215,12 @@ class _NewStudentFormState extends State<StudentForm> {
                 ),
                 TextFormField2(
                   title: 'رقم التعريفي للمركز',
-                  initialValue: centerId,
+                  initialValue: centers[0],
                   hintText: 'إدخل رقم التعريفي للمركز',
                   errorText: 'خطأ',
                   maxLength: 20,
                   inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
-                  onSaved: (value) => centerId = value,
+                  onSaved: (value) => centers[0] = value,
                   isPhoneNumber: true,
                 ),
                 TextFormField2(

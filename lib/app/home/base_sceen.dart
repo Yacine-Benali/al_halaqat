@@ -6,6 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BaseScreen extends StatelessWidget {
+  bool isThereAnActiveCenter(Map<String, String> centerState) {
+    List<String> states = centerState.values.toList();
+    bool isThereAnActive = false;
+    for (String state in states) if (state == 'active') isThereAnActive = true;
+    return isThereAnActive;
+  }
+
   @override
   Widget build(BuildContext context) {
     AsyncSnapshot<User> snapshot =
@@ -13,7 +20,7 @@ class BaseScreen extends StatelessWidget {
 
     if (snapshot.hasData) {
       final User user = snapshot.data;
-      if (user.state == 'pending') {
+      if (!isThereAnActiveCenter(user.centerState)) {
         return PendingScreen();
       }
     } else if (snapshot.hasError) {

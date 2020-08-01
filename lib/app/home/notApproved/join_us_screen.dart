@@ -42,7 +42,7 @@ class _NewUserScreenState extends State<JoinUsScreen> {
                   MaterialPageRoute(
                     builder: (context) => UserInfoScreen.create(
                       context: context,
-                      userType: UserType.student,
+                      userType: UserType.teacher,
                     ),
                     fullscreenDialog: true,
                   ),

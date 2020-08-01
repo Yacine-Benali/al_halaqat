@@ -17,12 +17,12 @@ class Teacher extends User {
     @required String username,
     @required String email,
     @required String password,
-    @required String state,
+    @required Map<String, String> centerState,
     @required int createdAt,
     @required Map<String, String> createdBy,
+    @required List<String> centers,
+    @required List<String> halaqatLearningIn,
     @required this.isStudent,
-    @required this.halaqatLearningIn,
-    @required this.centers,
     @required this.isTeacher,
     @required this.halaqatTeachingIn,
   }) : super(
@@ -40,14 +40,14 @@ class Teacher extends User {
           username,
           email,
           password,
-          state,
+          centerState,
           createdAt,
           createdBy,
+          centers,
+          halaqatLearningIn,
         );
 
   bool isStudent;
-  List<String> halaqatLearningIn;
-  List<String> centers;
   bool isTeacher;
   List<String> halaqatTeachingIn;
 
@@ -70,13 +70,15 @@ class Teacher extends User {
     String username = data['username'];
     String email = data['email'];
     String password = data['password'];
-    String state = data['state'];
+    Map<String, String> centerState =
+        Map<String, String>.from(data['centerState']);
     int createdAt = data['createdAt'];
     Map<String, String> createdBy = Map<String, String>.from(data['createdBy']);
+    List<String> centers = data['centers'].cast<String>();
+    List<String> halaqatLearningIn = data['halaqatLearningIn'].cast<String>();
+
     //
     bool isStudent = data['isStudent'];
-    List<String> halaqatLearningIn = data['halaqatLearningIn'];
-    List<String> centers = data['centers'].cast<String>();
     bool isTeacher = data['isTeacher'];
     List<String> halaqatTeachingIn = data['halaqatTeachingIn'].cast<String>();
 
@@ -95,13 +97,13 @@ class Teacher extends User {
       username: username,
       email: email,
       password: password,
-      state: state,
+      centerState: centerState,
       createdAt: createdAt,
       createdBy: createdBy,
+      centers: centers,
+      halaqatLearningIn: halaqatLearningIn,
       //
       isStudent: isStudent,
-      halaqatLearningIn: halaqatLearningIn,
-      centers: centers,
       isTeacher: isTeacher,
       halaqatTeachingIn: halaqatTeachingIn,
     );
@@ -123,13 +125,13 @@ class Teacher extends User {
       'username': username,
       'email': email,
       'password': password,
-      'state': state,
+      'centerState': centerState,
       'createdAt': createdAt,
       'createdBy': createdBy,
+      'centers': centers,
+      'halaqatLearningIn': halaqatLearningIn,
       //
       'isStudent': isStudent,
-      'halaqatLearningIn': halaqatLearningIn,
-      'centers': centers,
       'isTeacher': isTeacher,
       'halaqatTeachingIn': halaqatTeachingIn,
     };

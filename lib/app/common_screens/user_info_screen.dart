@@ -1,4 +1,5 @@
 import 'package:al_halaqat/app/common_screens/student_form.dart';
+import 'package:al_halaqat/app/common_screens/teacher_form.dart';
 import 'package:al_halaqat/app/home/models/user.dart';
 import 'package:al_halaqat/app/common_screens/user_bloc.dart';
 import 'package:al_halaqat/app/common_screens/user_provider.dart';
@@ -71,15 +72,18 @@ class _NewUserScreenState extends State<UserInfoScreen> {
   @override
   Widget build(BuildContext context) {
     if (bloc.userType == UserType.admin) {}
-    if (bloc.userType == UserType.teacher) {}
-    if (bloc.userType == UserType.student) {
-      return Container(
-        child: StudentForm(
-          student: widget.user,
-          onSaved: (student) => _save(student, context),
-        ),
+    if (bloc.userType == UserType.teacher)
+      return TeacherForm(
+        teacher: widget.user,
+        onSaved: (teacher) => _save(teacher, context),
       );
-    } else
+
+    if (bloc.userType == UserType.student)
+      return StudentForm(
+        student: widget.user,
+        onSaved: (student) => _save(student, context),
+      );
+    else
       return Container();
   }
 }

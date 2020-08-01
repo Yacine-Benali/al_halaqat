@@ -17,13 +17,13 @@ class Student extends User {
     @required String username,
     @required String email,
     @required String password,
-    @required String state,
+    @required Map<String, String> centerState,
     @required int createdAt,
     @required Map<String, String> createdBy,
-    @required this.halaqatLearningIn,
+    @required List<String> centers,
+    @required List<String> halaqatLearningIn,
     @required this.isStudent,
     @required this.parentPhoneNumber,
-    @required this.centerId,
   }) : super(
           id,
           name,
@@ -39,15 +39,15 @@ class Student extends User {
           username,
           email,
           password,
-          state,
+          centerState,
           createdAt,
           createdBy,
+          centers,
+          halaqatLearningIn,
         );
 
   bool isStudent;
-  List<String> halaqatLearningIn;
   String parentPhoneNumber;
-  String centerId;
 
   factory Student.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
@@ -68,14 +68,15 @@ class Student extends User {
     String username = data['username'];
     String email = data['email'];
     String password = data['password'];
-    String state = data['state'];
+    Map<String, String> centerState =
+        Map<String, String>.from(data['centerState']);
     int createdAt = data['createdAt'];
     Map<String, String> createdBy = Map<String, String>.from(data['createdBy']);
+    List<String> centers = data['centers'].cast<String>();
+    List<String> halaqatLearningIn = data['halaqatLearningIn'].cast<String>();
     //
     bool isStudent = data['isStudent'];
-    List<String> halaqatLearningIn = data['halaqatLearningIn'];
     String parentPhoneNumber = data['parentPhoneNumber'];
-    String centerId = data['centerId'];
 
     return Student(
       id: id,
@@ -92,14 +93,14 @@ class Student extends User {
       username: username,
       email: email,
       password: password,
-      state: state,
+      centerState: centerState,
       createdAt: createdAt,
       createdBy: createdBy,
+      centers: centers,
+      halaqatLearningIn: halaqatLearningIn,
       //
       isStudent: isStudent,
-      halaqatLearningIn: halaqatLearningIn,
       parentPhoneNumber: parentPhoneNumber,
-      centerId: centerId,
     );
   }
 
@@ -119,14 +120,14 @@ class Student extends User {
       'username': username,
       'email': email,
       'password': password,
-      'state': state,
+      'centerState': centerState,
       'createdAt': createdAt,
       'createdBy': createdBy,
+      'centers': centers,
+      'halaqatLearningIn': halaqatLearningIn,
       //
       'isStudent': isStudent,
-      'halaqatLearningIn': halaqatLearningIn,
       'parentPhoneNumber': parentPhoneNumber,
-      'centerId': centerId,
     };
   }
 }

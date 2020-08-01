@@ -1,3 +1,5 @@
+import 'package:al_halaqat/app/home/models/teacher.dart';
+
 import 'student.dart';
 
 abstract class User {
@@ -15,9 +17,11 @@ abstract class User {
   String username;
   String email;
   String password;
-  String state;
+  Map<String, String> centerState;
   int createdAt;
   Map<String, String> createdBy;
+  List<String> centers;
+  List<String> halaqatLearningIn;
   User(
     this.id,
     this.name,
@@ -33,9 +37,11 @@ abstract class User {
     this.username,
     this.email,
     this.password,
-    this.state,
+    this.centerState,
     this.createdAt,
     this.createdBy,
+    this.centers,
+    this.halaqatLearningIn,
   );
 
   factory User.fromMap(Map<String, dynamic> data, String documentId) {
@@ -48,7 +54,9 @@ abstract class User {
     User user;
     if (isGloabalAdmin) {}
     if (isAdmin) {}
-    if (isTeacher) {}
+    if (isTeacher) {
+      user = Teacher.fromMap(data, documentId);
+    }
     if (isStudent) user = Student.fromMap(data, documentId);
 
     return user;
