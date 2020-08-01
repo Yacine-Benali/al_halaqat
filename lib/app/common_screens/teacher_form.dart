@@ -50,7 +50,7 @@ class _NewStudentFormState extends State<StudentForm> {
     name = student?.name;
     dateOfBirth = student?.dateOfBirth ?? DateTime.now().millisecondsSinceEpoch;
     gender = student?.gender;
-    nationality = student?.nationality ?? 'LB';
+    nationality = student?.nationality ?? 'LBN';
     address = student?.address;
     phoneNumber = student?.phoneNumber;
     educationalLevel = student?.educationalLevel;
@@ -64,6 +64,7 @@ class _NewStudentFormState extends State<StudentForm> {
   void _save() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      print(nationality);
       Student student = Student(
         id: null,
         name: name,

@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'user.dart';
 
-class Student extends User {
-  Student({
+class Teacher extends User {
+  Teacher({
     @required String id,
     @required String name,
     @required int dateOfBirth,
@@ -20,10 +20,11 @@ class Student extends User {
     @required String state,
     @required int createdAt,
     @required Map<String, String> createdBy,
-    @required this.halaqatLearningIn,
     @required this.isStudent,
-    @required this.parentPhoneNumber,
-    @required this.centerId,
+    @required this.halaqatLearningIn,
+    @required this.centers,
+    @required this.isTeacher,
+    @required this.halaqatTeachingIn,
   }) : super(
           id,
           name,
@@ -46,10 +47,11 @@ class Student extends User {
 
   bool isStudent;
   List<String> halaqatLearningIn;
-  String parentPhoneNumber;
-  String centerId;
+  List<String> centers;
+  bool isTeacher;
+  List<String> halaqatTeachingIn;
 
-  factory Student.fromMap(Map<String, dynamic> data, String documentId) {
+  factory Teacher.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
       return null;
     }
@@ -74,10 +76,11 @@ class Student extends User {
     //
     bool isStudent = data['isStudent'];
     List<String> halaqatLearningIn = data['halaqatLearningIn'];
-    String parentPhoneNumber = data['parentPhoneNumber'];
-    String centerId = data['centerId'];
+    List<String> centers = data['centers'].cast<String>();
+    bool isTeacher = data['isTeacher'];
+    List<String> halaqatTeachingIn = data['halaqatTeachingIn'].cast<String>();
 
-    return Student(
+    return Teacher(
       id: id,
       name: name,
       dateOfBirth: dateOfBirth,
@@ -98,8 +101,9 @@ class Student extends User {
       //
       isStudent: isStudent,
       halaqatLearningIn: halaqatLearningIn,
-      parentPhoneNumber: parentPhoneNumber,
-      centerId: centerId,
+      centers: centers,
+      isTeacher: isTeacher,
+      halaqatTeachingIn: halaqatTeachingIn,
     );
   }
 
@@ -125,8 +129,9 @@ class Student extends User {
       //
       'isStudent': isStudent,
       'halaqatLearningIn': halaqatLearningIn,
-      'parentPhoneNumber': parentPhoneNumber,
-      'centerId': centerId,
+      'centers': centers,
+      'isTeacher': isTeacher,
+      'halaqatTeachingIn': halaqatTeachingIn,
     };
   }
 }
