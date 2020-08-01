@@ -1,18 +1,18 @@
 import 'package:al_halaqat/app/home/models/user.dart';
-import 'package:al_halaqat/app/home/notApproved/new_user_provider.dart';
-import 'package:al_halaqat/app/home/notApproved/new_user_screen.dart';
+import 'package:al_halaqat/app/common_screens/user_provider.dart';
+import 'package:al_halaqat/app/common_screens/user_info_screen.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/foundation.dart';
 
-class NewUserBloc {
-  NewUserBloc({
+class UserBloc {
+  UserBloc({
     @required this.authUser,
     @required this.provider,
     @required this.userType,
   });
 
-  final NewUserProvider provider;
+  final UserProvider provider;
   final UserType userType;
   final AuthUser authUser;
 

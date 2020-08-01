@@ -3,8 +3,8 @@ import 'package:al_halaqat/services/api_path.dart';
 import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/foundation.dart';
 
-class NewUserProvider {
-  NewUserProvider({@required this.database});
+class UserProvider {
+  UserProvider({@required this.database});
   final Database database;
 
   Future<void> creatUser(User user, String uid) async => await database.setData(

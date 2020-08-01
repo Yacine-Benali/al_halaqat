@@ -1,7 +1,7 @@
-import 'package:al_halaqat/app/common_screens/new_student_form.dart';
+import 'package:al_halaqat/app/common_screens/student_form.dart';
 import 'package:al_halaqat/app/home/models/user.dart';
-import 'package:al_halaqat/app/home/notApproved/new_user_bloc.dart';
-import 'package:al_halaqat/app/home/notApproved/new_user_provider.dart';
+import 'package:al_halaqat/app/common_screens/user_bloc.dart';
+import 'package:al_halaqat/app/common_screens/user_provider.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
@@ -15,14 +15,14 @@ import 'package:provider/provider.dart';
 
 enum UserType { student, teacher, admin }
 
-class NewUserScreen extends StatefulWidget {
-  const NewUserScreen._({
+class UserInfoScreen extends StatefulWidget {
+  const UserInfoScreen._({
     Key key,
     @required this.bloc,
     this.user,
   }) : super(key: key);
 
-  final NewUserBloc bloc;
+  final UserBloc bloc;
   final User user;
 
   static Widget create({
@@ -32,13 +32,13 @@ class NewUserScreen extends StatefulWidget {
   }) {
     Database database = Provider.of<Database>(context, listen: false);
     AuthUser authUser = Provider.of<AuthUser>(context, listen: false);
-    NewUserProvider provider = NewUserProvider(database: database);
-    NewUserBloc bloc = NewUserBloc(
+    UserProvider provider = UserProvider(database: database);
+    UserBloc bloc = UserBloc(
       provider: provider,
       userType: userType,
       authUser: authUser,
     );
-    return NewUserScreen._(
+    return UserInfoScreen._(
       bloc: bloc,
       user: user,
     );
@@ -48,23 +48,23 @@ class NewUserScreen extends StatefulWidget {
   _NewUserScreenState createState() => _NewUserScreenState();
 }
 
-class _NewUserScreenState extends State<NewUserScreen> {
-  NewUserBloc get bloc => widget.bloc;
-  User get user => widget.user;
+class _NewUserScreenState extends State<UserInfoScreen> {
+  UserBloc get bloc => widget.bloc;
 
-  Future<void> _save(User user) async {
+  Future<void> _save(User user, BuildContext context) async {
     try {
       await bloc.creatUser(user);
-      // PlatformAlertDialog(
-      //   title: 'نجح الحفظ',
-      //   content: 'تم حفظ البيانات',
-      //   defaultActionText: 'حسنا',
-      // ).show(context);
+      PlatformAlertDialog(
+        title: 'نجح الحفظ',
+        content: 'تم حفظ البيانات',
+        defaultActionText: 'حسنا',
+      ).show(context);
+      Navigator.of(context).pop();
     } on PlatformException catch (e) {
-      // PlatformExceptionAlertDialog(
-      //   title: 'فشلت العملية',
-      //   exception: e,
-      // ).show(context);
+      PlatformExceptionAlertDialog(
+        title: 'فشلت العملية',
+        exception: e,
+      ).show(context);
     }
   }
 
@@ -73,9 +73,11 @@ class _NewUserScreenState extends State<NewUserScreen> {
     if (bloc.userType == UserType.admin) {}
     if (bloc.userType == UserType.teacher) {}
     if (bloc.userType == UserType.student) {
-      return NewStudentForm(
-        student: user,
-        onSaved: (student) => _save(student),
+      return Container(
+        child: StudentForm(
+          student: widget.user,
+          onSaved: (student) => _save(student, context),
+        ),
       );
     } else
       return Container();

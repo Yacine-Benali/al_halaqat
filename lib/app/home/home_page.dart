@@ -1,86 +1,75 @@
-// import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
-// import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
-// import 'package:al_halaqat/constants/keys.dart';
-// import 'package:al_halaqat/constants/strings.dart';
-// import 'package:al_halaqat/services/auth.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'package:provider/provider.dart';
+import 'package:al_halaqat/app/home/base_sceen.dart';
+import 'package:al_halaqat/app/home/models/user.dart';
+import 'package:al_halaqat/app/home/notApproved/join_us_screen.dart';
+import 'package:al_halaqat/app/common_screens/user_info_screen.dart';
+import 'package:al_halaqat/common_widgets/empty_content.dart';
+import 'package:al_halaqat/services/api_path.dart';
+import 'package:al_halaqat/services/firestore_database.dart';
+import 'package:flutter/material.dart';
+import 'package:al_halaqat/services/database.dart';
+import 'package:provider/provider.dart';
+import 'notApproved/pending_screen.dart';
 
-// class HomePage extends StatefulWidget {
-//   @override
-//   _HomePageState createState() => _HomePageState();
-// }
+class HomePage extends StatefulWidget {
+  const HomePage._({Key key, this.database, this.uid}) : super(key: key);
+  final Database database;
+  final String uid;
 
-// class _HomePageState extends State<HomePage> {
-//   Future<void> _signOut(BuildContext context) async {
-//     try {
-//       final Auth auth = Provider.of<Auth>(context, listen: false);
-//       await auth.signOut();
-//     } on PlatformException catch (e) {
-//       await PlatformExceptionAlertDialog(
-//         title: Strings.logoutFailed,
-//         exception: e,
-//       ).show(context);
-//     }
-//   }
+  static Widget create({@required String uid}) {
+    return Provider<Database>(
+      create: (_) => FirestoreDatabase(),
+      child: Consumer<Database>(
+        builder: (_, Database database, __) => HomePage._(
+          database: database,
+          uid: uid,
+        ),
+      ),
+    );
+  }
 
-//   Future<void> _confirmSignOut(BuildContext context) async {
-//     final bool didRequestSignOut = await PlatformAlertDialog(
-//       title: Strings.logout,
-//       content: Strings.logoutAreYouSure,
-//       cancelActionText: Strings.cancel,
-//       defaultActionText: Strings.logout,
-//     ).show(context);
-//     if (didRequestSignOut == true) {
-//       _signOut(context);
-//     }
-//   }
+  @override
+  _BaseScreenState createState() => _BaseScreenState();
+}
 
-//   @override
-//   Widget build(BuildContext context) {
-//     final user = Provider.of<AuthUser>(context);
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(Strings.homePage),
-//         actions: <Widget>[
-//           FlatButton(
-//             key: Key(Keys.logout),
-//             child: Text(
-//               Strings.logout,
-//               style: TextStyle(
-//                 fontSize: 18.0,
-//                 color: Colors.white,
-//               ),
-//             ),
-//             onPressed: () => _confirmSignOut(context),
-//           ),
-//         ],
-//         bottom: PreferredSize(
-//           preferredSize: Size.fromHeight(130.0),
-//           child: _buildUserInfo(user),
-//         ),
-//       ),
-//     );
-//   }
+class _BaseScreenState extends State<HomePage> {
+  Database get database => widget.database;
+  Stream<User> userStream;
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-//   Widget _buildUserInfo(AuthUser user) {
-//     return Column(
-//       children: [
-//         Avatar(
-//           photoUrl: user.photoUrl,
-//           radius: 50,
-//           borderColor: Colors.black54,
-//           borderWidth: 2.0,
-//         ),
-//         SizedBox(height: 8),
-//         if (user.displayName != null)
-//           Text(
-//             user.displayName,
-//             style: TextStyle(color: Colors.white),
-//           ),
-//         SizedBox(height: 8),
-//       ],
-//     );
-//   }
-// }
+  @override
+  void initState() {
+    userStream = database.documentStream(
+      path: APIPath.userDocument(widget.uid),
+      builder: (data, documentId) => User.fromMap(data, documentId),
+    );
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User>(
+      stream: userStream,
+      builder: (context, snapshot) {
+        return Provider<AsyncSnapshot<User>>.value(
+          value: snapshot,
+          child: Provider<User>.value(
+            value: snapshot.data,
+            child: WillPopScope(
+              onWillPop: () async =>
+                  !await navigatorKey.currentState.maybePop(),
+              child: Navigator(
+                key: navigatorKey,
+                initialRoute: '/',
+                onGenerateRoute: (routeSettings) {
+                  return MaterialPageRoute(
+                    builder: (context) => BaseScreen(),
+                  );
+                },
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}

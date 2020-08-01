@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:al_halaqat/app/home/home_page2.dart';
+import 'package:al_halaqat/app/home/home_page.dart';
 import 'package:al_halaqat/services/firestore_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +23,7 @@ class LandingPage extends StatelessWidget {
             }
             return Provider<AuthUser>.value(
               value: user,
-              child: BaseScreen.create(uid: user.uid),
+              child: HomePage.create(uid: user.uid),
             );
           } else {
             return Scaffold(

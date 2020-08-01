@@ -1,4 +1,4 @@
-import 'package:al_halaqat/app/home/notApproved/new_user_screen.dart';
+import 'package:al_halaqat/app/common_screens/user_info_screen.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +26,7 @@ class _NewUserScreenState extends State<JoinUsScreen> {
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
-                    builder: (context) => NewUserScreen.create(
+                    builder: (context) => UserInfoScreen.create(
                       context: context,
                       userType: UserType.student,
                     ),
@@ -40,7 +40,7 @@ class _NewUserScreenState extends State<JoinUsScreen> {
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
-                    builder: (context) => NewUserScreen.create(
+                    builder: (context) => UserInfoScreen.create(
                       context: context,
                       userType: UserType.student,
                     ),
@@ -54,7 +54,7 @@ class _NewUserScreenState extends State<JoinUsScreen> {
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
-                    builder: (context) => NewUserScreen.create(
+                    builder: (context) => UserInfoScreen.create(
                       context: context,
                       userType: UserType.student,
                     ),

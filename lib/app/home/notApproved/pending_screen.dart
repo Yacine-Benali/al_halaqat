@@ -1,6 +1,6 @@
 import 'package:al_halaqat/app/home/models/student.dart';
 import 'package:al_halaqat/app/home/models/user.dart';
-import 'package:al_halaqat/app/home/notApproved/new_user_screen.dart';
+import 'package:al_halaqat/app/common_screens/user_info_screen.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +28,7 @@ class _PendingScreenState extends State<PendingScreen> {
                 child: InkWell(
                   onTap: () => Navigator.of(context, rootNavigator: false).push(
                     MaterialPageRoute(
-                      builder: (context) => NewUserScreen.create(
+                      builder: (context) => UserInfoScreen.create(
                         context: context,
                         userType: UserType.student,
                         user: user,

@@ -47,6 +47,7 @@ class _CountryPhoneNumberPickerState extends State<CountryPicker> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.initialValue);
     double dropdownButtonWidth = MediaQuery.of(context).size.width * 0.5;
     double dropdownItemWidth = dropdownButtonWidth - 32;
 
@@ -73,7 +74,9 @@ class _CountryPhoneNumberPickerState extends State<CountryPicker> {
             itemBuilder: (Country country) =>
                 _buildDropdownItemWithLongText(country, dropdownItemWidth),
             initialValue: widget.initialValue,
-            onValuePicked: (Country country) => widget.onSavedCountry,
+            onValuePicked: (Country country) {
+              widget.onSavedCountry(country.isoCode);
+            },
           ),
         ],
       ),

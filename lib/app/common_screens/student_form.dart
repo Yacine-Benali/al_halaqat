@@ -8,8 +8,8 @@ import 'package:al_halaqat/common_widgets/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class NewStudentForm extends StatefulWidget {
-  const NewStudentForm({
+class StudentForm extends StatefulWidget {
+  const StudentForm({
     Key key,
     this.student,
     @required this.onSaved,
@@ -21,7 +21,7 @@ class NewStudentForm extends StatefulWidget {
   _NewStudentFormState createState() => _NewStudentFormState();
 }
 
-class _NewStudentFormState extends State<NewStudentForm> {
+class _NewStudentFormState extends State<StudentForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Student get student => widget.student;
   // student information
@@ -88,7 +88,7 @@ class _NewStudentFormState extends State<NewStudentForm> {
         createdBy: null,
         halaqatLearningIn: null,
       );
-      // widget.onSaved(student);
+      widget.onSaved(student);
     }
   }
 
@@ -129,12 +129,13 @@ class _NewStudentFormState extends State<NewStudentForm> {
                   onSaved: (value) => name = value,
                 ),
                 DatePicker(
-                  title: 'تاريخ الميلاد',
-                  selectedDate:
-                      DateTime.fromMillisecondsSinceEpoch(dateOfBirth),
-                  onSelectedDate: (value) =>
-                      dateOfBirth = value.millisecondsSinceEpoch,
-                ),
+                    title: 'تاريخ الميلاد',
+                    selectedDate:
+                        DateTime.fromMillisecondsSinceEpoch(dateOfBirth),
+                    onSelectedDate: (value) {
+                      dateOfBirth = value.millisecondsSinceEpoch;
+                      setState(() {});
+                    }),
                 DropdownButtonFormField2(
                   title: 'الجنس',
                   possibleValues: ["ذكر", "أنثى"],
@@ -143,10 +144,12 @@ class _NewStudentFormState extends State<NewStudentForm> {
                 ),
                 CountryPicker(
                   title: 'الجنسية',
+                  initialValue: nationality,
                   onSavedCountry: (value) => nationality = value,
                 ),
                 TextFormField2(
                   title: 'العنوان',
+                  initialValue: address,
                   hintText: 'إدخل عنوانك',
                   errorText: 'خطأ',
                   maxLength: 30,
@@ -155,6 +158,7 @@ class _NewStudentFormState extends State<NewStudentForm> {
                 ),
                 TextFormField2(
                   title: 'رقم الهاتف',
+                  initialValue: phoneNumber,
                   hintText: 'إدخل رقم هاتفك',
                   errorText: 'خطأ',
                   maxLength: 10,
@@ -164,6 +168,7 @@ class _NewStudentFormState extends State<NewStudentForm> {
                 ),
                 TextFormField2(
                   title: 'رقم هاتف ولي الأمر',
+                  initialValue: parentPhoneNumber,
                   hintText: 'إدخل رقم هاتف ولي الأمر',
                   errorText: 'خطأ',
                   maxLength: 10,
@@ -200,6 +205,7 @@ class _NewStudentFormState extends State<NewStudentForm> {
                 ),
                 TextFormField2(
                   title: 'مدرسة / الجامعة',
+                  initialValue: etablissement,
                   hintText: 'إدخل إسم المؤسسة',
                   errorText: 'خطأ',
                   maxLength: 10,
@@ -208,6 +214,7 @@ class _NewStudentFormState extends State<NewStudentForm> {
                 ),
                 TextFormField2(
                   title: 'رقم التعريفي للمركز',
+                  initialValue: centerId,
                   hintText: 'إدخل رقم التعريفي للمركز',
                   errorText: 'خطأ',
                   maxLength: 20,
@@ -217,6 +224,7 @@ class _NewStudentFormState extends State<NewStudentForm> {
                 ),
                 TextFormField2(
                   title: 'ملاحظة',
+                  initialValue: note,
                   hintText: 'إدخل ملاحظة',
                   errorText: 'خطأ',
                   maxLength: 100,
