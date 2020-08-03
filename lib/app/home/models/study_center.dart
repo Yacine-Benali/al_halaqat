@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'user.dart';
 
-class Center {
-  Center({
+class StudyCenter {
+  StudyCenter({
+    @required this.id,
     @required this.readableId,
     @required this.name,
     @required this.country,
@@ -19,6 +20,7 @@ class Center {
     @required this.createdBy,
     @required this.createdAt,
   });
+  String id;
   String readableId;
   String name;
   String country;
@@ -35,11 +37,11 @@ class Center {
   Map<String, String> createdBy;
   int createdAt;
 
-  factory Center.fromMap(Map<String, dynamic> data, String documentId) {
+  factory StudyCenter.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
       return null;
     }
-
+    String id = documentId;
     String readableId = data['readableId'];
     String name = data['name'];
     String country = data['country'];
@@ -55,10 +57,11 @@ class Center {
         data['canTeacherRemoveStudentsFromHalaqa'];
     String state = data['state'];
     int nextHalaqaReadableId = data['nextHalaqaReadableId'];
-    Map<String, String> createdBy = data['createdBy'];
+    Map<String, String> createdBy = Map<String, String>.from(data['createdBy']);
     int createdAt = data['createdAt'];
 
-    return Center(
+    return StudyCenter(
+      id: id,
       readableId: readableId,
       name: name,
       country: country,

@@ -64,7 +64,7 @@ class Student extends User {
     String educationalLevel = data['educationalLevel'];
     String etablissement = data['etablissement'];
     String note = data['note'];
-    String readableId = data['readableId'];
+    String readableId = data['readableId'].toString();
     String username = data['username'];
     String email = data['email'];
     String password = data['password'];

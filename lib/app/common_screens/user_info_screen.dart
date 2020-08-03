@@ -11,6 +11,7 @@ import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:al_halaqat/app/common_screens/admin_center_form.dart';
 
 //! change to user form screen
 
@@ -54,7 +55,8 @@ class _NewUserScreenState extends State<UserInfoScreen> {
 
   Future<void> _save(User user, BuildContext context) async {
     try {
-      await bloc.creatUser(user);
+      await bloc.createUser(user);
+
       PlatformAlertDialog(
         title: 'نجح الحفظ',
         content: 'تم حفظ البيانات',
@@ -71,7 +73,7 @@ class _NewUserScreenState extends State<UserInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (bloc.userType == UserType.admin) {}
+    if (bloc.userType == UserType.admin) return AdminCenterForm();
     if (bloc.userType == UserType.teacher)
       return TeacherForm(
         teacher: widget.user,

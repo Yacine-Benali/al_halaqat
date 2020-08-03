@@ -1,4 +1,5 @@
-import 'package:al_halaqat/app/home/models/student.dart';
+import 'package:al_halaqat/app/home/models/admin.dart';
+import 'package:al_halaqat/app/home/models/admin.dart';
 import 'package:al_halaqat/app/home/models/user.dart';
 import 'package:al_halaqat/common_widgets/date_picker.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
@@ -8,23 +9,23 @@ import 'package:al_halaqat/common_widgets/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class StudentForm extends StatefulWidget {
-  const StudentForm({
+class AdminForm extends StatefulWidget {
+  const AdminForm({
     Key key,
-    this.student,
+    this.admin,
     @required this.onSaved,
   }) : super(key: key);
-  final ValueChanged<Student> onSaved;
-  final Student student;
+  final ValueChanged<Admin> onSaved;
+  final Admin admin;
 
   @override
   _NewStudentFormState createState() => _NewStudentFormState();
 }
 
-class _NewStudentFormState extends State<StudentForm> {
+class _NewStudentFormState extends State<AdminForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  Student get student => widget.student;
-  // student information
+  Admin get admin => widget.admin;
+  // admin information
   String id;
   String name;
   int dateOfBirth;
@@ -46,31 +47,32 @@ class _NewStudentFormState extends State<StudentForm> {
   List<String> halaqatLearningIn;
   //
   bool isStudent;
-  String parentPhoneNumber;
+  bool isAdmin;
 
   @override
   void initState() {
-    id = student?.id;
-    name = student?.name;
-    dateOfBirth = student?.dateOfBirth ?? DateTime.now().millisecondsSinceEpoch;
-    gender = student?.gender;
-    nationality = student?.nationality ?? 'LB';
-    address = student?.address;
-    phoneNumber = student?.phoneNumber;
-    educationalLevel = student?.educationalLevel;
-    etablissement = student?.etablissement;
-    note = student?.note;
-    readableId = student?.readableId;
-    username = student?.username;
-    email = student?.email;
-    password = student?.password;
-    createdAt = student?.createdAt ?? DateTime.now().millisecondsSinceEpoch;
-    centerState = student?.centerState ?? Map<String, String>();
-    createdBy = student?.createdBy ?? Map<String, String>();
-    centers = student?.centers ?? List<String>(1);
-    halaqatLearningIn = student?.halaqatLearningIn ?? List<String>(1);
-    isStudent = student?.isStudent;
-    parentPhoneNumber = student?.parentPhoneNumber;
+    id = admin?.id;
+    name = admin?.name;
+    dateOfBirth = admin?.dateOfBirth ?? DateTime.now().millisecondsSinceEpoch;
+    gender = admin?.gender;
+    nationality = admin?.nationality ?? 'LB';
+    address = admin?.address;
+    phoneNumber = admin?.phoneNumber;
+    educationalLevel = admin?.educationalLevel;
+    etablissement = admin?.etablissement;
+    note = admin?.note;
+    readableId = admin?.readableId;
+    username = admin?.username;
+    email = admin?.email;
+    password = admin?.password;
+    centerState = admin?.centerState ?? Map<String, String>();
+    createdAt = admin?.createdAt;
+    createdBy = admin?.createdBy ?? Map<String, String>();
+    centers = admin?.centers ?? List<String>(1);
+    halaqatLearningIn = admin?.halaqatLearningIn ?? List<String>(1);
+    //
+    isStudent = admin?.isStudent;
+    isAdmin = admin?.isAdmin;
 
     super.initState();
   }
@@ -78,11 +80,10 @@ class _NewStudentFormState extends State<StudentForm> {
   void _save() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-
-      Student newStudent = Student(
-        id: id,
+      Admin admin = Admin(
+        id: null,
         name: name,
-        dateOfBirth: dateOfBirth,
+        dateOfBirth: dateOfBirth ?? DateTime.now().millisecondsSinceEpoch,
         gender: gender,
         nationality: nationality,
         address: address,
@@ -94,15 +95,15 @@ class _NewStudentFormState extends State<StudentForm> {
         username: username,
         email: email,
         password: password,
-        parentPhoneNumber: parentPhoneNumber,
-        isStudent: true,
         centerState: centerState,
         createdAt: createdAt,
         createdBy: createdBy,
+        isStudent: isStudent,
         halaqatLearningIn: halaqatLearningIn,
         centers: centers,
+        isAdmin: true,
       );
-      widget.onSaved(newStudent);
+      widget.onSaved(admin);
     }
   }
 
@@ -180,16 +181,6 @@ class _NewStudentFormState extends State<StudentForm> {
                   onSaved: (value) => phoneNumber = value,
                   isPhoneNumber: true,
                 ),
-                TextFormField2(
-                  title: 'رقم هاتف ولي الأمر',
-                  initialValue: parentPhoneNumber,
-                  hintText: 'إدخل رقم هاتف ولي الأمر',
-                  errorText: 'خطأ',
-                  maxLength: 10,
-                  inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
-                  onSaved: (value) => parentPhoneNumber = value,
-                  isPhoneNumber: true,
-                ),
                 DropdownButtonFormField2(
                   title: 'مستوى تعليمي',
                   possibleValues: [
@@ -225,16 +216,6 @@ class _NewStudentFormState extends State<StudentForm> {
                   maxLength: 10,
                   inputFormatter: BlacklistingTextInputFormatter(''),
                   onSaved: (value) => etablissement = value,
-                ),
-                TextFormField2(
-                  title: 'رقم التعريفي للمركز',
-                  initialValue: centers[0],
-                  hintText: 'إدخل رقم التعريفي للمركز',
-                  errorText: 'خطأ',
-                  maxLength: 20,
-                  inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
-                  onSaved: (value) => centers[0] = value,
-                  isPhoneNumber: true,
                 ),
                 TextFormField2(
                   title: 'ملاحظة',

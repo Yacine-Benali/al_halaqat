@@ -26,6 +26,7 @@ class _NewStudentFormState extends State<TeacherForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Teacher get teacher => widget.teacher;
   // teacher information
+  String id;
   String name;
   int dateOfBirth;
   String gender;
@@ -60,7 +61,21 @@ class _NewStudentFormState extends State<TeacherForm> {
     educationalLevel = teacher?.educationalLevel;
     etablissement = teacher?.etablissement;
     note = teacher?.note;
+    readableId = teacher?.readableId;
+    username = teacher?.username;
+    email = teacher?.email;
+    password = teacher?.password;
+    centerState = teacher?.centerState ?? Map<String, String>();
+    createdAt = teacher?.createdAt;
+    createdBy = teacher?.createdBy ?? Map<String, String>();
+    ;
     centers = teacher?.centers ?? List<String>(1);
+    halaqatLearningIn = teacher?.halaqatLearningIn ?? List<String>(1);
+    //
+    isStudent = teacher?.isStudent;
+    isTeacher = teacher?.isTeacher;
+    halaqatTeachingIn = teacher?.halaqatTeachingIn ?? List<String>(1);
+    ;
     super.initState();
   }
 
@@ -78,18 +93,18 @@ class _NewStudentFormState extends State<TeacherForm> {
         educationalLevel: educationalLevel,
         etablissement: etablissement,
         note: note,
-        readableId: null,
-        username: null,
-        email: null,
-        password: null,
-        centerState: null,
-        createdAt: null,
-        createdBy: null,
-        isStudent: false,
-        halaqatLearningIn: List<String>(),
+        readableId: readableId,
+        username: username,
+        email: email,
+        password: password,
+        centerState: centerState,
+        createdAt: createdAt,
+        createdBy: createdBy,
+        isStudent: isStudent,
+        halaqatLearningIn: halaqatLearningIn,
         centers: centers,
         isTeacher: true,
-        halaqatTeachingIn: List<String>(),
+        halaqatTeachingIn: halaqatTeachingIn,
       );
       widget.onSaved(teacher);
     }

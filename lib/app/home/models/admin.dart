@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'user.dart';
 
-class Teacher extends User {
-  Teacher({
+class Admin extends User {
+  Admin({
     @required String id,
     @required String name,
     @required int dateOfBirth,
@@ -23,8 +23,7 @@ class Teacher extends User {
     @required List<String> centers,
     @required List<String> halaqatLearningIn,
     @required this.isStudent,
-    @required this.isTeacher,
-    @required this.halaqatTeachingIn,
+    @required this.isAdmin,
   }) : super(
           id,
           name,
@@ -48,10 +47,9 @@ class Teacher extends User {
         );
 
   bool isStudent;
-  bool isTeacher;
-  List<String> halaqatTeachingIn;
+  bool isAdmin;
 
-  factory Teacher.fromMap(Map<String, dynamic> data, String documentId) {
+  factory Admin.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
       return null;
     }
@@ -76,13 +74,11 @@ class Teacher extends User {
     Map<String, String> createdBy = Map<String, String>.from(data['createdBy']);
     List<String> centers = data['centers'].cast<String>();
     List<String> halaqatLearningIn = data['halaqatLearningIn'].cast<String>();
-
     //
     bool isStudent = data['isStudent'];
-    bool isTeacher = data['isTeacher'];
-    List<String> halaqatTeachingIn = data['halaqatTeachingIn'].cast<String>();
+    bool isAdmin = data['isAdmin'];
 
-    return Teacher(
+    return Admin(
       id: id,
       name: name,
       dateOfBirth: dateOfBirth,
@@ -104,8 +100,7 @@ class Teacher extends User {
       halaqatLearningIn: halaqatLearningIn,
       //
       isStudent: isStudent,
-      isTeacher: isTeacher,
-      halaqatTeachingIn: halaqatTeachingIn,
+      isAdmin: isAdmin,
     );
   }
 
@@ -131,8 +126,8 @@ class Teacher extends User {
       'centers': centers,
       'halaqatLearningIn': halaqatLearningIn,
       //
-      'isTeacher': isTeacher,
-      'halaqatTeachingIn': halaqatTeachingIn,
+      'isStudent': isStudent,
+      'isAdmin': isAdmin,
     };
   }
 }

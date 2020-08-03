@@ -39,7 +39,7 @@ class _CountryPhoneNumberPickerState extends State<CountryPicker> {
               SizedBox(
                 width: 8.0,
               ),
-              Expanded(child: Text("${country.iso3Code}")),
+              Expanded(child: Text("${country.isoCode}")),
             ],
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:al_halaqat/app/common_screens/user_info_screen.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:al_halaqat/app/common_screens/center_form.dart';
 
 class JoinUsScreen extends StatefulWidget {
   @override
@@ -28,7 +29,7 @@ class _NewUserScreenState extends State<JoinUsScreen> {
                   MaterialPageRoute(
                     builder: (context) => UserInfoScreen.create(
                       context: context,
-                      userType: UserType.student,
+                      userType: UserType.admin,
                     ),
                     fullscreenDialog: true,
                   ),
