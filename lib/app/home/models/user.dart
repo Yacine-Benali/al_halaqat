@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/home/models/admin.dart';
 import 'package:al_halaqat/app/home/models/teacher.dart';
 
 import 'student.dart';
@@ -53,10 +54,8 @@ abstract class User {
     final bool isStudent = data['isStudent'] ?? false;
     User user;
     if (isGloabalAdmin) {}
-    if (isAdmin) {}
-    if (isTeacher) {
-      user = Teacher.fromMap(data, documentId);
-    }
+    if (isAdmin) user = Admin.fromMap(data, documentId);
+    if (isTeacher) user = Teacher.fromMap(data, documentId);
     if (isStudent) user = Student.fromMap(data, documentId);
 
     return user;

@@ -100,7 +100,7 @@ class SignInPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         elevation: 2.0,
-        title: Text(title),
+        title: Text('الحلقات'),
       ),
       // Hide developer menu while loading in progress.
       // This is so that it's not possible to switch auth service while a request is in progress
@@ -116,7 +116,7 @@ class SignInPage extends StatelessWidget {
       );
     }
     return Text(
-      Strings.signIn,
+      'تسجيل الدخول',
       textAlign: TextAlign.center,
       style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.w600),
     );
@@ -140,7 +140,7 @@ class SignInPage extends StatelessWidget {
             SocialSignInButton(
               key: googleButtonKey,
               assetName: 'assets/go-logo.png',
-              text: Strings.signInWithGoogle,
+              text: 'تسجيل الدخول مع جوجل',
               onPressed: isLoading ? null : () => _signInWithGoogle(context),
               color: Colors.white,
             ),
@@ -148,7 +148,7 @@ class SignInPage extends StatelessWidget {
             SocialSignInButton(
               key: facebookButtonKey,
               assetName: 'assets/fb-logo.png',
-              text: Strings.signInWithFacebook,
+              text: 'تسجيل الدخول مع فايسبوك',
               textColor: Colors.white,
               onPressed: isLoading ? null : () => _signInWithFacebook(context),
               color: Color(0xFF334D92),
@@ -156,7 +156,7 @@ class SignInPage extends StatelessWidget {
             SizedBox(height: 8),
             SignInButton(
               key: emailPasswordButtonKey,
-              text: Strings.signInWithEmailPassword,
+              text: 'تسجيل الدخول بالبريد الإلكتروني',
               onPressed:
                   isLoading ? null : () => _signInWithEmailAndPassword(context),
               textColor: Colors.white,
@@ -165,7 +165,7 @@ class SignInPage extends StatelessWidget {
             SizedBox(height: 8),
             SignInButton(
               key: emailLinkButtonKey,
-              text: Strings.signInWithUsernmaePassword,
+              text: 'تسجيل الدخول بإسم المستخدم',
               onPressed: isLoading
                   ? null
                   : () => _signInWithUsernameAndPassword(context),

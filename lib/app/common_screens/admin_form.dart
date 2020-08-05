@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/common_screens/center_form.dart';
 import 'package:al_halaqat/app/home/models/admin.dart';
 import 'package:al_halaqat/app/home/models/admin.dart';
 import 'package:al_halaqat/app/home/models/user.dart';
@@ -8,23 +9,35 @@ import 'package:al_halaqat/common_widgets/drop_down_form_field2.dart';
 import 'package:al_halaqat/common_widgets/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:al_halaqat/app/home/models/study_center.dart';
 
 class AdminForm extends StatefulWidget {
   const AdminForm({
     Key key,
     this.admin,
-    @required this.onSaved,
+    @required this.onSavedAdmin,
+    @required this.includeCenterForm,
+    this.onSavedCenter,
+    @required this.callback,
   }) : super(key: key);
-  final ValueChanged<Admin> onSaved;
+  final ValueChanged<Admin> onSavedAdmin;
+  final ValueChanged<StudyCenter> onSavedCenter;
+  final VoidCallback callback;
+
   final Admin admin;
+  final bool includeCenterForm;
 
   @override
-  _NewStudentFormState createState() => _NewStudentFormState();
+  _NewAdminFormState createState() => _NewAdminFormState();
 }
 
-class _NewStudentFormState extends State<AdminForm> {
+class _NewAdminFormState extends State<AdminForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
+
   Admin get admin => widget.admin;
+  // center
+  StudyCenter center;
   // admin information
   String id;
   String name;
@@ -78,7 +91,8 @@ class _NewStudentFormState extends State<AdminForm> {
   }
 
   void _save() {
-    if (_formKey.currentState.validate()) {
+    bool temp = _formKey2.currentState.validate();
+    if (_formKey.currentState.validate() && temp) {
       _formKey.currentState.save();
       Admin admin = Admin(
         id: null,
@@ -103,7 +117,9 @@ class _NewStudentFormState extends State<AdminForm> {
         centers: centers,
         isAdmin: true,
       );
-      widget.onSaved(admin);
+      widget.onSavedCenter(center);
+      widget.onSavedAdmin(admin);
+      widget.callback();
     }
   }
 
@@ -134,6 +150,23 @@ class _NewStudentFormState extends State<AdminForm> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
+                if (widget.includeCenterForm) ...[
+                  Text(
+                    'إدخل معلومات المركز',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  CenterForm(
+                    formKey: _formKey2,
+                    onSaved: (newcenter) => center = newcenter,
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    'إدخل معلوماتك الشخصية',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ],
                 TextFormField2(
                   title: 'الإسم',
                   initialValue: name,
@@ -142,6 +175,7 @@ class _NewStudentFormState extends State<AdminForm> {
                   maxLength: 30,
                   inputFormatter: BlacklistingTextInputFormatter(''),
                   onSaved: (value) => name = value,
+                  onChanged: (value) {},
                 ),
                 DatePicker(
                     title: 'تاريخ الميلاد',
@@ -170,6 +204,7 @@ class _NewStudentFormState extends State<AdminForm> {
                   maxLength: 30,
                   inputFormatter: BlacklistingTextInputFormatter(''),
                   onSaved: (value) => address = value,
+                  onChanged: (value) {},
                 ),
                 TextFormField2(
                   title: 'رقم الهاتف',
@@ -179,6 +214,7 @@ class _NewStudentFormState extends State<AdminForm> {
                   maxLength: 10,
                   inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
                   onSaved: (value) => phoneNumber = value,
+                  onChanged: (value) {},
                   isPhoneNumber: true,
                 ),
                 DropdownButtonFormField2(
@@ -216,7 +252,21 @@ class _NewStudentFormState extends State<AdminForm> {
                   maxLength: 10,
                   inputFormatter: BlacklistingTextInputFormatter(''),
                   onSaved: (value) => etablissement = value,
+                  onChanged: (value) {},
                 ),
+                if (!widget.includeCenterForm) ...[
+                  TextFormField2(
+                    title: 'رقم التعريفي للمركز',
+                    initialValue: centers[0],
+                    hintText: 'إدخل رقم التعريفي للمركز',
+                    errorText: 'خطأ',
+                    maxLength: 20,
+                    inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
+                    onSaved: (value) => centers[0] = value,
+                    isPhoneNumber: true,
+                    onChanged: (value) {},
+                  ),
+                ],
                 TextFormField2(
                   title: 'ملاحظة',
                   initialValue: note,
@@ -226,6 +276,7 @@ class _NewStudentFormState extends State<AdminForm> {
                   inputFormatter: BlacklistingTextInputFormatter(''),
                   onSaved: (value) => note = value,
                   isPhoneNumber: false,
+                  onChanged: (value) {},
                 ),
               ],
             ),

@@ -9,9 +9,10 @@ class TextFormField2 extends StatelessWidget {
     @required this.errorText,
     @required this.maxLength,
     @required this.inputFormatter,
-    @required this.onSaved,
+    this.onSaved,
     this.isPhoneNumber = false,
     this.initialValue,
+    this.onChanged,
   }) : super(key: key);
 
   final String title;
@@ -21,6 +22,7 @@ class TextFormField2 extends StatelessWidget {
   final int maxLength;
   final TextInputFormatter inputFormatter;
   final ValueChanged<String> onSaved;
+  final ValueChanged<String> onChanged;
   final bool isPhoneNumber;
 
   @override
@@ -48,7 +50,7 @@ class TextFormField2 extends StatelessWidget {
               counterText: '',
             ),
             onSaved: (value) => onSaved(value),
-            onChanged: (value) => onSaved(value),
+            onChanged: (value) => onChanged(value),
             validator: (value) => value.isEmpty ? errorText : null,
           ),
         ],

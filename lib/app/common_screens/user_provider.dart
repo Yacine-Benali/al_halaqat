@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/home/models/study_center.dart';
 import 'package:al_halaqat/app/home/models/user.dart';
 import 'package:al_halaqat/services/api_path.dart';
 import 'package:al_halaqat/services/database.dart';
@@ -15,4 +16,14 @@ class UserProvider {
         data: user.toMap(),
         merge: true,
       );
+
+  Future<void> createCenter(StudyCenter center, String uid) async {
+    await database.setData(
+      path: APIPath.centerDocument(uid),
+      data: center.toMap(),
+      merge: true,
+    );
+  }
+
+  String getUniqueId() => database.getUniqueId();
 }

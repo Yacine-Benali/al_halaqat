@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 import 'package:al_halaqat/services/api_path.dart';
 
 abstract class Database {
+  String getUniqueId();
   Future<dynamic> uploadFile({
     @required String path,
     @required File file,

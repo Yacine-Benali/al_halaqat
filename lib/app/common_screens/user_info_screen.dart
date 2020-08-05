@@ -1,5 +1,7 @@
+import 'package:al_halaqat/app/common_screens/admin_form.dart';
 import 'package:al_halaqat/app/common_screens/student_form.dart';
 import 'package:al_halaqat/app/common_screens/teacher_form.dart';
+import 'package:al_halaqat/app/home/models/admin.dart';
 import 'package:al_halaqat/app/home/models/user.dart';
 import 'package:al_halaqat/app/common_screens/user_bloc.dart';
 import 'package:al_halaqat/app/common_screens/user_provider.dart';
@@ -15,7 +17,7 @@ import 'package:al_halaqat/app/common_screens/admin_center_form.dart';
 
 //! change to user form screen
 
-enum UserType { student, teacher, admin }
+enum FormType { student, teacher, admin, adminAndCenter }
 
 class UserInfoScreen extends StatefulWidget {
   const UserInfoScreen._({
@@ -29,7 +31,7 @@ class UserInfoScreen extends StatefulWidget {
 
   static Widget create({
     @required BuildContext context,
-    @required UserType userType,
+    @required FormType userType,
     User user,
   }) {
     Database database = Provider.of<Database>(context, listen: false);
@@ -40,9 +42,12 @@ class UserInfoScreen extends StatefulWidget {
       userType: userType,
       authUser: authUser,
     );
-    return UserInfoScreen._(
-      bloc: bloc,
-      user: user,
+    return Provider<UserBloc>.value(
+      value: bloc,
+      child: UserInfoScreen._(
+        bloc: bloc,
+        user: user,
+      ),
     );
   }
 
@@ -73,14 +78,20 @@ class _NewUserScreenState extends State<UserInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (bloc.userType == UserType.admin) return AdminCenterForm();
-    if (bloc.userType == UserType.teacher)
+    if (bloc.userType == FormType.adminAndCenter) return AdminCenterForm();
+    if (bloc.userType == FormType.admin)
+      return AdminForm(
+        onSavedAdmin: (admin) => _save(admin, context),
+        callback: () {},
+        includeCenterForm: false,
+      );
+    if (bloc.userType == FormType.teacher)
       return TeacherForm(
         teacher: widget.user,
         onSaved: (teacher) => _save(teacher, context),
       );
 
-    if (bloc.userType == UserType.student)
+    if (bloc.userType == FormType.student)
       return StudentForm(
         student: widget.user,
         onSaved: (student) => _save(student, context),

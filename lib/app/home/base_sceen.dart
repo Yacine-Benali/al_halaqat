@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/common_screens/admin_center_form.dart';
 import 'package:al_halaqat/app/home/models/user.dart';
 import 'package:al_halaqat/app/home/notApproved/join_us_screen.dart';
 import 'package:al_halaqat/app/home/notApproved/pending_screen.dart';
@@ -34,6 +35,7 @@ class BaseScreen extends StatelessWidget {
     if (snapshot.connectionState == ConnectionState.active &&
         snapshot.data == null) {
       return JoinUsScreen();
+      //return AdminCenterForm();
     }
     return Scaffold(body: Center(child: CircularProgressIndicator()));
   }

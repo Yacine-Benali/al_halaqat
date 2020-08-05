@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/home/models/admin.dart';
 import 'package:al_halaqat/app/home/models/student.dart';
 import 'package:al_halaqat/app/home/models/teacher.dart';
 import 'package:al_halaqat/app/home/models/user.dart';
@@ -44,9 +45,12 @@ class _PendingScreenState extends State<PendingScreen> {
   Widget build(BuildContext context) {
     return Consumer<User>(
       builder: (BuildContext context, user, Widget child) {
-        UserType userType;
-        if (user is Teacher) userType = UserType.teacher;
-        if (user is Student) userType = UserType.student;
+        FormType userType;
+        if (user is Teacher) userType = FormType.teacher;
+        if (user is Student) userType = FormType.student;
+        if (user is Admin && user.centers.isEmpty) userType = FormType.admin;
+        if (user is Admin && user.centers.isNotEmpty)
+          userType = FormType.adminAndCenter;
 
         return Scaffold(
           appBar: AppBar(

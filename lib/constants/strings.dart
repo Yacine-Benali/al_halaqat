@@ -1,20 +1,19 @@
 class Strings {
   // Generic strings
-  static const String ok = 'OK';
-  static const String cancel = 'Cancel';
+  static const String ok = 'حسنا';
+  static const String cancel = 'إلغاء';
 
   // Logout
-  static const String logout = 'Logout';
-  static const String logoutAreYouSure =
-      'Are you sure that you want to logout?';
-  static const String logoutFailed = 'Logout failed';
+  static const String logout = 'تسجيل خروج';
+  static const String logoutAreYouSure = 'هل أنت متأكد أنك تريد تسجيل الخروج ؟';
+  static const String logoutFailed = 'فشل تسجيل الخروج';
 
   // Sign In Page
-  static const String signIn = 'Sign in';
+  static const String signIn = 'تسجيل الدخول';
   static const String signInWithEmailPassword =
-      'Sign in with email and password';
+      'تسجيل الدخول باستخدام البريد الإلكتروني وكلمة المرور';
   static const String signInWithUsernmaePassword =
-      'sign in with username and password';
+      'تسجيل الدخول باسم المستخدم وكلمة المرور';
   static const String signInWithFacebook = 'Sign in with Facebook';
   static const String signInWithGoogle = 'Sign in with Google';
   static const String goAnonymous = 'Go anonymous';
@@ -22,31 +21,34 @@ class Strings {
 
   // Email & Password page
   static const String register = 'Register';
-  static const String forgotPassword = 'Forgot password';
-  static const String forgotPasswordQuestion = 'Forgot password?';
-  static const String createAnAccount = 'Create an account';
-  static const String needAnAccount = 'Need an account? Register';
-  static const String haveAnAccount = 'Have an account? Sign in';
-  static const String signInFailed = 'Sign in failed';
-  static const String registrationFailed = 'Registration failed';
-  static const String passwordResetFailed = 'Password reset failed';
-  static const String sendResetLink = 'Send Reset Link';
-  static const String backToSignIn = 'Back to sign in';
-  static const String resetLinkSentTitle = 'Reset link sent';
+  static const String forgotPassword = 'إنشاء نسيت كلمة المرور';
+  static const String forgotPasswordQuestion = 'هل نسيت كلمة المرور؟';
+  static const String createAnAccount = 'انشئ حساب';
+  static const String needAnAccount = 'تحتاج الى حساب؟ قم بإنشاء حساب';
+  static const String haveAnAccount = 'هل لديك حساب؟ قم بتسجيل الدخول';
+  static const String signInFailed = 'فشل تسجيل الدخول';
+  static const String registrationFailed = 'فشل في التسجيل';
+  static const String passwordResetFailed = 'فشل إعادة تعيين كلمة المرور';
+  static const String sendResetLink = 'إرسال رابط إعادة تعيين';
+  static const String backToSignIn = 'العودة لتسجيل الدخول';
+  static const String resetLinkSentTitle = 'تم إرسال رابط إعادة التعيين';
   static const String resetLinkSentMessage =
-      'Check your email to reset your password';
-  static const String emailLabel = 'Email';
+      'تحقق من بريدك الإلكتروني لإعادة تعيين كلمة المرور الخاصة بك';
+  static const String emailLabel = 'البريد الإلكتروني';
   static const String emailHint = 'test@test.com';
-  static const String usernameLabel = 'Username';
+  static const String usernameLabel = 'اسم المستخدم';
   static const String usernameHint = 'mohammed.ahmed';
-  static const String password8CharactersLabel = 'Password (6+ characters)';
-  static const String passwordLabel = 'Password';
-  static const String invalidEmailErrorText = 'Email is invalid';
-  static const String invalidEmailEmpty = 'Email can\'t be empty';
-  static const String invalidUsernameErrorText = 'username is invalid';
-  static const String invalidUsernameEmpty = 'username can\'t be empty';
-  static const String invalidPasswordTooShort = 'Password is too short';
-  static const String invalidPasswordEmpty = 'Password can\'t be empty';
+  static const String password8CharactersLabel = 'كلمة المرور (أكثر من 6 أحرف)';
+  static const String passwordLabel = 'كلمه السر';
+  static const String invalidEmailErrorText = 'البريد الإلكتروني خاطئ';
+  static const String invalidEmailEmpty =
+      'لا يمكن أن يكون البريد الإلكتروني فارغًا';
+  static const String invalidUsernameErrorText = 'إسم المستخدم خاطئ';
+  static const String invalidUsernameEmpty =
+      'لا يمكن أن يكون اسم المستخدم فارغًا';
+  static const String invalidPasswordTooShort = 'كلمة المرور قصيرة جدا';
+  static const String invalidPasswordEmpty =
+      'لا يمكن أن تكون كلمة المرور فارغة';
 
   // Email link page
   static const String submitEmailAddressLink =
@@ -63,13 +65,4 @@ class Strings {
       'Received an activation link but you are already signed in.';
   static const String isNotSignInWithEmailLinkMessage =
       'Invalid activation link';
-
-  // Home page
-  static const String homePage = 'Home Page';
-
-  // Developer menu
-  static const String developerMenu = 'Developer menu';
-  static const String authenticationType = 'Authentication type';
-  static const String firebase = 'Firebase';
-  static const String mock = 'Mock';
 }

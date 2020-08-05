@@ -6,6 +6,12 @@ import 'package:flutter/foundation.dart';
 
 class FirestoreDatabase implements Database {
   @override
+  String getUniqueId() {
+    String _randomId = Firestore.instance.collection(' ').document().documentID;
+    return _randomId;
+  }
+
+  @override
   Future<dynamic> uploadFile({
     @required String path,
     @required File file,

@@ -1,7 +1,7 @@
 import 'package:al_halaqat/app/common_screens/user_info_screen.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:al_halaqat/app/common_screens/center_form.dart';
+import 'package:al_halaqat/app/common_screens/user_info_screen.dart';
 
 class JoinUsScreen extends StatefulWidget {
   @override
@@ -29,7 +29,20 @@ class _NewUserScreenState extends State<JoinUsScreen> {
                   MaterialPageRoute(
                     builder: (context) => UserInfoScreen.create(
                       context: context,
-                      userType: UserType.admin,
+                      userType: FormType.admin,
+                    ),
+                    fullscreenDialog: true,
+                  ),
+                ),
+              ),
+              MenuButtonWidget(
+                text: 'كمشر11ف',
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: false).push(
+                  MaterialPageRoute(
+                    builder: (context) => UserInfoScreen.create(
+                      context: context,
+                      userType: FormType.adminAndCenter,
                     ),
                     fullscreenDialog: true,
                   ),
@@ -43,7 +56,7 @@ class _NewUserScreenState extends State<JoinUsScreen> {
                   MaterialPageRoute(
                     builder: (context) => UserInfoScreen.create(
                       context: context,
-                      userType: UserType.teacher,
+                      userType: FormType.teacher,
                     ),
                     fullscreenDialog: true,
                   ),
@@ -57,7 +70,7 @@ class _NewUserScreenState extends State<JoinUsScreen> {
                   MaterialPageRoute(
                     builder: (context) => UserInfoScreen.create(
                       context: context,
-                      userType: UserType.student,
+                      userType: FormType.student,
                     ),
                     fullscreenDialog: true,
                   ),
