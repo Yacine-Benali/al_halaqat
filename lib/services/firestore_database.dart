@@ -131,4 +131,14 @@ class FirestoreDatabase implements Database {
     return snapshots
         .map((snapshot) => builder(snapshot.data, snapshot.documentID));
   }
+
+  @override
+  Future<T> fetchDocument<T>({
+    @required String path,
+    @required T builder(Map<String, dynamic> data, String documentID),
+  }) async {
+    final DocumentReference reference = Firestore.instance.document(path);
+    final DocumentSnapshot snapshot = await reference.get();
+    return builder(snapshot.data, snapshot.documentID);
+  }
 }

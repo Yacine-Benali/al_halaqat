@@ -1,7 +1,7 @@
-import 'package:al_halaqat/app/home/models/admin.dart';
-import 'package:al_halaqat/app/home/models/student.dart';
-import 'package:al_halaqat/app/home/models/teacher.dart';
-import 'package:al_halaqat/app/home/models/user.dart';
+import 'package:al_halaqat/app/models/admin.dart';
+import 'package:al_halaqat/app/models/student.dart';
+import 'package:al_halaqat/app/models/teacher.dart';
+import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/app/common_screens/user_info_screen.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
@@ -48,9 +48,9 @@ class _PendingScreenState extends State<PendingScreen> {
         FormType userType;
         if (user is Teacher) userType = FormType.teacher;
         if (user is Student) userType = FormType.student;
-        if (user is Admin && user.centers.isEmpty) userType = FormType.admin;
-        if (user is Admin && user.centers.isNotEmpty)
-          userType = FormType.adminAndCenter;
+        if (user is Admin) userType = FormType.admin;
+        // if (user is Admin && user.centers.isNotEmpty)
+        //   userType = FormType.adminAndCenter;
 
         return Scaffold(
           appBar: AppBar(

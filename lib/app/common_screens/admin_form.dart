@@ -1,7 +1,7 @@
 import 'package:al_halaqat/app/common_screens/center_form.dart';
-import 'package:al_halaqat/app/home/models/admin.dart';
-import 'package:al_halaqat/app/home/models/admin.dart';
-import 'package:al_halaqat/app/home/models/user.dart';
+import 'package:al_halaqat/app/models/admin.dart';
+import 'package:al_halaqat/app/models/admin.dart';
+import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/date_picker.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/text_form_field2.dart';
@@ -9,7 +9,7 @@ import 'package:al_halaqat/common_widgets/drop_down_form_field2.dart';
 import 'package:al_halaqat/common_widgets/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:al_halaqat/app/home/models/study_center.dart';
+import 'package:al_halaqat/app/models/study_center.dart';
 
 class AdminForm extends StatefulWidget {
   const AdminForm({
@@ -19,6 +19,7 @@ class AdminForm extends StatefulWidget {
     @required this.includeCenterForm,
     this.onSavedCenter,
     @required this.callback,
+    this.center,
   }) : super(key: key);
   final ValueChanged<Admin> onSavedAdmin;
   final ValueChanged<StudyCenter> onSavedCenter;
@@ -26,6 +27,7 @@ class AdminForm extends StatefulWidget {
 
   final Admin admin;
   final bool includeCenterForm;
+  final StudyCenter center;
 
   @override
   _NewAdminFormState createState() => _NewAdminFormState();
@@ -86,12 +88,12 @@ class _NewAdminFormState extends State<AdminForm> {
     //
     isStudent = admin?.isStudent;
     isAdmin = admin?.isAdmin;
-
     super.initState();
   }
 
   void _save() {
-    bool temp = _formKey2.currentState.validate();
+    bool temp = _formKey2?.currentState?.validate();
+    temp = temp ?? true;
     if (_formKey.currentState.validate() && temp) {
       _formKey.currentState.save();
       Admin admin = Admin(
@@ -117,9 +119,14 @@ class _NewAdminFormState extends State<AdminForm> {
         centers: centers,
         isAdmin: true,
       );
-      widget.onSavedCenter(center);
-      widget.onSavedAdmin(admin);
-      widget.callback();
+      if (widget.includeCenterForm) {
+        widget.onSavedCenter(center);
+        widget.onSavedAdmin(admin);
+
+        widget.callback();
+      } else {
+        widget.onSavedAdmin(admin);
+      }
     }
   }
 
@@ -128,7 +135,7 @@ class _NewAdminFormState extends State<AdminForm> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('fill info'),
+        title: Text('إملأ الإستمارة'),
         actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(left: 20.0),
@@ -157,6 +164,7 @@ class _NewAdminFormState extends State<AdminForm> {
                   ),
                   CenterForm(
                     formKey: _formKey2,
+                    center: widget.center,
                     onSaved: (newcenter) => center = newcenter,
                   ),
                   SizedBox(
@@ -176,6 +184,7 @@ class _NewAdminFormState extends State<AdminForm> {
                   inputFormatter: BlacklistingTextInputFormatter(''),
                   onSaved: (value) => name = value,
                   onChanged: (value) {},
+                  isPhoneNumber: false,
                 ),
                 DatePicker(
                     title: 'تاريخ الميلاد',

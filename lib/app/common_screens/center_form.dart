@@ -1,9 +1,9 @@
-import 'package:al_halaqat/app/home/models/student.dart';
+import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/common_widgets/text_form_field2.dart';
 import 'package:al_halaqat/common_widgets/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:al_halaqat/app/home/models/study_center.dart';
+import 'package:al_halaqat/app/models/study_center.dart';
 
 class CenterForm extends StatefulWidget {
   const CenterForm({
@@ -42,6 +42,7 @@ class _CenterFormState extends State<CenterForm> {
 
   @override
   void initState() {
+    id = center?.id;
     readableId = center?.readableId;
     name = center?.name;
     country = center?.country;
@@ -59,7 +60,7 @@ class _CenterFormState extends State<CenterForm> {
     nextHalaqaReadableId = center?.nextHalaqaReadableId;
     createdBy = center?.createdBy;
     createdAt = center?.createdAt ?? DateTime.now().millisecondsSinceEpoch;
-
+    save();
     super.initState();
   }
 
@@ -68,7 +69,7 @@ class _CenterFormState extends State<CenterForm> {
       id: id,
       readableId: readableId,
       name: name,
-      country: country,
+      country: country ?? 'LB',
       city: city,
       street: street,
       phoneNumber: phoneNumber,
@@ -89,7 +90,10 @@ class _CenterFormState extends State<CenterForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      onChanged: () => save(),
+      onChanged: () {
+        print('update country');
+        save();
+      },
       key: widget.formKey,
       child: SingleChildScrollView(
         child: Container(
@@ -109,7 +113,10 @@ class _CenterFormState extends State<CenterForm> {
               CountryPicker(
                 title: 'دولة',
                 initialValue: country,
-                onSavedCountry: (value) => country = value,
+                onSavedCountry: (value) {
+                  country = value;
+                  save();
+                },
               ),
               TextFormField2(
                 title: 'مدينة',

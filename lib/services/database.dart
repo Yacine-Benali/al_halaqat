@@ -51,4 +51,14 @@ abstract class Database {
       String documentID,
     ),
   });
+
+  Future<T> fetchDocument<T>({
+    @required
+        String path,
+    @required
+        T builder(
+      Map<String, dynamic> data,
+      String documentID,
+    ),
+  });
 }

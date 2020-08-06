@@ -1,5 +1,5 @@
-import 'package:al_halaqat/app/home/models/admin.dart';
-import 'package:al_halaqat/app/home/models/teacher.dart';
+import 'package:al_halaqat/app/models/admin.dart';
+import 'package:al_halaqat/app/models/teacher.dart';
 
 import 'student.dart';
 

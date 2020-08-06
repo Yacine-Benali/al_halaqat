@@ -1,8 +1,9 @@
 import 'package:al_halaqat/app/common_screens/admin_form.dart';
 import 'package:al_halaqat/app/common_screens/student_form.dart';
 import 'package:al_halaqat/app/common_screens/teacher_form.dart';
-import 'package:al_halaqat/app/home/models/admin.dart';
-import 'package:al_halaqat/app/home/models/user.dart';
+import 'package:al_halaqat/app/models/admin.dart';
+import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/app/common_screens/user_bloc.dart';
 import 'package:al_halaqat/app/common_screens/user_provider.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
@@ -33,6 +34,7 @@ class UserInfoScreen extends StatefulWidget {
     @required BuildContext context,
     @required FormType userType,
     User user,
+    StudyCenter center,
   }) {
     Database database = Provider.of<Database>(context, listen: false);
     AuthUser authUser = Provider.of<AuthUser>(context, listen: false);
@@ -78,9 +80,13 @@ class _NewUserScreenState extends State<UserInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (bloc.userType == FormType.adminAndCenter) return AdminCenterForm();
+    if (bloc.userType == FormType.adminAndCenter)
+      return AdminCenterForm(
+        admin: widget.user,
+      );
     if (bloc.userType == FormType.admin)
       return AdminForm(
+        admin: widget.user,
         onSavedAdmin: (admin) => _save(admin, context),
         callback: () {},
         includeCenterForm: false,

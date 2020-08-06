@@ -1,6 +1,6 @@
-import 'package:al_halaqat/app/home/models/admin.dart';
-import 'package:al_halaqat/app/home/models/study_center.dart';
-import 'package:al_halaqat/app/home/models/user.dart';
+import 'package:al_halaqat/app/models/admin.dart';
+import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/app/common_screens/user_provider.dart';
 import 'package:al_halaqat/app/common_screens/user_info_screen.dart';
 import 'package:al_halaqat/services/auth.dart';
@@ -37,10 +37,10 @@ class UserBloc {
       'id': authUser.uid,
     };
     admin.email = authUser.email;
-    //
+
     center.createdBy = {'name': admin.name, 'id': admin.id};
     center.createdAt = DateTime.now().millisecondsSinceEpoch;
-    center.id = provider.getUniqueId();
+    if (center.id == null) center.id = provider.getUniqueId();
     //
     admin.centers[0] = center.id;
     admin.createdAt = DateTime.now().millisecondsSinceEpoch;
@@ -48,4 +48,7 @@ class UserBloc {
     await provider.createUser(admin, authUser.uid);
     await provider.createCenter(center, center.id);
   }
+
+  Future<StudyCenter> getCenter(String centerId) async =>
+      await provider.getCenter(centerId);
 }

@@ -1,6 +1,6 @@
-import 'package:al_halaqat/app/home/models/teacher.dart';
-import 'package:al_halaqat/app/home/models/teacher.dart';
-import 'package:al_halaqat/app/home/models/user.dart';
+import 'package:al_halaqat/app/models/teacher.dart';
+import 'package:al_halaqat/app/models/teacher.dart';
+import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/date_picker.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/text_form_field2.dart';
@@ -115,7 +115,7 @@ class _NewStudentFormState extends State<TeacherForm> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('fill info'),
+        title: Text('إملأ الإستمارة'),
         actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(left: 20.0),
@@ -143,6 +143,7 @@ class _NewStudentFormState extends State<TeacherForm> {
                   hintText: 'إدخل إسمك',
                   errorText: 'خطأ',
                   maxLength: 30,
+                  onChanged: (value) {},
                   inputFormatter: BlacklistingTextInputFormatter(''),
                   onSaved: (value) => name = value,
                 ),
@@ -173,6 +174,7 @@ class _NewStudentFormState extends State<TeacherForm> {
                   maxLength: 30,
                   inputFormatter: BlacklistingTextInputFormatter(''),
                   onSaved: (value) => address = value,
+                  onChanged: (value) {},
                 ),
                 TextFormField2(
                   title: 'رقم الهاتف',
@@ -183,6 +185,7 @@ class _NewStudentFormState extends State<TeacherForm> {
                   inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
                   onSaved: (value) => phoneNumber = value,
                   isPhoneNumber: true,
+                  onChanged: (value) {},
                 ),
                 DropdownButtonFormField2(
                   title: 'مستوى تعليمي',
@@ -219,6 +222,7 @@ class _NewStudentFormState extends State<TeacherForm> {
                   maxLength: 10,
                   inputFormatter: BlacklistingTextInputFormatter(''),
                   onSaved: (value) => etablissement = value,
+                  onChanged: (value) {},
                 ),
                 TextFormField2(
                   title: 'رقم التعريفي للمركز',
@@ -228,6 +232,7 @@ class _NewStudentFormState extends State<TeacherForm> {
                   maxLength: 20,
                   inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
                   onSaved: (value) => centers[0] = value,
+                  onChanged: (value) {},
                   isPhoneNumber: true,
                 ),
                 TextFormField2(
@@ -239,6 +244,7 @@ class _NewStudentFormState extends State<TeacherForm> {
                   inputFormatter: BlacklistingTextInputFormatter(''),
                   onSaved: (value) => note = value,
                   isPhoneNumber: false,
+                  onChanged: (value) {},
                 ),
               ],
             ),

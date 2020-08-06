@@ -1,5 +1,5 @@
 import 'package:al_halaqat/app/common_screens/admin_center_form.dart';
-import 'package:al_halaqat/app/home/models/user.dart';
+import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/app/home/notApproved/join_us_screen.dart';
 import 'package:al_halaqat/app/home/notApproved/pending_screen.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';

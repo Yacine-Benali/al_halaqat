@@ -1,5 +1,5 @@
-import 'package:al_halaqat/app/home/models/study_center.dart';
-import 'package:al_halaqat/app/home/models/user.dart';
+import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/services/api_path.dart';
 import 'package:al_halaqat/services/database.dart';
 import 'package:al_halaqat/services/firestore_database.dart';
@@ -26,4 +26,10 @@ class UserProvider {
   }
 
   String getUniqueId() => database.getUniqueId();
+
+  Future<StudyCenter> getCenter(String uid) async =>
+      await database.fetchDocument(
+        path: APIPath.centerDocument(uid),
+        builder: (data, documentId) => StudyCenter.fromMap(data, documentId),
+      );
 }

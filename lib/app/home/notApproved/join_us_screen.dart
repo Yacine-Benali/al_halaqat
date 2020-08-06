@@ -1,7 +1,12 @@
 import 'package:al_halaqat/app/common_screens/user_info_screen.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
+import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
+import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:al_halaqat/app/common_screens/user_info_screen.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class JoinUsScreen extends StatefulWidget {
   @override
@@ -9,12 +14,46 @@ class JoinUsScreen extends StatefulWidget {
 }
 
 class _NewUserScreenState extends State<JoinUsScreen> {
+  Future<void> _signOut(BuildContext context) async {
+    try {
+      final Auth auth = Provider.of<Auth>(context, listen: false);
+      await auth.signOut();
+    } on PlatformException catch (e) {
+      await PlatformExceptionAlertDialog(
+        title: 'Strings.logoutFailed',
+        exception: e,
+      ).show(context);
+    }
+  }
+
+  Future<void> _confirmSignOut(BuildContext context) async {
+    final bool didRequestSignOut = await PlatformAlertDialog(
+      title: 'تسجيل الخروج',
+      content: 'هل أنت متأكد ؟',
+      cancelActionText: 'إلغاء',
+      defaultActionText: 'حسنا',
+    ).show(context);
+    if (didRequestSignOut == true) {
+      _signOut(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('إنضم إلى حلقات'),
         centerTitle: true,
+        leading: Padding(
+          padding: EdgeInsets.only(right: 20.0),
+          child: InkWell(
+            onTap: () => _confirmSignOut(context),
+            child: Icon(
+              Icons.exit_to_app,
+              size: 26.0,
+            ),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -23,7 +62,7 @@ class _NewUserScreenState extends State<JoinUsScreen> {
             children: <Widget>[
               SizedBox(height: 100.0),
               MenuButtonWidget(
-                text: 'كمشرف',
+                text: 'إنظم كمشرف لمركز موجود',
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
@@ -35,8 +74,9 @@ class _NewUserScreenState extends State<JoinUsScreen> {
                   ),
                 ),
               ),
+              SizedBox(height: 10.0),
               MenuButtonWidget(
-                text: 'كمشر11ف',
+                text: 'إنظم كمشرف و أنشأ المركز الخاص بك',
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
@@ -50,7 +90,7 @@ class _NewUserScreenState extends State<JoinUsScreen> {
               ),
               SizedBox(height: 10.0),
               MenuButtonWidget(
-                text: 'كمعلم',
+                text: 'إنظم كمعلم',
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
@@ -64,7 +104,7 @@ class _NewUserScreenState extends State<JoinUsScreen> {
               ),
               SizedBox(height: 10.0),
               MenuButtonWidget(
-                text: 'كطالب',
+                text: 'إنظم كطالب',
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
