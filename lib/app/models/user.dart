@@ -1,4 +1,5 @@
 import 'package:al_halaqat/app/models/admin.dart';
+import 'package:al_halaqat/app/models/global_admin.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 
 import 'student.dart';
@@ -20,10 +21,10 @@ abstract class User {
   String password;
   int createdAt;
   Map<String, String> createdBy;
-
   Map<String, String> centerState;
   List<String> centers;
   List<String> halaqatLearningIn;
+  bool isStudent;
   User(
     this.id,
     this.name,
@@ -44,6 +45,7 @@ abstract class User {
     this.createdBy,
     this.centers,
     this.halaqatLearningIn,
+    this.isStudent,
   );
 
   factory User.fromMap(Map<String, dynamic> data, String documentId) {
@@ -54,10 +56,13 @@ abstract class User {
     final bool isTeacher = data['isTeacher'] ?? false;
     final bool isStudent = data['isStudent'] ?? false;
     User user;
-    if (isGloabalAdmin) {}
-    if (isAdmin) user = Admin.fromMap(data, documentId);
-    if (isTeacher) user = Teacher.fromMap(data, documentId);
-    if (isStudent) user = Student.fromMap(data, documentId);
+    if (isGloabalAdmin)
+      user = GlobalAdmin.fromMap(data, documentId);
+    else if (isAdmin)
+      user = Admin.fromMap(data, documentId);
+    else if (isTeacher)
+      user = Teacher.fromMap(data, documentId);
+    else if (isStudent) user = Student.fromMap(data, documentId);
 
     return user;
   }

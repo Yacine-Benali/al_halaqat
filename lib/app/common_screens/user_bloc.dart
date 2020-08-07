@@ -47,15 +47,16 @@ class UserBloc {
         id: 'join' + authUser.uid,
         createdAt: createdAt,
         userId: authUser.uid,
-        userRole: userRole,
-        userName: user.name,
-        userNationality: user.nationality,
+        user: user,
         action: 'join',
         state: 'pending',
-        object: null,
+        halaqaId: null,
+        halaqaName: null,
       );
-      // change center readable id to the centerid
-
+      user.centers[0] = center.id;
+      user.centerState = {
+        '${user.centers[0]}': 'pending',
+      };
     }
 
     await provider.createTeacherOrStudent(
@@ -83,43 +84,71 @@ class UserBloc {
     StudyCenter center = await provider.queryCenterbyRId(user.centers[0]);
     if (center != null) {
       joinGlobalAdminRequest = GlobalAdminRequest(
-        id: 'join' + authUser.uid,
+        id: 'signup' + authUser.uid,
         createdAt: createdAt,
         adminId: authUser.uid,
-        adminName: user.name,
-        adminNationality: user.nationality,
-        action: 'join',
+        admin: user,
         centerId: center.id,
-        centerName: center.name,
+        center: center,
+        action: 'join-existing',
         state: 'pending',
       );
       // change center readable id to the centerid
-
+      user.centerState = {
+        '${center.id}': 'pending',
+      };
+      user.centers[0] = center.id;
     }
 
     await provider.createAdmin(
       user,
       authUser.uid,
       joinGlobalAdminRequest,
+      null,
     );
   }
 
   Future<void> createAdminAndCenter(Admin admin, StudyCenter center) async {
+    int createdAt = DateTime.now().millisecondsSinceEpoch;
+    GlobalAdminRequest joinGlobalAdminRequest;
+
+    admin.email = authUser.email;
+    admin.createdAt = createdAt;
+
     admin.createdBy = {
       'name': admin.name,
       'id': authUser.uid,
     };
-    admin.email = authUser.email;
-
-    center.createdBy = {'name': admin.name, 'id': admin.id};
-    center.createdAt = DateTime.now().millisecondsSinceEpoch;
     if (center.id == null) center.id = provider.getUniqueId();
-    //
+
+    admin.centerState = {
+      '${center.id}': 'pendingWithCenter',
+    };
     admin.centers[0] = center.id;
-    admin.createdAt = DateTime.now().millisecondsSinceEpoch;
     //
-    // await provider.createUser(admin, authUser.uid);
-    // await provider.createCenter(center, center.id);
+    center.state = 'pending';
+    center.createdBy = {
+      'name': admin.name,
+      'id': authUser.uid,
+    };
+    //
+    joinGlobalAdminRequest = GlobalAdminRequest(
+      id: 'signup-' + authUser.uid,
+      createdAt: createdAt,
+      adminId: authUser.uid,
+      admin: admin,
+      centerId: center.id,
+      center: center,
+      action: 'join-new',
+      state: 'pending',
+    );
+
+    await provider.createAdmin(
+      admin,
+      authUser.uid,
+      joinGlobalAdminRequest,
+      center,
+    );
   }
 
   Future<StudyCenter> getCenter(String centerId) async =>

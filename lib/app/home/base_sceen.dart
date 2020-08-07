@@ -1,4 +1,6 @@
 import 'package:al_halaqat/app/common_screens/admin_center_form.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/global_admin_home_page.dart';
+import 'package:al_halaqat/app/models/global_admin.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/app/home/notApproved/join_us_screen.dart';
 import 'package:al_halaqat/app/home/notApproved/pending_screen.dart';
@@ -18,9 +20,12 @@ class BaseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     AsyncSnapshot<User> snapshot =
         Provider.of<AsyncSnapshot<User>>(context, listen: false);
-
     if (snapshot.hasData) {
       final User user = snapshot.data;
+
+      if (user is GlobalAdmin) {
+        return GlobalAdminHomePage();
+      }
       if (!isThereAnActiveCenter(user.centerState)) {
         return PendingScreen();
       }

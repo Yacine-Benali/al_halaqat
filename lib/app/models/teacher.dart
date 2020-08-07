@@ -22,7 +22,7 @@ class Teacher extends User {
     @required Map<String, String> createdBy,
     @required List<String> centers,
     @required List<String> halaqatLearningIn,
-    @required this.isStudent,
+    @required bool isStudent,
     @required this.isTeacher,
     @required this.halaqatTeachingIn,
   }) : super(
@@ -45,9 +45,9 @@ class Teacher extends User {
           createdBy,
           centers,
           halaqatLearningIn,
+          isStudent,
         );
 
-  bool isStudent;
   bool isTeacher;
   List<String> halaqatTeachingIn;
 
@@ -76,9 +76,8 @@ class Teacher extends User {
     Map<String, String> createdBy = Map<String, String>.from(data['createdBy']);
     List<String> centers = data['centers'].cast<String>();
     List<String> halaqatLearningIn = data['halaqatLearningIn'].cast<String>();
-
-    //
     bool isStudent = data['isStudent'];
+    //
     bool isTeacher = data['isTeacher'];
     List<String> halaqatTeachingIn = data['halaqatTeachingIn'].cast<String>();
 
@@ -102,8 +101,8 @@ class Teacher extends User {
       createdBy: createdBy,
       centers: centers,
       halaqatLearningIn: halaqatLearningIn,
-      //
       isStudent: isStudent,
+      //
       isTeacher: isTeacher,
       halaqatTeachingIn: halaqatTeachingIn,
     );
@@ -130,6 +129,7 @@ class Teacher extends User {
       'createdBy': createdBy,
       'centers': centers,
       'halaqatLearningIn': halaqatLearningIn,
+      'isStudent': isStudent,
       //
       'isTeacher': isTeacher,
       'halaqatTeachingIn': halaqatTeachingIn,

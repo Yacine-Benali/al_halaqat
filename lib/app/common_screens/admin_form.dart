@@ -1,6 +1,7 @@
 import 'package:al_halaqat/app/common_screens/center_form.dart';
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/admin.dart';
+import 'package:al_halaqat/app/models/global_admin.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/date_picker.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
@@ -21,7 +22,7 @@ class AdminForm extends StatefulWidget {
     @required this.callback,
     this.center,
   }) : super(key: key);
-  final ValueChanged<Admin> onSavedAdmin;
+  final ValueChanged<User> onSavedAdmin;
   final ValueChanged<StudyCenter> onSavedCenter;
   final VoidCallback callback;
 
@@ -68,7 +69,7 @@ class _NewAdminFormState extends State<AdminForm> {
   void initState() {
     id = admin?.id;
     name = admin?.name;
-    dateOfBirth = admin?.dateOfBirth ?? DateTime.now().millisecondsSinceEpoch;
+    dateOfBirth = admin?.dateOfBirth ?? DateTime.now().year;
     gender = admin?.gender;
     nationality = admin?.nationality ?? 'LB';
     address = admin?.address;
@@ -86,7 +87,7 @@ class _NewAdminFormState extends State<AdminForm> {
     centers = admin?.centers ?? List<String>(1);
     halaqatLearningIn = admin?.halaqatLearningIn ?? List<String>(1);
     //
-    isStudent = admin?.isStudent;
+    isStudent = admin?.isStudent ?? false;
     isAdmin = admin?.isAdmin;
     super.initState();
   }
@@ -99,7 +100,7 @@ class _NewAdminFormState extends State<AdminForm> {
       Admin admin = Admin(
         id: null,
         name: name,
-        dateOfBirth: dateOfBirth ?? DateTime.now().millisecondsSinceEpoch,
+        dateOfBirth: dateOfBirth ?? DateTime.now().year,
         gender: gender,
         nationality: nationality,
         address: address,
@@ -130,6 +131,34 @@ class _NewAdminFormState extends State<AdminForm> {
     }
   }
 
+  void _temp() {
+    GlobalAdmin admin = GlobalAdmin(
+      id: null,
+      name: 'a',
+      dateOfBirth: DateTime.now().year,
+      gender: 'male',
+      nationality: 'LB',
+      address: 'global admin address',
+      phoneNumber: 'phoneNumber',
+      educationalLevel: 'educationalLevel',
+      etablissement: 'etablissement',
+      note: 'note',
+      readableId: 'readableId',
+      username: 'null',
+      email: 'null',
+      password: 'null',
+      centerState: null,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      createdBy: null,
+      halaqatLearningIn: [null],
+      centers: [null],
+      isGlobalAdmin: true,
+      isStudent: false,
+    );
+
+    widget.onSavedAdmin(admin);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,6 +172,16 @@ class _NewAdminFormState extends State<AdminForm> {
               onTap: () => _save(),
               child: Icon(
                 Icons.save,
+                size: 26.0,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 20.0),
+            child: InkWell(
+              onTap: () => _temp(),
+              child: Icon(
+                Icons.bug_report,
                 size: 26.0,
               ),
             ),
@@ -188,10 +227,8 @@ class _NewAdminFormState extends State<AdminForm> {
                 ),
                 DatePicker(
                     title: 'تاريخ الميلاد',
-                    selectedDate:
-                        DateTime.fromMillisecondsSinceEpoch(dateOfBirth),
                     onSelectedDate: (value) {
-                      dateOfBirth = value.millisecondsSinceEpoch;
+                      dateOfBirth = value;
                       setState(() {});
                     }),
                 DropdownButtonFormField2(
@@ -266,7 +303,7 @@ class _NewAdminFormState extends State<AdminForm> {
                 if (!widget.includeCenterForm) ...[
                   TextFormField2(
                     title: 'رقم التعريفي للمركز',
-                    initialValue: centers[0],
+                    //initialValue: centers[0],
                     hintText: 'إدخل رقم التعريفي للمركز',
                     errorText: 'خطأ',
                     maxLength: 20,

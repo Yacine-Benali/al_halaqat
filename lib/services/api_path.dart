@@ -5,10 +5,11 @@ class APIPath {
       'globalConfiguration/globalConfiguration';
 
   static String centersCollection() => 'centers/';
-
   static String centerDocument(String uid) => 'centers/$uid';
 
-  static String adminRequestsCollection() => 'adminRequestsCollection/';
-  static String adminRequestsDocument(String uid) =>
-      'adminRequestsCollection/$uid';
+  static String centerRequestsDocument(String centerId, String requestId) =>
+      'centers/$centerId/requests/$requestId';
+
+  static String adminRequestsDocument(String requestId) =>
+      'adminRequests/$requestId';
 }

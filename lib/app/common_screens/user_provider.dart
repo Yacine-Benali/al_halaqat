@@ -59,8 +59,9 @@ class UserProvider {
       );
       if (centerRequest != null && centerRequestCenterId != null) {
         await tx.set(
-          Firestore.instance
-              .document(APIPath.centerDocument(centerRequestCenterId)),
+          Firestore.instance.document(
+            APIPath.centerRequestsDocument(centerRequestCenterId, uid),
+          ),
           centerRequest.toMap(),
         );
       }
@@ -71,16 +72,30 @@ class UserProvider {
     User user,
     String uid,
     GlobalAdminRequest globalAdminRequest,
+    StudyCenter center,
   ) async {
     final DocumentReference postRef =
         Firestore.instance.document('/globalConfiguration/globalConfiguration');
+
+    print(center?.readableId == null);
     Firestore.instance.runTransaction((Transaction tx) async {
-      if (user.readableId == null) {
+      if (user.readableId == null && center?.readableId == null) {
         DocumentSnapshot postSnapshot = await tx.get(postRef);
-        await tx.update(postRef, <String, dynamic>{
-          'nextUserReadableId': postSnapshot.data['nextUserReadableId'] + 1
-        });
-        user.readableId = postSnapshot['nextUserReadableId'].toString();
+
+        if (center == null) {
+          await tx.update(postRef, <String, dynamic>{
+            'nextUserReadableId': postSnapshot.data['nextUserReadableId'] + 1,
+          });
+          user.readableId = postSnapshot['nextUserReadableId'].toString();
+        } else {
+          await tx.update(postRef, <String, dynamic>{
+            'nextUserReadableId': postSnapshot.data['nextUserReadableId'] + 1,
+            'nextCenterReadableId':
+                postSnapshot.data['nextCenterReadableId'] + 1
+          });
+          user.readableId = postSnapshot['nextUserReadableId'].toString();
+          center.readableId = postSnapshot['nextCenterReadableId'].toString();
+        }
       }
 
       await tx.set(
@@ -94,6 +109,12 @@ class UserProvider {
           globalAdminRequest.toMap(),
         );
       }
-    });
+      if (center != null) {
+        await tx.set(
+          Firestore.instance.document(APIPath.centerDocument(center.id)),
+          center.toMap(),
+        );
+      }
+    }, timeout: Duration(seconds: 10));
   }
 }

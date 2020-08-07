@@ -45,7 +45,7 @@ class _CenterFormState extends State<CenterForm> {
     id = center?.id;
     readableId = center?.readableId;
     name = center?.name;
-    country = center?.country;
+    country = center?.country ?? 'LB';
     city = center?.city;
     street = center?.street;
     phoneNumber = center?.phoneNumber;

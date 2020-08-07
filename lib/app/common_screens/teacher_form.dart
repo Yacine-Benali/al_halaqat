@@ -53,7 +53,7 @@ class _NewStudentFormState extends State<TeacherForm> {
   @override
   void initState() {
     name = teacher?.name;
-    dateOfBirth = teacher?.dateOfBirth ?? DateTime.now().millisecondsSinceEpoch;
+    dateOfBirth = teacher?.dateOfBirth ?? DateTime.now().year;
     gender = teacher?.gender;
     nationality = teacher?.nationality ?? 'LB';
     address = teacher?.address;
@@ -68,11 +68,11 @@ class _NewStudentFormState extends State<TeacherForm> {
     centerState = teacher?.centerState ?? Map<String, String>();
     createdAt = teacher?.createdAt;
     createdBy = teacher?.createdBy ?? Map<String, String>();
-    ;
+
     centers = teacher?.centers ?? List<String>(1);
     halaqatLearningIn = teacher?.halaqatLearningIn ?? List<String>(1);
     //
-    isStudent = teacher?.isStudent;
+    isStudent = teacher?.isStudent ?? false;
     isTeacher = teacher?.isTeacher;
     halaqatTeachingIn = teacher?.halaqatTeachingIn ?? List<String>(1);
     ;
@@ -85,7 +85,7 @@ class _NewStudentFormState extends State<TeacherForm> {
       Teacher teacher = Teacher(
         id: null,
         name: name,
-        dateOfBirth: dateOfBirth ?? DateTime.now().millisecondsSinceEpoch,
+        dateOfBirth: dateOfBirth ?? DateTime.now().year,
         gender: gender,
         nationality: nationality,
         address: address,
@@ -149,10 +149,8 @@ class _NewStudentFormState extends State<TeacherForm> {
                 ),
                 DatePicker(
                     title: 'تاريخ الميلاد',
-                    selectedDate:
-                        DateTime.fromMillisecondsSinceEpoch(dateOfBirth),
                     onSelectedDate: (value) {
-                      dateOfBirth = value.millisecondsSinceEpoch;
+                      dateOfBirth = value;
                       setState(() {});
                     }),
                 DropdownButtonFormField2(
@@ -226,7 +224,7 @@ class _NewStudentFormState extends State<TeacherForm> {
                 ),
                 TextFormField2(
                   title: 'رقم التعريفي للمركز',
-                  initialValue: centers[0],
+                  // initialValue: centers[0],
                   hintText: 'إدخل رقم التعريفي للمركز',
                   errorText: 'خطأ',
                   maxLength: 20,

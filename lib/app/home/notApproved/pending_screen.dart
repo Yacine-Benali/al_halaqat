@@ -49,8 +49,9 @@ class _PendingScreenState extends State<PendingScreen> {
         if (user is Teacher) userType = FormType.teacher;
         if (user is Student) userType = FormType.student;
         if (user is Admin) userType = FormType.admin;
-        // if (user is Admin && user.centers.isNotEmpty)
-        //   userType = FormType.adminAndCenter;
+        if (user is Admin &&
+            user.centerState.values.toList()[0] == 'pendingWithCenter')
+          userType = FormType.adminAndCenter;
 
         return Scaffold(
           appBar: AppBar(

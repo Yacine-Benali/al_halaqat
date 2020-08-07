@@ -22,7 +22,7 @@ class Student extends User {
     @required Map<String, String> createdBy,
     @required List<String> centers,
     @required List<String> halaqatLearningIn,
-    @required this.isStudent,
+    @required bool isStudent,
     @required this.parentPhoneNumber,
   }) : super(
           id,
@@ -44,9 +44,9 @@ class Student extends User {
           createdBy,
           centers,
           halaqatLearningIn,
+          isStudent,
         );
 
-  bool isStudent;
   String parentPhoneNumber;
 
   factory Student.fromMap(Map<String, dynamic> data, String documentId) {
@@ -74,8 +74,9 @@ class Student extends User {
     Map<String, String> createdBy = Map<String, String>.from(data['createdBy']);
     List<String> centers = data['centers'].cast<String>();
     List<String> halaqatLearningIn = data['halaqatLearningIn'].cast<String>();
-    //
     bool isStudent = data['isStudent'];
+
+    //
     String parentPhoneNumber = data['parentPhoneNumber'];
 
     return Student(
@@ -98,8 +99,8 @@ class Student extends User {
       createdBy: createdBy,
       centers: centers,
       halaqatLearningIn: halaqatLearningIn,
-      //
       isStudent: isStudent,
+      //
       parentPhoneNumber: parentPhoneNumber,
     );
   }
@@ -125,8 +126,8 @@ class Student extends User {
       'createdBy': createdBy,
       'centers': centers,
       'halaqatLearningIn': halaqatLearningIn,
-      //
       'isStudent': isStudent,
+      //
       'parentPhoneNumber': parentPhoneNumber,
     };
   }

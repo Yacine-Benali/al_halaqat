@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'user.dart';
 
-class Admin extends User {
-  Admin({
+class GlobalAdmin extends User {
+  GlobalAdmin({
     @required String id,
     @required String name,
     @required int dateOfBirth,
@@ -23,7 +23,7 @@ class Admin extends User {
     @required List<String> centers,
     @required List<String> halaqatLearningIn,
     @required bool isStudent,
-    @required this.isAdmin,
+    @required this.isGlobalAdmin,
   }) : super(
           id,
           name,
@@ -47,13 +47,12 @@ class Admin extends User {
           isStudent,
         );
 
-  bool isAdmin;
+  bool isGlobalAdmin;
 
-  factory Admin.fromMap(Map<String, dynamic> data, String documentId) {
+  factory GlobalAdmin.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
       return null;
     }
-
     String id = documentId;
     String name = data['name'];
     int dateOfBirth = data['dateOfBirth'];
@@ -76,9 +75,9 @@ class Admin extends User {
     List<String> halaqatLearningIn = data['halaqatLearningIn'].cast<String>();
     bool isStudent = data['isStudent'];
     //
-    bool isAdmin = data['isAdmin'];
+    bool isGlobalAdmin = data['isGlobalAdmin'];
 
-    return Admin(
+    return GlobalAdmin(
       id: id,
       name: name,
       dateOfBirth: dateOfBirth,
@@ -100,7 +99,7 @@ class Admin extends User {
       halaqatLearningIn: halaqatLearningIn,
       isStudent: isStudent,
       //
-      isAdmin: isAdmin,
+      isGlobalAdmin: isGlobalAdmin,
     );
   }
 
@@ -127,7 +126,7 @@ class Admin extends User {
       'halaqatLearningIn': halaqatLearningIn,
       'isStudent': isStudent,
       //
-      'isAdmin': isAdmin,
+      'isGlobalAdmin': isGlobalAdmin,
     };
   }
 }

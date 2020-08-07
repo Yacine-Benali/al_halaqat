@@ -52,7 +52,7 @@ class _NewStudentFormState extends State<StudentForm> {
   void initState() {
     id = student?.id;
     name = student?.name;
-    dateOfBirth = student?.dateOfBirth ?? DateTime.now().millisecondsSinceEpoch;
+    dateOfBirth = student?.dateOfBirth ?? DateTime.now().year;
     gender = student?.gender;
     nationality = student?.nationality ?? 'LB';
     address = student?.address;
@@ -145,10 +145,8 @@ class _NewStudentFormState extends State<StudentForm> {
                 ),
                 DatePicker(
                     title: 'تاريخ الميلاد',
-                    selectedDate:
-                        DateTime.fromMillisecondsSinceEpoch(dateOfBirth),
                     onSelectedDate: (value) {
-                      dateOfBirth = value.millisecondsSinceEpoch;
+                      dateOfBirth = value;
                       setState(() {});
                     }),
                 DropdownButtonFormField2(
@@ -233,7 +231,7 @@ class _NewStudentFormState extends State<StudentForm> {
                 ),
                 TextFormField2(
                   title: 'رقم التعريفي للمركز',
-                  initialValue: centers[0],
+                  //initialValue: centers[0],
                   hintText: 'إدخل رقم التعريفي للمركز',
                   errorText: 'خطأ',
                   maxLength: 20,

@@ -67,7 +67,6 @@ class _NewUserScreenState extends State<UserInfoScreen> {
     try {
       if (widget.userType == FormType.student ||
           widget.userType == FormType.teacher) {
-        print('creat student or teacher');
         await bloc.createTeacherOrStudent(user);
       } else {
         await bloc.createAdmin(user);

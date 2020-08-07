@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/models/user.dart';
 import 'package:flutter/foundation.dart';
 
 class CenterRequest {
@@ -5,22 +6,20 @@ class CenterRequest {
     @required this.id,
     @required this.createdAt,
     @required this.userId,
-    @required this.userRole,
-    @required this.userName,
-    @required this.userNationality,
+    @required this.user,
     @required this.action,
     @required this.state,
-    @required this.object,
+    @required this.halaqaName,
+    @required this.halaqaId,
   });
   String id;
   int createdAt;
   String userId;
-  String userRole;
-  String userName;
-  String userNationality;
+  User user;
   String action;
   String state;
-  Map<String, String> object;
+  String halaqaName;
+  String halaqaId;
 
   factory CenterRequest.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
@@ -29,36 +28,34 @@ class CenterRequest {
     String id = documentId;
     int createdAt = data['createdAt'];
     String userId = data['userId'];
-    String userRole = data['userRole'];
-    String userName = data['userName'];
-    String userNationality = data['userNationality'];
+    User user = User.fromMap(data['user'], userId);
     String action = data['action'];
     String state = data['state'];
-    Map<String, String> object = Map<String, String>.from(data['object']);
+    String halaqaName = data['halaqaName'];
+    String halaqaId = data['halaqaId'];
 
     return CenterRequest(
       id: id,
       createdAt: createdAt,
       userId: userId,
-      userRole: userRole,
-      userName: userName,
-      userNationality: userNationality,
+      user: user,
       action: action,
       state: state,
-      object: object,
+      halaqaId: halaqaId,
+      halaqaName: halaqaName,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'createdAt': createdAt,
       'userId': userId,
-      'userRole': userRole,
-      'userName': userName,
-      'userNationality': userNationality,
+      'user': user.toMap(),
       'action': action,
       'state': state,
-      'object': object,
+      'halaqaId': halaqaId,
+      'halaqaName': halaqaName,
     };
   }
 }

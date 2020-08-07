@@ -73,14 +73,14 @@ class UsernameEditingRegexValidator extends RegexValidator {
   UsernameEditingRegexValidator()
       : super(
             regexSource:
-                '^(?=.{8,20}\$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])\$');
+                '^(?=.{2,20}\$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])\$');
 }
 
 class UsernameSubmitRegexValidator extends RegexValidator {
   UsernameSubmitRegexValidator()
       : super(
             regexSource:
-                '^(?=.{8,20}\$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])\$');
+                '^(?=.{2,20}\$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])\$');
 }
 
 class EmailAndPasswordValidators {
