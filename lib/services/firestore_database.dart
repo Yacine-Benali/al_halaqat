@@ -94,34 +94,6 @@ class FirestoreDatabase implements Database {
   }
 
   @override
-  Stream<T> userDocumentStream<T>({
-    @required String uid,
-    @required T builder(Map<String, dynamic> data),
-    @required String collection,
-  }) {
-    final query = Firestore.instance
-        .collectionGroup(collection)
-        .where('uid', isEqualTo: uid)
-        .limit(1);
-    //print('firestoreService');
-    Stream<QuerySnapshot> querySnapshotStream = query.snapshots();
-    Stream<DocumentSnapshot> documentSnapshotStream =
-        querySnapshotStream.map((querySnapshot) {
-      if (querySnapshot.documents.length == 0) {
-        return null;
-      } else {
-        return querySnapshot.documents.elementAt(0);
-      }
-    });
-
-    Stream<T> userStream = documentSnapshotStream.map((documentSnapshot) {
-      return builder(documentSnapshot?.data);
-    });
-
-    return userStream;
-  }
-
-  @override
   Stream<T> documentStream<T>({
     @required String path,
     @required T builder(Map<String, dynamic> data, String documentID),
@@ -140,5 +112,23 @@ class FirestoreDatabase implements Database {
     final DocumentReference reference = Firestore.instance.document(path);
     final DocumentSnapshot snapshot = await reference.get();
     return builder(snapshot.data, snapshot.documentID);
+  }
+
+  @override
+  Future<T> fetchQueryDocument<T>({
+    @required String path,
+    @required T builder(Map<String, dynamic> data, String documentID),
+    @required Query queryBuilder(Query query),
+  }) async {
+    Query query = Firestore.instance.collection(path);
+    if (queryBuilder != null) {
+      query = queryBuilder(query);
+    }
+    final QuerySnapshot snapshot = await query.getDocuments();
+    if (snapshot.documents.isEmpty) {
+      return null;
+    } else
+      return builder(snapshot.documents?.elementAt(0)?.data,
+          snapshot.documents.elementAt(0).documentID);
   }
 }

@@ -7,4 +7,8 @@ class APIPath {
   static String centersCollection() => 'centers/';
 
   static String centerDocument(String uid) => 'centers/$uid';
+
+  static String adminRequestsCollection() => 'adminRequestsCollection/';
+  static String adminRequestsDocument(String uid) =>
+      'adminRequestsCollection/$uid';
 }

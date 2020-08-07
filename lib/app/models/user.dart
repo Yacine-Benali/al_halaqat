@@ -18,9 +18,10 @@ abstract class User {
   String username;
   String email;
   String password;
-  Map<String, String> centerState;
   int createdAt;
   Map<String, String> createdBy;
+
+  Map<String, String> centerState;
   List<String> centers;
   List<String> halaqatLearningIn;
   User(

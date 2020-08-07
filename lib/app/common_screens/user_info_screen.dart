@@ -24,11 +24,13 @@ class UserInfoScreen extends StatefulWidget {
   const UserInfoScreen._({
     Key key,
     @required this.bloc,
+    @required this.userType,
     this.user,
   }) : super(key: key);
 
   final UserBloc bloc;
   final User user;
+  final FormType userType;
 
   static Widget create({
     @required BuildContext context,
@@ -49,6 +51,7 @@ class UserInfoScreen extends StatefulWidget {
       child: UserInfoScreen._(
         bloc: bloc,
         user: user,
+        userType: userType,
       ),
     );
   }
@@ -62,7 +65,13 @@ class _NewUserScreenState extends State<UserInfoScreen> {
 
   Future<void> _save(User user, BuildContext context) async {
     try {
-      await bloc.createUser(user);
+      if (widget.userType == FormType.student ||
+          widget.userType == FormType.teacher) {
+        print('creat student or teacher');
+        await bloc.createTeacherOrStudent(user);
+      } else {
+        await bloc.createAdmin(user);
+      }
 
       PlatformAlertDialog(
         title: 'نجح الحفظ',

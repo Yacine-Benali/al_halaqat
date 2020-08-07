@@ -36,12 +36,6 @@ abstract class Database {
     int sort(T lhs, T rhs),
   });
 
-  Stream<T> userDocumentStream<T>({
-    @required String uid,
-    @required T builder(Map<String, dynamic> data),
-    @required String collection,
-  });
-
   Stream<T> documentStream<T>({
     @required
         String path,
@@ -60,5 +54,11 @@ abstract class Database {
       Map<String, dynamic> data,
       String documentID,
     ),
+  });
+
+  Future<T> fetchQueryDocument<T>({
+    @required String path,
+    @required T builder(Map<String, dynamic> data, String documentID),
+    @required Query queryBuilder(Query query),
   });
 }

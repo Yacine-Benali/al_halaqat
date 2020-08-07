@@ -1,3 +1,5 @@
+import 'package:al_halaqat/app/models/center_request.dart';
+import 'package:al_halaqat/app/models/global_admin_request.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/services/api_path.dart';
@@ -9,13 +11,6 @@ import 'package:flutter/foundation.dart';
 class UserProvider {
   UserProvider({@required this.database});
   final Database database;
-
-  Future<void> createUser(User user, String uid) async =>
-      await database.setData(
-        path: APIPath.userDocument(uid),
-        data: user.toMap(),
-        merge: true,
-      );
 
   Future<void> createCenter(StudyCenter center, String uid) async {
     await database.setData(
@@ -32,4 +27,73 @@ class UserProvider {
         path: APIPath.centerDocument(uid),
         builder: (data, documentId) => StudyCenter.fromMap(data, documentId),
       );
+
+  Future<StudyCenter> queryCenterbyRId(String readableId) async =>
+      await database.fetchQueryDocument(
+        path: APIPath.centersCollection(),
+        builder: (data, documentId) => StudyCenter.fromMap(data, documentId),
+        queryBuilder: (query) =>
+            query.where('readableId', isEqualTo: readableId),
+      );
+
+  Future<void> createTeacherOrStudent(
+    User user,
+    String uid,
+    CenterRequest centerRequest,
+    String centerRequestCenterId,
+  ) async {
+    final DocumentReference postRef =
+        Firestore.instance.document('/globalConfiguration/globalConfiguration');
+    Firestore.instance.runTransaction((Transaction tx) async {
+      if (user.readableId == null) {
+        DocumentSnapshot postSnapshot = await tx.get(postRef);
+        await tx.update(postRef, <String, dynamic>{
+          'nextUserReadableId': postSnapshot.data['nextUserReadableId'] + 1
+        });
+        user.readableId = postSnapshot['nextUserReadableId'].toString();
+      }
+
+      await tx.set(
+        Firestore.instance.document(APIPath.userDocument(uid)),
+        user.toMap(),
+      );
+      if (centerRequest != null && centerRequestCenterId != null) {
+        await tx.set(
+          Firestore.instance
+              .document(APIPath.centerDocument(centerRequestCenterId)),
+          centerRequest.toMap(),
+        );
+      }
+    });
+  }
+
+  Future<void> createAdmin(
+    User user,
+    String uid,
+    GlobalAdminRequest globalAdminRequest,
+  ) async {
+    final DocumentReference postRef =
+        Firestore.instance.document('/globalConfiguration/globalConfiguration');
+    Firestore.instance.runTransaction((Transaction tx) async {
+      if (user.readableId == null) {
+        DocumentSnapshot postSnapshot = await tx.get(postRef);
+        await tx.update(postRef, <String, dynamic>{
+          'nextUserReadableId': postSnapshot.data['nextUserReadableId'] + 1
+        });
+        user.readableId = postSnapshot['nextUserReadableId'].toString();
+      }
+
+      await tx.set(
+        Firestore.instance.document(APIPath.userDocument(uid)),
+        user.toMap(),
+      );
+
+      if (globalAdminRequest != null) {
+        await tx.set(
+          Firestore.instance.document(APIPath.adminRequestsDocument(uid)),
+          globalAdminRequest.toMap(),
+        );
+      }
+    });
+  }
 }
