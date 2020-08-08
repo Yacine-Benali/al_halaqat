@@ -8,6 +8,7 @@ import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/text_form_field2.dart';
 import 'package:al_halaqat/common_widgets/drop_down_form_field2.dart';
 import 'package:al_halaqat/common_widgets/country_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
@@ -57,7 +58,7 @@ class _NewAdminFormState extends State<AdminForm> {
   String email;
   String password;
   Map<String, String> centerState;
-  int createdAt;
+  Timestamp createdAt;
   Map<String, String> createdBy;
   List<String> centers;
   List<String> halaqatLearningIn;
@@ -148,7 +149,7 @@ class _NewAdminFormState extends State<AdminForm> {
       email: 'null',
       password: 'null',
       centerState: null,
-      createdAt: DateTime.now().millisecondsSinceEpoch,
+      createdAt: null,
       createdBy: null,
       halaqatLearningIn: [null],
       centers: [null],

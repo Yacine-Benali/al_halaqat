@@ -60,7 +60,10 @@ class UserProvider {
       if (centerRequest != null && centerRequestCenterId != null) {
         await tx.set(
           Firestore.instance.document(
-            APIPath.centerRequestsDocument(centerRequestCenterId, uid),
+            APIPath.centerRequestsDocument(
+              centerRequestCenterId,
+              centerRequest.id,
+            ),
           ),
           centerRequest.toMap(),
         );
@@ -77,7 +80,6 @@ class UserProvider {
     final DocumentReference postRef =
         Firestore.instance.document('/globalConfiguration/globalConfiguration');
 
-    print(center?.readableId == null);
     Firestore.instance.runTransaction((Transaction tx) async {
       if (user.readableId == null && center?.readableId == null) {
         DocumentSnapshot postSnapshot = await tx.get(postRef);
@@ -105,7 +107,8 @@ class UserProvider {
 
       if (globalAdminRequest != null) {
         await tx.set(
-          Firestore.instance.document(APIPath.adminRequestsDocument(uid)),
+          Firestore.instance
+              .document(APIPath.adminRequestsDocument(globalAdminRequest.id)),
           globalAdminRequest.toMap(),
         );
       }

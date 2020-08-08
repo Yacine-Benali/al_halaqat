@@ -1,6 +1,7 @@
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/global_admin.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'student.dart';
 
@@ -19,7 +20,7 @@ abstract class User {
   String username;
   String email;
   String password;
-  int createdAt;
+  Timestamp createdAt;
   Map<String, String> createdBy;
   Map<String, String> centerState;
   List<String> centers;

@@ -5,6 +5,7 @@ import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/text_form_field2.dart';
 import 'package:al_halaqat/common_widgets/drop_down_form_field2.dart';
 import 'package:al_halaqat/common_widgets/country_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -40,7 +41,7 @@ class _NewStudentFormState extends State<StudentForm> {
   String email;
   String password;
   Map<String, String> centerState;
-  int createdAt;
+  Timestamp createdAt;
   Map<String, String> createdBy;
   List<String> centers;
   List<String> halaqatLearningIn;
@@ -64,7 +65,7 @@ class _NewStudentFormState extends State<StudentForm> {
     username = student?.username;
     email = student?.email;
     password = student?.password;
-    createdAt = student?.createdAt ?? DateTime.now().millisecondsSinceEpoch;
+    createdAt = student?.createdAt;
     centerState = student?.centerState ?? Map<String, String>();
     createdBy = student?.createdBy ?? Map<String, String>();
     centers = student?.centers ?? List<String>(1);

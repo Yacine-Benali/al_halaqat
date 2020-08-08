@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'user.dart';
 
@@ -35,7 +36,7 @@ class StudyCenter {
   String state;
   int nextHalaqaReadableId;
   Map<String, String> createdBy;
-  int createdAt;
+  Timestamp createdAt;
 
   factory StudyCenter.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
@@ -58,7 +59,7 @@ class StudyCenter {
     String state = data['state'];
     int nextHalaqaReadableId = data['nextHalaqaReadableId'];
     Map<String, String> createdBy = Map<String, String>.from(data['createdBy']);
-    int createdAt = data['createdAt'];
+    Timestamp createdAt = data['createdAt'];
 
     return StudyCenter(
       id: id,
@@ -96,7 +97,7 @@ class StudyCenter {
       'state': state,
       'nextHalaqaReadableId': nextHalaqaReadableId,
       'createdBy': createdBy,
-      'createdAt': createdAt,
+      'createdAt': createdAt ?? FieldValue.serverTimestamp(),
     };
   }
 }

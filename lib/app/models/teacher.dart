@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'user.dart';
 
@@ -18,7 +19,7 @@ class Teacher extends User {
     @required String email,
     @required String password,
     @required Map<String, String> centerState,
-    @required int createdAt,
+    @required Timestamp createdAt,
     @required Map<String, String> createdBy,
     @required List<String> centers,
     @required List<String> halaqatLearningIn,
@@ -72,7 +73,7 @@ class Teacher extends User {
     String password = data['password'];
     Map<String, String> centerState =
         Map<String, String>.from(data['centerState']);
-    int createdAt = data['createdAt'];
+    Timestamp createdAt = data['createdAt'];
     Map<String, String> createdBy = Map<String, String>.from(data['createdBy']);
     List<String> centers = data['centers'].cast<String>();
     List<String> halaqatLearningIn = data['halaqatLearningIn'].cast<String>();
@@ -125,7 +126,7 @@ class Teacher extends User {
       'email': email,
       'password': password,
       'centerState': centerState,
-      'createdAt': createdAt,
+      'createdAt': createdAt ?? FieldValue.serverTimestamp(),
       'createdBy': createdBy,
       'centers': centers,
       'halaqatLearningIn': halaqatLearningIn,

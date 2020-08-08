@@ -7,7 +7,9 @@ import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/app/common_screens/user_provider.dart';
 import 'package:al_halaqat/app/common_screens/user_info_screen.dart';
 import 'package:al_halaqat/services/auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserBloc {
   UserBloc({
@@ -21,13 +23,11 @@ class UserBloc {
   final AuthUser authUser;
 
   Future<void> createTeacherOrStudent(User user) async {
-    int createdAt = DateTime.now().millisecondsSinceEpoch;
     String userRole;
     String joinRequestCenterId;
     CenterRequest joinRequest;
 
     user.email = authUser.email;
-    user.createdAt = createdAt;
     if (user is Teacher) {
       userRole = 'admin';
     } else
@@ -44,8 +44,8 @@ class UserBloc {
     if (center != null) {
       joinRequestCenterId = center.id;
       joinRequest = CenterRequest(
-        id: 'join' + authUser.uid,
-        createdAt: createdAt,
+        id: 'join-' + authUser.uid,
+        createdAt: null,
         userId: authUser.uid,
         user: user,
         action: 'join',
@@ -68,11 +68,9 @@ class UserBloc {
   }
 
   Future<void> createAdmin(User user) async {
-    int createdAt = DateTime.now().millisecondsSinceEpoch;
     GlobalAdminRequest joinGlobalAdminRequest;
 
     user.email = authUser.email;
-    user.createdAt = createdAt;
 
     user.createdBy = {
       'name': user.name,
@@ -84,8 +82,8 @@ class UserBloc {
     StudyCenter center = await provider.queryCenterbyRId(user.centers[0]);
     if (center != null) {
       joinGlobalAdminRequest = GlobalAdminRequest(
-        id: 'signup' + authUser.uid,
-        createdAt: createdAt,
+        id: 'signup-' + authUser.uid,
+        createdAt: null,
         adminId: authUser.uid,
         admin: user,
         centerId: center.id,
@@ -109,11 +107,9 @@ class UserBloc {
   }
 
   Future<void> createAdminAndCenter(Admin admin, StudyCenter center) async {
-    int createdAt = DateTime.now().millisecondsSinceEpoch;
     GlobalAdminRequest joinGlobalAdminRequest;
 
     admin.email = authUser.email;
-    admin.createdAt = createdAt;
 
     admin.createdBy = {
       'name': admin.name,
@@ -134,7 +130,7 @@ class UserBloc {
     //
     joinGlobalAdminRequest = GlobalAdminRequest(
       id: 'signup-' + authUser.uid,
-      createdAt: createdAt,
+      createdAt: null,
       adminId: authUser.uid,
       admin: admin,
       centerId: center.id,

@@ -1,5 +1,6 @@
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class GlobalAdminRequest {
@@ -14,7 +15,7 @@ class GlobalAdminRequest {
     @required this.state,
   });
   String id;
-  int createdAt;
+  Timestamp createdAt;
   String adminId;
   Admin admin;
   String action;
@@ -28,7 +29,7 @@ class GlobalAdminRequest {
       return null;
     }
     String id = documentId;
-    int createdAt = data['createdAt'];
+    Timestamp createdAt = data['createdAt'];
     String adminId = data['adminId'];
     Admin admin = Admin.fromMap(data['admin'], adminId);
     String action = data['action'];
@@ -50,8 +51,7 @@ class GlobalAdminRequest {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'createdAt': createdAt,
+      'createdAt': createdAt ?? FieldValue.serverTimestamp(),
       'adminId': adminId,
       'admin': admin.toMap(),
       'action': action,

@@ -1,4 +1,5 @@
 import 'package:al_halaqat/app/models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class CenterRequest {
@@ -13,7 +14,7 @@ class CenterRequest {
     @required this.halaqaId,
   });
   String id;
-  int createdAt;
+  Timestamp createdAt;
   String userId;
   User user;
   String action;
@@ -26,7 +27,7 @@ class CenterRequest {
       return null;
     }
     String id = documentId;
-    int createdAt = data['createdAt'];
+    Timestamp createdAt = data['createdAt'];
     String userId = data['userId'];
     User user = User.fromMap(data['user'], userId);
     String action = data['action'];
@@ -48,8 +49,7 @@ class CenterRequest {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'createdAt': createdAt,
+      'createdAt': createdAt ?? FieldValue.serverTimestamp(),
       'userId': userId,
       'user': user.toMap(),
       'action': action,

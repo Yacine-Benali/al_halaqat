@@ -1,6 +1,7 @@
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/common_widgets/text_form_field2.dart';
 import 'package:al_halaqat/common_widgets/country_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
@@ -38,7 +39,7 @@ class _CenterFormState extends State<CenterForm> {
   String state;
   int nextHalaqaReadableId;
   Map<String, String> createdBy;
-  int createdAt;
+  Timestamp createdAt;
 
   @override
   void initState() {
@@ -59,7 +60,7 @@ class _CenterFormState extends State<CenterForm> {
     state = center?.state;
     nextHalaqaReadableId = center?.nextHalaqaReadableId;
     createdBy = center?.createdBy;
-    createdAt = center?.createdAt ?? DateTime.now().millisecondsSinceEpoch;
+    createdAt = center?.createdAt;
     save();
     super.initState();
   }
@@ -91,7 +92,6 @@ class _CenterFormState extends State<CenterForm> {
   Widget build(BuildContext context) {
     return Form(
       onChanged: () {
-        print('update country');
         save();
       },
       key: widget.formKey,

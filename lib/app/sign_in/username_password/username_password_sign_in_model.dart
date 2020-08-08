@@ -31,8 +31,7 @@ class UsernamePasswordSignInModel
       }
       updateWith(isLoading: true);
       String email = convertUsernameToEmail();
-      print('email: $email');
-      print('password: $password');
+
       switch (formType) {
         case UsernamePasswordSignInFormType.signIn:
           await auth.signInWithEmailAndPassword(email, password);

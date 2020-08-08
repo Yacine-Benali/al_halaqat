@@ -84,7 +84,7 @@ class _AdminCenterFormState extends State<AdminCenterForm> {
           } else if (snapshot.hasError) {
             return Scaffold(
               appBar: AppBar(
-                title: Text('dm'),
+                title: Text(''),
               ),
               body: EmptyContent(
                 title: 'Something went wrong',
@@ -92,7 +92,14 @@ class _AdminCenterFormState extends State<AdminCenterForm> {
               ),
             );
           }
-          return Center(child: CircularProgressIndicator());
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(''),
+            ),
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
         },
       );
     }
