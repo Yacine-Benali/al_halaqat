@@ -11,7 +11,7 @@ class APIPath {
   static String centerRequestsDocument(String centerId, String requestId) =>
       'centers/$centerId/requests/$requestId';
 
-  static String adminRequestsCollection() => 'adminRequests/';
-  static String adminRequestsDocument(String requestId) =>
-      'adminRequests/$requestId';
+  static String globalAdminRequestsCollection() => 'globalAdminRequests/';
+  static String globalAdminRequestsDocument(String requestId) =>
+      'globalAdminRequests/$requestId';
 }

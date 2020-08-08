@@ -107,8 +107,8 @@ class UserProvider {
 
       if (globalAdminRequest != null) {
         await tx.set(
-          Firestore.instance
-              .document(APIPath.adminRequestsDocument(globalAdminRequest.id)),
+          Firestore.instance.document(
+              APIPath.globalAdminRequestsDocument(globalAdminRequest.id)),
           globalAdminRequest.toMap(),
         );
       }
