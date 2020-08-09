@@ -7,11 +7,11 @@ import 'package:al_halaqat/common_widgets/date_picker.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/text_form_field2.dart';
 import 'package:al_halaqat/common_widgets/drop_down_form_field2.dart';
-import 'package:al_halaqat/common_widgets/country_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/common_widgets/country_picker.dart';
 
 class AdminForm extends StatefulWidget {
   const AdminForm({
@@ -22,13 +22,15 @@ class AdminForm extends StatefulWidget {
     this.onSavedCenter,
     @required this.callback,
     this.center,
+    this.isEnabled,
   }) : super(key: key);
   final ValueChanged<User> onSavedAdmin;
   final ValueChanged<StudyCenter> onSavedCenter;
   final VoidCallback callback;
 
-  final Admin admin;
   final bool includeCenterForm;
+  final bool isEnabled;
+  final Admin admin;
   final StudyCenter center;
 
   @override
@@ -38,6 +40,9 @@ class AdminForm extends StatefulWidget {
 class _NewAdminFormState extends State<AdminForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
+  String appBarTitle;
+  String centerFormTitle;
+  String adminFormTitle;
 
   Admin get admin => widget.admin;
   // center
@@ -68,6 +73,12 @@ class _NewAdminFormState extends State<AdminForm> {
 
   @override
   void initState() {
+    appBarTitle = widget.isEnabled ? 'إملأ الإستمارة' : 'معلومات الطلب';
+    centerFormTitle =
+        widget.isEnabled ? 'إدخل معلومات المركز' : 'معلومات المركز';
+    adminFormTitle =
+        widget.isEnabled ? 'إدخل معلوماتك الشخصية' : 'معلومات المشرف';
+    //
     id = admin?.id;
     name = admin?.name;
     dateOfBirth = admin?.dateOfBirth ?? DateTime.now().year;
@@ -165,28 +176,30 @@ class _NewAdminFormState extends State<AdminForm> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('إملأ الإستمارة'),
+        title: Text(appBarTitle),
         actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: InkWell(
-              onTap: () => _save(),
-              child: Icon(
-                Icons.save,
-                size: 26.0,
+          if (widget.isEnabled) ...[
+            Padding(
+              padding: EdgeInsets.only(left: 20.0),
+              child: InkWell(
+                onTap: () => _save(),
+                child: Icon(
+                  Icons.save,
+                  size: 26.0,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: InkWell(
-              onTap: () => _temp(),
-              child: Icon(
-                Icons.bug_report,
-                size: 26.0,
+            Padding(
+              padding: EdgeInsets.only(left: 20.0),
+              child: InkWell(
+                onTap: () => _temp(),
+                child: Icon(
+                  Icons.bug_report,
+                  size: 26.0,
+                ),
               ),
             ),
-          ),
+          ]
         ],
       ),
       body: Form(
@@ -199,10 +212,11 @@ class _NewAdminFormState extends State<AdminForm> {
               children: <Widget>[
                 if (widget.includeCenterForm) ...[
                   Text(
-                    'إدخل معلومات المركز',
+                    centerFormTitle,
                     style: TextStyle(fontSize: 20),
                   ),
                   CenterForm(
+                    isEnabled: widget.isEnabled,
                     formKey: _formKey2,
                     center: widget.center,
                     onSaved: (newcenter) => center = newcenter,
@@ -211,39 +225,44 @@ class _NewAdminFormState extends State<AdminForm> {
                     height: 30,
                   ),
                   Text(
-                    'إدخل معلوماتك الشخصية',
+                    adminFormTitle,
                     style: TextStyle(fontSize: 20),
                   ),
                 ],
                 TextFormField2(
+                  isEnabled: widget.isEnabled,
                   title: 'الإسم',
                   initialValue: name,
                   hintText: 'إدخل إسمك',
                   errorText: 'خطأ',
                   maxLength: 30,
-                  inputFormatter: BlacklistingTextInputFormatter(''),
+                  inputFormatter: FilteringTextInputFormatter.deny(''),
                   onSaved: (value) => name = value,
                   onChanged: (value) {},
                   isPhoneNumber: false,
                 ),
                 DatePicker(
+                    isEnabled: widget.isEnabled,
                     title: 'تاريخ الميلاد',
                     onSelectedDate: (value) {
                       dateOfBirth = value;
                       setState(() {});
                     }),
                 DropdownButtonFormField2(
+                  isEnabled: widget.isEnabled,
                   title: 'الجنس',
                   possibleValues: ["ذكر", "أنثى"],
                   value: gender,
                   onSaved: (value) => gender = value,
                 ),
                 CountryPicker(
+                  isEnabled: widget.isEnabled,
                   title: 'الجنسية',
                   initialValue: nationality,
                   onSavedCountry: (value) => nationality = value,
                 ),
                 TextFormField2(
+                  isEnabled: widget.isEnabled,
                   title: 'العنوان',
                   initialValue: address,
                   hintText: 'إدخل عنوانك',
@@ -254,6 +273,7 @@ class _NewAdminFormState extends State<AdminForm> {
                   onChanged: (value) {},
                 ),
                 TextFormField2(
+                  isEnabled: widget.isEnabled,
                   title: 'رقم الهاتف',
                   initialValue: phoneNumber,
                   hintText: 'إدخل رقم هاتفك',
@@ -265,6 +285,7 @@ class _NewAdminFormState extends State<AdminForm> {
                   isPhoneNumber: true,
                 ),
                 DropdownButtonFormField2(
+                  isEnabled: widget.isEnabled,
                   title: 'مستوى تعليمي',
                   possibleValues: [
                     'سنة أولى',
@@ -292,6 +313,7 @@ class _NewAdminFormState extends State<AdminForm> {
                   onSaved: (value) => educationalLevel = value,
                 ),
                 TextFormField2(
+                  isEnabled: widget.isEnabled,
                   title: 'مدرسة / الجامعة',
                   initialValue: etablissement,
                   hintText: 'إدخل إسم المؤسسة',
@@ -303,6 +325,7 @@ class _NewAdminFormState extends State<AdminForm> {
                 ),
                 if (!widget.includeCenterForm) ...[
                   TextFormField2(
+                    isEnabled: widget.isEnabled,
                     title: 'رقم التعريفي للمركز',
                     //initialValue: centers[0],
                     hintText: 'إدخل رقم التعريفي للمركز',
@@ -315,6 +338,7 @@ class _NewAdminFormState extends State<AdminForm> {
                   ),
                 ],
                 TextFormField2(
+                  isEnabled: widget.isEnabled,
                   title: 'ملاحظة',
                   initialValue: note,
                   hintText: 'إدخل ملاحظة',

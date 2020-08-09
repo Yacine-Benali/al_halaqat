@@ -12,10 +12,13 @@ class CenterForm extends StatefulWidget {
     this.center,
     @required this.onSaved,
     @required this.formKey,
+    @required this.isEnabled,
   }) : super(key: key);
   final ValueChanged<StudyCenter> onSaved;
   final StudyCenter center;
   final GlobalKey<FormState> formKey;
+  final bool isEnabled;
+
   @override
   _CenterFormState createState() => _CenterFormState();
 }
@@ -102,6 +105,7 @@ class _CenterFormState extends State<CenterForm> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               TextFormField2(
+                isEnabled: widget.isEnabled,
                 title: 'إسم المركز',
                 initialValue: name,
                 hintText: 'إدخل إسم المركز',
@@ -111,6 +115,7 @@ class _CenterFormState extends State<CenterForm> {
                 onChanged: (value) => name = value,
               ),
               CountryPicker(
+                isEnabled: widget.isEnabled,
                 title: 'دولة',
                 initialValue: country,
                 onSavedCountry: (value) {
@@ -119,6 +124,7 @@ class _CenterFormState extends State<CenterForm> {
                 },
               ),
               TextFormField2(
+                isEnabled: widget.isEnabled,
                 title: 'مدينة',
                 initialValue: city,
                 hintText: ' إدخل مدينة المركز',
@@ -128,6 +134,7 @@ class _CenterFormState extends State<CenterForm> {
                 onChanged: (value) => city = value,
               ),
               TextFormField2(
+                isEnabled: widget.isEnabled,
                 title: 'العنوان',
                 initialValue: street,
                 hintText: 'إدخل عنوان المركز',
@@ -137,6 +144,7 @@ class _CenterFormState extends State<CenterForm> {
                 onChanged: (value) => street = value,
               ),
               TextFormField2(
+                isEnabled: widget.isEnabled,
                 title: 'رقم هاتف مركز',
                 initialValue: phoneNumber,
                 hintText: 'إدخل رقم هاتف مركز',

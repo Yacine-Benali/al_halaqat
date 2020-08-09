@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_screen.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
@@ -5,6 +6,7 @@ import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'ga_requests/ga_requests_screen.dart';
 
 class GlobalAdminHomePage extends StatelessWidget {
   Future<void> _signOut(BuildContext context) async {
@@ -88,8 +90,15 @@ class GlobalAdminHomePage extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 MenuButtonWidget(
-                  text: 'دعوات',
-                  onPressed: () {},
+                  text: 'الدعوات',
+                  onPressed: () =>
+                      Navigator.of(context, rootNavigator: false).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          GaRequestsScreen.create(context: context),
+                      fullscreenDialog: true,
+                    ),
+                  ),
                 ),
               ],
             ),

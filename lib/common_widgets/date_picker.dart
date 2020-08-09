@@ -7,12 +7,14 @@ import 'package:al_halaqat/common_widgets/input_dropdown.dart';
 class DatePicker extends StatefulWidget {
   const DatePicker({
     Key key,
-    this.title,
-    this.onSelectedDate,
+    @required this.title,
+    @required this.onSelectedDate,
+    @required this.isEnabled,
   }) : super(key: key);
 
   final String title;
   final ValueChanged<int> onSelectedDate;
+  final bool isEnabled;
 
   @override
   _DatePickerState createState() => _DatePickerState();
@@ -51,10 +53,21 @@ class _DatePickerState extends State<DatePicker> {
             height: 8,
           ),
           DropdownButtonFormField<int>(
+            decoration: InputDecoration(
+              enabledBorder: widget.isEnabled
+                  ? UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red),
+                      borderRadius: BorderRadius.circular(10.0),
+                    )
+                  : UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+            ),
             itemHeight: 70,
             value: value ?? possibleValues[0],
             isExpanded: true,
-            icon: Icon(Icons.arrow_drop_down),
+            icon: widget.isEnabled ? Icon(Icons.arrow_drop_down) : Container(),
             iconSize: 24,
             onSaved: (value) => widget.onSelectedDate(value),
             onChanged: (int newValue) {},

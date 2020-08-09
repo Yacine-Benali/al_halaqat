@@ -2,31 +2,21 @@ import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_picker_dropdown.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-class CountryPicker extends StatefulWidget {
+class CountryPicker extends StatelessWidget {
+  const CountryPicker({
+    Key key,
+    @required this.title,
+    @required this.initialValue,
+    @required this.onSavedCountry,
+    @required this.isEnabled,
+  }) : super(key: key);
+
   final String title;
   final String initialValue;
   final ValueChanged<String> onSavedCountry;
+  final bool isEnabled;
 
-  const CountryPicker({
-    Key key,
-    this.title,
-    this.initialValue,
-    this.onSavedCountry,
-  }) : super(key: key);
-  @override
-  _CountryPhoneNumberPickerState createState() =>
-      _CountryPhoneNumberPickerState();
-}
-
-class _CountryPhoneNumberPickerState extends State<CountryPicker> {
-  Country chosenCountry = Country.fromMap({
-    'name': 'Lebanon',
-    'isoCode': 'LB',
-    'iso3Code': 'LBN',
-    'phoneCode': '961',
-  });
   Widget _buildDropdownItemWithLongText(
           Country country, double dropdownItemWidth) =>
       SizedBox(
@@ -44,38 +34,45 @@ class _CountryPhoneNumberPickerState extends State<CountryPicker> {
           ),
         ),
       );
-
   @override
   Widget build(BuildContext context) {
     double dropdownButtonWidth = MediaQuery.of(context).size.width * 0.5;
     double dropdownItemWidth = dropdownButtonWidth - 32;
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            widget.title,
+            title,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
           ),
           SizedBox(
             height: 8,
           ),
-          CountryPickerDropdown(
-            underline: Divider(
-              thickness: 1,
-              color: Colors.grey,
+          IgnorePointer(
+            ignoring: !isEnabled,
+            child: CountryPickerDropdown(
+              onTap: null,
+              underline: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey, //                   <--- border color
+                    width: isEnabled ? 1 : 0.2,
+                  ),
+                ),
+              ),
+              icon: isEnabled ? Icon(Icons.arrow_drop_down) : Container(),
+              itemHeight: 70,
+              isDense: false,
+              isExpanded: true,
+              itemBuilder: (Country country) =>
+                  _buildDropdownItemWithLongText(country, dropdownItemWidth),
+              initialValue: initialValue,
+              onValuePicked: (Country country) {
+                onSavedCountry(country.isoCode);
+              },
             ),
-            itemHeight: 70,
-            isDense: false,
-            isExpanded: true,
-            itemBuilder: (Country country) =>
-                _buildDropdownItemWithLongText(country, dropdownItemWidth),
-            initialValue: widget.initialValue,
-            onValuePicked: (Country country) {
-              widget.onSavedCountry(country.isoCode);
-            },
           ),
         ],
       ),

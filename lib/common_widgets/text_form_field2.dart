@@ -13,6 +13,7 @@ class TextFormField2 extends StatelessWidget {
     this.isPhoneNumber = false,
     this.initialValue,
     this.onChanged,
+    @required this.isEnabled,
   }) : super(key: key);
 
   final String title;
@@ -24,6 +25,7 @@ class TextFormField2 extends StatelessWidget {
   final ValueChanged<String> onSaved;
   final ValueChanged<String> onChanged;
   final bool isPhoneNumber;
+  final bool isEnabled;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,7 @@ class TextFormField2 extends StatelessWidget {
             height: 8,
           ),
           TextFormField(
+            enabled: isEnabled,
             initialValue: initialValue,
             keyboardType:
                 isPhoneNumber ? TextInputType.phone : TextInputType.text,
