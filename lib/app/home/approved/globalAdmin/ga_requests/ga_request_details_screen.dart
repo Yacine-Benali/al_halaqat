@@ -8,7 +8,7 @@ import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class GaRequestDetailsScreen extends StatelessWidget {
+class GaRequestDetailsScreen extends StatefulWidget {
   const GaRequestDetailsScreen({
     Key key,
     @required this.gaRequest,
@@ -17,16 +17,22 @@ class GaRequestDetailsScreen extends StatelessWidget {
 
   final GlobalAdminRequest gaRequest;
   final GaRequestsBloc bloc;
+
+  @override
+  _GaRequestDetailsScreenState createState() => _GaRequestDetailsScreenState();
+}
+
+class _GaRequestDetailsScreenState extends State<GaRequestDetailsScreen> {
   final String approved = 'قبول';
   final String disapproved = 'رفض';
 
+  bool isLoading = false;
+
   void updateRequest(BuildContext context, bool isApproved) async {
     try {
-      await bloc.updateRequest(
-        gaRequest,
-        isApproved,
-      );
-
+      setState(() => isLoading = true);
+      await widget.bloc.updateRequest(widget.gaRequest, isApproved);
+      setState(() => isLoading = false);
       PlatformAlertDialog(
         title: 'نجحت العملية',
         content: 'تم حفظ البيانات',
@@ -48,8 +54,8 @@ class GaRequestDetailsScreen extends StatelessWidget {
         children: [
           Expanded(
             child: AdminForm(
-              admin: gaRequest.admin,
-              center: gaRequest.center,
+              admin: widget.gaRequest.admin,
+              center: widget.gaRequest.center,
               onSavedAdmin: (User value) {},
               callback: () {},
               includeCenterForm: true,
@@ -65,7 +71,8 @@ class GaRequestDetailsScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: MenuButtonWidget(
                     text: 'قبول',
-                    onPressed: () => updateRequest(context, true),
+                    onPressed: () =>
+                        isLoading ? null : updateRequest(context, true),
                   ),
                 ),
               ),
@@ -74,7 +81,8 @@ class GaRequestDetailsScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: MenuButtonWidget(
                     text: 'رفض',
-                    onPressed: () => updateRequest(context, false),
+                    onPressed: () =>
+                        isLoading ? null : updateRequest(context, false),
                   ),
                 ),
               ),

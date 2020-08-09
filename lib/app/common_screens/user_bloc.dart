@@ -11,6 +11,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+//! cant send request to not active centrs
 class UserBloc {
   UserBloc({
     @required this.authUser,

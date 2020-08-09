@@ -34,7 +34,7 @@ class _RequestsScreenState extends State<GaRequestsScreen> {
 
   List<GlobalAdminRequest> gaRequests;
   bool isLoadingMoreRequests;
-  bool isLoadingNextMessages = false;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -50,11 +50,11 @@ class _RequestsScreenState extends State<GaRequestsScreen> {
 
         if (gaRequests.isNotEmpty) {
           setState(() {
-            isLoadingNextMessages = true;
+            isLoading = true;
           });
           bloc.fetcheGaRequests().then((value) {
             setState(() {
-              isLoadingNextMessages = false;
+              isLoading = false;
             });
           });
         }
@@ -63,12 +63,18 @@ class _RequestsScreenState extends State<GaRequestsScreen> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    bloc.dispose();
+    super.dispose();
+  }
+
   Widget _buildProgressIndicator() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Center(
         child: Opacity(
-          opacity: isLoadingNextMessages ? 1 : 0,
+          opacity: isLoading ? 1 : 0,
           child: CircularProgressIndicator(),
         ),
       ),

@@ -57,8 +57,8 @@ class CountryPicker extends StatelessWidget {
               underline: Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Colors.grey, //                   <--- border color
-                    width: isEnabled ? 1 : 0.2,
+                    color: Colors.grey,
+                    width: isEnabled ? 0.5 : 0.2,
                   ),
                 ),
               ),

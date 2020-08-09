@@ -99,63 +99,60 @@ class _CenterFormState extends State<CenterForm> {
       },
       key: widget.formKey,
       child: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(0.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              TextFormField2(
-                isEnabled: widget.isEnabled,
-                title: 'إسم المركز',
-                initialValue: name,
-                hintText: 'إدخل إسم المركز',
-                errorText: 'خطأ',
-                maxLength: 30,
-                inputFormatter: BlacklistingTextInputFormatter(''),
-                onChanged: (value) => name = value,
-              ),
-              CountryPicker(
-                isEnabled: widget.isEnabled,
-                title: 'دولة',
-                initialValue: country,
-                onSavedCountry: (value) {
-                  country = value;
-                  save();
-                },
-              ),
-              TextFormField2(
-                isEnabled: widget.isEnabled,
-                title: 'مدينة',
-                initialValue: city,
-                hintText: ' إدخل مدينة المركز',
-                errorText: 'خطأ',
-                maxLength: 30,
-                inputFormatter: BlacklistingTextInputFormatter(''),
-                onChanged: (value) => city = value,
-              ),
-              TextFormField2(
-                isEnabled: widget.isEnabled,
-                title: 'العنوان',
-                initialValue: street,
-                hintText: 'إدخل عنوان المركز',
-                errorText: 'خطأ',
-                maxLength: 30,
-                inputFormatter: BlacklistingTextInputFormatter(''),
-                onChanged: (value) => street = value,
-              ),
-              TextFormField2(
-                isEnabled: widget.isEnabled,
-                title: 'رقم هاتف مركز',
-                initialValue: phoneNumber,
-                hintText: 'إدخل رقم هاتف مركز',
-                errorText: 'خطأ',
-                maxLength: 10,
-                inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
-                onChanged: (value) => phoneNumber = value,
-                isPhoneNumber: true,
-              ),
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            TextFormField2(
+              isEnabled: widget.isEnabled,
+              title: 'إسم المركز',
+              initialValue: name,
+              hintText: 'إدخل إسم المركز',
+              errorText: 'خطأ',
+              maxLength: 30,
+              inputFormatter: BlacklistingTextInputFormatter(''),
+              onChanged: (value) => name = value,
+            ),
+            CountryPicker(
+              isEnabled: widget.isEnabled,
+              title: 'دولة',
+              initialValue: country,
+              onSavedCountry: (value) {
+                country = value;
+                save();
+              },
+            ),
+            TextFormField2(
+              isEnabled: widget.isEnabled,
+              title: 'مدينة',
+              initialValue: city,
+              hintText: ' إدخل مدينة المركز',
+              errorText: 'خطأ',
+              maxLength: 30,
+              inputFormatter: BlacklistingTextInputFormatter(''),
+              onChanged: (value) => city = value,
+            ),
+            TextFormField2(
+              isEnabled: widget.isEnabled,
+              title: 'العنوان',
+              initialValue: street,
+              hintText: 'إدخل عنوان المركز',
+              errorText: 'خطأ',
+              maxLength: 30,
+              inputFormatter: BlacklistingTextInputFormatter(''),
+              onChanged: (value) => street = value,
+            ),
+            TextFormField2(
+              isEnabled: widget.isEnabled,
+              title: 'رقم هاتف مركز',
+              initialValue: phoneNumber,
+              hintText: 'إدخل رقم هاتف مركز',
+              errorText: 'خطأ',
+              maxLength: 10,
+              inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
+              onChanged: (value) => phoneNumber = value,
+              isPhoneNumber: true,
+            ),
+          ],
         ),
       ),
     );

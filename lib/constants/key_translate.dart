@@ -250,4 +250,16 @@ class KeyTranslate {
     "ZM": "زامبيا",
     "ZW": "زيمبابوي",
   };
+
+  static const Map<String, String> centersActionsList = {
+    'edit': 'تعديل',
+    'archive': 'أرشفة',
+    'delete': 'حذف',
+    'reApprove': 'اعادة تفعيل',
+  };
+  static const Map<String, String> centerStateList = {
+    'approved': 'نشطة',
+    'archived': 'مؤرشفة',
+    'deleted': 'محدوفة',
+  };
 }

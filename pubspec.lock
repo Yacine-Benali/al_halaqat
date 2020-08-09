@@ -197,15 +197,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.1+2"
-  firebase_dynamic_links:
-    dependency: "direct main"
-    description:
-      path: "packages/firebase_dynamic_links"
-      ref: firebase_dynamic_links
-      resolved-ref: "3b05296582a531c74438a3d84b1318a3d4ce873f"
-      url: "https://github.com/mrmilu/flutterfire"
-    source: git
-    version: "0.5.0+8"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -446,6 +437,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.13"
+  progress_dialog:
+    dependency: "direct main"
+    description:
+      name: progress_dialog
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.4"
   provider:
     dependency: "direct main"
     description:
