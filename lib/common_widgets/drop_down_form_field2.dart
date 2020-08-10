@@ -33,7 +33,10 @@ class DropdownButtonFormField2 extends StatelessWidget {
             decoration: InputDecoration(
               enabledBorder: isEnabled
                   ? UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red),
+                      borderSide: BorderSide(
+                        color: Colors.grey,
+                        width: isEnabled ? 2.5 : 1.2,
+                      ),
                       borderRadius: BorderRadius.circular(10.0),
                     )
                   : UnderlineInputBorder(

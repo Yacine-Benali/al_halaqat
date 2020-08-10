@@ -14,30 +14,30 @@ import 'package:al_halaqat/common_widgets/country_picker.dart';
 class AdminForm extends StatefulWidget {
   const AdminForm({
     Key key,
-    this.admin,
+    @required this.adminFormKey,
+    @required this.admin,
     @required this.onSavedAdmin,
+    @required this.onSavedCenter,
+    @required this.center,
+    @required this.isEnabled,
     @required this.includeCenterForm,
-    this.onSavedCenter,
-    @required this.callback,
-    this.center,
-    this.isEnabled,
   }) : super(key: key);
-  final ValueChanged<User> onSavedAdmin;
-  final ValueChanged<StudyCenter> onSavedCenter;
-  final VoidCallback callback;
-
-  final bool includeCenterForm;
-  final bool isEnabled;
+  final GlobalKey<FormState> adminFormKey;
+//
   final Admin admin;
+  final ValueChanged<User> onSavedAdmin;
   final StudyCenter center;
+  final ValueChanged<StudyCenter> onSavedCenter;
+  //
+  final bool isEnabled;
+  final bool includeCenterForm;
 
   @override
   _NewAdminFormState createState() => _NewAdminFormState();
 }
 
 class _NewAdminFormState extends State<AdminForm> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
+  final GlobalKey<FormState> centerFormKey = GlobalKey<FormState>();
   String appBarTitle;
   String centerFormTitle;
   String adminFormTitle;
@@ -99,109 +99,84 @@ class _NewAdminFormState extends State<AdminForm> {
     //
     isStudent = admin?.isStudent ?? false;
     isAdmin = admin?.isAdmin;
+
+    _save();
     super.initState();
   }
 
   void _save() {
-    bool temp = _formKey2?.currentState?.validate();
-    temp = temp ?? true;
-    if (_formKey.currentState.validate() && temp) {
-      _formKey.currentState.save();
-      Admin admin = Admin(
-        id: null,
-        name: name,
-        dateOfBirth: dateOfBirth ?? DateTime.now().year,
-        gender: gender,
-        nationality: nationality,
-        address: address,
-        phoneNumber: phoneNumber,
-        educationalLevel: educationalLevel,
-        etablissement: etablissement,
-        note: note,
-        readableId: readableId,
-        username: username,
-        email: email,
-        password: password,
-        centerState: centerState,
-        createdAt: createdAt,
-        createdBy: createdBy,
-        isStudent: isStudent,
-        halaqatLearningIn: halaqatLearningIn,
-        centers: centers,
-        isAdmin: true,
-      );
-      if (widget.includeCenterForm) {
-        widget.onSavedCenter(center);
-        widget.onSavedAdmin(admin);
+    // bool temp = centerFormKey?.currentState?.validate();
+    // temp = temp ?? true;
+    // if (adminFormKey.currentState.validate() && temp) {
+    //   adminFormKey.currentState.save();
 
-        widget.callback();
-      } else {
-        widget.onSavedAdmin(admin);
-      }
+    Admin admin = Admin(
+      id: null,
+      name: name,
+      dateOfBirth: dateOfBirth ?? DateTime.now().year,
+      gender: gender,
+      nationality: nationality,
+      address: address,
+      phoneNumber: phoneNumber,
+      educationalLevel: educationalLevel,
+      etablissement: etablissement,
+      note: note,
+      readableId: readableId,
+      username: username,
+      email: email,
+      password: password,
+      centerState: centerState,
+      createdAt: createdAt,
+      createdBy: createdBy,
+      isStudent: isStudent,
+      halaqatLearningIn: halaqatLearningIn,
+      centers: centers,
+      isAdmin: true,
+    );
+    if (widget.includeCenterForm) {
+      widget.onSavedCenter(center);
+      widget.onSavedAdmin(admin);
+    } else {
+      widget.onSavedAdmin(admin);
     }
   }
 
-  void _temp() {
-    GlobalAdmin admin = GlobalAdmin(
-      id: null,
-      name: 'a',
-      dateOfBirth: DateTime.now().year,
-      gender: 'male',
-      nationality: 'LB',
-      address: 'global admin address',
-      phoneNumber: 'phoneNumber',
-      educationalLevel: 'educationalLevel',
-      etablissement: 'etablissement',
-      note: 'note',
-      readableId: 'readableId',
-      username: 'null',
-      email: 'null',
-      password: 'null',
-      centerState: null,
-      createdAt: null,
-      createdBy: null,
-      halaqatLearningIn: [null],
-      centers: [null],
-      isGlobalAdmin: true,
-      isStudent: false,
-    );
+  // void _temp() {
+  //   GlobalAdmin admin = GlobalAdmin(
+  //     id: null,
+  //     name: 'a',
+  //     dateOfBirth: DateTime.now().year,
+  //     gender: 'male',
+  //     nationality: 'LB',
+  //     address: 'global admin address',
+  //     phoneNumber: 'phoneNumber',
+  //     educationalLevel: 'educationalLevel',
+  //     etablissement: 'etablissement',
+  //     note: 'note',
+  //     readableId: 'readableId',
+  //     username: 'null',
+  //     email: 'null',
+  //     password: 'null',
+  //     centerState: null,
+  //     createdAt: null,
+  //     createdBy: null,
+  //     halaqatLearningIn: [null],
+  //     centers: [null],
+  //     isGlobalAdmin: true,
+  //     isStudent: false,
+  //   );
 
-    widget.onSavedAdmin(admin);
-  }
+  //   widget.onSavedAdmin(admin);
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(appBarTitle),
-        actions: <Widget>[
-          if (widget.isEnabled) ...[
-            Padding(
-              padding: EdgeInsets.only(left: 20.0),
-              child: InkWell(
-                onTap: () => _save(),
-                child: Icon(
-                  Icons.save,
-                  size: 26.0,
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 20.0),
-              child: InkWell(
-                onTap: () => _temp(),
-                child: Icon(
-                  Icons.bug_report,
-                  size: 26.0,
-                ),
-              ),
-            ),
-          ]
-        ],
-      ),
       body: Form(
-        key: _formKey,
+        onChanged: () {
+          _save();
+        },
+        key: widget.adminFormKey,
         child: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(16.0),
@@ -215,7 +190,7 @@ class _NewAdminFormState extends State<AdminForm> {
                   ),
                   CenterForm(
                     isEnabled: widget.isEnabled,
-                    formKey: _formKey2,
+                    formKey: centerFormKey,
                     center: widget.center,
                     onSaved: (newcenter) => center = newcenter,
                   ),
@@ -235,8 +210,7 @@ class _NewAdminFormState extends State<AdminForm> {
                   errorText: 'خطأ',
                   maxLength: 30,
                   inputFormatter: FilteringTextInputFormatter.deny(''),
-                  onSaved: (value) => name = value,
-                  onChanged: (value) {},
+                  onChanged: (value) => name = value,
                   isPhoneNumber: false,
                 ),
                 DatePicker(
@@ -244,7 +218,7 @@ class _NewAdminFormState extends State<AdminForm> {
                     title: 'تاريخ الميلاد',
                     onSelectedDate: (value) {
                       dateOfBirth = value;
-                      setState(() {});
+                      _save();
                     }),
                 DropdownButtonFormField2(
                   isEnabled: widget.isEnabled,
@@ -257,7 +231,10 @@ class _NewAdminFormState extends State<AdminForm> {
                   isEnabled: widget.isEnabled,
                   title: 'الجنسية',
                   initialValue: nationality,
-                  onSavedCountry: (value) => nationality = value,
+                  onSavedCountry: (value) {
+                    nationality = value;
+                    _save();
+                  },
                 ),
                 TextFormField2(
                   isEnabled: widget.isEnabled,
@@ -267,8 +244,7 @@ class _NewAdminFormState extends State<AdminForm> {
                   errorText: 'خطأ',
                   maxLength: 30,
                   inputFormatter: FilteringTextInputFormatter.deny(''),
-                  onSaved: (value) => address = value,
-                  onChanged: (value) {},
+                  onChanged: (value) => address = value,
                 ),
                 TextFormField2(
                   isEnabled: widget.isEnabled,
@@ -278,8 +254,7 @@ class _NewAdminFormState extends State<AdminForm> {
                   errorText: 'خطأ',
                   maxLength: 10,
                   inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
-                  onSaved: (value) => phoneNumber = value,
-                  onChanged: (value) {},
+                  onChanged: (value) => phoneNumber = value,
                   isPhoneNumber: true,
                 ),
                 DropdownButtonFormField2(
@@ -318,8 +293,7 @@ class _NewAdminFormState extends State<AdminForm> {
                   errorText: 'خطأ',
                   maxLength: 10,
                   inputFormatter: FilteringTextInputFormatter.deny(''),
-                  onSaved: (value) => etablissement = value,
-                  onChanged: (value) {},
+                  onChanged: (value) => etablissement = value,
                 ),
                 if (!widget.includeCenterForm) ...[
                   TextFormField2(
@@ -330,9 +304,8 @@ class _NewAdminFormState extends State<AdminForm> {
                     errorText: 'خطأ',
                     maxLength: 20,
                     inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
-                    onSaved: (value) => centers[0] = value,
                     isPhoneNumber: true,
-                    onChanged: (value) {},
+                    onChanged: (value) => centers[0] = value,
                   ),
                 ],
                 TextFormField2(
@@ -343,9 +316,8 @@ class _NewAdminFormState extends State<AdminForm> {
                   errorText: 'خطأ',
                   maxLength: 100,
                   inputFormatter: FilteringTextInputFormatter.deny(''),
-                  onSaved: (value) => note = value,
                   isPhoneNumber: false,
-                  onChanged: (value) {},
+                  onChanged: (value) => note = value,
                 ),
               ],
             ),

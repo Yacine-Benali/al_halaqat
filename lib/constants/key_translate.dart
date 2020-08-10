@@ -267,4 +267,10 @@ class KeyTranslate {
     'approved': 'مقبولة',
     'disapproved': 'مرفوضة',
   };
+
+  static const Map<String, String> usersStateList = {
+    'approved': 'نشطاء',
+    'archived': 'مؤرشفين ',
+    'deleted': 'محدوفين',
+  };
 }

@@ -86,7 +86,6 @@ class _CenterFormState extends State<CenterForm> {
       createdBy: createdBy,
       createdAt: createdAt,
     );
-
     widget.onSaved(center);
   }
 

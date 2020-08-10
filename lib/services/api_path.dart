@@ -14,4 +14,6 @@ class APIPath {
   static String globalAdminRequestsCollection() => 'globalAdminRequests/';
   static String globalAdminRequestsDocument(String requestId) =>
       'globalAdminRequests/$requestId';
+
+  
 }

@@ -45,6 +45,7 @@ class _RequestsScreenState extends State<GaRequestsScreen> {
     chosenRequestsState = requestsStateList[0];
     gaRequestsStream = bloc.gaRequestsStream;
     isLoadingMoreRequests = false;
+    bloc.fetcheGaRequests(chosenRequestsState);
 
     listScrollController.addListener(() {
       double maxScroll = listScrollController.position.maxScrollExtent;
@@ -87,8 +88,6 @@ class _RequestsScreenState extends State<GaRequestsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bloc.fetcheGaRequests(chosenRequestsState);
-
     return Scaffold(
       appBar: AppBar(
         title: Text('الدعوات'),
@@ -108,6 +107,7 @@ class _RequestsScreenState extends State<GaRequestsScreen> {
                 onChanged: (String newValue) {
                   setState(() {
                     chosenRequestsState = newValue;
+                    bloc.fetcheGaRequests(chosenRequestsState);
                   });
                 },
                 items: requestsStateList

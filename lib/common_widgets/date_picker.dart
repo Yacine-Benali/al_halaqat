@@ -56,7 +56,10 @@ class _DatePickerState extends State<DatePicker> {
             decoration: InputDecoration(
               enabledBorder: widget.isEnabled
                   ? UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red),
+                      borderSide: BorderSide(
+                        color: Colors.grey,
+                        width: widget.isEnabled ? 2.5 : 1.2,
+                      ),
                       borderRadius: BorderRadius.circular(10.0),
                     )
                   : UnderlineInputBorder(

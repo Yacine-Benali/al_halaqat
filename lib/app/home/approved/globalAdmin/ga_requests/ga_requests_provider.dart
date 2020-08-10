@@ -27,22 +27,6 @@ class GaRequestsProvider {
     );
   }
 
-  // Future<List<GlobalAdminRequest>> fetchMoreGaRequests(
-  //   GlobalAdminRequest globalAdminRequest,
-  //   int limitNumber,
-  // ) {
-  //   return database.fetchCollection(
-  //     path: APIPath.globalAdminRequestsCollection(),
-  //     builder: (data, documentId) => GlobalAdminRequest.fromMap(
-  //       data,
-  //       documentId,
-  //     ),
-  //     queryBuilder: (query) => query
-  //         .orderBy('createdAt', descending: true)
-  //         .startAfter([globalAdminRequest.createdAt]).limit(limitNumber),
-  //   );
-  // }
-
   Future<void> updateRequest(
     GlobalAdminRequest gaRequest,
     StudyCenter center,

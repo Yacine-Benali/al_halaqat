@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_screen.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_screen.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_screen.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
@@ -72,7 +73,14 @@ class GlobalAdminHomePage extends StatelessWidget {
                 SizedBox(height: 10),
                 MenuButtonWidget(
                   text: 'إدارة المدراء',
-                  onPressed: () {},
+                  onPressed: () =>
+                      Navigator.of(context, rootNavigator: false).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          GaAdminsScreen.create(context: context),
+                      fullscreenDialog: true,
+                    ),
+                  ),
                 ),
                 SizedBox(height: 10),
                 MenuButtonWidget(

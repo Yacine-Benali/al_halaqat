@@ -7,6 +7,7 @@ import 'package:al_halaqat/app/common_screens/user_bloc.dart';
 import 'package:al_halaqat/app/common_screens/user_provider.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/material.dart';
@@ -60,27 +61,55 @@ class UserInfoScreen extends StatefulWidget {
 
 class _NewUserScreenState extends State<UserInfoScreen> {
   UserBloc get bloc => widget.bloc;
+  final GlobalKey<FormState> userFormKey = GlobalKey<FormState>();
 
-  Future<void> _save(User user, BuildContext context) async {
-    try {
-      if (widget.userType == FormType.student ||
-          widget.userType == FormType.teacher) {
-        await bloc.createTeacherOrStudent(user);
-      } else {
-        await bloc.createAdmin(user);
+  User user;
+  ProgressDialog pr;
+
+  @override
+  initState() {
+    pr = ProgressDialog(
+      context,
+      type: ProgressDialogType.Normal,
+      textDirection: TextDirection.ltr,
+      isDismissible: false,
+    );
+    pr.style(
+      message: 'جاري تحميل',
+      messageTextStyle: TextStyle(fontSize: 14),
+      progressWidget: Container(
+        padding: EdgeInsets.all(8.0),
+        child: CircularProgressIndicator(),
+      ),
+    );
+    super.initState();
+  }
+
+  Future<void> _save(BuildContext context) async {
+    if (userFormKey.currentState.validate()) {
+      try {
+        await pr.show();
+
+        if (widget.userType == FormType.student ||
+            widget.userType == FormType.teacher) {
+          await bloc.createTeacherOrStudent(user);
+        } else {
+          await bloc.createAdmin(user);
+        }
+        await pr.hide();
+
+        PlatformAlertDialog(
+          title: 'نجح الحفظ',
+          content: 'تم حفظ البيانات',
+          defaultActionText: 'حسنا',
+        ).show(context);
+        Navigator.of(context).pop();
+      } on PlatformException catch (e) {
+        PlatformExceptionAlertDialog(
+          title: 'فشلت العملية',
+          exception: e,
+        ).show(context);
       }
-
-      PlatformAlertDialog(
-        title: 'نجح الحفظ',
-        content: 'تم حفظ البيانات',
-        defaultActionText: 'حسنا',
-      ).show(context);
-      Navigator.of(context).pop();
-    } on PlatformException catch (e) {
-      PlatformExceptionAlertDialog(
-        title: 'فشلت العملية',
-        exception: e,
-      ).show(context);
     }
   }
 
@@ -90,23 +119,60 @@ class _NewUserScreenState extends State<UserInfoScreen> {
       return AdminCenterForm(
         admin: widget.user,
       );
+    else {
+      return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text('إملأ الإستمارة'),
+          actions: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(left: 20.0),
+              child: InkWell(
+                onTap: () => _save(context),
+                child: Icon(
+                  Icons.save,
+                  size: 26.0,
+                ),
+              ),
+            ),
+            // Padding(
+            //   padding: EdgeInsets.only(left: 20.0),
+            //   child: InkWell(
+            //     onTap: () => _temp(),
+            //     child: Icon(
+            //       Icons.bug_report,
+            //       size: 26.0,
+            //     ),
+            //   ),
+            // ),
+          ],
+        ),
+        body: _buildForm(),
+      );
+    }
+  }
+
+  Widget _buildForm() {
     if (bloc.userType == FormType.admin)
       return AdminForm(
-        admin: widget.user,
-        onSavedAdmin: (admin) => _save(admin, context),
-        callback: () {},
         includeCenterForm: false,
+        admin: widget.user,
+        onSavedAdmin: (admin) => user = admin,
+        adminFormKey: userFormKey,
+        center: null,
+        isEnabled: true,
+        onSavedCenter: (value) {},
       );
     if (bloc.userType == FormType.teacher)
       return TeacherForm(
         teacher: widget.user,
-        onSaved: (teacher) => _save(teacher, context),
+        onSaved: (teacher) => user = teacher,
       );
 
     if (bloc.userType == FormType.student)
       return StudentForm(
         student: widget.user,
-        onSaved: (student) => _save(student, context),
+        onSaved: (student) => user = student,
       );
     else
       return Container();

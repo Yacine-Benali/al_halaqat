@@ -98,7 +98,6 @@ class UserProvider {
           center.readableId = postSnapshot['nextCenterReadableId'].toString();
         }
       }
-
       await tx.set(
         Firestore.instance.document(APIPath.userDocument(uid)),
         user.toMap(),

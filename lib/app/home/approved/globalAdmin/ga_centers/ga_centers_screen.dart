@@ -36,9 +36,11 @@ class _GaCentersScreenState extends State<GaCentersScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<String> centersStateList = KeyTranslate.centersStateList.keys.toList();
   String chosenCenterState;
+  Stream<List<StudyCenter>> centersStream;
   @override
   void initState() {
     chosenCenterState = centersStateList[0];
+    centersStream = bloc.getCentersStream(chosenCenterState);
     super.initState();
   }
 
@@ -64,6 +66,7 @@ class _GaCentersScreenState extends State<GaCentersScreen> {
                 onChanged: (String newValue) {
                   setState(() {
                     chosenCenterState = newValue;
+                    bloc.getCentersStream(chosenCenterState);
                   });
                 },
                 items: centersStateList

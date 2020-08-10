@@ -66,17 +66,22 @@ class _GaRequestDetailsScreenState extends State<GaRequestDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Column(
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('معلومات الطلب'),
+      ),
+      body: Column(
         children: [
           Expanded(
             child: AdminForm(
+              includeCenterForm: true,
+              adminFormKey: null,
               admin: widget.gaRequest.admin,
               center: widget.gaRequest.center,
-              onSavedAdmin: (User value) {},
-              callback: () {},
-              includeCenterForm: true,
               isEnabled: false,
+              onSavedCenter: (v) {},
+              onSavedAdmin: (v) {},
             ),
           ),
           Row(

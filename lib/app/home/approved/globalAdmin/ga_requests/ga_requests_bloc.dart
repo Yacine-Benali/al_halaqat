@@ -30,14 +30,12 @@ class GaRequestsBloc {
   }
 
   Future<void> fetcheGaRequests(String chosenRequestsState) async {
-    print(limit);
     Stream stream = provider.fetcheGaRequests(chosenRequestsState, limit);
 
     stream.listen((list) {
       if (!gaRequestsListController.isClosed) {
         if (list.isNotEmpty) {
           gaRequests = list;
-
           gaRequestsListController.sink.add(gaRequests);
         } else {
           gaRequestsListController.sink.add(emptyList);
@@ -70,6 +68,7 @@ class GaRequestsBloc {
   }
 
   void dispose() async {
+    print('closing stream');
     await gaRequestsListController.close();
   }
 }
