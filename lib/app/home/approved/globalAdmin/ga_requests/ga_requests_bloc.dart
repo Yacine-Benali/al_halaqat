@@ -24,19 +24,19 @@ class GaRequestsBloc {
     //print('detch gagin');
     limit += limit;
     Stream stream = provider.fetcheGaRequests(chosenRequestsState, limit);
-    stream.listen((list) {
-      // print('new');
-      if (list.isNotEmpty) {
-        gaRequests = list;
 
-        if (!gaRequestsListController.isClosed) {
+    stream.listen((list) {
+      if (!gaRequestsListController.isClosed) {
+        if (list.isNotEmpty) {
+          gaRequests = list;
+
           gaRequestsListController.sink.add(gaRequests);
+        } else {
+          gaRequestsListController.sink.add(emptyList);
         }
-      } else {
-        gaRequestsListController.sink.add(emptyList);
       }
     });
-    List<GlobalAdminRequest> first = await stream.first;
+
     await Future.delayed(const Duration(milliseconds: 500));
     return true;
   }
@@ -64,7 +64,7 @@ class GaRequestsBloc {
     );
   }
 
-  void dispose() {
-    gaRequestsListController.close();
+  void dispose() async {
+    await gaRequestsListController.close();
   }
 }

@@ -29,10 +29,10 @@ class GaRequestTileWidget extends StatelessWidget {
         ListTile(
           title: _buildTitle(),
           subtitle: _buildSubtitle(),
-          // enabled:
-          //     gaRequest.state == 'pending' || gaRequest.state == 'disapproved'
-          //         ? true
-          //         : false,
+          enabled:
+              gaRequest.state == 'pending' || gaRequest.state == 'disapproved'
+                  ? true
+                  : false,
           onTap: () => Navigator.of(context, rootNavigator: false).push(
             MaterialPageRoute(
               builder: (context) => GaRequestDetailsScreen(
