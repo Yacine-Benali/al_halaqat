@@ -11,11 +11,26 @@ class GaCentersBloc {
   final GaCentersProvider provider;
   final User user;
 
-  Stream<List<StudyCenter>> getCentersStream(String centerState) {
-    return provider.getCentersStream(centerState);
+  Stream<List<StudyCenter>> getCentersStream() => provider.getCentersStream();
+
+  List<StudyCenter> getFilteredAdminsList(
+    List<StudyCenter> centersList,
+    String chosenCentersState,
+  ) {
+    List<StudyCenter> filteredCentersList = List();
+
+    for (StudyCenter center in centersList) {
+      if (center.state == chosenCentersState) {
+        filteredCentersList.add(center);
+      }
+    }
+    return filteredCentersList;
   }
 
-  Future<void> createCenter(StudyCenter center) async {
+  Future<void> createCenter(
+    StudyCenter center,
+    List<StudyCenter> centersList,
+  ) async {
     if (center.id == null) {
       center.id = provider.getUniqueId();
       center.createdBy = {
@@ -24,8 +39,26 @@ class GaCentersBloc {
       };
       center.state = 'approved';
     }
-
+    bool isNameUnique = checkIfNameUnique(
+      center,
+      centersList,
+    );
+    print(isNameUnique);
     await provider.createCenter(center);
+  }
+
+  bool checkIfNameUnique(
+    StudyCenter newcenter,
+    List<StudyCenter> centersList,
+  ) {
+    for (StudyCenter center in centersList)
+      if (newcenter.name == center.name &&
+          newcenter.id != center.id &&
+          center.state == 'approved') {
+        return true;
+      }
+
+    return false;
   }
 
   Future<void> executeAction(StudyCenter center, String action) async {
@@ -40,6 +73,6 @@ class GaCentersBloc {
         center.state = 'deleted';
         break;
     }
-    await createCenter(center);
+    await provider.createCenter(center);
   }
 }

@@ -17,11 +17,13 @@ class GaCentersTileWidget extends StatefulWidget {
     @required this.bloc,
     @required this.center,
     @required this.scaffoldKey,
+    @required this.centersList,
   }) : super(key: key);
 
   final StudyCenter center;
   final GaCentersBloc bloc;
   final GlobalKey<ScaffoldState> scaffoldKey;
+  final List<StudyCenter> centersList;
 
   @override
   _GaCentersTileWidgetState createState() => _GaCentersTileWidgetState();
@@ -56,6 +58,7 @@ class _GaCentersTileWidgetState extends State<GaCentersTileWidget> {
           builder: (context) => GaNewCenterScreen(
             bloc: widget.bloc,
             center: widget.center,
+            centersList: widget.centersList,
           ),
           fullscreenDialog: true,
         ),

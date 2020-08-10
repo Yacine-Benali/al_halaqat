@@ -10,11 +10,10 @@ class GaCentersProvider {
   final Database database;
   String getUniqueId() => database.getUniqueId();
 
-  Stream<List<StudyCenter>> getCentersStream(String centerState) {
+  Stream<List<StudyCenter>> getCentersStream() {
     return database.collectionStream(
       path: APIPath.centersCollection(),
       builder: (data, documentId) => StudyCenter.fromMap(data, documentId),
-      queryBuilder: (query) => query.where('state', isEqualTo: centerState),
     );
   }
 

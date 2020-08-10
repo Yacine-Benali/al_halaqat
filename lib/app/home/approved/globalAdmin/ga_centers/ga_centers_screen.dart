@@ -35,12 +35,13 @@ class _GaCentersScreenState extends State<GaCentersScreen> {
   GaCentersBloc get bloc => widget.bloc;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<String> centersStateList = KeyTranslate.centersStateList.keys.toList();
-  String chosenCenterState;
-  Stream<List<StudyCenter>> centersStream;
+  String chosenCentersState;
+  Stream<List<StudyCenter>> centersListStream;
+  List<StudyCenter> centersList;
   @override
   void initState() {
-    chosenCenterState = centersStateList[0];
-    centersStream = bloc.getCentersStream(chosenCenterState);
+    chosenCentersState = centersStateList[0];
+    centersListStream = bloc.getCentersStream();
     super.initState();
   }
 
@@ -57,7 +58,7 @@ class _GaCentersScreenState extends State<GaCentersScreen> {
             child: Center(
               child: DropdownButton<String>(
                 dropdownColor: Colors.indigo,
-                value: chosenCenterState,
+                value: chosenCentersState,
                 icon: Icon(Icons.arrow_drop_down, color: Colors.white),
                 iconSize: 24,
                 underline: Container(),
@@ -65,8 +66,7 @@ class _GaCentersScreenState extends State<GaCentersScreen> {
                 style: TextStyle(color: Colors.white, fontSize: 20),
                 onChanged: (String newValue) {
                   setState(() {
-                    chosenCenterState = newValue;
-                    bloc.getCentersStream(chosenCenterState);
+                    chosenCentersState = newValue;
                   });
                 },
                 items: centersStateList
@@ -86,6 +86,8 @@ class _GaCentersScreenState extends State<GaCentersScreen> {
           MaterialPageRoute(
             builder: (context) => GaNewCenterScreen(
               bloc: bloc,
+              center: null,
+              centersList: centersList,
             ),
             fullscreenDialog: true,
           ),
@@ -94,12 +96,13 @@ class _GaCentersScreenState extends State<GaCentersScreen> {
         child: Icon(Icons.add),
       ),
       body: StreamBuilder<List<StudyCenter>>(
-        stream: bloc.getCentersStream(chosenCenterState),
+        stream: centersListStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            final List<StudyCenter> centersList = snapshot.data;
+            centersList =
+                bloc.getFilteredAdminsList(snapshot.data, chosenCentersState);
             if (centersList.isNotEmpty) {
-              return _buildList(centersList);
+              return _buildList();
             } else {
               return EmptyContent(
                 title: 'لا يوجد مراكز ',
@@ -118,7 +121,7 @@ class _GaCentersScreenState extends State<GaCentersScreen> {
     );
   }
 
-  Widget _buildList(List<StudyCenter> centersList) {
+  Widget _buildList() {
     return ListView.separated(
       itemCount: centersList.length + 2,
       separatorBuilder: (context, index) => Divider(height: 0.5),
@@ -127,6 +130,7 @@ class _GaCentersScreenState extends State<GaCentersScreen> {
           return Container();
         }
         return GaCentersTileWidget(
+          centersList: centersList,
           scaffoldKey: _scaffoldKey,
           bloc: bloc,
           center: centersList[index - 1],

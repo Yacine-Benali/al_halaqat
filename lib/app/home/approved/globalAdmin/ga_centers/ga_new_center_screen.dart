@@ -12,10 +12,12 @@ class GaNewCenterScreen extends StatefulWidget {
   GaNewCenterScreen({
     Key key,
     @required this.bloc,
-    this.center,
+    @required this.centersList,
+    @required this.center,
   }) : super(key: key);
   final StudyCenter center;
   final GaCentersBloc bloc;
+  final List<StudyCenter> centersList;
 
   @override
   _GaNewCenterScreenState createState() => _GaNewCenterScreenState();
@@ -50,7 +52,7 @@ class _GaNewCenterScreenState extends State<GaNewCenterScreen> {
     if (_formKey.currentState.validate()) {
       try {
         await pr.show();
-        await bloc.createCenter(center);
+        await bloc.createCenter(center, widget.centersList);
         await pr.hide();
 
         PlatformAlertDialog(
@@ -72,7 +74,7 @@ class _GaNewCenterScreenState extends State<GaNewCenterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('المراكز'),
+        title: Text('إنشاء مركز جديد'),
         centerTitle: true,
         actions: <Widget>[
           Padding(
