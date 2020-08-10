@@ -5,6 +5,7 @@ import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -23,16 +24,32 @@ class GaRequestDetailsScreen extends StatefulWidget {
 }
 
 class _GaRequestDetailsScreenState extends State<GaRequestDetailsScreen> {
-  final String approved = 'قبول';
-  final String disapproved = 'رفض';
+  ProgressDialog pr;
 
-  bool isLoading = false;
+  @override
+  void initState() {
+    pr = ProgressDialog(
+      context,
+      type: ProgressDialogType.Normal,
+      textDirection: TextDirection.ltr,
+      isDismissible: false,
+    );
+    pr.style(
+      message: 'جاري تحميل',
+      messageTextStyle: TextStyle(fontSize: 14),
+      progressWidget: Container(
+        padding: EdgeInsets.all(8.0),
+        child: CircularProgressIndicator(),
+      ),
+    );
+    super.initState();
+  }
 
   void updateRequest(BuildContext context, bool isApproved) async {
     try {
-      setState(() => isLoading = true);
+      await pr.show();
       await widget.bloc.updateRequest(widget.gaRequest, isApproved);
-      setState(() => isLoading = false);
+      await pr.hide();
       PlatformAlertDialog(
         title: 'نجحت العملية',
         content: 'تم حفظ البيانات',
@@ -71,8 +88,7 @@ class _GaRequestDetailsScreenState extends State<GaRequestDetailsScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: MenuButtonWidget(
                     text: 'قبول',
-                    onPressed: () =>
-                        isLoading ? null : updateRequest(context, true),
+                    onPressed: () => updateRequest(context, true),
                   ),
                 ),
               ),
@@ -81,8 +97,7 @@ class _GaRequestDetailsScreenState extends State<GaRequestDetailsScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: MenuButtonWidget(
                     text: 'رفض',
-                    onPressed: () =>
-                        isLoading ? null : updateRequest(context, false),
+                    onPressed: () => updateRequest(context, false),
                   ),
                 ),
               ),

@@ -3,6 +3,7 @@ import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_b
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -22,16 +23,35 @@ class GaNewCenterScreen extends StatefulWidget {
 
 class _GaNewCenterScreenState extends State<GaNewCenterScreen> {
   GaCentersBloc get bloc => widget.bloc;
-  bool isLoading = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   StudyCenter center;
+  ProgressDialog pr;
+
+  @override
+  void initState() {
+    pr = ProgressDialog(
+      context,
+      type: ProgressDialogType.Normal,
+      textDirection: TextDirection.ltr,
+      isDismissible: false,
+    );
+    pr.style(
+      message: 'جاري تحميل',
+      messageTextStyle: TextStyle(fontSize: 14),
+      progressWidget: Container(
+        padding: EdgeInsets.all(8.0),
+        child: CircularProgressIndicator(),
+      ),
+    );
+    super.initState();
+  }
 
   void save() async {
     if (_formKey.currentState.validate()) {
       try {
-        setState(() => isLoading = true);
+        await pr.show();
         await bloc.createCenter(center);
-        setState(() => isLoading = false);
+        await pr.hide();
 
         PlatformAlertDialog(
           title: 'نجح الحفظ',
@@ -58,7 +78,7 @@ class _GaNewCenterScreenState extends State<GaNewCenterScreen> {
           Padding(
             padding: EdgeInsets.only(left: 20.0),
             child: InkWell(
-              onTap: () => isLoading ? null : save(),
+              onTap: () => save(),
               child: Icon(
                 Icons.save,
                 size: 26.0,
@@ -70,7 +90,7 @@ class _GaNewCenterScreenState extends State<GaNewCenterScreen> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: CenterForm(
-          isEnabled: !isLoading,
+          isEnabled: true,
           formKey: _formKey,
           center: widget.center,
           onSaved: (newcenter) => center = newcenter,
