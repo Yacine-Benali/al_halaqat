@@ -24,26 +24,21 @@ class GaRequestTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          title: _buildTitle(),
-          subtitle: _buildSubtitle(),
-          enabled:
-              gaRequest.state == 'pending' || gaRequest.state == 'disapproved'
-                  ? true
-                  : false,
-          onTap: () => Navigator.of(context, rootNavigator: false).push(
-            MaterialPageRoute(
-              builder: (context) => GaRequestDetailsScreen(
-                gaRequest: gaRequest,
-                bloc: bloc,
-              ),
-              fullscreenDialog: true,
-            ),
+    return ListTile(
+      title: _buildTitle(),
+      subtitle: _buildSubtitle(),
+      enabled: gaRequest.state == 'pending' || gaRequest.state == 'disapproved'
+          ? true
+          : false,
+      onTap: () => Navigator.of(context, rootNavigator: false).push(
+        MaterialPageRoute(
+          builder: (context) => GaRequestDetailsScreen(
+            gaRequest: gaRequest,
+            bloc: bloc,
           ),
+          fullscreenDialog: true,
         ),
-      ],
+      ),
     );
   }
 

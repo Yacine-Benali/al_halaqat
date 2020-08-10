@@ -56,7 +56,7 @@ class _RequestsScreenState extends State<GaRequestsScreen> {
           setState(() {
             isLoading = true;
           });
-          bloc.fetcheGaRequests(chosenRequestsState).then((value) {
+          bloc.fetchMoreGaRequests().then((value) {
             setState(() {
               isLoading = false;
             });

@@ -20,9 +20,17 @@ class GaRequestsBloc {
   Stream<List<GlobalAdminRequest>> get gaRequestsStream =>
       gaRequestsListController.stream;
 
-  Future<bool> fetcheGaRequests(String chosenRequestsState) async {
-    //print('detch gagin');
-    limit += limit;
+  Future<void> fetchMoreGaRequests() async {
+    if (limit >= 1000)
+      limit = 1000;
+    else
+      limit += 20;
+
+    await Future.delayed(const Duration(milliseconds: 750));
+  }
+
+  Future<void> fetcheGaRequests(String chosenRequestsState) async {
+    print(limit);
     Stream stream = provider.fetcheGaRequests(chosenRequestsState, limit);
 
     stream.listen((list) {
@@ -36,9 +44,6 @@ class GaRequestsBloc {
         }
       }
     });
-
-    await Future.delayed(const Duration(milliseconds: 500));
-    return true;
   }
 
   Future<void> updateRequest(
