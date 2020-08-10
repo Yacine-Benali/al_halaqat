@@ -2,6 +2,7 @@ import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_requests
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_provider.dart';
 import 'package:al_halaqat/app/models/global_admin_request.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
+import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,12 +36,15 @@ class _RequestsScreenState extends State<GaRequestsScreen> {
   List<GlobalAdminRequest> gaRequests;
   bool isLoadingMoreRequests;
   bool isLoading = false;
+  //
+  List<String> requestsStateList = KeyTranslate.requestsStateList.keys.toList();
+  String chosenRequestsState;
 
   @override
   void initState() {
+    chosenRequestsState = requestsStateList[0];
     gaRequestsStream = bloc.gaRequestsStream;
     isLoadingMoreRequests = false;
-    bloc.fetcheGaRequests();
 
     listScrollController.addListener(() {
       double maxScroll = listScrollController.position.maxScrollExtent;
@@ -52,7 +56,7 @@ class _RequestsScreenState extends State<GaRequestsScreen> {
           setState(() {
             isLoading = true;
           });
-          bloc.fetcheGaRequests().then((value) {
+          bloc.fetcheGaRequests(chosenRequestsState).then((value) {
             setState(() {
               isLoading = false;
             });
@@ -83,10 +87,40 @@ class _RequestsScreenState extends State<GaRequestsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bloc.fetcheGaRequests(chosenRequestsState);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('الدعوات'),
         centerTitle: true,
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(left: 20.0),
+            child: Center(
+              child: DropdownButton<String>(
+                dropdownColor: Colors.indigo,
+                value: chosenRequestsState,
+                icon: Icon(Icons.arrow_drop_down, color: Colors.white),
+                iconSize: 24,
+                underline: Container(),
+                elevation: 0,
+                style: TextStyle(color: Colors.white, fontSize: 20),
+                onChanged: (String newValue) {
+                  setState(() {
+                    chosenRequestsState = newValue;
+                  });
+                },
+                items: requestsStateList
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(KeyTranslate.requestsStateList[value]),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+        ],
       ),
       body: StreamBuilder<List<GlobalAdminRequest>>(
         stream: gaRequestsStream,
@@ -97,8 +131,8 @@ class _RequestsScreenState extends State<GaRequestsScreen> {
               return _buildList();
             } else {
               return EmptyContent(
-                title: 'title',
-                message: 'message',
+                title: 'لا توجد أي طلبات',
+                message: 'الطلبات ستظهر هنا',
               );
             }
           } else if (snapshot.hasError) {

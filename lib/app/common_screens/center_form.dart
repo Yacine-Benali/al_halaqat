@@ -1,4 +1,3 @@
-import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/common_widgets/text_form_field2.dart';
 import 'package:al_halaqat/common_widgets/country_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -109,7 +108,7 @@ class _CenterFormState extends State<CenterForm> {
               hintText: 'إدخل إسم المركز',
               errorText: 'خطأ',
               maxLength: 30,
-              inputFormatter: BlacklistingTextInputFormatter(''),
+              inputFormatter: FilteringTextInputFormatter.deny(''),
               onChanged: (value) => name = value,
             ),
             CountryPicker(
@@ -128,7 +127,7 @@ class _CenterFormState extends State<CenterForm> {
               hintText: ' إدخل مدينة المركز',
               errorText: 'خطأ',
               maxLength: 30,
-              inputFormatter: BlacklistingTextInputFormatter(''),
+              inputFormatter: FilteringTextInputFormatter.deny(''),
               onChanged: (value) => city = value,
             ),
             TextFormField2(
@@ -138,7 +137,7 @@ class _CenterFormState extends State<CenterForm> {
               hintText: 'إدخل عنوان المركز',
               errorText: 'خطأ',
               maxLength: 30,
-              inputFormatter: BlacklistingTextInputFormatter(''),
+              inputFormatter: FilteringTextInputFormatter.deny(''),
               onChanged: (value) => street = value,
             ),
             TextFormField2(

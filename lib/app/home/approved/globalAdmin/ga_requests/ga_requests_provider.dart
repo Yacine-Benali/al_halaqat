@@ -12,6 +12,7 @@ class GaRequestsProvider {
   final Database database;
 
   Stream<List<GlobalAdminRequest>> fetcheGaRequests(
+    String requestsState,
     int limitNumber,
   ) {
     return database.collectionStream(
@@ -21,7 +22,8 @@ class GaRequestsProvider {
         documentId,
       ),
       queryBuilder: (query) =>
-          query.orderBy('createdAt', descending: true).limit(limitNumber),
+          query.where('state', isEqualTo: requestsState).limit(limitNumber),
+      sort: (rhs, lhs) => lhs.createdAt.compareTo(rhs.createdAt),
     );
   }
 

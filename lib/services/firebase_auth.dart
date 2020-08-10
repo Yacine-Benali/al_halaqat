@@ -67,7 +67,6 @@ class FirebaseAuthService implements Auth {
     return await _firebaseAuth.isSignInWithEmailLink(link);
   }
 
-  @override
   Future<void> sendSignInWithEmailLink({
     @required String email,
     @required String url,

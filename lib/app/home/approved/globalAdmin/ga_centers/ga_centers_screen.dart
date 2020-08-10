@@ -2,9 +2,6 @@ import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_b
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_provider.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_tile_widget.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_new_center_screen.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_bloc.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_provider.dart';
-import 'package:al_halaqat/app/models/global_admin_request.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
@@ -37,11 +34,11 @@ class GaCentersScreen extends StatefulWidget {
 class _GaCentersScreenState extends State<GaCentersScreen> {
   GaCentersBloc get bloc => widget.bloc;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<String> centerStateList = KeyTranslate.centerStateList.keys.toList();
-  String centerState;
+  List<String> centersStateList = KeyTranslate.centersStateList.keys.toList();
+  String chosenCenterState;
   @override
   void initState() {
-    centerState = centerStateList[0];
+    chosenCenterState = centersStateList[0];
     super.initState();
   }
 
@@ -58,7 +55,7 @@ class _GaCentersScreenState extends State<GaCentersScreen> {
             child: Center(
               child: DropdownButton<String>(
                 dropdownColor: Colors.indigo,
-                value: centerState,
+                value: chosenCenterState,
                 icon: Icon(Icons.arrow_drop_down, color: Colors.white),
                 iconSize: 24,
                 underline: Container(),
@@ -66,14 +63,14 @@ class _GaCentersScreenState extends State<GaCentersScreen> {
                 style: TextStyle(color: Colors.white, fontSize: 20),
                 onChanged: (String newValue) {
                   setState(() {
-                    centerState = newValue;
+                    chosenCenterState = newValue;
                   });
                 },
-                items: centerStateList
+                items: centersStateList
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(KeyTranslate.centerStateList[value]),
+                    child: Text(KeyTranslate.centersStateList[value]),
                   );
                 }).toList(),
               ),
@@ -94,7 +91,7 @@ class _GaCentersScreenState extends State<GaCentersScreen> {
         child: Icon(Icons.add),
       ),
       body: StreamBuilder<List<StudyCenter>>(
-        stream: bloc.getCentersStream(centerState),
+        stream: bloc.getCentersStream(chosenCenterState),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final List<StudyCenter> centersList = snapshot.data;

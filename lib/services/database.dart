@@ -4,8 +4,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 
-import 'package:al_halaqat/services/api_path.dart';
-
 abstract class Database {
   String getUniqueId();
   Future<dynamic> uploadFile({

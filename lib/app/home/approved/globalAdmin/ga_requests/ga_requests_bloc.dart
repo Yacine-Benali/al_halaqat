@@ -20,10 +20,10 @@ class GaRequestsBloc {
   Stream<List<GlobalAdminRequest>> get gaRequestsStream =>
       gaRequestsListController.stream;
 
-  Future<bool> fetcheGaRequests() async {
+  Future<bool> fetcheGaRequests(String chosenRequestsState) async {
     //print('detch gagin');
     limit += limit;
-    Stream stream = provider.fetcheGaRequests(limit);
+    Stream stream = provider.fetcheGaRequests(chosenRequestsState, limit);
     stream.listen((list) {
       // print('new');
       if (list.isNotEmpty) {

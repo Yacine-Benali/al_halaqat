@@ -1,10 +1,8 @@
 import 'package:al_halaqat/app/common_screens/center_form.dart';
 import 'package:al_halaqat/app/models/admin.dart';
-import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/global_admin.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/date_picker.dart';
-import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/text_form_field2.dart';
 import 'package:al_halaqat/common_widgets/drop_down_form_field2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -268,7 +266,7 @@ class _NewAdminFormState extends State<AdminForm> {
                   hintText: 'إدخل عنوانك',
                   errorText: 'خطأ',
                   maxLength: 30,
-                  inputFormatter: BlacklistingTextInputFormatter(''),
+                  inputFormatter: FilteringTextInputFormatter.deny(''),
                   onSaved: (value) => address = value,
                   onChanged: (value) {},
                 ),
@@ -319,7 +317,7 @@ class _NewAdminFormState extends State<AdminForm> {
                   hintText: 'إدخل إسم المؤسسة',
                   errorText: 'خطأ',
                   maxLength: 10,
-                  inputFormatter: BlacklistingTextInputFormatter(''),
+                  inputFormatter: FilteringTextInputFormatter.deny(''),
                   onSaved: (value) => etablissement = value,
                   onChanged: (value) {},
                 ),
@@ -344,7 +342,7 @@ class _NewAdminFormState extends State<AdminForm> {
                   hintText: 'إدخل ملاحظة',
                   errorText: 'خطأ',
                   maxLength: 100,
-                  inputFormatter: BlacklistingTextInputFormatter(''),
+                  inputFormatter: FilteringTextInputFormatter.deny(''),
                   onSaved: (value) => note = value,
                   isPhoneNumber: false,
                   onChanged: (value) {},

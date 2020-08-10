@@ -7,9 +7,7 @@ import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/app/common_screens/user_provider.dart';
 import 'package:al_halaqat/app/common_screens/user_info_screen.dart';
 import 'package:al_halaqat/services/auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 //! cant send request to not active centrs
 class UserBloc {
@@ -24,20 +22,16 @@ class UserBloc {
   final AuthUser authUser;
 
   Future<void> createTeacherOrStudent(User user) async {
-    String userRole;
     String joinRequestCenterId;
     CenterRequest joinRequest;
 
     user.email = authUser.email;
     if (user is Teacher) {
-      userRole = 'admin';
     } else
-      userRole = 'student';
-
-    user.createdBy = {
-      'name': user.name,
-      'id': authUser.uid,
-    };
+      user.createdBy = {
+        'name': user.name,
+        'id': authUser.uid,
+      };
     user.centerState = {
       '${user.centers[0]}': 'pending',
     };
