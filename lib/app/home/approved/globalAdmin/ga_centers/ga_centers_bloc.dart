@@ -2,6 +2,7 @@ import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_p
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 
 class GaCentersBloc {
   GaCentersBloc({
@@ -39,11 +40,15 @@ class GaCentersBloc {
       };
       center.state = 'approved';
     }
-    bool isNameUnique = checkIfNameUnique(
+    bool isNameDuplicated = checkIfNameUnique(
       center,
       centersList,
     );
-    print(isNameUnique);
+    if (isNameDuplicated)
+      throw PlatformException(
+        code: 'ERROR_DUPLICATE_NAME',
+      );
+
     await provider.createCenter(center);
   }
 
@@ -51,12 +56,13 @@ class GaCentersBloc {
     StudyCenter newcenter,
     List<StudyCenter> centersList,
   ) {
-    for (StudyCenter center in centersList)
-      if (newcenter.name == center.name &&
+    for (StudyCenter center in centersList) {
+      bool condition = newcenter.name == center.name &&
           newcenter.id != center.id &&
-          center.state == 'approved') {
-        return true;
-      }
+          (center.state == 'approved' || center.state == 'archived');
+
+      if (condition) return true;
+    }
 
     return false;
   }

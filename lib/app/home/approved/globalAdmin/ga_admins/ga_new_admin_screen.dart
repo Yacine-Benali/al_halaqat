@@ -1,34 +1,31 @@
-import 'package:al_halaqat/app/common_screens/center_form.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_bloc.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/app/common_screens/admin_form.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_bloc.dart';
+import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-@immutable
-class GaNewCenterScreen extends StatefulWidget {
-  GaNewCenterScreen({
+class GaNewAdminScreen extends StatefulWidget {
+  const GaNewAdminScreen({
     Key key,
+    @required this.admin,
     @required this.bloc,
-    @required this.centersList,
-    @required this.center,
   }) : super(key: key);
-  final StudyCenter center;
-  final GaCentersBloc bloc;
-  final List<StudyCenter> centersList;
+
+  final Admin admin;
+  final GaAdminsBloc bloc;
 
   @override
-  _GaNewCenterScreenState createState() => _GaNewCenterScreenState();
+  _GaNewAdminScreenState createState() => _GaNewAdminScreenState();
 }
 
-class _GaNewCenterScreenState extends State<GaNewCenterScreen> {
-  GaCentersBloc get bloc => widget.bloc;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  StudyCenter center;
+class _GaNewAdminScreenState extends State<GaNewAdminScreen> {
+  final GlobalKey<FormState> adminFormKey = GlobalKey<FormState>();
   ProgressDialog pr;
 
+  Admin admin;
   @override
   void initState() {
     pr = ProgressDialog(
@@ -49,10 +46,11 @@ class _GaNewCenterScreenState extends State<GaNewCenterScreen> {
   }
 
   void save() async {
-    if (_formKey.currentState.validate()) {
+    if (adminFormKey.currentState.validate()) {
       try {
+        print(admin.centers);
         await pr.show();
-        await bloc.createCenter(center, widget.centersList);
+        await widget.bloc.setAdmin(admin);
         await pr.hide();
 
         PlatformAlertDialog(
@@ -62,7 +60,6 @@ class _GaNewCenterScreenState extends State<GaNewCenterScreen> {
         ).show(context);
         Navigator.of(context).pop();
       } on PlatformException catch (e) {
-        await pr.hide();
         PlatformExceptionAlertDialog(
           title: 'فشلت العملية',
           exception: e,
@@ -75,8 +72,8 @@ class _GaNewCenterScreenState extends State<GaNewCenterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('إنشاء مركز جديد'),
         centerTitle: true,
+        title: Text('إملأ الإستمارة'),
         actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(left: 20.0),
@@ -90,14 +87,17 @@ class _GaNewCenterScreenState extends State<GaNewCenterScreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: CenterForm(
-          isEnabled: true,
-          formKey: _formKey,
-          center: widget.center,
-          onSaved: (newcenter) => center = newcenter,
-        ),
+      body: AdminForm(
+        includeCenterIdInput: false,
+        includeCenterForm: false,
+        includeUsernameAndPassword: false,
+        adminFormKey: adminFormKey,
+        onSavedAdmin: (Admin newAdmin) => admin = newAdmin,
+        admin: widget.admin,
+        center: null,
+        isEnabled: true,
+        onSavedCenter: (value) {},
+        centersList: widget.bloc.centersList,
       ),
     );
   }

@@ -1,16 +1,20 @@
 import 'package:al_halaqat/app/common_screens/admin_form.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_bloc.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_new_admin_screen.dart';
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:flutter/material.dart';
 
 class GaAdminsTileWidget extends StatelessWidget {
-  const GaAdminsTileWidget({
+  GaAdminsTileWidget({
     Key key,
     @required this.admin,
     @required this.chosenAdminsState,
+    @required this.bloc,
   }) : super(key: key);
 
   final Admin admin;
   final String chosenAdminsState;
+  final GaAdminsBloc bloc;
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +25,9 @@ class GaAdminsTileWidget extends StatelessWidget {
           ? null
           : () => Navigator.of(context, rootNavigator: false).push(
                 MaterialPageRoute(
-                  builder: (context) => AdminForm(
-                    includeCenterForm: true,
-                    adminFormKey: null,
-                    onSavedAdmin: null,
-                    admin: null,
-                    center: null,
-                    isEnabled: null,
-                    onSavedCenter: (value) {},
+                  builder: (context) => GaNewAdminScreen(
+                    admin: admin,
+                    bloc: bloc,
                   ),
                   fullscreenDialog: true,
                 ),

@@ -1,7 +1,9 @@
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_bloc.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_provider.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_tile_widget.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_new_admin_screen.dart';
 import 'package:al_halaqat/app/models/admin.dart';
+import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:al_halaqat/services/database.dart';
@@ -17,8 +19,13 @@ class GaAdminsScreen extends StatefulWidget {
 
   static Widget create({@required BuildContext context}) {
     Database database = Provider.of<Database>(context, listen: false);
+    User user = Provider.of<User>(context, listen: false);
+
     GaAdminsProvider provider = GaAdminsProvider(database: database);
-    GaAdminsBloc bloc = GaAdminsBloc(provider: provider);
+    GaAdminsBloc bloc = GaAdminsBloc(
+      provider: provider,
+      gaAdmin: user,
+    );
 
     return GaAdminsScreen._(
       bloc: bloc,
@@ -123,6 +130,19 @@ class _GaAdminsScreenState extends State<GaAdminsScreen> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.of(context, rootNavigator: false).push(
+          MaterialPageRoute(
+            builder: (context) => GaNewAdminScreen(
+              bloc: bloc,
+              admin: null,
+            ),
+            fullscreenDialog: true,
+          ),
+        ),
+        tooltip: 'add',
+        child: Icon(Icons.add),
+      ),
       body: StreamBuilder<List<Admin>>(
         stream: adminsStream,
         builder: (context, snapshot) {
@@ -133,8 +153,8 @@ class _GaAdminsScreenState extends State<GaAdminsScreen> {
               return _buildList();
             } else {
               return EmptyContent(
-                title: 'لا توجد أي طلبات',
-                message: 'الطلبات ستظهر هنا',
+                title: 'لا يوجد أي مشرفون',
+                message: 'لا يوجد أي مشرفون في هذه الحالة',
               );
             }
           } else if (snapshot.hasError) {
@@ -162,6 +182,7 @@ class _GaAdminsScreenState extends State<GaAdminsScreen> {
         return GaAdminsTileWidget(
           admin: adminsList[index],
           chosenAdminsState: chosenAdminsState,
+          bloc: bloc,
         );
       },
     );

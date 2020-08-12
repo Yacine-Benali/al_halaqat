@@ -3,8 +3,10 @@ import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/global_admin.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/date_picker.dart';
+import 'package:al_halaqat/common_widgets/center_state_form.dart';
 import 'package:al_halaqat/common_widgets/text_form_field2.dart';
 import 'package:al_halaqat/common_widgets/drop_down_form_field2.dart';
+import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,17 +23,23 @@ class AdminForm extends StatefulWidget {
     @required this.center,
     @required this.isEnabled,
     @required this.includeCenterForm,
+    @required this.includeCenterIdInput,
+    @required this.includeUsernameAndPassword,
+    this.centersList,
   }) : super(key: key);
   final GlobalKey<FormState> adminFormKey;
 //
   final Admin admin;
-  final ValueChanged<User> onSavedAdmin;
+  final ValueChanged<Admin> onSavedAdmin;
   final StudyCenter center;
   final ValueChanged<StudyCenter> onSavedCenter;
   //
   final bool isEnabled;
   final bool includeCenterForm;
-
+  final bool includeCenterIdInput;
+  final bool includeUsernameAndPassword;
+  // centers List
+  final List<StudyCenter> centersList;
   @override
   _NewAdminFormState createState() => _NewAdminFormState();
 }
@@ -111,7 +119,7 @@ class _NewAdminFormState extends State<AdminForm> {
     //   adminFormKey.currentState.save();
 
     Admin admin = Admin(
-      id: null,
+      id: id,
       name: name,
       dateOfBirth: dateOfBirth ?? DateTime.now().year,
       gender: gender,
@@ -295,7 +303,7 @@ class _NewAdminFormState extends State<AdminForm> {
                   inputFormatter: FilteringTextInputFormatter.deny(''),
                   onChanged: (value) => etablissement = value,
                 ),
-                if (!widget.includeCenterForm) ...[
+                if (widget.includeCenterIdInput) ...[
                   TextFormField2(
                     isEnabled: widget.isEnabled,
                     title: 'رقم التعريفي للمركز',
@@ -319,6 +327,22 @@ class _NewAdminFormState extends State<AdminForm> {
                   isPhoneNumber: false,
                   onChanged: (value) => note = value,
                 ),
+                if (!widget.includeCenterForm &&
+                    !widget.includeCenterIdInput) ...[
+                  CenterStateForm(
+                    centersList: widget.centersList,
+                    statesList: KeyTranslate.usersStateList.keys.toList(),
+                    centerState: centerState,
+                    onSavedCenterStates: (newCenterState) {
+                      centerState = newCenterState;
+                      _save();
+                    },
+                    onSavedCentersIds: (newCentersIds) {
+                      centers = newCentersIds;
+                      _save();
+                    },
+                  ),
+                ]
               ],
             ),
           ),

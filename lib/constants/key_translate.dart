@@ -262,6 +262,7 @@ class KeyTranslate {
     'archived': 'مؤرشفة',
     'deleted': 'محدوفة',
   };
+
   static const Map<String, String> requestsStateList = {
     'pending': 'معلقة',
     'approved': 'مقبولة',
@@ -272,5 +273,10 @@ class KeyTranslate {
     'approved': 'نشطاء',
     'archived': 'مؤرشفين ',
     'deleted': 'محدوفين',
+  };
+  static const Map<String, String> userStateList = {
+    'approved': 'نشط',
+    'archived': 'مؤرشف',
+    'deleted': 'محذوف',
   };
 }
