@@ -16,7 +16,6 @@ class Teacher extends User {
     @required String note,
     @required String readableId,
     @required String username,
-    @required String email,
     @required String password,
     @required Map<String, String> centerState,
     @required Timestamp createdAt,
@@ -39,7 +38,6 @@ class Teacher extends User {
           note,
           readableId,
           username,
-          email,
           password,
           centerState,
           createdAt,
@@ -69,7 +67,6 @@ class Teacher extends User {
     String note = data['note'];
     String readableId = data['readableId'].toString();
     String username = data['username'];
-    String email = data['email'];
     String password = data['password'];
     Map<String, String> centerState =
         Map<String, String>.from(data['centerState']);
@@ -95,7 +92,6 @@ class Teacher extends User {
       note: note,
       readableId: readableId,
       username: username,
-      email: email,
       password: password,
       centerState: centerState,
       createdAt: createdAt,
@@ -123,7 +119,6 @@ class Teacher extends User {
       'note': note,
       'readableId': readableId,
       'username': username,
-      'email': email,
       'password': password,
       'centerState': centerState,
       'createdAt': createdAt ?? FieldValue.serverTimestamp(),

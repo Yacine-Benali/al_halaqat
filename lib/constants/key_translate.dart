@@ -273,6 +273,7 @@ class KeyTranslate {
     'approved': 'نشطاء',
     'archived': 'مؤرشفين ',
     'deleted': 'محدوفين',
+    'empty': 'بدون حالة',
   };
   static const Map<String, String> userStateList = {
     'approved': 'نشط',

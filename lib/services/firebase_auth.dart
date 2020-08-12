@@ -8,6 +8,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 class FirebaseAuthService implements Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
+  @override
+  Future<List<String>> fetchSignInMethodsForEmail({String email}) =>
+      _firebaseAuth.fetchSignInMethodsForEmail(email: email);
+
   AuthUser _userFromFirebase(FirebaseUser user) {
     if (user == null) {
       return null;

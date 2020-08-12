@@ -57,6 +57,7 @@ class _GaRequestDetailsScreenState extends State<GaRequestDetailsScreen> {
       ).show(context);
       Navigator.of(context).pop();
     } on PlatformException catch (e) {
+      await pr.hide();
       PlatformExceptionAlertDialog(
         title: 'فشلت العملية',
         exception: e,
@@ -76,7 +77,6 @@ class _GaRequestDetailsScreenState extends State<GaRequestDetailsScreen> {
           Expanded(
             child: AdminForm(
               includeCenterIdInput: false,
-              includeEmailAndPassword: false,
               includeUsernameAndPassword: false,
               includeCenterForm: true,
               adminFormKey: null,

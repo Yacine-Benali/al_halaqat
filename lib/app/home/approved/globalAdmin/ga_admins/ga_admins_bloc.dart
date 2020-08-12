@@ -3,16 +3,20 @@ import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/password_generator.dart';
+import 'package:al_halaqat/services/auth.dart';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 
 class GaAdminsBloc {
   GaAdminsBloc({
     @required this.provider,
     @required this.gaAdmin,
+    @required this.auth,
   });
   final User gaAdmin;
+  final Auth auth;
   final GaAdminsProvider provider;
   List<Admin> adminsList = [];
   List<Admin> emptyList = [];
@@ -81,6 +85,16 @@ class GaAdminsBloc {
             }
             break;
           }
+        case 'empty':
+          {
+            if (adminStatesList.contains('empty') &&
+                !adminStatesList.contains('deleted') &&
+                !adminStatesList.contains('archived') &&
+                !adminStatesList.contains('approved')) {
+              filteredAdminsList.add(admin);
+            }
+            break;
+          }
       }
     }
     return filteredAdminsList;
@@ -91,12 +105,27 @@ class GaAdminsBloc {
   }
 
   Future<void> setAdmin(Admin admin) async {
+    // await auth.createUserWithEmailAndPassword(admin.username, admin.password);
+
     if (admin.createdBy.isEmpty) {
       admin.createdBy = {
         'name': gaAdmin.name,
         'id': gaAdmin.id,
       };
+      List<String> testList =
+          await auth.fetchSignInMethodsForEmail(email: admin.username);
+      throw PlatformException(
+        code: 'ERROR_USED_USERNAME',
+      );
     }
+    if (admin.centers.isEmpty && admin.centerState.isEmpty) {
+      admin.centers.add('empty');
+      admin.centerState['empty'] = 'empty';
+    }
+    if (admin.id == null) {
+      admin.id = provider.getUniqueId();
+    }
+    print(admin.password);
     await provider.createAdmin(admin);
   }
 }

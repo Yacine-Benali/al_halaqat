@@ -75,7 +75,7 @@ class _CenterStateFormState extends State<CenterStateForm> {
     }
 
     newCenterState = temp;
-    // print(newCenterState);
+    print(newCenterState);
 
     save();
   }
@@ -109,7 +109,7 @@ class _CenterStateFormState extends State<CenterStateForm> {
         );
         rows.add(temp);
       } else {
-        print('could not find center for this id $key');
+        //print('could not find center for this id $key');
       }
     });
     setState(() {});
@@ -136,7 +136,7 @@ class _CenterStateFormState extends State<CenterStateForm> {
       );
       rows.add(temp);
     } else {
-      print('could not find center for this id ${lastEntry.key}');
+      // print('could not find center for this id ${lastEntry.key}');
     }
 
     setState(() {});
@@ -180,18 +180,11 @@ class _CenterStateFormState extends State<CenterStateForm> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              // Container(
-              //   alignment: Alignment.centerLeft,
-              //   padding: const EdgeInsets.fromLTRB(0, 16, 8, 8),
-              //   child: FloatingActionButton(
-              //     onPressed: () => addRow(),
-              //     child: Icon(Icons.remove),
-              //   ),
-              // ),
               Container(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.fromLTRB(0, 16, 8, 8),
                 child: FloatingActionButton(
+                  mini: true,
                   onPressed: () => addRow(),
                   child: Icon(Icons.add),
                 ),

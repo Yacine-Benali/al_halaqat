@@ -29,7 +29,6 @@ class AdminForm extends StatefulWidget {
     @required this.includeCenterForm,
     @required this.includeCenterIdInput,
     @required this.includeUsernameAndPassword,
-    @required this.includeEmailAndPassword,
     this.centersList,
   }) : super(key: key);
   final GlobalKey<FormState> adminFormKey;
@@ -43,7 +42,6 @@ class AdminForm extends StatefulWidget {
   final bool includeCenterForm;
   final bool includeCenterIdInput;
   final bool includeUsernameAndPassword;
-  final bool includeEmailAndPassword;
   // centers List
   final List<StudyCenter> centersList;
   @override
@@ -60,6 +58,7 @@ class _NewAdminFormState extends State<AdminForm>
   Admin get admin => widget.admin;
   // center
   StudyCenter center;
+  String usernameInitValue;
   // admin information
   String id;
   String name;
@@ -95,16 +94,15 @@ class _NewAdminFormState extends State<AdminForm>
     id = admin?.id;
     name = admin?.name;
     dateOfBirth = admin?.dateOfBirth ?? DateTime.now().year;
-    gender = admin?.gender;
+    gender = admin?.gender ?? 'ذكر';
     nationality = admin?.nationality ?? 'LB';
     address = admin?.address;
     phoneNumber = admin?.phoneNumber;
-    educationalLevel = admin?.educationalLevel;
+    educationalLevel = admin?.educationalLevel ?? 'سنة أولى';
     etablissement = admin?.etablissement;
     note = admin?.note;
     readableId = admin?.readableId;
     username = admin?.username;
-    email = admin?.email;
     password = admin?.password;
     centerState = admin?.centerState ?? Map<String, String>();
     createdAt = admin?.createdAt;
@@ -114,6 +112,9 @@ class _NewAdminFormState extends State<AdminForm>
     //
     isStudent = admin?.isStudent ?? false;
     isAdmin = admin?.isAdmin;
+    //
+    usernameInitValue = username?.replaceAll('@al-halaqat.firebaseapp.com', '');
+    // print(usernameInitValue);
 
     _save();
     super.initState();
@@ -138,7 +139,6 @@ class _NewAdminFormState extends State<AdminForm>
       note: note,
       readableId: readableId,
       username: username,
-      email: email,
       password: password,
       centerState: centerState,
       createdAt: createdAt,
@@ -198,43 +198,35 @@ class _NewAdminFormState extends State<AdminForm>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                if (widget.includeEmailAndPassword) ...[
-                  TextFormField2(
-                    isEnabled: widget.isEnabled,
-                    title: 'إيمايل',
-                    initialValue: email,
-                    hintText: 'إدخل الإيمايل',
-                    errorText: 'خطأ',
-                    maxLength: 30,
-                    inputFormatter: emailInputFormatter,
-                    onChanged: (value) => email = value,
-                    isPhoneNumber: false,
-                    validator: (value) {
-                      if (!emailSubmitValidator.isValid(value)) {
-                        return 'خطأ';
-                      }
-                      return null;
-                    },
-                  ),
-                  PasswordTextField(
-                    onPasswordCreated: (value) => password = value,
-                    existingPassword: password,
-                  ),
-                ],
                 if (widget.includeUsernameAndPassword) ...[
-                  TextFormField2(
-                    isEnabled: widget.isEnabled,
-                    title: 'إسم المتستخدم',
-                    initialValue: username,
-                    hintText: 'إدخل إسم المتستخدم',
-                    errorText: 'خطأ',
-                    maxLength: 30,
-                    inputFormatter: usernameInputFormatter,
-                    onChanged: (value) => username = value,
-                    isPhoneNumber: false,
+                  Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: TextFormField2(
+                      isEnabled: widget.isEnabled,
+                      title: 'إسم المتستخدم',
+                      initialValue: usernameInitValue,
+                      hintText: 'إدخل إسم المتستخدم',
+                      errorText: 'خطأ',
+                      maxLength: 30,
+                      inputFormatter: usernameInputFormatter,
+                      onChanged: (value) {
+                        value = value + '@al-halaqat.firebaseapp.com';
+                        username = value;
+                      },
+                      isPhoneNumber: false,
+                      validator: (value) {
+                        if (!usernameSubmitValidator.isValid(value)) {
+                          return 'خطأ';
+                        }
+                        return null;
+                      },
+                    ),
                   ),
                   PasswordTextField(
-                    onPasswordCreated: (value) => password = value,
+                    onPasswordCreated: (value) {
+                      password = value;
+                      _save();
+                    },
                     existingPassword: password,
                   ),
                 ],
@@ -378,7 +370,7 @@ class _NewAdminFormState extends State<AdminForm>
                     !widget.includeCenterIdInput) ...[
                   CenterStateForm(
                     centersList: widget.centersList,
-                    statesList: KeyTranslate.usersStateList.keys.toList(),
+                    statesList: KeyTranslate.centersStateList.keys.toList(),
                     centerState: centerState,
                     onSavedCenterStates: (newCenterState) {
                       centerState = newCenterState;

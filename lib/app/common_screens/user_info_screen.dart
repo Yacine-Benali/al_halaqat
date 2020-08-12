@@ -105,6 +105,8 @@ class _NewUserScreenState extends State<UserInfoScreen> {
         ).show(context);
         Navigator.of(context).pop();
       } on PlatformException catch (e) {
+        await pr.hide();
+
         PlatformExceptionAlertDialog(
           title: 'فشلت العملية',
           exception: e,
@@ -155,7 +157,6 @@ class _NewUserScreenState extends State<UserInfoScreen> {
   Widget _buildForm() {
     if (bloc.userType == FormType.admin)
       return AdminForm(
-        includeEmailAndPassword: false,
         includeUsernameAndPassword: false,
         includeCenterIdInput: true,
         includeCenterForm: false,

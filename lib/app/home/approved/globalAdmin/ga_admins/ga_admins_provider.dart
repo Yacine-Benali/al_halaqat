@@ -42,10 +42,13 @@ class GaAdminsProvider {
         });
         user.readableId = postSnapshot['nextUserReadableId'].toString();
       }
+
       await tx.set(
         Firestore.instance.document(APIPath.userDocument(user.id)),
         user.toMap(),
       );
     }, timeout: Duration(seconds: 10));
   }
+
+  String getUniqueId() => database.getUniqueId();
 }

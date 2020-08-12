@@ -18,16 +18,14 @@ class AuthUser {
 
 abstract class Auth {
   Future<AuthUser> currentUser();
-  Future<AuthUser> signInAnonymously();
   Future<AuthUser> signInWithEmailAndPassword(String email, String password);
   Future<AuthUser> createUserWithEmailAndPassword(
       String email, String password);
   Future<void> sendPasswordResetEmail(String email);
-  Future<AuthUser> signInWithEmailAndLink({String email, String link});
-  Future<bool> isSignInWithEmailLink(String link);
   Future<AuthUser> signInWithGoogle();
   Future<AuthUser> signInWithFacebook();
   Future<void> signOut();
+  Future<List<String>> fetchSignInMethodsForEmail({String email});
   Stream<AuthUser> get onAuthStateChanged;
   void dispose();
 }

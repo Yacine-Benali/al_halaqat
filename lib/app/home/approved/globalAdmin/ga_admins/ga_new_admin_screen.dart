@@ -57,7 +57,7 @@ class _GaNewAdminScreenState extends State<GaNewAdminScreen> {
   void save() async {
     if (adminFormKey.currentState.validate()) {
       try {
-        print(admin.centers);
+        //   print(admin.centers);
         await pr.show();
         await widget.bloc.setAdmin(admin);
         await pr.hide();
@@ -69,6 +69,7 @@ class _GaNewAdminScreenState extends State<GaNewAdminScreen> {
         ).show(context);
         Navigator.of(context).pop();
       } on PlatformException catch (e) {
+        await pr.hide();
         PlatformExceptionAlertDialog(
           title: 'فشلت العملية',
           exception: e,
@@ -81,41 +82,9 @@ class _GaNewAdminScreenState extends State<GaNewAdminScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('إملأ الإستمارة'),
         actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: Center(
-              child: DropdownButton<String>(
-                dropdownColor: Colors.indigo,
-                value: chosenAdminAuthType,
-                icon: Icon(Icons.arrow_drop_down, color: Colors.white),
-                iconSize: 24,
-                underline: Container(),
-                elevation: 0,
-                style: TextStyle(color: Colors.white, fontSize: 20),
-                onChanged: (String newValue) {
-                  if (newValue == 'usernameAndPassword') {
-                    includeUsernameAndPassword = true;
-                    includeEmailAndPassword = !includeUsernameAndPassword;
-                  } else {
-                    includeEmailAndPassword = true;
-                    includeUsernameAndPassword = !includeEmailAndPassword;
-                  }
-                  setState(() {
-                    chosenAdminAuthType = newValue;
-                  });
-                },
-                items:
-                    authTypeList.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(KeyTranslate.createUserAuthType[value]),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
           Padding(
             padding: EdgeInsets.only(left: 20.0),
             child: InkWell(
@@ -129,7 +98,6 @@ class _GaNewAdminScreenState extends State<GaNewAdminScreen> {
         ],
       ),
       body: AdminForm(
-        includeEmailAndPassword: includeEmailAndPassword,
         includeCenterIdInput: false,
         includeCenterForm: false,
         includeUsernameAndPassword: includeUsernameAndPassword,

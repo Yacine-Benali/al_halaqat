@@ -25,7 +25,6 @@ class UserBloc {
     String joinRequestCenterId;
     CenterRequest joinRequest;
 
-    user.email = authUser.email;
     if (user is Teacher) {
     } else
       user.createdBy = {
@@ -65,8 +64,6 @@ class UserBloc {
   Future<void> createAdmin(User user) async {
     GlobalAdminRequest joinGlobalAdminRequest;
 
-    user.email = authUser.email;
-
     user.createdBy = {
       'name': user.name,
       'id': authUser.uid,
@@ -103,8 +100,6 @@ class UserBloc {
 
   Future<void> createAdminAndCenter(Admin admin, StudyCenter center) async {
     GlobalAdminRequest joinGlobalAdminRequest;
-
-    admin.email = authUser.email;
 
     admin.createdBy = {
       'name': admin.name,

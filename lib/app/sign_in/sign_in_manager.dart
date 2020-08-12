@@ -19,10 +19,6 @@ class SignInManager {
     }
   }
 
-  Future<AuthUser> signInAnonymously() async {
-    return await _signIn(auth.signInAnonymously);
-  }
-
   Future<void> signInWithGoogle() async {
     return await _signIn(auth.signInWithGoogle);
   }

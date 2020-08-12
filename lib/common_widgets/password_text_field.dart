@@ -32,6 +32,12 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
     super.initState();
   }
 
+  void changePassword() {
+    password = createPassword();
+    widget.onPasswordCreated(password);
+    setState(() {});
+  }
+
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -45,12 +51,33 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
           SizedBox(
             height: 8,
           ),
-          TextFormField(
-            enabled: false,
-            initialValue: password,
-            decoration: InputDecoration(
-              counterText: '',
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      password,
+                    ),
+                    SizedBox(height: 15),
+                    Divider(
+                      thickness: 1.25,
+                      color: Colors.grey,
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.fromLTRB(0, 16, 8, 8),
+                child: FloatingActionButton(
+                  mini: true,
+                  onPressed: () => changePassword(),
+                  child: Icon(Icons.refresh),
+                ),
+              ),
+            ],
           ),
         ],
       ),

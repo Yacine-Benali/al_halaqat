@@ -63,7 +63,6 @@ class _NewStudentFormState extends State<StudentForm> {
     note = student?.note;
     readableId = student?.readableId;
     username = student?.username;
-    email = student?.email;
     password = student?.password;
     createdAt = student?.createdAt;
     centerState = student?.centerState ?? Map<String, String>();
@@ -93,7 +92,6 @@ class _NewStudentFormState extends State<StudentForm> {
         note: note,
         readableId: readableId,
         username: username,
-        email: email,
         password: password,
         parentPhoneNumber: parentPhoneNumber,
         isStudent: true,

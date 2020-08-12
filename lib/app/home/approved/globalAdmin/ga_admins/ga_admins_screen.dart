@@ -6,6 +6,7 @@ import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
+import 'package:al_halaqat/services/auth.dart';
 import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,11 +21,13 @@ class GaAdminsScreen extends StatefulWidget {
   static Widget create({@required BuildContext context}) {
     Database database = Provider.of<Database>(context, listen: false);
     User user = Provider.of<User>(context, listen: false);
+    Auth auth = Provider.of<Auth>(context, listen: false);
 
     GaAdminsProvider provider = GaAdminsProvider(database: database);
     GaAdminsBloc bloc = GaAdminsBloc(
       provider: provider,
       gaAdmin: user,
+      auth: auth,
     );
 
     return GaAdminsScreen._(

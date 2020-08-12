@@ -39,7 +39,6 @@ class _NewStudentFormState extends State<TeacherForm> {
   String note;
   String readableId;
   String username;
-  String email;
   String password;
   Map<String, String> centerState;
   Timestamp createdAt;
@@ -64,7 +63,6 @@ class _NewStudentFormState extends State<TeacherForm> {
     note = teacher?.note;
     readableId = teacher?.readableId;
     username = teacher?.username;
-    email = teacher?.email;
     password = teacher?.password;
     centerState = teacher?.centerState ?? Map<String, String>();
     createdAt = teacher?.createdAt;
@@ -96,7 +94,6 @@ class _NewStudentFormState extends State<TeacherForm> {
         note: note,
         readableId: readableId,
         username: username,
-        email: email,
         password: password,
         centerState: centerState,
         createdAt: createdAt,

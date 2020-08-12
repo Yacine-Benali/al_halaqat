@@ -18,7 +18,6 @@ abstract class User {
   String note;
   String readableId;
   String username;
-  String email;
   String password;
   Timestamp createdAt;
   Map<String, String> createdBy;
@@ -39,7 +38,6 @@ abstract class User {
     this.note,
     this.readableId,
     this.username,
-    this.email,
     this.password,
     this.centerState,
     this.createdAt,

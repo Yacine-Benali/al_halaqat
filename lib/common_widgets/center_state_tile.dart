@@ -37,6 +37,7 @@ class _CenterStateTileState extends State<CenterStateTile> {
     chosenCenter = widget.defaultCenter;
     chosenState = widget.defaultState;
     chosenState = chosenState ?? widget.statesList[0];
+
     // final result =
     //     Tuple2<MapEntry<StudyCenter, String>, MapEntry<StudyCenter, String>>(
     //         MapEntry(widget.defaultCenter, widget.defaultState),
@@ -88,7 +89,8 @@ class _CenterStateTileState extends State<CenterStateTile> {
                 ),
               ),
             ),
-            value: chosenCenter ?? widget.centersList[0],
+            value: chosenCenter,
+            hint: Text('إختر مركز'),
             icon: Icon(Icons.arrow_drop_down, color: Colors.indigo),
             iconSize: 24,
             elevation: 0,
@@ -137,7 +139,12 @@ class _CenterStateTileState extends State<CenterStateTile> {
                 widget.statesList.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
-                child: Text(KeyTranslate.userStateList[value]),
+                child: AutoSizeText(
+                  KeyTranslate.userStateList[value],
+                  minFontSize: 16,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               );
             }).toList(),
           ),
@@ -146,7 +153,7 @@ class _CenterStateTileState extends State<CenterStateTile> {
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.fromLTRB(0, 16, 8, 8),
           child: FloatingActionButton(
-            mini: false,
+            mini: true,
             onPressed: () => onRemoved(),
             child: Icon(Icons.remove),
           ),

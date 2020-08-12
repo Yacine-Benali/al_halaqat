@@ -81,6 +81,7 @@ class _GaCentersTileWidgetState extends State<GaCentersTileWidget> {
             defaultActionText: 'حسنا',
           ).show(widget.scaffoldKey.currentContext);
         } on PlatformException catch (e) {
+          await pr.hide();
           PlatformExceptionAlertDialog(
             title: 'فشلت العملية',
             exception: e,
