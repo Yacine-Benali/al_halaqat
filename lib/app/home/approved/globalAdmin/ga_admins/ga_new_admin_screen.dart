@@ -4,6 +4,7 @@ import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
+import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -24,10 +25,18 @@ class GaNewAdminScreen extends StatefulWidget {
 class _GaNewAdminScreenState extends State<GaNewAdminScreen> {
   final GlobalKey<FormState> adminFormKey = GlobalKey<FormState>();
   ProgressDialog pr;
-
+  bool includeUsernameAndPassword;
+  bool includeEmailAndPassword;
+  List<String> authTypeList;
+  String chosenAdminAuthType;
   Admin admin;
   @override
   void initState() {
+    authTypeList = KeyTranslate.createUserAuthType.keys.toList();
+    chosenAdminAuthType = authTypeList[0];
+    includeUsernameAndPassword = true;
+    includeEmailAndPassword = false;
+
     pr = ProgressDialog(
       context,
       type: ProgressDialogType.Normal,
@@ -72,9 +81,41 @@ class _GaNewAdminScreenState extends State<GaNewAdminScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Text('إملأ الإستمارة'),
         actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(left: 20.0),
+            child: Center(
+              child: DropdownButton<String>(
+                dropdownColor: Colors.indigo,
+                value: chosenAdminAuthType,
+                icon: Icon(Icons.arrow_drop_down, color: Colors.white),
+                iconSize: 24,
+                underline: Container(),
+                elevation: 0,
+                style: TextStyle(color: Colors.white, fontSize: 20),
+                onChanged: (String newValue) {
+                  if (newValue == 'usernameAndPassword') {
+                    includeUsernameAndPassword = true;
+                    includeEmailAndPassword = !includeUsernameAndPassword;
+                  } else {
+                    includeEmailAndPassword = true;
+                    includeUsernameAndPassword = !includeEmailAndPassword;
+                  }
+                  setState(() {
+                    chosenAdminAuthType = newValue;
+                  });
+                },
+                items:
+                    authTypeList.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(KeyTranslate.createUserAuthType[value]),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
           Padding(
             padding: EdgeInsets.only(left: 20.0),
             child: InkWell(
@@ -88,9 +129,10 @@ class _GaNewAdminScreenState extends State<GaNewAdminScreen> {
         ],
       ),
       body: AdminForm(
+        includeEmailAndPassword: includeEmailAndPassword,
         includeCenterIdInput: false,
         includeCenterForm: false,
-        includeUsernameAndPassword: false,
+        includeUsernameAndPassword: includeUsernameAndPassword,
         adminFormKey: adminFormKey,
         onSavedAdmin: (Admin newAdmin) => admin = newAdmin,
         admin: widget.admin,

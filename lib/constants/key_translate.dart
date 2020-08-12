@@ -279,4 +279,8 @@ class KeyTranslate {
     'archived': 'مؤرشف',
     'deleted': 'محذوف',
   };
+  static const Map<String, String> createUserAuthType = {
+    'usernameAndPassword': 'إسم المتستخدم',
+    'emailAndPassword': 'إيمايل',
+  };
 }

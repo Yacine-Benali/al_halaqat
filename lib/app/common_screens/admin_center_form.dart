@@ -100,6 +100,7 @@ class _AdminCenterFormState extends State<AdminCenterForm> {
   Widget _buildBody(UserBloc bloc) {
     if (widget?.admin?.centers?.isEmpty ?? true) {
       return AdminForm(
+        includeEmailAndPassword: false,
         includeUsernameAndPassword: false,
         includeCenterForm: true,
         includeCenterIdInput: false,
@@ -118,6 +119,7 @@ class _AdminCenterFormState extends State<AdminCenterForm> {
             StudyCenter studyCenter = snapshot.data;
             return AdminForm(
               includeUsernameAndPassword: false,
+              includeEmailAndPassword: false,
               includeCenterIdInput: false,
               admin: widget.admin,
               center: studyCenter,

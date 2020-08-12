@@ -155,6 +155,7 @@ class _NewUserScreenState extends State<UserInfoScreen> {
   Widget _buildForm() {
     if (bloc.userType == FormType.admin)
       return AdminForm(
+        includeEmailAndPassword: false,
         includeUsernameAndPassword: false,
         includeCenterIdInput: true,
         includeCenterForm: false,

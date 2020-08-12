@@ -9,11 +9,12 @@ class TextFormField2 extends StatelessWidget {
     @required this.errorText,
     @required this.maxLength,
     @required this.inputFormatter,
-    this.onSaved,
+    @required this.onChanged,
+    @required this.isEnabled,
+    this.onSaved, //! remove onsaved
     this.isPhoneNumber = false,
     this.initialValue,
-    this.onChanged,
-    @required this.isEnabled,
+    this.validator,
   }) : super(key: key);
 
   final String title;
@@ -26,7 +27,7 @@ class TextFormField2 extends StatelessWidget {
   final ValueChanged<String> onChanged;
   final bool isPhoneNumber;
   final bool isEnabled;
-
+  final Function validator;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -54,7 +55,9 @@ class TextFormField2 extends StatelessWidget {
             ),
             onSaved: (value) => onSaved(value),
             onChanged: (value) => onChanged(value),
-            validator: (value) => value.isEmpty ? errorText : null,
+            validator: validator == null
+                ? (value) => value.isEmpty ? errorText : null
+                : validator,
           ),
         ],
       ),

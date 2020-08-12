@@ -2,12 +2,16 @@ import 'package:al_halaqat/app/common_screens/center_form.dart';
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/global_admin.dart';
 import 'package:al_halaqat/app/models/user.dart';
+import 'package:al_halaqat/app/sign_in/validator.dart';
 import 'package:al_halaqat/common_widgets/date_picker.dart';
 import 'package:al_halaqat/common_widgets/center_state_form.dart';
+import 'package:al_halaqat/common_widgets/password_text_field.dart';
 import 'package:al_halaqat/common_widgets/text_form_field2.dart';
 import 'package:al_halaqat/common_widgets/drop_down_form_field2.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
+import 'package:al_halaqat/constants/strings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
@@ -25,6 +29,7 @@ class AdminForm extends StatefulWidget {
     @required this.includeCenterForm,
     @required this.includeCenterIdInput,
     @required this.includeUsernameAndPassword,
+    @required this.includeEmailAndPassword,
     this.centersList,
   }) : super(key: key);
   final GlobalKey<FormState> adminFormKey;
@@ -38,13 +43,15 @@ class AdminForm extends StatefulWidget {
   final bool includeCenterForm;
   final bool includeCenterIdInput;
   final bool includeUsernameAndPassword;
+  final bool includeEmailAndPassword;
   // centers List
   final List<StudyCenter> centersList;
   @override
   _NewAdminFormState createState() => _NewAdminFormState();
 }
 
-class _NewAdminFormState extends State<AdminForm> {
+class _NewAdminFormState extends State<AdminForm>
+    with UsernameAndPasswordValidators, EmailAndPasswordValidators {
   final GlobalKey<FormState> centerFormKey = GlobalKey<FormState>();
   String appBarTitle;
   String centerFormTitle;
@@ -191,6 +198,46 @@ class _NewAdminFormState extends State<AdminForm> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
+                if (widget.includeEmailAndPassword) ...[
+                  TextFormField2(
+                    isEnabled: widget.isEnabled,
+                    title: 'إيمايل',
+                    initialValue: email,
+                    hintText: 'إدخل الإيمايل',
+                    errorText: 'خطأ',
+                    maxLength: 30,
+                    inputFormatter: emailInputFormatter,
+                    onChanged: (value) => email = value,
+                    isPhoneNumber: false,
+                    validator: (value) {
+                      if (!emailSubmitValidator.isValid(value)) {
+                        return 'خطأ';
+                      }
+                      return null;
+                    },
+                  ),
+                  PasswordTextField(
+                    onPasswordCreated: (value) => password = value,
+                    existingPassword: password,
+                  ),
+                ],
+                if (widget.includeUsernameAndPassword) ...[
+                  TextFormField2(
+                    isEnabled: widget.isEnabled,
+                    title: 'إسم المتستخدم',
+                    initialValue: username,
+                    hintText: 'إدخل إسم المتستخدم',
+                    errorText: 'خطأ',
+                    maxLength: 30,
+                    inputFormatter: usernameInputFormatter,
+                    onChanged: (value) => username = value,
+                    isPhoneNumber: false,
+                  ),
+                  PasswordTextField(
+                    onPasswordCreated: (value) => password = value,
+                    existingPassword: password,
+                  ),
+                ],
                 if (widget.includeCenterForm) ...[
                   Text(
                     centerFormTitle,
