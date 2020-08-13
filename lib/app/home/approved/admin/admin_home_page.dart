@@ -72,56 +72,32 @@ class AdminHomePage extends StatelessWidget {
                 SizedBox(height: 50.0),
                 SizedBox(height: 10),
                 MenuButtonWidget(
-                  text: 'إداراة المدراء عاميين',
-                  onPressed: () =>
-                      Navigator.of(context, rootNavigator: false).push(
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          GaGlobalAdminsScreen.create(context: context),
-                      fullscreenDialog: true,
-                    ),
-                  ),
+                  text: 'إدارة الحلقات',
+                  onPressed: () {},
                 ),
                 SizedBox(height: 10),
                 MenuButtonWidget(
-                  text: 'إدارة المدراء',
-                  onPressed: () =>
-                      Navigator.of(context, rootNavigator: false).push(
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          GaAdminsScreen.create(context: context),
-                      fullscreenDialog: true,
-                    ),
-                  ),
+                  text: 'إدارة المعلمين',
+                  onPressed: () {},
                 ),
                 SizedBox(height: 10),
                 MenuButtonWidget(
-                  text: ' المراكز',
-                  onPressed: () =>
-                      Navigator.of(context, rootNavigator: false).push(
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          GaCentersScreen.create(context: context),
-                      fullscreenDialog: true,
-                    ),
-                  ),
+                  text: ' إدارة الطلاب',
+                  onPressed: () {},
+                ),
+                SizedBox(height: 10),
+                MenuButtonWidget(
+                  text: 'المحادثات',
+                  onPressed: () {},
                 ),
                 SizedBox(height: 10),
                 MenuButtonWidget(
                   text: 'تقارير',
                   onPressed: () {},
                 ),
-                SizedBox(height: 10),
                 MenuButtonWidget(
-                  text: 'الدعوات',
-                  onPressed: () =>
-                      Navigator.of(context, rootNavigator: false).push(
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          GaRequestsScreen.create(context: context),
-                      fullscreenDialog: true,
-                    ),
-                  ),
+                  text: 'الطلبات',
+                  onPressed: () {},
                 ),
               ],
             ),

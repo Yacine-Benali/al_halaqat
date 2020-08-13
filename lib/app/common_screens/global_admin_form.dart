@@ -61,7 +61,7 @@ class _NewGlobalAdminFormState extends State<GlobalAdminForm>
     id = widget.globalAdmin?.id;
     name = widget.globalAdmin?.name;
     dateOfBirth = widget.globalAdmin?.dateOfBirth ?? 1950;
-    gender = widget.globalAdmin?.gender ?? 'ذكر';
+    gender = widget.globalAdmin?.gender ?? "ذكر";
     nationality = widget.globalAdmin?.nationality ?? 'LB';
     address = widget.globalAdmin?.address;
     phoneNumber = widget.globalAdmin?.phoneNumber;

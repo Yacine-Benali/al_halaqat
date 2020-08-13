@@ -1,5 +1,7 @@
 import 'package:al_halaqat/app/common_screens/admin_center_form.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_home_page.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/global_admin_home_page.dart';
+import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/global_admin.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
@@ -10,10 +12,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BaseScreen extends StatelessWidget {
-  bool isThereAnActiveCenter(Map<String, String> centerState) {
+  bool isThereAnApprovedCenter(Map<String, String> centerState) {
     List<String> states = centerState.values.toList();
     bool isThereAnActive = false;
-    for (String state in states) if (state == 'active') isThereAnActive = true;
+    for (String state in states)
+      if (state == 'approved') isThereAnActive = true;
     return isThereAnActive;
   }
 
@@ -27,9 +30,10 @@ class BaseScreen extends StatelessWidget {
       if (user is GlobalAdmin) {
         return GlobalAdminHomePage();
       }
-      if (user is Teacher) {
-        !isThereAnActiveCenter(user.centerState);
-        return PendingScreen();
+      if (user is Admin) {
+        if (!isThereAnApprovedCenter(user.centerState)) {
+          return AdminHomePage();
+        }
       }
     } else if (snapshot.hasError) {
       return Scaffold(

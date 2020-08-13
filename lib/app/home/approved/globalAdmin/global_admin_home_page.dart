@@ -1,6 +1,7 @@
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_screen.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_screen.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_global_admins/ga_global_admins_screen.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_profile/ga_profile_screen.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_screen.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
@@ -51,6 +52,24 @@ class GlobalAdminHomePage extends StatelessWidget {
             ),
           ),
         ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(left: 20.0),
+            child: InkWell(
+              onTap: () => Navigator.of(context, rootNavigator: false).push(
+                MaterialPageRoute(
+                  builder: (context) =>
+                      GaProfileScreen.create(context: context),
+                  fullscreenDialog: true,
+                ),
+              ),
+              child: Icon(
+                Icons.account_circle,
+                size: 26.0,
+              ),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
