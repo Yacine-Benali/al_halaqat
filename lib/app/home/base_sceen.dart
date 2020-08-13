@@ -31,7 +31,7 @@ class BaseScreen extends StatelessWidget {
         return GlobalAdminHomePage();
       }
       if (user is Admin) {
-        if (!isThereAnApprovedCenter(user.centerState)) {
+        if (isThereAnApprovedCenter(user.centerState)) {
           return AdminHomePage();
         }
       }

@@ -53,6 +53,13 @@ class UserBloc {
       student.center = center.id;
       student.state = 'pending';
     }
+
+    await provider.createTeacherOrStudent(
+      student,
+      authUser.uid,
+      joinRequest,
+      joinRequestCenterId,
+    );
   }
 
   Future<void> createTeacherOrStudent(Teacher teacher) async {
