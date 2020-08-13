@@ -17,13 +17,13 @@ class Admin extends User {
     @required String readableId,
     @required String username,
     @required String password,
-    @required Map<String, String> centerState,
     @required Timestamp createdAt,
     @required Map<String, String> createdBy,
-    @required List<String> centers,
-    @required List<String> halaqatLearningIn,
-    @required bool isStudent,
+    @required this.centers,
+    @required this.halaqatLearningIn,
+    @required this.isStudent,
     @required this.isAdmin,
+    @required this.centerState,
   }) : super(
           id,
           name,
@@ -38,16 +38,15 @@ class Admin extends User {
           readableId,
           username,
           password,
-          centerState,
           createdAt,
           createdBy,
-          centers,
-          halaqatLearningIn,
-          isStudent,
         );
 
   bool isAdmin;
-
+  bool isStudent;
+  List<String> centers;
+  Map<String, String> centerState;
+  List<String> halaqatLearningIn;
   factory Admin.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
       return null;

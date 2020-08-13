@@ -21,10 +21,6 @@ abstract class User {
   String password;
   Timestamp createdAt;
   Map<String, String> createdBy;
-  Map<String, String> centerState;
-  List<String> centers;
-  List<String> halaqatLearningIn;
-  bool isStudent;
   User(
     this.id,
     this.name,
@@ -39,12 +35,8 @@ abstract class User {
     this.readableId,
     this.username,
     this.password,
-    this.centerState,
     this.createdAt,
     this.createdBy,
-    this.centers,
-    this.halaqatLearningIn,
-    this.isStudent,
   );
 
   factory User.fromMap(Map<String, dynamic> data, String documentId) {

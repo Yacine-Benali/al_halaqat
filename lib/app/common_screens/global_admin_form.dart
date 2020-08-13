@@ -102,10 +102,6 @@ class _NewGlobalAdminFormState extends State<GlobalAdminForm>
       createdBy: createdBy,
       isGlobalAdmin: true,
       state: state,
-      centers: null,
-      centerState: null,
-      halaqatLearningIn: null,
-      isStudent: null,
     );
     // print(globalAdmin.gender);
     widget.onSavedGlobalAdmin(globalAdmin);

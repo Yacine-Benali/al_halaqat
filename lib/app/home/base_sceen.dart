@@ -1,6 +1,7 @@
 import 'package:al_halaqat/app/common_screens/admin_center_form.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/global_admin_home_page.dart';
 import 'package:al_halaqat/app/models/global_admin.dart';
+import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/app/home/notApproved/join_us_screen.dart';
 import 'package:al_halaqat/app/home/notApproved/pending_screen.dart';
@@ -26,7 +27,8 @@ class BaseScreen extends StatelessWidget {
       if (user is GlobalAdmin) {
         return GlobalAdminHomePage();
       }
-      if (!isThereAnActiveCenter(user.centerState)) {
+      if (user is Teacher) {
+        !isThereAnActiveCenter(user.centerState);
         return PendingScreen();
       }
     } else if (snapshot.hasError) {

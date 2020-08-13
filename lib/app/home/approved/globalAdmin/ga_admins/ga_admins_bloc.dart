@@ -126,7 +126,6 @@ class GaAdminsBloc {
     if (admin.id == null) {
       admin.id = provider.getUniqueId();
     }
-    print(admin.password);
     await provider.createAdmin(admin);
   }
 }

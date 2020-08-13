@@ -17,14 +17,14 @@ class Teacher extends User {
     @required String readableId,
     @required String username,
     @required String password,
-    @required Map<String, String> centerState,
     @required Timestamp createdAt,
     @required Map<String, String> createdBy,
-    @required List<String> centers,
-    @required List<String> halaqatLearningIn,
-    @required bool isStudent,
+    @required this.isStudent,
     @required this.isTeacher,
     @required this.halaqatTeachingIn,
+    @required this.halaqatLearningIn,
+    @required this.centers,
+    @required this.centerState,
   }) : super(
           id,
           name,
@@ -39,16 +39,16 @@ class Teacher extends User {
           readableId,
           username,
           password,
-          centerState,
           createdAt,
           createdBy,
-          centers,
-          halaqatLearningIn,
-          isStudent,
         );
 
   bool isTeacher;
+  bool isStudent;
   List<String> halaqatTeachingIn;
+  List<String> halaqatLearningIn;
+  Map<String, String> centerState;
+  List<String> centers;
 
   factory Teacher.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {

@@ -240,6 +240,7 @@ class _NewAdminFormState extends State<AdminForm>
                     formKey: centerFormKey,
                     center: widget.center,
                     onSaved: (newcenter) => center = newcenter,
+                    showCenterOptions: false,
                   ),
                   SizedBox(
                     height: 30,

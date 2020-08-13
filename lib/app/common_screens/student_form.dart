@@ -40,10 +40,10 @@ class _NewStudentFormState extends State<StudentForm> {
   String username;
   String email;
   String password;
-  Map<String, String> centerState;
+  String state;
   Timestamp createdAt;
   Map<String, String> createdBy;
-  List<String> centers;
+  String center;
   List<String> halaqatLearningIn;
   //
   bool isStudent;
@@ -65,9 +65,9 @@ class _NewStudentFormState extends State<StudentForm> {
     username = student?.username;
     password = student?.password;
     createdAt = student?.createdAt;
-    centerState = student?.centerState ?? Map<String, String>();
+    state = student?.state ?? String;
     createdBy = student?.createdBy ?? Map<String, String>();
-    centers = student?.centers ?? List<String>(1);
+    center = student?.center ?? String;
     halaqatLearningIn = student?.halaqatLearningIn ?? List<String>(1);
     isStudent = student?.isStudent;
     parentPhoneNumber = student?.parentPhoneNumber;
@@ -95,11 +95,11 @@ class _NewStudentFormState extends State<StudentForm> {
         password: password,
         parentPhoneNumber: parentPhoneNumber,
         isStudent: true,
-        centerState: centerState,
+        state: state,
         createdAt: createdAt,
         createdBy: createdBy,
         halaqatLearningIn: halaqatLearningIn,
-        centers: centers,
+        center: center,
       );
       widget.onSaved(newStudent);
     }
@@ -235,7 +235,7 @@ class _NewStudentFormState extends State<StudentForm> {
                   errorText: 'خطأ',
                   maxLength: 20,
                   inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
-                  onSaved: (value) => centers[0] = value,
+                  onSaved: (value) => center = value,
                   isPhoneNumber: true,
                   onChanged: (value) {},
                 ),

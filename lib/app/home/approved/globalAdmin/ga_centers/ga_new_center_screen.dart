@@ -93,6 +93,7 @@ class _GaNewCenterScreenState extends State<GaNewCenterScreen> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: CenterForm(
+          showCenterOptions: true,
           isEnabled: true,
           formKey: _formKey,
           center: widget.center,

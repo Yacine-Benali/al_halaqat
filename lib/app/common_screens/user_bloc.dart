@@ -1,6 +1,7 @@
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/center_request.dart';
 import 'package:al_halaqat/app/models/global_admin_request.dart';
+import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
@@ -21,47 +22,86 @@ class UserBloc {
   final FormType userType;
   final AuthUser authUser;
 
-  Future<void> createTeacherOrStudent(User user) async {
+  Future<void> createStudent(Student student) async {
     String joinRequestCenterId;
     CenterRequest joinRequest;
-
-    if (user is Teacher) {
-    } else
-      user.createdBy = {
-        'name': user.name,
+    if (student.createdBy.isEmpty) {
+      student.createdBy = {
+        'name': student.name,
         'id': authUser.uid,
       };
-    user.centerState = {
-      '${user.centers[0]}': 'pending',
-    };
-    StudyCenter center = await provider.queryCenterbyRId(user.centers[0]);
+    }
+
+    StudyCenter center = await provider.queryCenterbyRId(student.center);
+
+    student.state = 'pending';
+
     if (center != null) {
       joinRequestCenterId = center.id;
       joinRequest = CenterRequest(
         id: 'join-' + authUser.uid,
         createdAt: null,
         userId: authUser.uid,
-        user: user,
+        user: student,
+        centerId: center.id,
+        centerName: center.name,
         action: 'join',
         state: 'pending',
         halaqaId: null,
         halaqaName: null,
       );
-      user.centers[0] = center.id;
-      user.centerState = {
-        '${user.centers[0]}': 'pending',
+      student.center = center.id;
+      student.state = 'pending';
+    }
+  }
+
+  Future<void> createTeacherOrStudent(Teacher teacher) async {
+    String joinRequestCenterId;
+    CenterRequest joinRequest;
+    if (teacher.createdBy.isEmpty) {
+      teacher.createdBy = {
+        'name': teacher.name,
+        'id': authUser.uid,
+      };
+    }
+
+    StudyCenter center = await provider.queryCenterbyRId(teacher.centers[0]);
+
+    if (teacher.centerState.isEmpty) {
+      teacher.centerState = {
+        '${teacher.centers[0]}': 'pending',
+      };
+    }
+
+    if (center != null) {
+      joinRequestCenterId = center.id;
+      joinRequest = CenterRequest(
+        id: 'join-' + authUser.uid,
+        createdAt: null,
+        userId: authUser.uid,
+        centerId: center.id,
+        centerName: center.name,
+        user: teacher,
+        action: 'join',
+        state: 'pending',
+        halaqaId: null,
+        halaqaName: null,
+      );
+      teacher.centers[0] = center.id;
+      teacher.centerState = {
+        '${teacher.centers[0]}': 'pending',
       };
     }
 
     await provider.createTeacherOrStudent(
-      user,
+      teacher,
       authUser.uid,
       joinRequest,
       joinRequestCenterId,
     );
   }
 
-  Future<void> createAdmin(User user) async {
+  Future<void> createAdmin(Admin user) async {
     GlobalAdminRequest joinGlobalAdminRequest;
 
     user.createdBy = {

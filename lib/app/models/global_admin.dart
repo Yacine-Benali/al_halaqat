@@ -17,12 +17,8 @@ class GlobalAdmin extends User {
     @required String readableId,
     @required String username,
     @required String password,
-    @required Map<String, String> centerState,
     @required Timestamp createdAt,
     @required Map<String, String> createdBy,
-    @required List<String> centers,
-    @required List<String> halaqatLearningIn,
-    @required bool isStudent,
     @required this.state,
     @required this.isGlobalAdmin,
   }) : super(
@@ -39,12 +35,8 @@ class GlobalAdmin extends User {
           readableId,
           username,
           password,
-          centerState,
           createdAt,
           createdBy,
-          centers,
-          halaqatLearningIn,
-          isStudent,
         );
 
   bool isGlobalAdmin;
@@ -87,12 +79,8 @@ class GlobalAdmin extends User {
       readableId: readableId,
       username: username,
       password: password,
-      centerState: null,
       createdAt: createdAt,
       createdBy: createdBy,
-      centers: null,
-      halaqatLearningIn: null,
-      isStudent: null,
       //
       isGlobalAdmin: isGlobalAdmin,
       state: state,

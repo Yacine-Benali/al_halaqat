@@ -12,11 +12,13 @@ class CenterForm extends StatefulWidget {
     @required this.onSaved,
     @required this.formKey,
     @required this.isEnabled,
+    @required this.showCenterOptions,
   }) : super(key: key);
   final ValueChanged<StudyCenter> onSaved;
   final StudyCenter center;
   final GlobalKey<FormState> formKey;
   final bool isEnabled;
+  final bool showCenterOptions;
 
   @override
   _CenterFormState createState() => _CenterFormState();
@@ -150,6 +152,52 @@ class _CenterFormState extends State<CenterForm> {
               onChanged: (value) => phoneNumber = value,
               isPhoneNumber: true,
             ),
+            if (widget.showCenterOptions) ...[
+              ListTile(
+                title: Text('تمكين الرسائل'),
+                trailing: Switch(
+                  value: isMessagingEnabled,
+                  onChanged: (value) {
+                    isMessagingEnabled = value;
+                    save();
+                    setState(() {});
+                  },
+                ),
+              ),
+              ListTile(
+                title: Text('يمكن للمعلمين إضافة تعديل الطلاب'),
+                trailing: Switch(
+                  value: canTeachersEditStudents,
+                  onChanged: (value) {
+                    canTeachersEditStudents = value;
+                    save();
+                    setState(() {});
+                  },
+                ),
+              ),
+              ListTile(
+                title: Text('طلب الموافقة على إنشاء حلقة'),
+                trailing: Switch(
+                  value: requestPermissionForHalaqaCreation,
+                  onChanged: (value) {
+                    requestPermissionForHalaqaCreation = value;
+                    save();
+                    setState(() {});
+                  },
+                ),
+              ),
+              ListTile(
+                title: Text('student roaming'),
+                trailing: Switch(
+                  value: studentRoaming,
+                  onChanged: (value) {
+                    studentRoaming = value;
+                    save();
+                    setState(() {});
+                  },
+                ),
+              ),
+            ],
           ],
         ),
       ),

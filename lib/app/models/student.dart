@@ -17,13 +17,13 @@ class Student extends User {
     @required String readableId,
     @required String username,
     @required String password,
-    @required Map<String, String> centerState,
     @required Timestamp createdAt,
     @required Map<String, String> createdBy,
-    @required List<String> centers,
-    @required List<String> halaqatLearningIn,
-    @required bool isStudent,
+    @required this.isStudent,
+    @required this.center,
+    @required this.state,
     @required this.parentPhoneNumber,
+    @required this.halaqatLearningIn,
   }) : super(
           id,
           name,
@@ -38,15 +38,15 @@ class Student extends User {
           readableId,
           username,
           password,
-          centerState,
           createdAt,
           createdBy,
-          centers,
-          halaqatLearningIn,
-          isStudent,
         );
 
   String parentPhoneNumber;
+  String center;
+  String state;
+  bool isStudent;
+  List<String> halaqatLearningIn;
 
   factory Student.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
@@ -66,11 +66,10 @@ class Student extends User {
     String readableId = data['readableId'].toString();
     String username = data['username'];
     String password = data['password'];
-    Map<String, String> centerState =
-        Map<String, String>.from(data['centerState']);
+    String state = data['state'];
     Timestamp createdAt = data['createdAt'];
     Map<String, String> createdBy = Map<String, String>.from(data['createdBy']);
-    List<String> centers = data['centers'].cast<String>();
+    String center = data['center'];
     List<String> halaqatLearningIn = data['halaqatLearningIn'].cast<String>();
     bool isStudent = data['isStudent'];
 
@@ -91,10 +90,10 @@ class Student extends User {
       readableId: readableId,
       username: username,
       password: password,
-      centerState: centerState,
+      state: state,
       createdAt: createdAt,
       createdBy: createdBy,
-      centers: centers,
+      center: center,
       halaqatLearningIn: halaqatLearningIn,
       isStudent: isStudent,
       //
@@ -117,10 +116,10 @@ class Student extends User {
       'readableId': readableId,
       'username': username,
       'password': password,
-      'centerState': centerState,
+      'center': center,
       'createdAt': createdAt ?? FieldValue.serverTimestamp(),
       'createdBy': createdBy,
-      'centers': centers,
+      'state': state,
       'halaqatLearningIn': halaqatLearningIn,
       'isStudent': isStudent,
       //
