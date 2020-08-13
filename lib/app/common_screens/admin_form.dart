@@ -93,7 +93,7 @@ class _NewAdminFormState extends State<AdminForm>
     //
     id = admin?.id;
     name = admin?.name;
-    dateOfBirth = admin?.dateOfBirth ?? DateTime.now().year;
+    dateOfBirth = admin?.dateOfBirth ?? 1950;
     gender = admin?.gender ?? 'ذكر';
     nationality = admin?.nationality ?? 'LB';
     address = admin?.address;
@@ -129,7 +129,7 @@ class _NewAdminFormState extends State<AdminForm>
     Admin admin = Admin(
       id: id,
       name: name,
-      dateOfBirth: dateOfBirth ?? DateTime.now().year,
+      dateOfBirth: dateOfBirth ?? 1950,
       gender: gender,
       nationality: nationality,
       address: address,
@@ -160,7 +160,7 @@ class _NewAdminFormState extends State<AdminForm>
   //   GlobalAdmin admin = GlobalAdmin(
   //     id: null,
   //     name: 'a',
-  //     dateOfBirth: DateTime.now().year,
+  //     dateOfBirth: 1950,
   //     gender: 'male',
   //     nationality: 'LB',
   //     address: 'global admin address',
@@ -262,6 +262,7 @@ class _NewAdminFormState extends State<AdminForm>
                 ),
                 DatePicker(
                     isEnabled: widget.isEnabled,
+                    initialValue: dateOfBirth,
                     title: 'تاريخ الميلاد',
                     onSelectedDate: (value) {
                       dateOfBirth = value;

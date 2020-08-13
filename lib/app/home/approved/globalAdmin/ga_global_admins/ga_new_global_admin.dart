@@ -1,6 +1,9 @@
 import 'package:al_halaqat/app/common_screens/admin_form.dart';
+import 'package:al_halaqat/app/common_screens/global_admin_form.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_bloc.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_global_admins/ga_global_admins_bloc.dart';
 import 'package:al_halaqat/app/models/admin.dart';
+import 'package:al_halaqat/app/models/global_admin.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
@@ -8,33 +11,27 @@ import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class GaNewAdminScreen extends StatefulWidget {
-  const GaNewAdminScreen({
+class GaNewGlobalAdminScreen extends StatefulWidget {
+  const GaNewGlobalAdminScreen({
     Key key,
-    @required this.admin,
+    @required this.globalAdmin,
     @required this.bloc,
   }) : super(key: key);
 
-  final Admin admin;
-  final GaAdminsBloc bloc;
+  final GlobalAdmin globalAdmin;
+  final GaGlobalAdminsBloc bloc;
 
   @override
-  _GaNewAdminScreenState createState() => _GaNewAdminScreenState();
+  _GaNewGlobalAdminScreenState createState() => _GaNewGlobalAdminScreenState();
 }
 
-class _GaNewAdminScreenState extends State<GaNewAdminScreen> {
+class _GaNewGlobalAdminScreenState extends State<GaNewGlobalAdminScreen> {
   final GlobalKey<FormState> adminFormKey = GlobalKey<FormState>();
   ProgressDialog pr;
-  bool includeUsernameAndPassword;
-  List<String> authTypeList;
-  String chosenAdminAuthType;
-  Admin admin;
+
+  GlobalAdmin globalAdmin;
   @override
   void initState() {
-    authTypeList = KeyTranslate.createUserAuthType.keys.toList();
-    chosenAdminAuthType = authTypeList[0];
-    includeUsernameAndPassword = true;
-
     pr = ProgressDialog(
       context,
       type: ProgressDialogType.Normal,
@@ -57,7 +54,7 @@ class _GaNewAdminScreenState extends State<GaNewAdminScreen> {
       try {
         //   print(admin.centers);
         await pr.show();
-        await widget.bloc.setAdmin(admin);
+        await widget.bloc.setGlobalAdmin(globalAdmin);
         await pr.hide();
 
         PlatformAlertDialog(
@@ -95,17 +92,11 @@ class _GaNewAdminScreenState extends State<GaNewAdminScreen> {
           ),
         ],
       ),
-      body: AdminForm(
-        includeCenterIdInput: false,
-        includeCenterForm: false,
-        includeUsernameAndPassword: includeUsernameAndPassword,
+      body: GlobalAdminForm(
         adminFormKey: adminFormKey,
-        onSavedAdmin: (Admin newAdmin) => admin = newAdmin,
-        admin: widget.admin,
-        center: null,
+        globalAdmin: widget.globalAdmin,
+        onSavedGlobalAdmin: (value) => globalAdmin = value,
         isEnabled: true,
-        onSavedCenter: (value) {},
-        centersList: widget.bloc.centersList,
       ),
     );
   }

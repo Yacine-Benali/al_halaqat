@@ -53,8 +53,7 @@ class DropdownButtonFormField2 extends StatelessWidget {
             isExpanded: true,
             icon: isEnabled ? Icon(Icons.arrow_drop_down) : Container(),
             iconSize: 24,
-            onSaved: (value) => onSaved(value),
-            onChanged: isEnabled ? (d) {} : null,
+            onChanged: isEnabled ? (value) => onSaved(value) : null,
             items: possibleValues.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,

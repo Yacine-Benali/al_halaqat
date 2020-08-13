@@ -275,6 +275,12 @@ class KeyTranslate {
     'deleted': 'محدوفين',
     'empty': 'بدون حالة',
   };
+
+  static const Map<String, String> globalAdminsStateList = {
+    'approved': 'نشطاء',
+    'archived': 'مؤرشفين ',
+    'deleted': 'محدوفين',
+  };
   static const Map<String, String> userStateList = {
     'approved': 'نشط',
     'archived': 'مؤرشف',

@@ -53,7 +53,7 @@ class _NewStudentFormState extends State<TeacherForm> {
   @override
   void initState() {
     name = teacher?.name;
-    dateOfBirth = teacher?.dateOfBirth ?? DateTime.now().year;
+    dateOfBirth = teacher?.dateOfBirth ?? 1950;
     gender = teacher?.gender;
     nationality = teacher?.nationality ?? 'LB';
     address = teacher?.address;
@@ -84,7 +84,7 @@ class _NewStudentFormState extends State<TeacherForm> {
       Teacher teacher = Teacher(
         id: null,
         name: name,
-        dateOfBirth: dateOfBirth ?? DateTime.now().year,
+        dateOfBirth: dateOfBirth ?? 1950,
         gender: gender,
         nationality: nationality,
         address: address,

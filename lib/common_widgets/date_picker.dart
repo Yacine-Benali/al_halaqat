@@ -10,11 +10,13 @@ class DatePicker extends StatefulWidget {
     @required this.title,
     @required this.onSelectedDate,
     @required this.isEnabled,
+    @required this.initialValue,
   }) : super(key: key);
 
   final String title;
   final ValueChanged<int> onSelectedDate;
   final bool isEnabled;
+  final int initialValue;
 
   @override
   _DatePickerState createState() => _DatePickerState();
@@ -31,6 +33,7 @@ class _DatePickerState extends State<DatePicker> {
     from = 1950;
     to = DateTime.now().year;
     possibleValues = List();
+    value = widget.initialValue;
     for (int i = 1950; i <= to; i++) possibleValues.add(i);
 
     super.initState();
@@ -72,8 +75,7 @@ class _DatePickerState extends State<DatePicker> {
             isExpanded: true,
             icon: widget.isEnabled ? Icon(Icons.arrow_drop_down) : Container(),
             iconSize: 24,
-            onSaved: (value) => widget.onSelectedDate(value),
-            onChanged: (int newValue) {},
+            onChanged: (value) => widget.onSelectedDate(value),
             items: possibleValues.map<DropdownMenuItem<int>>((int value) {
               return DropdownMenuItem<int>(
                 value: value,

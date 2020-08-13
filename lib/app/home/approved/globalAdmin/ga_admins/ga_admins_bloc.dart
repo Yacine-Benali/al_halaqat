@@ -114,9 +114,10 @@ class GaAdminsBloc {
       };
       List<String> testList =
           await auth.fetchSignInMethodsForEmail(email: admin.username);
-      throw PlatformException(
-        code: 'ERROR_USED_USERNAME',
-      );
+      if (testList.contains('password'))
+        throw PlatformException(
+          code: 'ERROR_USED_USERNAME',
+        );
     }
     if (admin.centers.isEmpty && admin.centerState.isEmpty) {
       admin.centers.add('empty');

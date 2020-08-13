@@ -53,7 +53,7 @@ class _NewStudentFormState extends State<StudentForm> {
   void initState() {
     id = student?.id;
     name = student?.name;
-    dateOfBirth = student?.dateOfBirth ?? DateTime.now().year;
+    dateOfBirth = student?.dateOfBirth ?? 1950;
     gender = student?.gender;
     nationality = student?.nationality ?? 'LB';
     address = student?.address;

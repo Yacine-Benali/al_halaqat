@@ -23,6 +23,7 @@ class GlobalAdmin extends User {
     @required List<String> centers,
     @required List<String> halaqatLearningIn,
     @required bool isStudent,
+    @required this.state,
     @required this.isGlobalAdmin,
   }) : super(
           id,
@@ -47,7 +48,7 @@ class GlobalAdmin extends User {
         );
 
   bool isGlobalAdmin;
-
+  String state;
   factory GlobalAdmin.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
       return null;
@@ -64,16 +65,12 @@ class GlobalAdmin extends User {
     String note = data['note'];
     String readableId = data['readableId'].toString();
     String username = data['username'];
-    String email = data['email'];
     String password = data['password'];
-    Map<String, String> centerState =
-        Map<String, String>.from(data['centerState']);
     Timestamp createdAt = data['createdAt'];
     Map<String, String> createdBy = Map<String, String>.from(data['createdBy']);
-    List<String> centers = data['centers'].cast<String>();
-    List<String> halaqatLearningIn = data['halaqatLearningIn'].cast<String>();
-    bool isStudent = data['isStudent'];
     //
+    String state = data['state'];
+
     bool isGlobalAdmin = data['isGlobalAdmin'];
 
     return GlobalAdmin(
@@ -90,14 +87,15 @@ class GlobalAdmin extends User {
       readableId: readableId,
       username: username,
       password: password,
-      centerState: centerState,
+      centerState: null,
       createdAt: createdAt,
       createdBy: createdBy,
-      centers: centers,
-      halaqatLearningIn: halaqatLearningIn,
-      isStudent: isStudent,
+      centers: null,
+      halaqatLearningIn: null,
+      isStudent: null,
       //
       isGlobalAdmin: isGlobalAdmin,
+      state: state,
     );
   }
 
@@ -116,13 +114,10 @@ class GlobalAdmin extends User {
       'readableId': readableId,
       'username': username,
       'password': password,
-      'centerState': centerState,
       'createdAt': createdAt ?? FieldValue.serverTimestamp(),
       'createdBy': createdBy,
-      'centers': centers,
-      'halaqatLearningIn': halaqatLearningIn,
-      'isStudent': isStudent,
       //
+      'state': state,
       'isGlobalAdmin': isGlobalAdmin,
     };
   }
