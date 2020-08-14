@@ -410,41 +410,40 @@ class _SearchBarState<T> extends State<SearchBar<T>>
                       padding: widget.searchBarStyle.padding,
                       child: Theme(
                         child: Container(
-                          child: Stack(
+                          child: Row(
                             children: <Widget>[
-                              TextField(
-                                controller: _searchQueryController,
-                                onChanged: _onTextChanged,
-                                style: widget.textStyle,
-                                decoration: InputDecoration(
-                                  icon: widget.icon,
-                                  border: InputBorder.none,
-                                  hintText: widget.hintText,
-                                  hintStyle: widget.hintStyle,
+                              Expanded(
+                                child: TextField(
+                                  textAlignVertical: TextAlignVertical.center,
+                                  controller: _searchQueryController,
+                                  onChanged: _onTextChanged,
+                                  style: widget.textStyle,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(10.0),
+                                    icon: widget.icon,
+                                    border: InputBorder.none,
+                                    hintText: widget.hintText,
+                                    hintStyle: widget.hintStyle,
+                                  ),
                                 ),
                               ),
                               _searchQueryController.text.isNotEmpty
-                                  ? new Positioned(
-                                      right: 0,
-                                      top: 0,
-                                      bottom: 0,
-                                      child: new Center(
-                                        child: new InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              _clear();
-                                            });
-                                          },
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(32)),
-                                          child: new Container(
-                                            width: 32,
-                                            height: 32,
-                                            child: new Center(
-                                              child: new Icon(
-                                                Icons.clear,
-                                                size: 24,
-                                              ),
+                                  ? Center(
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            _clear();
+                                          });
+                                        },
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(32)),
+                                        child: Container(
+                                          width: 32,
+                                          height: 32,
+                                          child: Center(
+                                            child: Icon(
+                                              Icons.clear,
+                                              size: 24,
                                             ),
                                           ),
                                         ),

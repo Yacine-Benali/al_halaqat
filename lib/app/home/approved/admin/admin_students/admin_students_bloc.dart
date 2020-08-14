@@ -33,12 +33,14 @@ class AdminStudentsBloc {
     Student student,
     StudyCenter chosenCenter,
   ) async {
-    List<String> testList =
-        await auth.fetchSignInMethodsForEmail(email: student.username);
-    if (testList.contains('password'))
-      throw PlatformException(
-        code: 'ERROR_USED_USERNAME',
-      );
+    if (student.readableId == null) {
+      List<String> testList =
+          await auth.fetchSignInMethodsForEmail(email: student.username);
+      if (testList.contains('password'))
+        throw PlatformException(
+          code: 'ERROR_USED_USERNAME',
+        );
+    }
 
     if (student.createdBy.isEmpty) {
       student.createdBy = {
@@ -52,7 +54,7 @@ class AdminStudentsBloc {
     if (student.state == null) {
       student.state = 'approved';
     }
-    if (chosenCenter != null) {
+    if (student.center == null) {
       student.center = chosenCenter.id;
     }
 

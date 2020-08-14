@@ -18,6 +18,7 @@ import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+//! add halaqa-state widget
 class AdminsStudentsScreen extends StatefulWidget {
   const AdminsStudentsScreen._({
     Key key,
@@ -86,26 +87,28 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
         actions: [
           Padding(
             padding: EdgeInsets.only(left: 20.0),
-            child: DropdownButton<StudyCenter>(
-              dropdownColor: Colors.indigo,
-              value: chosenCenter,
-              icon: Icon(Icons.arrow_drop_down, color: Colors.white),
-              iconSize: 24,
-              underline: Container(),
-              elevation: 0,
-              style: TextStyle(color: Colors.white, fontSize: 20),
-              onChanged: (StudyCenter newValue) {
-                setState(() {
-                  chosenCenter = newValue;
-                });
-              },
-              items: widget.centers
-                  .map<DropdownMenuItem<StudyCenter>>((StudyCenter value) {
-                return DropdownMenuItem<StudyCenter>(
-                  value: value,
-                  child: Text(value.name),
-                );
-              }).toList(),
+            child: Center(
+              child: DropdownButton<StudyCenter>(
+                dropdownColor: Colors.indigo,
+                value: chosenCenter,
+                icon: Icon(Icons.arrow_drop_down, color: Colors.white),
+                iconSize: 24,
+                underline: Container(),
+                elevation: 0,
+                style: TextStyle(color: Colors.white, fontSize: 20),
+                onChanged: (StudyCenter newValue) {
+                  setState(() {
+                    chosenCenter = newValue;
+                  });
+                },
+                items: widget.centers
+                    .map<DropdownMenuItem<StudyCenter>>((StudyCenter value) {
+                  return DropdownMenuItem<StudyCenter>(
+                    value: value,
+                    child: Text(value.name),
+                  );
+                }).toList(),
+              ),
             ),
           ),
           Padding(
@@ -184,7 +187,7 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
       searchBarPadding: EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 5),
       headerPadding: EdgeInsets.only(left: 0, right: 0),
       listPadding: EdgeInsets.only(left: 0, right: 0),
-      hintText: "Search Placeholder",
+      hintText: "إبحث بالإسم أو الرقم التعريفي",
       hintStyle: TextStyle(
         color: Colors.black54,
       ),
@@ -201,7 +204,7 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
       emptyWidget: Center(
         child: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10),
-          child: Text("There is no any data found"),
+          child: Text("لم يتم العثور على أي طالب"),
         ),
       ),
       onError: (error) {

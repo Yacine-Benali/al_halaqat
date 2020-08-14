@@ -1,7 +1,9 @@
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
+import 'package:al_halaqat/app/sign_in/validator.dart';
 import 'package:al_halaqat/common_widgets/date_picker.dart';
+import 'package:al_halaqat/common_widgets/password_text_field.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/text_form_field2.dart';
 import 'package:al_halaqat/common_widgets/drop_down_form_field2.dart';
@@ -13,19 +15,28 @@ import 'package:flutter/services.dart';
 class TeacherForm extends StatefulWidget {
   const TeacherForm({
     Key key,
-    this.teacher,
+    @required this.teacher,
     @required this.onSaved,
+    @required this.includeCenterIdInput,
+    @required this.includeUsernameAndPassword,
+    @required this.isEnabled,
+    @required this.teacherFormKey,
   }) : super(key: key);
+  final GlobalKey<FormState> teacherFormKey;
   final ValueChanged<Teacher> onSaved;
   final Teacher teacher;
+  final bool isEnabled;
+  final bool includeCenterIdInput;
+  final bool includeUsernameAndPassword;
 
   @override
   _NewStudentFormState createState() => _NewStudentFormState();
 }
 
-class _NewStudentFormState extends State<TeacherForm> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+class _NewStudentFormState extends State<TeacherForm>
+    with UsernameAndPasswordValidators {
   Teacher get teacher => widget.teacher;
+  String usernameInitValue;
   // teacher information
   String id;
   String name;
@@ -52,13 +63,14 @@ class _NewStudentFormState extends State<TeacherForm> {
 
   @override
   void initState() {
+    id = teacher?.id;
     name = teacher?.name;
     dateOfBirth = teacher?.dateOfBirth ?? 1950;
-    gender = teacher?.gender;
+    gender = teacher?.gender ?? 'ذكر';
     nationality = teacher?.nationality ?? 'LB';
     address = teacher?.address;
     phoneNumber = teacher?.phoneNumber;
-    educationalLevel = teacher?.educationalLevel;
+    educationalLevel = teacher?.educationalLevel ?? 'سنة أولى';
     etablissement = teacher?.etablissement;
     note = teacher?.note;
     readableId = teacher?.readableId;
@@ -74,116 +86,139 @@ class _NewStudentFormState extends State<TeacherForm> {
     isStudent = teacher?.isStudent ?? false;
     isTeacher = teacher?.isTeacher;
     halaqatTeachingIn = teacher?.halaqatTeachingIn ?? List<String>(1);
-
+//
+    usernameInitValue = username?.replaceAll('@al-halaqat.firebaseapp.com', '');
+    _save();
     super.initState();
   }
 
   void _save() {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-      Teacher teacher = Teacher(
-        id: null,
-        name: name,
-        dateOfBirth: dateOfBirth ?? 1950,
-        gender: gender,
-        nationality: nationality,
-        address: address,
-        phoneNumber: phoneNumber,
-        educationalLevel: educationalLevel,
-        etablissement: etablissement,
-        note: note,
-        readableId: readableId,
-        username: username,
-        password: password,
-        centerState: centerState,
-        createdAt: createdAt,
-        createdBy: createdBy,
-        isStudent: isStudent,
-        halaqatLearningIn: halaqatLearningIn,
-        centers: centers,
-        isTeacher: true,
-        halaqatTeachingIn: halaqatTeachingIn,
-      );
-      widget.onSaved(teacher);
-    }
+    Teacher teacher = Teacher(
+      id: id,
+      name: name,
+      dateOfBirth: dateOfBirth ?? 1950,
+      gender: gender,
+      nationality: nationality,
+      address: address,
+      phoneNumber: phoneNumber,
+      educationalLevel: educationalLevel,
+      etablissement: etablissement,
+      note: note,
+      readableId: readableId,
+      username: username,
+      password: password,
+      centerState: centerState,
+      createdAt: createdAt,
+      createdBy: createdBy,
+      isStudent: isStudent,
+      halaqatLearningIn: halaqatLearningIn,
+      centers: centers,
+      isTeacher: true,
+      halaqatTeachingIn: halaqatTeachingIn,
+    );
+    widget.onSaved(teacher);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('إملأ الإستمارة'),
-        actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: InkWell(
-              onTap: () => _save(),
-              child: Icon(
-                Icons.save,
-                size: 26.0,
-              ),
-            ),
-          ),
-        ],
-      ),
       body: Form(
-        key: _formKey,
+        onChanged: () {
+          _save();
+        },
+        key: widget.teacherFormKey,
         child: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
+                if (widget.includeUsernameAndPassword) ...[
+                  TextFormField2(
+                    isEnabled: widget.isEnabled,
+                    title: 'إسم المتستخدم',
+                    initialValue: usernameInitValue,
+                    hintText: 'إدخل إسم المتستخدم',
+                    errorText: 'خطأ',
+                    maxLength: 30,
+                    inputFormatter: FilteringTextInputFormatter.deny(''),
+                    onChanged: (value) {
+                      value = value + '@al-halaqat.firebaseapp.com';
+                      username = value;
+                    },
+                    isPhoneNumber: false,
+                    validator: (value) {
+                      if (!usernameSubmitValidator.isValid(value)) {
+                        return 'خطأ';
+                      }
+                      return null;
+                    },
+                  ),
+                  PasswordTextField(
+                    onPasswordCreated: (value) {
+                      password = value;
+                      _save();
+                    },
+                    existingPassword: password,
+                  ),
+                ],
                 TextFormField2(
+                  isEnabled: widget.isEnabled,
                   title: 'الإسم',
                   initialValue: name,
                   hintText: 'إدخل إسمك',
                   errorText: 'خطأ',
                   maxLength: 30,
-                  onChanged: (value) {},
                   inputFormatter: FilteringTextInputFormatter.deny(''),
-                  onSaved: (value) => name = value,
+                  onChanged: (value) => name = value,
                 ),
                 DatePicker(
+                    isEnabled: widget.isEnabled,
+                    initialValue: dateOfBirth,
                     title: 'تاريخ الميلاد',
                     onSelectedDate: (value) {
                       dateOfBirth = value;
-                      setState(() {});
+                      _save();
                     }),
                 DropdownButtonFormField2(
+                  isEnabled: widget.isEnabled,
                   title: 'الجنس',
                   possibleValues: ["ذكر", "أنثى"],
                   value: gender,
                   onSaved: (value) => gender = value,
                 ),
                 CountryPicker(
+                  isEnabled: widget.isEnabled,
                   title: 'الجنسية',
                   initialValue: nationality,
-                  onSavedCountry: (value) => nationality = value,
+                  onSavedCountry: (value) {
+                    nationality = value;
+                    _save();
+                  },
                 ),
                 TextFormField2(
+                  isEnabled: widget.isEnabled,
                   title: 'العنوان',
                   initialValue: address,
                   hintText: 'إدخل عنوانك',
                   errorText: 'خطأ',
                   maxLength: 30,
                   inputFormatter: FilteringTextInputFormatter.deny(''),
-                  onSaved: (value) => address = value,
-                  onChanged: (value) {},
+                  onChanged: (value) => address = value,
                 ),
                 TextFormField2(
+                  isEnabled: widget.isEnabled,
                   title: 'رقم الهاتف',
                   initialValue: phoneNumber,
                   hintText: 'إدخل رقم هاتفك',
                   errorText: 'خطأ',
                   maxLength: 10,
                   inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
-                  onSaved: (value) => phoneNumber = value,
+                  onChanged: (value) => phoneNumber = value,
                   isPhoneNumber: true,
-                  onChanged: (value) {},
                 ),
                 DropdownButtonFormField2(
+                  isEnabled: widget.isEnabled,
                   title: 'مستوى تعليمي',
                   possibleValues: [
                     'سنة أولى',
@@ -211,36 +246,38 @@ class _NewStudentFormState extends State<TeacherForm> {
                   onSaved: (value) => educationalLevel = value,
                 ),
                 TextFormField2(
+                  isEnabled: widget.isEnabled,
                   title: 'مدرسة / الجامعة',
                   initialValue: etablissement,
                   hintText: 'إدخل إسم المؤسسة',
                   errorText: 'خطأ',
                   maxLength: 10,
                   inputFormatter: FilteringTextInputFormatter.deny(''),
-                  onSaved: (value) => etablissement = value,
-                  onChanged: (value) {},
+                  onChanged: (value) => etablissement = value,
                 ),
+                if (widget.includeCenterIdInput) ...[
+                  TextFormField2(
+                    isEnabled: widget.isEnabled,
+                    title: 'رقم التعريفي للمركز',
+                    //initialValue: centers[0],
+                    hintText: 'إدخل رقم التعريفي للمركز',
+                    errorText: 'خطأ',
+                    maxLength: 20,
+                    inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
+                    isPhoneNumber: true,
+                    onChanged: (value) => centers[0] = value,
+                  ),
+                ],
                 TextFormField2(
-                  title: 'رقم التعريفي للمركز',
-                  // initialValue: centers[0],
-                  hintText: 'إدخل رقم التعريفي للمركز',
-                  errorText: 'خطأ',
-                  maxLength: 20,
-                  inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
-                  onSaved: (value) => centers[0] = value,
-                  onChanged: (value) {},
-                  isPhoneNumber: true,
-                ),
-                TextFormField2(
+                  isEnabled: widget.isEnabled,
                   title: 'ملاحظة',
                   initialValue: note,
                   hintText: 'إدخل ملاحظة',
                   errorText: 'خطأ',
                   maxLength: 100,
                   inputFormatter: FilteringTextInputFormatter.deny(''),
-                  onSaved: (value) => note = value,
                   isPhoneNumber: false,
-                  onChanged: (value) {},
+                  onChanged: (value) => note = value,
                 ),
               ],
             ),
