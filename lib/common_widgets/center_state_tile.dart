@@ -38,11 +38,6 @@ class _CenterStateTileState extends State<CenterStateTile> {
     chosenState = widget.defaultState;
     chosenState = chosenState ?? widget.statesList[0];
 
-    // final result =
-    //     Tuple2<MapEntry<StudyCenter, String>, MapEntry<StudyCenter, String>>(
-    //         MapEntry(widget.defaultCenter, widget.defaultState),
-    //         MapEntry(widget.defaultCenter, widget.defaultState));
-    // widget.onSaved(result);
     super.initState();
   }
 
@@ -50,8 +45,9 @@ class _CenterStateTileState extends State<CenterStateTile> {
     if (isCenters == true) {
       final result =
           Tuple2<MapEntry<StudyCenter, String>, MapEntry<StudyCenter, String>>(
-              MapEntry(chosenCenter, chosenState),
-              MapEntry(updatedValue, chosenState));
+        MapEntry(chosenCenter, chosenState),
+        MapEntry(updatedValue, chosenState),
+      );
 
       chosenCenter = updatedValue;
       setState(() {});

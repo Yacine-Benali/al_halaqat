@@ -1,6 +1,11 @@
 import 'package:al_halaqat/app/common_screens/admin_form.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_bloc.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_new_halaqa_screen.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_new_student_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_screen.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_new_teacher_screen.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_bloc.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_bloc.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_new_admin_screen.dart';
 import 'package:al_halaqat/app/models/admin.dart';
@@ -8,6 +13,7 @@ import 'package:al_halaqat/app/models/global_admin.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
@@ -15,31 +21,27 @@ import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'admin_new_student_screen.dart';
-
-class AdminStudentTileWidget extends StatefulWidget {
-  AdminStudentTileWidget({
+class AdminHalqaTileWidget extends StatefulWidget {
+  AdminHalqaTileWidget({
     Key key,
-    @required this.student,
-    @required this.chosenStudentState,
+    @required this.halaqa,
+    @required this.chosenHalaqaState,
     @required this.bloc,
     @required this.scaffoldKey,
     @required this.chosenCenter,
-    @required this.halaqatList,
   }) : super(key: key);
 
-  final Student student;
-  final String chosenStudentState;
-  final AdminStudentsBloc bloc;
+  final Halaqa halaqa;
+  final String chosenHalaqaState;
+  final AdminHalaqaBloc bloc;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final StudyCenter chosenCenter;
-  final List<Halaqa> halaqatList;
 
   @override
-  _AdminStudentTileWidgetState createState() => _AdminStudentTileWidgetState();
+  _AdminHalqaTileWidgetState createState() => _AdminHalqaTileWidgetState();
 }
 
-class _AdminStudentTileWidgetState extends State<AdminStudentTileWidget> {
+class _AdminHalqaTileWidgetState extends State<AdminHalqaTileWidget> {
   ProgressDialog pr;
 
   @override
@@ -65,11 +67,10 @@ class _AdminStudentTileWidgetState extends State<AdminStudentTileWidget> {
     if (action == 'edit') {
       await Navigator.of(context, rootNavigator: false).push(
         MaterialPageRoute(
-          builder: (context) => AdminNewStudentScreen(
+          builder: (context) => AdminNewHalaqaScreen(
             bloc: widget.bloc,
-            student: widget.student,
             chosenCenter: widget.chosenCenter,
-            halaqatList: widget.halaqatList,
+            halaqa: widget.halaqa,
           ),
           fullscreenDialog: true,
         ),
@@ -84,7 +85,10 @@ class _AdminStudentTileWidgetState extends State<AdminStudentTileWidget> {
       if (didRequestSignOut == true) {
         try {
           await pr.show();
-          await widget.bloc.executeAction(widget.student, action);
+          await widget.bloc.executeAction(
+            widget.halaqa,
+            action,
+          );
           await pr.hide();
           PlatformAlertDialog(
             title: 'نجحت العملية',
@@ -104,7 +108,7 @@ class _AdminStudentTileWidgetState extends State<AdminStudentTileWidget> {
 
   Widget _buildAction() {
     List<String> actions;
-    switch (widget.student.state) {
+    switch (widget.halaqa.state) {
       case 'approved':
         actions = ['edit', 'archive', 'delete'];
         break;
@@ -134,26 +138,16 @@ class _AdminStudentTileWidgetState extends State<AdminStudentTileWidget> {
     return Column(
       children: [
         ListTile(
-          title: Text(widget.student.name),
-          subtitle: Text(widget.student.readableId),
-          trailing: widget.student.state == 'deleted'
+          title: Text(widget.halaqa.name),
+          subtitle: Text(widget.halaqa.readableId),
+          trailing: widget.halaqa.state == 'deleted'
               ? Container(
                   height: 1,
                   width: 1,
                 )
               : _buildAction(),
-          enabled: widget.student.state == 'approved' ? true : false,
-          onTap: widget.student.state != 'approved' ? null : null,
-          // : () => Navigator.of(context, rootNavigator: false).push(
-          //       MaterialPageRoute(
-          //         builder: (context) => AdminNewStudentScreen(
-          //           bloc: widget.bloc,
-          //           student: widget.student,
-          //           chosenCenter: widget.chosenCenter,
-          //         ),
-          //         fullscreenDialog: true,
-          //       ),
-          //     ),
+          enabled: widget.halaqa.state == 'approved' ? true : false,
+          onTap: widget.halaqa.state != 'approved' ? null : null,
         ),
         Divider(
           height: 0.5,

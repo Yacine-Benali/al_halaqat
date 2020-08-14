@@ -100,7 +100,7 @@ class _GaCentersScreenState extends State<GaCentersScreen> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             centersList =
-                bloc.getFilteredAdminsList(snapshot.data, chosenCentersState);
+                bloc.getFilteredCentersList(snapshot.data, chosenCentersState);
             if (centersList.isNotEmpty) {
               return _buildList();
             } else {

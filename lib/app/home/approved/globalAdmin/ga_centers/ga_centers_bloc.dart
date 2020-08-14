@@ -14,7 +14,7 @@ class GaCentersBloc {
 
   Stream<List<StudyCenter>> getCentersStream() => provider.getCentersStream();
 
-  List<StudyCenter> getFilteredAdminsList(
+  List<StudyCenter> getFilteredCentersList(
     List<StudyCenter> centersList,
     String chosenCentersState,
   ) {
@@ -39,6 +39,7 @@ class GaCentersBloc {
         'id': user.id,
       };
       center.state = 'approved';
+      center.nextHalaqaReadableId = 1000;
     }
     bool isNameDuplicated = checkIfNameUnique(
       center,

@@ -18,6 +18,7 @@ class AdminTeachersProvider {
       queryBuilder: (query) => query
           .where('isTeacher', isEqualTo: true)
           .where('centers', arrayContainsAny: centerIds),
+      sort: (a, b) => a.createdAt.compareTo(b.createdAt),
     );
   }
 

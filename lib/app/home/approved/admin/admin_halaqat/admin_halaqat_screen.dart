@@ -1,7 +1,12 @@
+import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqa_tile_widget.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_bloc.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_provider.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_new_halaqa_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_new_teacher_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_provider.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_tile_widget.dart';
+import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
@@ -12,15 +17,14 @@ import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-//! TODO load teacher lazly
-class AdminTeachersScreen extends StatefulWidget {
-  const AdminTeachersScreen._({
+class AdminHalaqatScreen extends StatefulWidget {
+  const AdminHalaqatScreen._({
     Key key,
     @required this.bloc,
     @required this.centers,
   }) : super(key: key);
 
-  final AdminTeacherBloc bloc;
+  final AdminHalaqaBloc bloc;
   final List<StudyCenter> centers;
 
   static Widget create({
@@ -31,38 +35,39 @@ class AdminTeachersScreen extends StatefulWidget {
     User user = Provider.of<User>(context, listen: false);
     Auth auth = Provider.of<Auth>(context, listen: false);
 
-    AdminTeachersProvider provider = AdminTeachersProvider(database: database);
-    AdminTeacherBloc bloc = AdminTeacherBloc(
+    AdminHalaqatProvider provider = AdminHalaqatProvider(database: database);
+    AdminHalaqaBloc bloc = AdminHalaqaBloc(
       auth: auth,
       admin: user,
       provider: provider,
     );
 
-    return AdminTeachersScreen._(
+    return AdminHalaqatScreen._(
       bloc: bloc,
       centers: centers,
     );
   }
 
   @override
-  _AdminTeachersScreenState createState() => _AdminTeachersScreenState();
+  _AdminHalaqatScreenState createState() => _AdminHalaqatScreenState();
 }
 
-class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
-  AdminTeacherBloc get bloc => widget.bloc;
+class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
+  AdminHalaqaBloc get bloc => widget.bloc;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<String> teachersStateList = KeyTranslate.centersStateList.keys.toList();
+  List<String> halaqatStateList = KeyTranslate.centersStateList.keys.toList();
 
-  String chosenTeacherState;
+  String chosenHalaqaState;
   StudyCenter chosenCenter;
+  Stream<List<Halaqa>> halaqatListStream;
 
-  Stream<List<Teacher>> teachersListStream;
   @override
   void initState() {
-    teachersListStream = bloc.fetchTeachers(widget.centers);
     chosenCenter = widget.centers[0];
-    chosenTeacherState = teachersStateList[0];
+    chosenHalaqaState = halaqatStateList[0];
+    halaqatListStream = bloc.fetchHalaqat(chosenCenter);
+
     super.initState();
   }
 
@@ -88,6 +93,7 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
                 onChanged: (StudyCenter newValue) {
                   setState(() {
                     chosenCenter = newValue;
+                    halaqatListStream = bloc.fetchHalaqat(chosenCenter);
                   });
                 },
                 items: widget.centers
@@ -105,7 +111,7 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
             child: Center(
               child: DropdownButton<String>(
                 dropdownColor: Colors.indigo,
-                value: chosenTeacherState,
+                value: chosenHalaqaState,
                 icon: Icon(Icons.arrow_drop_down, color: Colors.white),
                 iconSize: 24,
                 underline: Container(),
@@ -113,10 +119,10 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
                 style: TextStyle(color: Colors.white, fontSize: 20),
                 onChanged: (String newValue) {
                   setState(() {
-                    chosenTeacherState = newValue;
+                    chosenHalaqaState = newValue;
                   });
                 },
-                items: teachersStateList
+                items: halaqatStateList
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
@@ -131,10 +137,10 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context, rootNavigator: false).push(
           MaterialPageRoute(
-            builder: (context) => AdminNewTeacherScreen(
+            builder: (context) => AdminNewHalaqaScreen(
               bloc: bloc,
               chosenCenter: chosenCenter,
-              teacher: null,
+              halaqa: null,
             ),
             fullscreenDialog: true,
           ),
@@ -142,21 +148,20 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
         tooltip: 'add',
         child: Icon(Icons.add),
       ),
-      body: StreamBuilder<List<Teacher>>(
-        stream: teachersListStream,
+      body: StreamBuilder<List<Halaqa>>(
+        stream: halaqatListStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List<Teacher> teachersList = bloc.getFilteredTeachersList(
+            List<Halaqa> halaqatList = bloc.getFilteredHalaqatList(
               snapshot.data,
-              chosenCenter,
-              chosenTeacherState,
+              chosenHalaqaState,
             );
-            if (teachersList.isNotEmpty) {
-              return _buildList(teachersList);
+            if (halaqatList.isNotEmpty) {
+              return _buildList(halaqatList);
             } else {
               return EmptyContent(
-                title: 'لا يوجد مراكز ',
-                message: 'لا يوجد مراكز في هذه الحالة',
+                title: 'لا يوجد أي حلقات ',
+                message: '',
               );
             }
           } else if (snapshot.hasError) {
@@ -171,19 +176,19 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
     );
   }
 
-  Widget _buildList(List<Teacher> teachersList) {
+  Widget _buildList(List<Halaqa> halaqatList) {
     return ListView.separated(
-      itemCount: teachersList.length + 2,
+      itemCount: halaqatList.length + 2,
       separatorBuilder: (context, index) => Divider(height: 0.5),
       itemBuilder: (context, index) {
-        if (index == 0 || index == teachersList.length + 1) {
+        if (index == 0 || index == halaqatList.length + 1) {
           return Container();
         }
-        return AdminTeacherTileWidget(
-          teacher: teachersList[index - 1],
-          chosenTeacherState: chosenTeacherState,
+        return AdminHalqaTileWidget(
           bloc: bloc,
+          halaqa: halaqatList[index - 1],
           scaffoldKey: _scaffoldKey,
+          chosenHalaqaState: chosenHalaqaState,
           chosenCenter: chosenCenter,
         );
       },

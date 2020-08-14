@@ -7,9 +7,11 @@ import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_pro
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_tile_widget.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_new_admin_screen.dart';
 import 'package:al_halaqat/app/models/admin.dart';
+import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
+import 'package:al_halaqat/app/models/user_halaqa.dart';
 import 'package:al_halaqat/common_packages/pk_search_bar/pk_search_bar.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
@@ -56,7 +58,7 @@ class AdminsStudentsScreen extends StatefulWidget {
 
 class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
   AdminStudentsBloc get bloc => widget.bloc;
-  Stream<List<Student>> studentsStream;
+  Stream<UserHalaqa<Student>> studentsStream;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   //
@@ -69,6 +71,7 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
   @override
   void initState() {
     studentsStream = bloc.fetchStudents(widget.centers);
+
     chosenCenter = widget.centers[0];
     chosenStudentState = studentStateList[0];
     super.initState();
@@ -139,31 +142,36 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context, rootNavigator: false).push(
-          MaterialPageRoute(
-            builder: (context) => AdminNewStudentScreen(
-              bloc: bloc,
-              student: null,
-              chosenCenter: chosenCenter,
-            ),
-            fullscreenDialog: true,
-          ),
-        ),
-        tooltip: 'add',
-        child: Icon(Icons.add),
-      ),
-      body: StreamBuilder<List<Student>>(
+      body: StreamBuilder<UserHalaqa<Student>>(
         stream: studentsStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<Student> studentsList = bloc.getFilteredStudentsList(
-              snapshot.data,
+              snapshot.data.usersList,
               chosenCenter,
               chosenStudentState,
             );
+            List<Halaqa> halaqatList = snapshot.data.halaqatList;
             if (studentsList.isNotEmpty) {
-              return _buildList(studentsList);
+              return Scaffold(
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () =>
+                      Navigator.of(context, rootNavigator: false).push(
+                    MaterialPageRoute(
+                      builder: (context) => AdminNewStudentScreen(
+                        bloc: bloc,
+                        student: null,
+                        chosenCenter: chosenCenter,
+                        halaqatList: halaqatList,
+                      ),
+                      fullscreenDialog: true,
+                    ),
+                  ),
+                  tooltip: 'add',
+                  child: Icon(Icons.add),
+                ),
+                body: _buildList(studentsList, halaqatList),
+              );
             } else {
               return EmptyContent(
                 title: 'لا يوجد أي طلاب',
@@ -182,7 +190,7 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
     );
   }
 
-  Widget _buildList(List<Student> studentsList) {
+  Widget _buildList(List<Student> studentsList, List<Halaqa> halaqatList) {
     return SearchBar<Student>(
       searchBarPadding: EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 5),
       headerPadding: EdgeInsets.only(left: 0, right: 0),
@@ -223,10 +231,12 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
           chosenStudentState: chosenStudentState,
           scaffoldKey: _scaffoldKey,
           student: student,
+          halaqatList: halaqatList,
         );
       },
       onItemFound: (Student student, int index) {
         return AdminStudentTileWidget(
+          halaqatList: halaqatList,
           bloc: bloc,
           chosenCenter: chosenCenter,
           chosenStudentState: chosenStudentState,

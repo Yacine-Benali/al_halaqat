@@ -1,35 +1,38 @@
+import 'package:al_halaqat/app/common_screens/halaqa_form.dart';
 import 'package:al_halaqat/app/common_screens/student_form.dart';
+import 'package:al_halaqat/app/common_screens/teacher_form.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_bloc.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_bloc.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AdminNewStudentScreen extends StatefulWidget {
-  const AdminNewStudentScreen({
+class AdminNewHalaqaScreen extends StatefulWidget {
+  const AdminNewHalaqaScreen({
     Key key,
     @required this.bloc,
-    @required this.student,
+    @required this.halaqa,
     @required this.chosenCenter,
-    @required this.halaqatList,
   }) : super(key: key);
 
-  final AdminStudentsBloc bloc;
-  final Student student;
+  final AdminHalaqaBloc bloc;
+  final Halaqa halaqa;
   final StudyCenter chosenCenter;
-  final List<Halaqa> halaqatList;
 
   @override
-  _AdminNewStudentScreenState createState() => _AdminNewStudentScreenState();
+  _AdminNewHalaqaScreenState createState() => _AdminNewHalaqaScreenState();
 }
 
-class _AdminNewStudentScreenState extends State<AdminNewStudentScreen> {
-  final GlobalKey<FormState> studentFormKey = GlobalKey<FormState>();
-  Student student;
+class _AdminNewHalaqaScreenState extends State<AdminNewHalaqaScreen> {
+  final GlobalKey<FormState> halaqaFormKey = GlobalKey<FormState>();
+  Halaqa halaqa;
   ProgressDialog pr;
 
   @override
@@ -52,11 +55,11 @@ class _AdminNewStudentScreenState extends State<AdminNewStudentScreen> {
   }
 
   void save() async {
-    if (studentFormKey.currentState.validate()) {
+    if (halaqaFormKey.currentState.validate()) {
       try {
         //   print(admin.centers);
         await pr.show();
-        await widget.bloc.createStudent(student, widget.chosenCenter);
+        await widget.bloc.createHalaqa(halaqa, widget.chosenCenter);
         await pr.hide();
 
         PlatformAlertDialog(
@@ -94,14 +97,10 @@ class _AdminNewStudentScreenState extends State<AdminNewStudentScreen> {
           ),
         ],
       ),
-      body: StudentForm(
-        halaqatList: widget.halaqatList,
-        showUserHalaqa: true,
-        includeUsernameAndPassword: true,
-        includeCenterIdInput: false,
-        student: widget.student,
-        onSaved: (Student newStudent) => student = newStudent,
-        studentFormKey: studentFormKey,
+      body: HalaqaForm(
+        halaqa: widget.halaqa,
+        onSaved: (Halaqa value) => halaqa = value,
+        halaqaFormKey: halaqaFormKey,
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_screen.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_screen.dart';
@@ -134,7 +135,16 @@ class _AdminHomePageState extends State<AdminHomePage> {
               SizedBox(height: 10),
               MenuButtonWidget(
                 text: 'إدارة الحلقات',
-                onPressed: () {},
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: false).push(
+                  MaterialPageRoute(
+                    builder: (context) => AdminHalaqatScreen.create(
+                      context: context,
+                      centers: items,
+                    ),
+                    fullscreenDialog: true,
+                  ),
+                ),
               ),
               SizedBox(height: 10),
               MenuButtonWidget(

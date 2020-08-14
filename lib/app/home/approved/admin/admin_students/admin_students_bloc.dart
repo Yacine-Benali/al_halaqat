@@ -1,9 +1,12 @@
 import 'package:al_halaqat/app/models/admin.dart';
+import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/app/models/user_halaqa.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rxdart/rxdart.dart';
 
 import 'admin_students_provider.dart';
 
@@ -17,13 +20,21 @@ class AdminStudentsBloc {
   final AdminStudentsProvider provider;
   final Admin admin;
   final Auth auth;
+  List<Halaqa> halaqat;
 
-  Stream<List<Student>> fetchStudents(
+  Stream<UserHalaqa<Student>> fetchStudents(
     List<StudyCenter> centersList,
   ) {
     List<String> centerIds = centersList.map((e) => e.id).toList();
+
     if (centerIds.length <= 10) {
-      return provider.fetchStudents(centerIds);
+      Stream<List<Student>> studentsStream = provider.fetchStudents(centerIds);
+      Stream<List<Halaqa>> halaqatStream = provider.fetchHalaqat(centerIds);
+      Stream<UserHalaqa<Student>> studentsHalaqatStream = Rx.combineLatest2(
+          studentsStream,
+          halaqatStream,
+          (a, b) => UserHalaqa<Student>(usersList: a, halaqatList: b));
+      return studentsHalaqatStream;
     } else {
       print('huston we got a problem');
     }
@@ -77,7 +88,7 @@ class AdminStudentsBloc {
     return filteredStudentsList;
   }
 
-  executeAction(Student student, String action) async {
+  void executeAction(Student student, String action) async {
     switch (action) {
       case 'reApprove':
         student.state = 'approved';
