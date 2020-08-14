@@ -170,7 +170,7 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
                   tooltip: 'add',
                   child: Icon(Icons.add),
                 ),
-                body: _buildList(studentsList, halaqatList),
+                body: buildBody(studentsList, halaqatList),
               );
             } else {
               return EmptyContent(
@@ -188,6 +188,17 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
         },
       ),
     );
+  }
+
+  Widget buildBody(List<Student> teachersList, List<Halaqa> halaqatList) {
+    if (teachersList.isNotEmpty) {
+      return _buildList(teachersList, halaqatList);
+    } else {
+      return EmptyContent(
+        title: 'لا يوجد مراكز ',
+        message: 'لا يوجد مراكز في هذه الحالة',
+      );
+    }
   }
 
   Widget _buildList(List<Student> studentsList, List<Halaqa> halaqatList) {

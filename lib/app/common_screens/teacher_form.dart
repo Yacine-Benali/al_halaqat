@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
@@ -8,6 +9,7 @@ import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/text_form_field2.dart';
 import 'package:al_halaqat/common_widgets/drop_down_form_field2.dart';
 import 'package:al_halaqat/common_widgets/country_picker.dart';
+import 'package:al_halaqat/common_widgets/user_halaqa_form.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +23,8 @@ class TeacherForm extends StatefulWidget {
     @required this.includeUsernameAndPassword,
     @required this.isEnabled,
     @required this.teacherFormKey,
+    this.halaqatList,
+    @required this.showUserHalaqa,
   }) : super(key: key);
   final GlobalKey<FormState> teacherFormKey;
   final ValueChanged<Teacher> onSaved;
@@ -28,6 +32,8 @@ class TeacherForm extends StatefulWidget {
   final bool isEnabled;
   final bool includeCenterIdInput;
   final bool includeUsernameAndPassword;
+  final List<Halaqa> halaqatList;
+  final bool showUserHalaqa;
 
   @override
   _NewStudentFormState createState() => _NewStudentFormState();
@@ -279,6 +285,28 @@ class _NewStudentFormState extends State<TeacherForm>
                   isPhoneNumber: false,
                   onChanged: (value) => note = value,
                 ),
+                if (widget.showUserHalaqa) ...[
+                  UserHalaqaForm(
+                    title: 'حلقات يعلم فيها',
+                    halaqatList: widget.halaqatList,
+                    onSaved: (List<String> value) {
+                      halaqatTeachingIn = value;
+                      _save();
+                    },
+                    currentHalaqatIdsList: halaqatTeachingIn,
+                  ),
+                ],
+                if (teacher?.isStudent ?? false) ...[
+                  UserHalaqaForm(
+                    title: 'حلقات طالب فيها',
+                    halaqatList: widget.halaqatList,
+                    onSaved: (List<String> value) {
+                      halaqatLearningIn = value;
+                      _save();
+                    },
+                    currentHalaqatIdsList: halaqatLearningIn,
+                  )
+                ]
               ],
             ),
           ),

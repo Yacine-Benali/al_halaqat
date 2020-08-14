@@ -13,11 +13,13 @@ class UserHalaqaForm extends StatefulWidget {
     @required this.halaqatList,
     @required this.onSaved,
     @required this.currentHalaqatIdsList,
+    @required this.title,
   }) : super(key: key);
 
   final List<Halaqa> halaqatList;
   final List<String> currentHalaqatIdsList;
   final ValueChanged<List<String>> onSaved;
+  final String title;
 
   @override
   _UserHalaqaFormState createState() => _UserHalaqaFormState();
@@ -40,7 +42,7 @@ class _UserHalaqaFormState extends State<UserHalaqaForm> {
   void onSaved(Tuple2<Halaqa, Halaqa> changeResult) {
     Halaqa oldHalaqa = changeResult.item1;
     Halaqa newHalaqa = changeResult.item2;
-    print('${oldHalaqa?.id} => ${newHalaqa.id} ');
+    //print('${oldHalaqa?.id} => ${newHalaqa.id} ');
     List<String> temp = List();
     bool isFound = false;
     //
@@ -136,7 +138,7 @@ class _UserHalaqaFormState extends State<UserHalaqaForm> {
           Align(
             alignment: Alignment.centerRight,
             child: Text(
-              'حلقات',
+              widget.title,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),

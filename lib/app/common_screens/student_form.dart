@@ -299,6 +299,7 @@ class _NewStudentFormState extends State<StudentForm>
                 ),
                 if (widget.showUserHalaqa) ...[
                   UserHalaqaForm(
+                    title: 'حلقات',
                     halaqatList: widget.halaqatList,
                     onSaved: (List<String> value) {
                       halaqatLearningIn = value;

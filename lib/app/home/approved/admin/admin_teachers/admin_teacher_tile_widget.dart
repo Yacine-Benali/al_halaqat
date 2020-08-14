@@ -8,6 +8,7 @@ import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_blo
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_new_admin_screen.dart';
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/global_admin.dart';
+import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
@@ -26,6 +27,7 @@ class AdminTeacherTileWidget extends StatefulWidget {
     @required this.bloc,
     @required this.scaffoldKey,
     @required this.chosenCenter,
+    @required this.halaqatList,
   }) : super(key: key);
 
   final Teacher teacher;
@@ -33,6 +35,7 @@ class AdminTeacherTileWidget extends StatefulWidget {
   final AdminTeacherBloc bloc;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final StudyCenter chosenCenter;
+  final List<Halaqa> halaqatList;
 
   @override
   _AdminTeacherTileWidgetState createState() => _AdminTeacherTileWidgetState();
@@ -68,6 +71,7 @@ class _AdminTeacherTileWidgetState extends State<AdminTeacherTileWidget> {
             bloc: widget.bloc,
             chosenCenter: widget.chosenCenter,
             teacher: widget.teacher,
+            halaqatList: widget.halaqatList,
           ),
           fullscreenDialog: true,
         ),
@@ -158,6 +162,7 @@ class _AdminTeacherTileWidgetState extends State<AdminTeacherTileWidget> {
                             bloc: widget.bloc,
                             chosenCenter: widget.chosenCenter,
                             teacher: widget.teacher,
+                            halaqatList: widget.halaqatList,
                           ),
                           fullscreenDialog: true,
                         ),

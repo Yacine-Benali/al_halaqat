@@ -2,6 +2,7 @@ import 'package:al_halaqat/app/common_screens/student_form.dart';
 import 'package:al_halaqat/app/common_screens/teacher_form.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_bloc.dart';
+import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
@@ -17,11 +18,13 @@ class AdminNewTeacherScreen extends StatefulWidget {
     @required this.bloc,
     @required this.teacher,
     @required this.chosenCenter,
+    @required this.halaqatList,
   }) : super(key: key);
 
   final AdminTeacherBloc bloc;
   final Teacher teacher;
   final StudyCenter chosenCenter;
+  final List<Halaqa> halaqatList;
 
   @override
   _AdminNewTeacherScreenState createState() => _AdminNewTeacherScreenState();
@@ -95,12 +98,14 @@ class _AdminNewTeacherScreenState extends State<AdminNewTeacherScreen> {
         ],
       ),
       body: TeacherForm(
+        halaqatList: widget.halaqatList,
         teacher: widget.teacher,
         onSaved: (Teacher value) => teacher = value,
         includeCenterIdInput: false,
         includeUsernameAndPassword: true,
         isEnabled: true,
         teacherFormKey: teacherFormKey,
+        showUserHalaqa: true,
       ),
     );
   }

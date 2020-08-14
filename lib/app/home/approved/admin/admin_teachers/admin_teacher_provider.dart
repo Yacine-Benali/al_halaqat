@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/services/api_path.dart';
 import 'package:al_halaqat/services/database.dart';
@@ -43,6 +44,16 @@ class AdminTeachersProvider {
       );
     }, timeout: Duration(seconds: 10));
   }
+
+  Stream<List<Halaqa>> fetchHalaqat(List<String> centerIds) =>
+      database.collectionStream(
+        path: APIPath.halaqatCollection(),
+        builder: (data, documentId) => Halaqa.fromMap(data, documentId),
+        queryBuilder: (query) => query
+            .where('state', isEqualTo: 'approved')
+            .where('centerId', whereIn: centerIds),
+        sort: (a, b) => a.createdAt.compareTo(b.createdAt),
+      );
 
   String getUniqueId() => database.getUniqueId();
 }
