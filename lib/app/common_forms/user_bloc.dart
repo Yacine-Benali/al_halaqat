@@ -5,8 +5,8 @@ import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
-import 'package:al_halaqat/app/common_screens/user_provider.dart';
-import 'package:al_halaqat/app/common_screens/user_info_screen.dart';
+import 'package:al_halaqat/app/common_forms/user_provider.dart';
+import 'package:al_halaqat/app/common_forms/user_info_screen.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/foundation.dart';
 
@@ -62,7 +62,7 @@ class UserBloc {
     );
   }
 
-  Future<void> createTeacherOrStudent(Teacher teacher) async {
+  Future<void> createTeacher(Teacher teacher) async {
     String joinRequestCenterId;
     CenterRequest joinRequest;
     if (teacher.createdBy.isEmpty) {

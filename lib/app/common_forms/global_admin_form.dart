@@ -1,4 +1,4 @@
-import 'package:al_halaqat/app/common_screens/center_form.dart';
+import 'package:al_halaqat/app/common_forms/center_form.dart';
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/global_admin.dart';
 

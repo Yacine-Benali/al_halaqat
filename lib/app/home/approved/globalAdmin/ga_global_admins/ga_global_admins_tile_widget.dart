@@ -1,4 +1,4 @@
-import 'package:al_halaqat/app/common_screens/admin_form.dart';
+import 'package:al_halaqat/app/common_forms/admin_form.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_bloc.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_new_admin_screen.dart';
 import 'package:al_halaqat/app/models/admin.dart';

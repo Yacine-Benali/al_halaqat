@@ -1,6 +1,6 @@
-import 'package:al_halaqat/app/common_screens/halaqa_form.dart';
-import 'package:al_halaqat/app/common_screens/student_form.dart';
-import 'package:al_halaqat/app/common_screens/teacher_form.dart';
+import 'package:al_halaqat/app/common_forms/halaqa_form.dart';
+import 'package:al_halaqat/app/common_forms/student_form.dart';
+import 'package:al_halaqat/app/common_forms/teacher_form.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_bloc.dart';

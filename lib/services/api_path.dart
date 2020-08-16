@@ -17,4 +17,7 @@ class APIPath {
 
   static String halaqatCollection() => 'halaqat/';
   static String halaqaDocument(String halaqaId) => 'halaqat/$halaqaId';
+
+  static String instancesCollection() => 'instances/';
+  static String instanceDocument(String instanceId) => 'instances/$instanceId';
 }

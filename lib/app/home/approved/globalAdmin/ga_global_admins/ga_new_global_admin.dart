@@ -1,5 +1,5 @@
-import 'package:al_halaqat/app/common_screens/admin_form.dart';
-import 'package:al_halaqat/app/common_screens/global_admin_form.dart';
+import 'package:al_halaqat/app/common_forms/admin_form.dart';
+import 'package:al_halaqat/app/common_forms/global_admin_form.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_bloc.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_global_admins/ga_global_admins_bloc.dart';
 import 'package:al_halaqat/app/models/admin.dart';

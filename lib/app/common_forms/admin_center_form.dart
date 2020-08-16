@@ -1,6 +1,9 @@
-import 'package:al_halaqat/app/common_screens/admin_form.dart';
-import 'package:al_halaqat/app/common_screens/user_bloc.dart';
+import 'package:al_halaqat/app/common_forms/admin_form.dart';
+import 'package:al_halaqat/app/common_forms/user_bloc.dart';
+import 'package:al_halaqat/app/common_forms/user_info_screen.dart';
+import 'package:al_halaqat/app/common_forms/user_provider.dart';
 import 'package:al_halaqat/app/models/admin.dart';
+import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
@@ -9,14 +12,40 @@ import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:al_halaqat/services/database.dart';
+import 'package:al_halaqat/services/auth.dart';
 
 class AdminCenterForm extends StatefulWidget {
-  const AdminCenterForm({
+  const AdminCenterForm._({
     Key key,
     @required this.admin,
+    @required this.bloc,
   }) : super(key: key);
 
   final Admin admin;
+  final UserBloc bloc;
+
+  static Widget create({
+    @required BuildContext context,
+    User user,
+    StudyCenter center,
+  }) {
+    Database database = Provider.of<Database>(context, listen: false);
+    AuthUser authUser = Provider.of<AuthUser>(context, listen: false);
+    UserProvider provider = UserProvider(database: database);
+    UserBloc bloc = UserBloc(
+      provider: provider,
+      userType: FormType.adminAndCenter,
+      authUser: authUser,
+    );
+    return Provider<UserBloc>.value(
+      value: bloc,
+      child: AdminCenterForm._(
+        bloc: bloc,
+        admin: user,
+      ),
+    );
+  }
 
   @override
   _AdminCenterFormState createState() => _AdminCenterFormState();
@@ -94,25 +123,7 @@ class _AdminCenterFormState extends State<AdminCenterForm> {
           ),
         ],
       ),
-      body: _buildBody(bloc),
-    );
-  }
-
-  Widget _buildBody(UserBloc bloc) {
-    if (widget?.admin?.centers?.isEmpty ?? true) {
-      return AdminForm(
-        includeUsernameAndPassword: false,
-        includeCenterForm: true,
-        includeCenterIdInput: false,
-        admin: widget.admin,
-        onSavedAdmin: (newAdmin) => admin = newAdmin,
-        center: null,
-        onSavedCenter: (newCenter) => center = newCenter,
-        isEnabled: true,
-        adminFormKey: adminFormKey,
-      );
-    } else {
-      return FutureBuilder<StudyCenter>(
+      body: FutureBuilder<StudyCenter>(
         future: bloc.getCenter(widget.admin.centers[0]),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -129,26 +140,16 @@ class _AdminCenterFormState extends State<AdminCenterForm> {
               includeCenterForm: true,
             );
           } else if (snapshot.hasError) {
-            return Scaffold(
-              appBar: AppBar(
-                title: Text(''),
-              ),
-              body: EmptyContent(
-                title: 'Something went wrong',
-                message: 'Can\'t load items right now',
-              ),
+            return EmptyContent(
+              title: 'Something went wrong',
+              message: 'Can\'t load items right now',
             );
           }
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(''),
-            ),
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
+          return Center(
+            child: CircularProgressIndicator(),
           );
         },
-      );
-    }
+      ),
+    );
   }
 }

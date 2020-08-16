@@ -1,8 +1,9 @@
+import 'package:al_halaqat/app/common_forms/admin_center_form.dart';
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
-import 'package:al_halaqat/app/common_screens/user_info_screen.dart';
+import 'package:al_halaqat/app/common_forms/user_info_screen.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
@@ -41,6 +42,21 @@ class _PendingScreenState extends State<PendingScreen> {
     }
   }
 
+  bool isTherePendingCenter(Map<String, String> centerState) {
+    List<String> states = centerState.values.toList();
+    bool isThereAnActive = false;
+    for (String state in states) if (state == 'pending') isThereAnActive = true;
+    return isThereAnActive;
+  }
+
+  bool isTherePendingWithCenter(Map<String, String> centerState) {
+    List<String> states = centerState.values.toList();
+    bool isThereAnActive = false;
+    for (String state in states)
+      if (state == 'pendingWithCenter') isThereAnActive = true;
+    return isThereAnActive;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<User>(
@@ -48,10 +64,9 @@ class _PendingScreenState extends State<PendingScreen> {
         FormType userType;
         if (user is Teacher) userType = FormType.teacher;
         if (user is Student) userType = FormType.student;
-        if (user is Admin) userType = FormType.admin;
-        if (user is Admin &&
-            user.centerState.values.toList()[0] == 'pendingWithCenter')
-          userType = FormType.adminAndCenter;
+        if (user is Admin && isTherePendingCenter(user.centerState))
+          userType = FormType.admin;
+        if (user is Admin) userType = FormType.adminAndCenter;
 
         return Scaffold(
           appBar: AppBar(
@@ -61,16 +76,26 @@ class _PendingScreenState extends State<PendingScreen> {
               Padding(
                 padding: EdgeInsets.only(left: 20.0),
                 child: InkWell(
-                  onTap: () => Navigator.of(context, rootNavigator: false).push(
-                    MaterialPageRoute(
-                      builder: (context) => UserInfoScreen.create(
-                        context: context,
-                        userType: userType,
-                        user: user,
-                      ),
-                      fullscreenDialog: true,
-                    ),
-                  ),
+                  onTap: () => userType == FormType.adminAndCenter
+                      ? Navigator.of(context, rootNavigator: false).push(
+                          MaterialPageRoute(
+                            builder: (context) => AdminCenterForm.create(
+                              context: context,
+                              user: user,
+                            ),
+                            fullscreenDialog: true,
+                          ),
+                        )
+                      : Navigator.of(context, rootNavigator: false).push(
+                          MaterialPageRoute(
+                            builder: (context) => UserInfoScreen.create(
+                              context: context,
+                              userType: userType,
+                              user: user,
+                            ),
+                            fullscreenDialog: true,
+                          ),
+                        ),
                   child: Icon(
                     Icons.edit,
                     size: 26.0,

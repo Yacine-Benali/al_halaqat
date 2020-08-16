@@ -1,7 +1,7 @@
 import 'package:al_halaqat/app/home/base_sceen.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/app/home/notApproved/join_us_screen.dart';
-import 'package:al_halaqat/app/common_screens/user_info_screen.dart';
+import 'package:al_halaqat/app/common_forms/user_info_screen.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/services/api_path.dart';
 import 'package:al_halaqat/services/firestore_database.dart';

@@ -1,10 +1,10 @@
-import 'package:al_halaqat/app/common_screens/admin_form.dart';
-import 'package:al_halaqat/app/common_screens/student_form.dart';
-import 'package:al_halaqat/app/common_screens/teacher_form.dart';
+import 'package:al_halaqat/app/common_forms/admin_form.dart';
+import 'package:al_halaqat/app/common_forms/student_form.dart';
+import 'package:al_halaqat/app/common_forms/teacher_form.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
-import 'package:al_halaqat/app/common_screens/user_bloc.dart';
-import 'package:al_halaqat/app/common_screens/user_provider.dart';
+import 'package:al_halaqat/app/common_forms/user_bloc.dart';
+import 'package:al_halaqat/app/common_forms/user_provider.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
@@ -13,7 +13,7 @@ import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:al_halaqat/app/common_screens/admin_center_form.dart';
+import 'package:al_halaqat/app/common_forms/admin_center_form.dart';
 
 //! change to user form screen
 
@@ -90,9 +90,10 @@ class _NewUserScreenState extends State<UserInfoScreen> {
       try {
         await pr.show();
 
-        if (widget.userType == FormType.student ||
-            widget.userType == FormType.teacher) {
-          await bloc.createTeacherOrStudent(user);
+        if (widget.userType == FormType.teacher) {
+          await bloc.createTeacher(user);
+        } else if (widget.userType == FormType.student) {
+          await bloc.createStudent(user);
         } else {
           await bloc.createAdmin(user);
         }
@@ -117,41 +118,25 @@ class _NewUserScreenState extends State<UserInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (bloc.userType == FormType.adminAndCenter)
-      return AdminCenterForm(
-        admin: widget.user,
-      );
-    else {
-      return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text('إملأ الإستمارة'),
-          actions: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(left: 20.0),
-              child: InkWell(
-                onTap: () => _save(context),
-                child: Icon(
-                  Icons.save,
-                  size: 26.0,
-                ),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('إملأ الإستمارة'),
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(left: 20.0),
+            child: InkWell(
+              onTap: () => _save(context),
+              child: Icon(
+                Icons.save,
+                size: 26.0,
               ),
             ),
-            // Padding(
-            //   padding: EdgeInsets.only(left: 20.0),
-            //   child: InkWell(
-            //     onTap: () => _temp(),
-            //     child: Icon(
-            //       Icons.bug_report,
-            //       size: 26.0,
-            //     ),
-            //   ),
-            // ),
-          ],
-        ),
-        body: _buildForm(),
-      );
-    }
+          ),
+        ],
+      ),
+      body: _buildForm(),
+    );
   }
 
   Widget _buildForm() {
@@ -171,12 +156,21 @@ class _NewUserScreenState extends State<UserInfoScreen> {
       return TeacherForm(
         teacher: widget.user,
         onSaved: (teacher) => user = teacher,
+        includeCenterIdInput: true,
+        includeUsernameAndPassword: false,
+        isEnabled: true,
+        showUserHalaqa: false,
+        teacherFormKey: userFormKey,
       );
 
     if (bloc.userType == FormType.student)
       return StudentForm(
         student: widget.user,
         onSaved: (student) => user = student,
+        includeCenterIdInput: true,
+        includeUsernameAndPassword: false,
+        showUserHalaqa: false,
+        studentFormKey: userFormKey,
       );
     else
       return Container();

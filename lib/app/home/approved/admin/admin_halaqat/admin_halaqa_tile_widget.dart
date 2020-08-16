@@ -1,4 +1,4 @@
-import 'package:al_halaqat/app/common_screens/admin_form.dart';
+import 'package:al_halaqat/app/common_forms/admin_form.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_new_halaqa_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_new_student_screen.dart';
