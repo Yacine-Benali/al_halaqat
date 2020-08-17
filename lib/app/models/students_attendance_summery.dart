@@ -7,19 +7,19 @@ class StudentsAttendanceSummery {
     @required this.absent,
     @required this.absentWithExecuse,
   });
-  String present;
-  String latee;
-  String absent;
-  String absentWithExecuse;
+  int present;
+  int latee;
+  int absent;
+  int absentWithExecuse;
 
   factory StudentsAttendanceSummery.fromMap(Map<String, dynamic> data) {
     if (data == null) {
       return null;
     }
-    String present = data['present'];
-    String latee = data['latee'];
-    String absent = data['absent'];
-    String absentWithExecuse = data['absentWithExecuse'];
+    int present = data['present'];
+    int latee = data['latee'];
+    int absent = data['absent'];
+    int absentWithExecuse = data['absentWithExecuse'];
 
     return StudentsAttendanceSummery(
       present: present,
@@ -29,7 +29,7 @@ class StudentsAttendanceSummery {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, int> toMap() {
     return {
       'present': present,
       'latee': latee,

@@ -14,11 +14,10 @@ class InstancesProvider {
       database.collectionStream(
         path: APIPath.instancesCollection(),
         builder: (data, documentId) => Instance.fromMap(data, documentId),
-        //sort: (a, b) => a.createdAt.compareTo(b.createdAt),
         queryBuilder: (query) => query
-          ..where('halaqaId', isEqualTo: halaqaId)
-              .orderBy('createdAt', descending: true)
-              .limit(10),
+            .where('halaqaId', isEqualTo: halaqaId)
+            .orderBy('createdAt', descending: true)
+            .limit(10),
       );
 
   Future<List<Instance>> fetchMoreInstances(
@@ -30,15 +29,20 @@ class InstancesProvider {
         builder: (data, documentId) => Instance.fromMap(data, documentId),
         //sort: (a, b) => a.createdAt.compareTo(b.createdAt),
         queryBuilder: (query) => query
-          ..where('halaqaId', isEqualTo: halaqaId)
-              .orderBy('createdAt')
-              .startAfter([instance.createdAt]).limit(10),
+            .where('halaqaId', isEqualTo: halaqaId)
+            .orderBy('createdAt', descending: true)
+            .startAfter([instance.createdAt]).limit(10),
       );
 
   Future<void> setInstance(Instance instance) async => await database.setData(
         path: APIPath.instanceDocument(instance.id),
         data: instance.toMap(),
         merge: true,
+      );
+
+  Future<void> deleteInstance(Instance instance) async =>
+      await database.deleteDocument(
+        path: APIPath.instanceDocument(instance.id),
       );
   String getUniqueId() => database.getUniqueId();
 }

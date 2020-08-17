@@ -6,17 +6,17 @@ import 'package:flutter/foundation.dart';
 
 class Instance {
   Instance({
-    @required id,
-    @required halaqaName,
-    @required halaqaId,
-    @required centerId,
-    @required createdAt,
-    @required note,
-    @required createdBy,
-    @required teacherSummery,
-    @required studentAttendanceSummery,
-    @required studentAttendanceList,
-    @required studentIdsList,
+    @required this.id,
+    @required this.halaqaName,
+    @required this.halaqaId,
+    @required this.centerId,
+    @required this.createdAt,
+    @required this.note,
+    @required this.createdBy,
+    @required this.teacherSummery,
+    @required this.studentAttendanceSummery,
+    @required this.studentAttendanceList,
+    @required this.studentIdsList,
   });
   String id;
   String halaqaName;
@@ -38,7 +38,7 @@ class Instance {
     String halaqaName = data['halaqaName'];
     String halaqaId = data['halaqaId'];
     String centerId = data['centerId'];
-    Timestamp createdAt = data['createdAt ='];
+    Timestamp createdAt = data['createdAt'];
     String note = data['note'];
     Map<String, String> createdBy = Map<String, String>.from(data['createdBy']);
     TeacherSummery teacherSummery =
@@ -47,7 +47,7 @@ class Instance {
         StudentsAttendanceSummery.fromMap(data['studentAttendanceSummery']);
     List<StudentAttendance> studentAttendanceList =
         data['StudentsAttendanceSummery']
-            .map((e) => StudentAttendance.fromMap(e));
+            ?.map((e) => StudentAttendance.fromMap(e));
     List<String> studentIdsList = data['studentIdsList'].cast<String>();
 
     return Instance(
@@ -70,13 +70,13 @@ class Instance {
       'halaqaName': halaqaName,
       'halaqaId': halaqaId,
       'centerId': centerId,
-      'createdAt': createdAt,
+      'createdAt': createdAt ?? FieldValue.serverTimestamp(),
       'note': note,
       'createdBy': createdBy,
-      'teacherSummery': teacherSummery.toMap(),
-      'studentAttendanceSummery': studentAttendanceSummery.toMap(),
+      'teacherSummery': teacherSummery?.toMap(),
+      'studentAttendanceSummery': studentAttendanceSummery?.toMap(),
       'studentAttendanceList':
-          studentAttendanceList.map((e) => e.toMap()).toList(),
+          studentAttendanceList?.map((e) => e?.toMap())?.toList(),
       'studentIdsList': studentIdsList,
     };
   }

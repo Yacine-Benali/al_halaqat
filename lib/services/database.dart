@@ -59,4 +59,6 @@ abstract class Database {
     @required T builder(Map<String, dynamic> data, String documentID),
     @required Query queryBuilder(Query query),
   });
+
+  Future<void> deleteDocument({String path});
 }

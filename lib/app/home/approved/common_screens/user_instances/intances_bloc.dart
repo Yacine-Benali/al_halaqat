@@ -1,7 +1,11 @@
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/intances_provider.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/instance.dart';
+import 'package:al_halaqat/app/models/student_attendance.dart';
+import 'package:al_halaqat/app/models/students_attendance_summery.dart';
+import 'package:al_halaqat/app/models/teacher_summery.dart';
 import 'package:al_halaqat/app/models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -33,8 +37,11 @@ class InstancesBloc {
       if (latestInstanceList.isNotEmpty) {
         if (instancesList.isNotEmpty) {
           for (Instance existingInstance in instancesList) {
-            if (existingInstance.id == latestInstanceList.elementAt(0).id)
+            if (existingInstance.id == latestInstanceList.elementAt(0).id) {
               isInstanceExist = true;
+              existingInstance.createdAt =
+                  latestInstanceList.elementAt(0).createdAt;
+            }
           }
           if (!isInstanceExist) {
             instancesList.insert(0, latestInstanceList.elementAt(0));
@@ -43,20 +50,22 @@ class InstancesBloc {
           instancesList.insertAll(0, latestInstanceList);
         }
         if (!instancessListController.isClosed) {
-          //print('first fetch');
           instancessListController.sink.add(instancesList);
         }
       } else {
-        instancessListController.sink.add(emptyList);
+        print(instancessListController.isClosed);
+        instancesList.clear();
+        instancessListController.sink.add(instancesList);
       }
     });
   }
 
-  Future<bool> fetchNextMessages(Instance latestIntance) async {
+  Future<bool> fetchNextMessages(Instance lastIntance) async {
     List<Instance> moreIntances = await provider.fetchMoreInstances(
       halaqa.id,
-      latestIntance,
+      lastIntance,
     );
+    await Future.delayed(Duration(milliseconds: 500));
     instancesList.addAll(moreIntances);
     if (!instancessListController.isClosed) {
       instancessListController.sink.add(instancesList);
@@ -65,9 +74,51 @@ class InstancesBloc {
   }
 
   Future<void> setInstance(Instance instance) async {
-    if (instance.id == null) instance.id = provider.getUniqueId();
+    if (instance.id == null) {
+      instance.id = provider.getUniqueId();
+      instance.createdBy = {
+        'name': user.name,
+        'id': user.id,
+      };
+    }
 
     await provider.setInstance(instance);
+  }
+
+  Future<void> createNewInstance() async {
+    Instance instance = Instance(
+      id: provider.getUniqueId(),
+      halaqaName: this.halaqa.name,
+      halaqaId: this.halaqa.id,
+      centerId: this.halaqa.centerId,
+      createdAt: null,
+      note: null,
+      createdBy: {
+        'name': user.name,
+        'id': user.id,
+      },
+      teacherSummery:
+          TeacherSummery(id: null, name: null, state: null, note: null),
+      studentAttendanceSummery: StudentsAttendanceSummery(
+          present: null, latee: null, absent: null, absentWithExecuse: null),
+      studentAttendanceList: List<StudentAttendance>(),
+      studentIdsList: List<String>(),
+    );
+
+    await provider.setInstance(instance);
+  }
+
+  Future<void> deleteInstance(Instance deletedInstance) async {
+    List<Instance> temp = List();
+    for (Instance existingInstance in instancesList) {
+      if (existingInstance.id != deletedInstance.id) temp.add(existingInstance);
+    }
+    instancesList.clear();
+    instancesList.addAll(temp);
+    await provider.deleteInstance(deletedInstance);
+    if (!instancessListController.isClosed) {
+      instancessListController.sink.add(instancesList);
+    }
   }
 
   void dispose() {

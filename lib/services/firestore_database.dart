@@ -131,4 +131,11 @@ class FirestoreDatabase implements Database {
       return builder(snapshot.documents?.elementAt(0)?.data,
           snapshot.documents.elementAt(0).documentID);
   }
+
+  @override
+  Future<void> deleteDocument({String path}) async {
+    final reference = Firestore.instance.document(path);
+    print('delete: $path');
+    await reference.delete();
+  }
 }

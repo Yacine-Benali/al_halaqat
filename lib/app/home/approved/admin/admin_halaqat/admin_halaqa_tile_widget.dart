@@ -6,6 +6,7 @@ import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_new_teacher_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_bloc.dart';
+import 'package:al_halaqat/app/home/approved/common_screens/user_instances/instances_screen.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_bloc.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_new_admin_screen.dart';
 import 'package:al_halaqat/app/models/admin.dart';
@@ -147,7 +148,17 @@ class _AdminHalqaTileWidgetState extends State<AdminHalqaTileWidget> {
                 )
               : _buildAction(),
           enabled: widget.halaqa.state == 'approved' ? true : false,
-          onTap: widget.halaqa.state != 'approved' ? null : null,
+          onTap: () async => widget.halaqa.state != 'approved'
+              ? null
+              : await Navigator.of(context, rootNavigator: false).push(
+                  MaterialPageRoute(
+                    builder: (context) => InstancesScreen.create(
+                      context: context,
+                      halaqa: widget.halaqa,
+                    ),
+                    fullscreenDialog: true,
+                  ),
+                ),
         ),
         Divider(
           height: 0.5,

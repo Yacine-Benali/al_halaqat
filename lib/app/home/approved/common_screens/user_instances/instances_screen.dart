@@ -1,7 +1,10 @@
+import 'package:al_halaqat/app/home/approved/common_screens/user_instances/instance_tile_widget.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/intances_bloc.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/intances_provider.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/instance.dart';
+import 'package:al_halaqat/app/models/student_attendance.dart';
+import 'package:al_halaqat/app/models/students_attendance_summery.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
@@ -38,6 +41,8 @@ class InstancesScreen extends StatefulWidget {
 
 class _InstancesScreenState extends State<InstancesScreen> {
   InstancesBloc get bloc => widget.bloc;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
 //
   Stream<List<Instance>> instancesStream;
   final ScrollController listScrollController = ScrollController();
@@ -51,6 +56,7 @@ class _InstancesScreenState extends State<InstancesScreen> {
     instancesStream = bloc.instancesStream;
     isLoadingNextInstances = false;
     bloc.fetchFirstInstances();
+
     pr = ProgressDialog(
       context,
       type: ProgressDialogType.Normal,
@@ -87,23 +93,30 @@ class _InstancesScreenState extends State<InstancesScreen> {
   }
 
   void createInstance() async {
-    try {
-      //   print(admin.centers);
-      await pr.show();
-      //await widget.bloc.createHalaqa(halaqa, widget.chosenCenter);
-      await pr.hide();
+    final bool didRequestSignOut = await PlatformAlertDialog(
+      title: 'هل تريد إنشاء جلسة الآن',
+      content: 'هل أنت متأكد ؟',
+      cancelActionText: 'إلغاء',
+      defaultActionText: 'حسنا',
+    ).show(context);
+    if (didRequestSignOut == true) {
+      try {
+        await pr.show();
+        await bloc.createNewInstance();
+        await pr.hide();
 
-      PlatformAlertDialog(
-        title: 'نجح الحفظ',
-        content: 'تم حفظ البيانات',
-        defaultActionText: 'حسنا',
-      ).show(context);
-    } on PlatformException catch (e) {
-      await pr.hide();
-      PlatformExceptionAlertDialog(
-        title: 'فشلت العملية',
-        exception: e,
-      ).show(context);
+        PlatformAlertDialog(
+          title: 'نجح الحفظ',
+          content: 'تم حفظ البيانات',
+          defaultActionText: 'حسنا',
+        ).show(context);
+      } on PlatformException catch (e) {
+        await pr.hide();
+        PlatformExceptionAlertDialog(
+          title: 'فشلت العملية',
+          exception: e,
+        ).show(context);
+      }
     }
   }
 
@@ -125,22 +138,13 @@ class _InstancesScreenState extends State<InstancesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        title: Center(child: Text('الجلسات')),
+        title: Text('الجلسات'),
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        //  Navigator.of(context, rootNavigator: false).push(
-        //   MaterialPageRoute(
-        //     builder: (context) => AdminNewHalaqaScreen(
-        //       bloc: bloc,
-        //       chosenCenter: chosenCenter,
-        //       halaqa: null,
-        //     ),
-        //     fullscreenDialog: true,
-        //   ),
-        // ),
+        onPressed: () => createInstance(),
         tooltip: 'add',
         child: Icon(Icons.add),
       ),
@@ -150,23 +154,23 @@ class _InstancesScreenState extends State<InstancesScreen> {
           if (snapshot.hasData) {
             instances = snapshot.data;
             if (instances.isNotEmpty) {
-              return ListView.builder(
+              return ListView.separated(
+                separatorBuilder: (_, __) => Divider(height: 0.5),
                 itemBuilder: (context, index) {
                   if (index == instances.length) {
                     // oups u have reached the top of messages list
                     return _buildProgressIndicator();
                   } else {
-                    return ListTile(
-                      title: Text(instances[index]
-                          .createdAt
-                          .toDate()
-                          .toIso8601String()),
+                    return InstanceTileWidget(
+                      bloc: bloc,
+                      instance: instances[index],
+                      scaffoldKey: _scaffoldKey,
+                      index: index,
                     );
                   }
                 },
                 // +1 to include the loading widget
                 itemCount: instances.length + 1,
-                reverse: true,
                 controller: listScrollController,
               );
             } else {

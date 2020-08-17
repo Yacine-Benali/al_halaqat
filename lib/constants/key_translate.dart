@@ -290,4 +290,16 @@ class KeyTranslate {
     'usernameAndPassword': 'إسم المتستخدم',
     'emailAndPassword': 'إيمايل',
   };
+
+  static const Map<String, String> attendanceState = {
+    'present': 'حاضر',
+    'latee': 'متأخر',
+    'absent': 'غائب',
+    'absentWithExecuse': 'غائب بعذر',
+  };
+
+  static const Map<String, String> instanceActions = {
+    'delete': 'حذف',
+    'note': 'ملاحظة',
+  };
 }
