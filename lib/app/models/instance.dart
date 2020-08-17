@@ -45,9 +45,16 @@ class Instance {
         TeacherSummery.fromMap(data['teacherSummery']);
     StudentsAttendanceSummery studentAttendanceSummery =
         StudentsAttendanceSummery.fromMap(data['studentAttendanceSummery']);
-    List<StudentAttendance> studentAttendanceList =
-        data['StudentsAttendanceSummery']
-            ?.map((e) => StudentAttendance.fromMap(e));
+    List<dynamic> temp = data['studentAttendanceList']?.toList();
+    List<StudentAttendance> studentAttendanceList = List();
+
+    //! this is a fix for
+    //! iterator was called on null
+    int j = temp?.length ?? 0;
+    for (int i = 0; i < j; i++) {
+      studentAttendanceList.add(StudentAttendance.fromMap(temp[i]));
+    }
+
     List<String> studentIdsList = data['studentIdsList'].cast<String>();
 
     return Instance(

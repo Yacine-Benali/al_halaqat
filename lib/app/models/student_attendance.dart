@@ -37,4 +37,10 @@ class StudentAttendance {
       'note': note,
     };
   }
+
+  @override
+  String toString() {
+    print('studentAttendance $id, $name ,$state ,$name');
+    return super.toString();
+  }
 }

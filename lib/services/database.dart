@@ -45,13 +45,8 @@ abstract class Database {
   });
 
   Future<T> fetchDocument<T>({
-    @required
-        String path,
-    @required
-        T builder(
-      Map<String, dynamic> data,
-      String documentID,
-    ),
+    @required String path,
+    @required T builder(Map<String, dynamic> data, String documentID),
   });
 
   Future<T> fetchQueryDocument<T>({

@@ -9,6 +9,7 @@ import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/app/home/notApproved/join_us_screen.dart';
 import 'package:al_halaqat/app/home/notApproved/pending_screen.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
+import 'package:al_halaqat/common_widgets/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -32,6 +33,7 @@ class BaseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig.init(context);
     AsyncSnapshot<User> snapshot =
         Provider.of<AsyncSnapshot<User>>(context, listen: false);
     if (snapshot.hasData) {

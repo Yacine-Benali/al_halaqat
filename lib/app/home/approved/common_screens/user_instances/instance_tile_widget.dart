@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:al_halaqat/app/home/approved/common_screens/user_instances/attendance/attendance_screen.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/intances_bloc.dart';
 import 'package:al_halaqat/app/models/instance.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
@@ -189,8 +190,16 @@ class _InstanceTileWidgetState extends State<InstanceTileWidget> {
       title: Text(widget.instance.createdAt.toDate().toIso8601String()),
       subtitle: Text(getSubtitles()),
       trailing: _buildAction(),
-      // enabled: widget.center.state == 'approved' ? true : false,
-      // onTap: () {},
+
+      onTap: () => Navigator.of(context, rootNavigator: false).push(
+        MaterialPageRoute(
+          builder: (context) => AttendanceScreen.create(
+            context: context,
+            instance: widget.instance,
+          ),
+          fullscreenDialog: true,
+        ),
+      ),
     );
   }
 }
