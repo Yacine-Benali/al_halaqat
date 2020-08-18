@@ -1,11 +1,14 @@
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/attendance/attendance_bloc.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/attendance/attendance_provider.dart';
+import 'package:al_halaqat/app/home/approved/common_screens/user_instances/evaluation/evaluation_screen.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/intances_bloc.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/intances_provider.dart';
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/instance.dart';
+import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/app/models/student_attendance.dart';
+import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher_summery.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
@@ -21,7 +24,10 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class AttendanceScreen extends StatefulWidget {
-  const AttendanceScreen._({Key key, @required this.bloc}) : super(key: key);
+  const AttendanceScreen._({
+    Key key,
+    @required this.bloc,
+  }) : super(key: key);
 
   final AttendanceBloc bloc;
   static Widget create({
@@ -51,7 +57,9 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   AttendanceBloc get bloc => widget.bloc;
 //
   Future<Instance> instanceFuture;
+  Future<Quran> quranFuture;
   Instance instance;
+  Quran quran;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   List<String> attendanceState;
 
@@ -64,6 +72,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     // isLoadingNextInstances = false;
     // bloc.fetchFirstInstances();
     instanceFuture = bloc.fetchInstance();
+    quranFuture = bloc.fetchQuran();
     attendanceState = KeyTranslate.attendanceState.keys.toList();
 
     pr = ProgressDialog(
@@ -356,7 +365,18 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           height: kMinInteractiveDimension,
           child: RaisedButton(
             child: Text(''),
-            onPressed: () => _studentNoteWidget(studentAttendance),
+            onPressed: () => Navigator.of(context, rootNavigator: false).push(
+              MaterialPageRoute(
+                builder: (context) => EvaluationScreen.create(
+                  context: context,
+                  instance: instance,
+                  studentId: studentAttendance.id,
+                  quran: quran,
+                  studentName: studentAttendance.name,
+                ),
+                fullscreenDialog: true,
+              ),
+            ),
           ),
         ),
       ]);
@@ -380,46 +400,43 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 ),
               )),
         ]),
-        body: FutureBuilder<Instance>(
-          future: instanceFuture,
-          builder: (context, snapshot) {
-            print(snapshot);
-            if (snapshot.hasData) {
-              instance = snapshot.data;
+        body: FutureBuilder(
+          future: Future.wait([instanceFuture, quranFuture]),
+          builder: (context, AsyncSnapshot<List<dynamic>> snapshots) {
+            if (snapshots.hasData) {
+              instance = snapshots.data[0];
+              quran = snapshots.data[1];
+
               return SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Card(
-                      margin: EdgeInsets.all(4.0),
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minWidth: SizeConfig.screenWidth,
-                          maxWidth: SizeConfig.screenWidth,
+                child: Card(
+                  margin: EdgeInsets.all(4.0),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minWidth: SizeConfig.screenWidth,
+                      maxWidth: SizeConfig.screenWidth,
+                    ),
+                    child: Form(
+                      key: _formKey,
+                      autovalidate: true,
+                      child: Table(
+                        defaultVerticalAlignment:
+                            TableCellVerticalAlignment.middle,
+                        border: TableBorder(
+                          horizontalInside:
+                              BorderSide(width: 1.0, color: Colors.grey[350]),
+                          bottom:
+                              BorderSide(width: 1.0, color: Colors.grey[350]),
                         ),
-                        child: Form(
-                          key: _formKey,
-                          autovalidate: true,
-                          child: Table(
-                            defaultVerticalAlignment:
-                                TableCellVerticalAlignment.middle,
-                            border: TableBorder(
-                              horizontalInside: BorderSide(
-                                  width: 1.0, color: Colors.grey[350]),
-                              bottom: BorderSide(
-                                  width: 1.0, color: Colors.grey[350]),
-                            ),
-                            children: [
-                                  buildColumnBlock(),
-                                ] +
-                                buildRowList(),
-                          ),
-                        ),
+                        children: [
+                              buildColumnBlock(),
+                            ] +
+                            buildRowList(),
                       ),
                     ),
-                  ],
+                  ),
                 ),
               );
-            } else if (snapshot.hasError) {
+            } else if (snapshots.hasError) {
               return EmptyContent(
                 title: 'Something went wrong',
                 message: 'Can\'t load items right now',

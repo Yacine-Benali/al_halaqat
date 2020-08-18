@@ -1,4 +1,5 @@
 import 'package:al_halaqat/app/models/instance.dart';
+import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/services/api_path.dart';
@@ -33,5 +34,13 @@ class AttendanceProvider {
         path: APIPath.instanceDocument(instance.id),
         data: instance.toMap(),
         merge: true,
+      );
+
+  Future<Quran> fetchQuran(
+    String halaqaId,
+  ) =>
+      database.fetchDocument(
+        path: APIPath.globalConfigurationDoc(),
+        builder: (data, documentId) => Quran.fromMap(data, documentId),
       );
 }

@@ -32,19 +32,16 @@ class InstancesBloc {
         provider.fetchIlatestInstances(halaqa.id);
 
     latestInstancesStream.listen((latestInstanceList) async {
-      bool isInstanceExist = false;
       //! can this be optimized ?
       if (latestInstanceList.isNotEmpty) {
         if (instancesList.isNotEmpty) {
           for (Instance existingInstance in instancesList) {
-            if (existingInstance.id == latestInstanceList.elementAt(0).id) {
-              isInstanceExist = true;
-              existingInstance.createdAt =
-                  latestInstanceList.elementAt(0).createdAt;
+            for (Instance newInstance in latestInstanceList) {
+              if (existingInstance.id == newInstance.id) {
+                existingInstance.studentAttendanceSummery =
+                    newInstance.studentAttendanceSummery;
+              }
             }
-          }
-          if (!isInstanceExist) {
-            instancesList.insert(0, latestInstanceList.elementAt(0));
           }
         } else {
           instancesList.insertAll(0, latestInstanceList);
@@ -53,7 +50,6 @@ class InstancesBloc {
           instancessListController.sink.add(instancesList);
         }
       } else {
-        print(instancessListController.isClosed);
         instancesList.clear();
         instancessListController.sink.add(instancesList);
       }

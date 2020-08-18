@@ -20,4 +20,12 @@ class APIPath {
 
   static String instancesCollection() => 'instances/';
   static String instanceDocument(String instanceId) => 'instances/$instanceId';
+
+  static String reportCardDocument(String reportcardId) =>
+      'reportCards/$reportcardId/';
+
+  static String evaluationsCollection(String reportcardId) =>
+      'reportCards/$reportcardId/evaluations/';
+  static String evaluationDocument(String reportcardId, String evaluationId) =>
+      'reportCards/$reportcardId/evaluations/$evaluationId';
 }

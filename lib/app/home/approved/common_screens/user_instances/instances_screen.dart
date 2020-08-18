@@ -5,6 +5,7 @@ import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/instance.dart';
 import 'package:al_halaqat/app/models/student_attendance.dart';
 import 'package:al_halaqat/app/models/students_attendance_summery.dart';
+import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
@@ -16,7 +17,10 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class InstancesScreen extends StatefulWidget {
-  const InstancesScreen._({Key key, @required this.bloc}) : super(key: key);
+  const InstancesScreen._({
+    Key key,
+    @required this.bloc,
+  }) : super(key: key);
 
   final InstancesBloc bloc;
   static Widget create({

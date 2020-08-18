@@ -1,5 +1,6 @@
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/attendance/attendance_provider.dart';
 import 'package:al_halaqat/app/models/instance.dart';
+import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/student_attendance.dart';
 import 'package:al_halaqat/app/models/students_attendance_summery.dart';
@@ -20,6 +21,8 @@ class AttendanceBloc {
   final Instance instance;
   final User user;
 
+  Future<Quran> fetchQuran() async =>
+      await provider.fetchQuran(instance.halaqaId);
   List<String> getColumnTitle() {
     List<String> columnTitleList = List();
     columnTitleList.add('إسم');
@@ -33,10 +36,12 @@ class AttendanceBloc {
 
   Future<Instance> fetchInstance() async {
     bool temp = instance.studentAttendanceList == null;
+    if (!temp) {
+      if (instance.studentAttendanceList.length == 0) temp = true;
+    }
 
     Instance newInstance = getNewInstance();
     if (temp) {
-      print('setting up new instance ...');
       Teacher halaqaTeacher =
           await provider.fetchHalaqaTeacher(instance.halaqaId);
 
