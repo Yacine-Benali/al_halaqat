@@ -15,7 +15,7 @@ class AdminHalaqatProvider {
   ) =>
       database.collectionStream(
         path: APIPath.halaqatCollection(),
-        builder: (data, documentId) => Halaqa.fromMap(data, documentId),
+        builder: (data, documentId) => Halaqa.fromMap(data),
         sort: (a, b) => a.createdAt.compareTo(b.createdAt),
       );
 

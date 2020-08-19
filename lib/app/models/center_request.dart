@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -12,8 +13,7 @@ class CenterRequest {
     @required this.centerName,
     @required this.action,
     @required this.state,
-    @required this.halaqaName,
-    @required this.halaqaId,
+    @required this.halaqa,
   });
   String id;
   Timestamp createdAt;
@@ -23,8 +23,7 @@ class CenterRequest {
   User user;
   String action;
   String state;
-  String halaqaName;
-  String halaqaId;
+  Halaqa halaqa;
 
   factory CenterRequest.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
@@ -36,10 +35,9 @@ class CenterRequest {
     User user = User.fromMap(data['user'], userId);
     String action = data['action'];
     String state = data['state'];
-    String halaqaName = data['halaqaName'];
-    String halaqaId = data['halaqaId'];
     String centerId = data['centerId'];
     String centerName = data['centerName'];
+    Halaqa halaqa = Halaqa.fromMap(data['halaqa']);
 
     return CenterRequest(
       id: id,
@@ -50,8 +48,7 @@ class CenterRequest {
       user: user,
       action: action,
       state: state,
-      halaqaId: halaqaId,
-      halaqaName: halaqaName,
+      halaqa: halaqa,
     );
   }
 
@@ -64,8 +61,7 @@ class CenterRequest {
       'state': state,
       'centerName': centerName,
       'centerId': centerId,
-      'halaqaId': halaqaId,
-      'halaqaName': halaqaName,
+      'halaqa': halaqa.toMap(),
     };
   }
 }

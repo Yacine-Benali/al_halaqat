@@ -5,7 +5,8 @@ import 'package:flutter/foundation.dart';
 
 enum EmailPasswordSignInFormType { signIn, register, forgotPassword }
 
-class EmailPasswordSignInModel with EmailAndPasswordValidators, ChangeNotifier {
+class EmailPasswordSignInModel
+    with UsernameAndPasswordValidators, ChangeNotifier {
   EmailPasswordSignInModel({
     @required this.auth,
     this.email = '',
@@ -28,16 +29,18 @@ class EmailPasswordSignInModel with EmailAndPasswordValidators, ChangeNotifier {
       if (!canSubmit) {
         return false;
       }
+
       updateWith(isLoading: true);
+      String email2 = convertUsernameToEmail();
       switch (formType) {
         case EmailPasswordSignInFormType.signIn:
-          await auth.signInWithEmailAndPassword(email, password);
+          await auth.signInWithEmailAndPassword(email2, password);
           break;
         case EmailPasswordSignInFormType.register:
-          await auth.createUserWithEmailAndPassword(email, password);
+          await auth.createUserWithEmailAndPassword(email2, password);
           break;
         case EmailPasswordSignInFormType.forgotPassword:
-          await auth.sendPasswordResetEmail(email);
+          await auth.sendPasswordResetEmail(email2);
           updateWith(isLoading: false);
           break;
       }
@@ -46,6 +49,10 @@ class EmailPasswordSignInModel with EmailAndPasswordValidators, ChangeNotifier {
       updateWith(isLoading: false);
       rethrow;
     }
+  }
+
+  String convertUsernameToEmail() {
+    return email + '@al-halaqat.firebaseapp.com';
   }
 
   void updateEmail(String email) => updateWith(email: email);
@@ -127,7 +134,7 @@ class EmailPasswordSignInModel with EmailAndPasswordValidators, ChangeNotifier {
   }
 
   bool get canSubmitEmail {
-    return emailSubmitValidator.isValid(email);
+    return usernameSubmitValidator.isValid(email);
   }
 
   bool get canSubmitPassword {
@@ -148,8 +155,8 @@ class EmailPasswordSignInModel with EmailAndPasswordValidators, ChangeNotifier {
   String get emailErrorText {
     final bool showErrorText = submitted && !canSubmitEmail;
     final String errorText = email.isEmpty
-        ? Strings.invalidEmailEmpty
-        : Strings.invalidEmailErrorText;
+        ? Strings.invalidUsernameEmpty
+        : Strings.invalidUsernameErrorText;
     return showErrorText ? errorText : null;
   }
 

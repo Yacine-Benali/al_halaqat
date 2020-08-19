@@ -111,19 +111,19 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
       key: Key('email'),
       controller: _emailController,
       decoration: InputDecoration(
-        labelText: Strings.emailLabel,
-        hintText: Strings.emailHint,
+        labelText: Strings.usernameLabel,
+        hintText: Strings.usernameHint,
         errorText: model.emailErrorText,
         enabled: !model.isLoading,
       ),
       autocorrect: false,
       textInputAction: TextInputAction.next,
-      keyboardType: TextInputType.emailAddress,
+      keyboardType: TextInputType.text,
       keyboardAppearance: Brightness.light,
       onChanged: model.updateEmail,
       onEditingComplete: _emailEditingComplete,
       inputFormatters: <TextInputFormatter>[
-        model.emailInputFormatter,
+        //model.usernameInputFormatter,
       ],
     );
   }
@@ -174,15 +174,6 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
                 ? null
                 : () => _updateFormType(model.secondaryActionFormType),
           ),
-          if (model.formType == EmailPasswordSignInFormType.signIn)
-            FlatButton(
-              key: Key('tertiary-button'),
-              child: Text(Strings.forgotPasswordQuestion),
-              onPressed: model.isLoading
-                  ? null
-                  : () => _updateFormType(
-                      EmailPasswordSignInFormType.forgotPassword),
-            ),
         ],
       ),
     );

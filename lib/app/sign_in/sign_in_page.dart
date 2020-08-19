@@ -12,9 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class SignInPageBuilder extends StatelessWidget {
-  // P<ValueNotifier>
-  //   P<SignInManager>(valueNotifier)
-  //     SignInPage(value)
+  //TODO add username paswword sign up
   @override
   Widget build(BuildContext context) {
     final Auth auth = Provider.of<Auth>(context, listen: false);
@@ -155,14 +153,23 @@ class SignInPage extends StatelessWidget {
             ),
             SizedBox(height: 8),
             SignInButton(
-              key: emailLinkButtonKey,
+              key: emailPasswordButtonKey,
               text: 'تسجيل الدخول بإسم المستخدم',
-              onPressed: isLoading
-                  ? null
-                  : () => _signInWithUsernameAndPassword(context),
+              onPressed:
+                  isLoading ? null : () => _signInWithEmailAndPassword(context),
               textColor: Colors.white,
-              color: Colors.blueGrey[700],
+              color: Colors.teal[700],
             ),
+            SizedBox(height: 8),
+            // SignInButton(
+            //   key: emailLinkButtonKey,
+            //   text: 'تسجيل الدخول بإسم المستخدم',
+            //   onPressed: isLoading
+            //       ? null
+            //       : () => _signInWithUsernameAndPassword(context),
+            //   textColor: Colors.white,
+            //   color: Colors.blueGrey[700],
+            // ),
             SizedBox(height: 8),
           ],
         ),

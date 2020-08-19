@@ -23,7 +23,7 @@ class Halaqa {
   Map<String, String> createdBy;
   Timestamp createdAt;
 
-  factory Halaqa.fromMap(Map<String, dynamic> data, String documentId) {
+  factory Halaqa.fromMap(Map<String, dynamic> data) {
     if (data == null) {
       return null;
     }

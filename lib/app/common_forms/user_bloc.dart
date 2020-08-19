@@ -45,10 +45,9 @@ class UserBloc {
         user: student,
         centerId: center.id,
         centerName: center.name,
-        action: 'join',
+        action: 'join-existing',
         state: 'pending',
-        halaqaId: null,
-        halaqaName: null,
+        halaqa: null,
       );
       student.center = center.id;
       student.state = 'pending';
@@ -91,8 +90,7 @@ class UserBloc {
         user: teacher,
         action: 'join',
         state: 'pending',
-        halaqaId: null,
-        halaqaName: null,
+        halaqa: null,
       );
       teacher.centers[0] = center.id;
       teacher.centerState = {

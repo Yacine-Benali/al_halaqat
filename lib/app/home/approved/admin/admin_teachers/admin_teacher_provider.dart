@@ -48,7 +48,7 @@ class AdminTeachersProvider {
   Stream<List<Halaqa>> fetchHalaqat(List<String> centerIds) =>
       database.collectionStream(
         path: APIPath.halaqatCollection(),
-        builder: (data, documentId) => Halaqa.fromMap(data, documentId),
+        builder: (data, documentId) => Halaqa.fromMap(data),
         queryBuilder: (query) => query
             .where('state', isEqualTo: 'approved')
             .where('centerId', whereIn: centerIds),

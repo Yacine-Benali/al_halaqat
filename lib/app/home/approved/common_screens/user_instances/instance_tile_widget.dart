@@ -187,8 +187,8 @@ class _InstanceTileWidgetState extends State<InstanceTileWidget> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      // title: Text(getTitle()),
-      title: Text(widget.instance.createdAt.toDate().toIso8601String()),
+      title: Text(getTitle()),
+      // title: Text(widget.instance.createdAt.toDate().toIso8601String()),
       subtitle: Text(getSubtitles()),
       trailing: _buildAction(),
 
