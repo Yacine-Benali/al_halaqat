@@ -30,6 +30,8 @@ class UserBloc {
         'name': student.name,
         'id': authUser.uid,
       };
+      student.username = authUser.email;
+      student.password = authUser.password;
     }
 
     StudyCenter center = await provider.queryCenterbyRId(student.center);
@@ -88,7 +90,7 @@ class UserBloc {
         centerId: center.id,
         centerName: center.name,
         user: teacher,
-        action: 'join',
+        action: 'join-existing',
         state: 'pending',
         halaqa: null,
       );

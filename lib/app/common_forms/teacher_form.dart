@@ -1,4 +1,6 @@
+import 'package:al_halaqat/app/common_forms/center_form.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
+import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
@@ -23,6 +25,8 @@ class TeacherForm extends StatefulWidget {
     @required this.includeUsernameAndPassword,
     @required this.isEnabled,
     @required this.teacherFormKey,
+    @required this.center,
+    @required this.includeCenterForm,
     this.halaqatList,
     @required this.showUserHalaqa,
   }) : super(key: key);
@@ -34,6 +38,8 @@ class TeacherForm extends StatefulWidget {
   final bool includeUsernameAndPassword;
   final List<Halaqa> halaqatList;
   final bool showUserHalaqa;
+  final StudyCenter center;
+  final bool includeCenterForm;
 
   @override
   _NewStudentFormState createState() => _NewStudentFormState();
@@ -43,6 +49,11 @@ class _NewStudentFormState extends State<TeacherForm>
     with UsernameAndPasswordValidators {
   Teacher get teacher => widget.teacher;
   String usernameInitValue;
+  final GlobalKey<FormState> centerFormKey = GlobalKey<FormState>();
+
+  //
+  String centerFormTitle;
+  String adminFormTitle;
   // teacher information
   String id;
   String name;
@@ -69,6 +80,10 @@ class _NewStudentFormState extends State<TeacherForm>
 
   @override
   void initState() {
+    centerFormTitle =
+        widget.isEnabled ? 'إدخل معلومات المركز' : 'معلومات المركز';
+    adminFormTitle =
+        widget.isEnabled ? 'إدخل معلوماتك الشخصية' : 'معلومات الطالب';
     id = teacher?.id;
     name = teacher?.name;
     dateOfBirth = teacher?.dateOfBirth ?? 1950;
@@ -166,6 +181,26 @@ class _NewStudentFormState extends State<TeacherForm>
                       _save();
                     },
                     existingPassword: password,
+                  ),
+                ],
+                if (widget.includeCenterForm) ...[
+                  Text(
+                    centerFormTitle,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  CenterForm(
+                    isEnabled: false,
+                    formKey: centerFormKey,
+                    center: widget.center,
+                    onSaved: (newcenter) {},
+                    showCenterOptions: false,
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    adminFormTitle,
+                    style: TextStyle(fontSize: 20),
                   ),
                 ],
                 TextFormField2(

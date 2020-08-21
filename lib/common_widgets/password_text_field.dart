@@ -1,6 +1,7 @@
 import 'package:al_halaqat/common_widgets/password_generator.dart';
 import 'package:flutter/material.dart';
 
+//TODO add enabled disabled field
 class PasswordTextField extends StatefulWidget {
   PasswordTextField({
     Key key,

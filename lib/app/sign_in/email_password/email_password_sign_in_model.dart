@@ -32,6 +32,7 @@ class EmailPasswordSignInModel
 
       updateWith(isLoading: true);
       String email2 = convertUsernameToEmail();
+      print(email + ':' + password);
       switch (formType) {
         case EmailPasswordSignInFormType.signIn:
           await auth.signInWithEmailAndPassword(email2, password);

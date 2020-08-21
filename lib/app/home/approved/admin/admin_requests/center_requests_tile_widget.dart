@@ -1,24 +1,27 @@
-import 'package:al_halaqat/app/common_forms/admin_form.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_request_details_screen.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_requests_bloc.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_request_details_screen.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_bloc.dart';
+import 'package:al_halaqat/app/models/center_request.dart';
 import 'package:al_halaqat/app/models/global_admin_request.dart';
-import 'package:al_halaqat/app/models/user.dart';
+import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
 
-class GaRequestTileWidget extends StatelessWidget {
-  GaRequestTileWidget({
+class CenterRequestTileWidget extends StatelessWidget {
+  CenterRequestTileWidget({
     Key key,
-    @required this.gaRequest,
+    @required this.centerRequest,
     @required this.bloc,
+    @required this.centersList,
   }) : super(key: key);
 
-  final GlobalAdminRequest gaRequest;
-  final GaRequestsBloc bloc;
-
+  final CenterRequest centerRequest;
+  final CenterRequestsBloc bloc;
+  final List<StudyCenter> centersList;
   final Map<String, String> actionTranslate = {
-    'join-existing': 'يريد الإنضمام إلى مركز ',
+    'join-existing': 'يريد الإنضمام إلى المركز ',
     'join-new': 'يريد الإنضمام و إنشاء مركز جديد',
   };
 
@@ -27,14 +30,16 @@ class GaRequestTileWidget extends StatelessWidget {
     return ListTile(
       title: _buildTitle(),
       subtitle: _buildSubtitle(),
-      enabled: gaRequest.state == 'pending' || gaRequest.state == 'disapproved'
+      enabled: centerRequest.state == 'pending' ||
+              centerRequest.state == 'disapproved'
           ? true
           : false,
       onTap: () => Navigator.of(context, rootNavigator: false).push(
         MaterialPageRoute(
-          builder: (context) => GaRequestDetailsScreen(
-            gaRequest: gaRequest,
+          builder: (context) => CenterRequestDetailsScreen(
+            centerRequest: centerRequest,
             bloc: bloc,
+            centers: centersList,
           ),
           fullscreenDialog: true,
         ),
@@ -44,10 +49,7 @@ class GaRequestTileWidget extends StatelessWidget {
 
   Widget _buildTitle() {
     return Text(
-      '${gaRequest.admin.name} ' +
-          actionTranslate[gaRequest.action] +
-          ' ' +
-          gaRequest.center.name,
+      '${centerRequest.user.name} ' + actionTranslate[centerRequest.action],
     );
   }
 
@@ -55,9 +57,7 @@ class GaRequestTileWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text('دولة ' +
-            KeyTranslate.isoCountryToArabic[gaRequest.admin.nationality]),
-        Text(_format(gaRequest.createdAt)),
+        Text(_format(centerRequest.createdAt)),
       ],
     );
   }

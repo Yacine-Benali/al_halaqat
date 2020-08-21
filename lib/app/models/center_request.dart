@@ -61,7 +61,7 @@ class CenterRequest {
       'state': state,
       'centerName': centerName,
       'centerId': centerId,
-      'halaqa': halaqa.toMap(),
+      'halaqa': halaqa?.toMap(),
     };
   }
 }

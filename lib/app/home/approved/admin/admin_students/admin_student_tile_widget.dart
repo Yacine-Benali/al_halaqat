@@ -1,6 +1,7 @@
 import 'package:al_halaqat/app/common_forms/admin_form.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_screen.dart';
+import 'package:al_halaqat/app/home/approved/common_screens/student_profile/student_profile_screen.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_bloc.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_new_admin_screen.dart';
 import 'package:al_halaqat/app/models/admin.dart';
@@ -143,17 +144,16 @@ class _AdminStudentTileWidgetState extends State<AdminStudentTileWidget> {
                 )
               : _buildAction(),
           enabled: widget.student.state == 'approved' ? true : false,
-          onTap: widget.student.state != 'approved' ? null : null,
-          // : () => Navigator.of(context, rootNavigator: false).push(
-          //       MaterialPageRoute(
-          //         builder: (context) => AdminNewStudentScreen(
-          //           bloc: widget.bloc,
-          //           student: widget.student,
-          //           chosenCenter: widget.chosenCenter,
-          //         ),
-          //         fullscreenDialog: true,
-          //       ),
-          //     ),
+          onTap: () => Navigator.of(context, rootNavigator: false).push(
+            MaterialPageRoute(
+              builder: (context) => StudentProfileScreen.create(
+                context: context,
+                halaqatList: widget.halaqatList,
+                student: widget.student,
+              ),
+              fullscreenDialog: true,
+            ),
+          ),
         ),
         Divider(
           height: 0.5,

@@ -65,9 +65,9 @@ class CenterRequestsBloc {
     if (centerRequest.action == 'join-existing') {
       if (user is Teacher)
         user.centerState[centerRequest.centerId] = state;
-      else if (user is Student) user.center = state;
+      else if (user is Student) user.state = state;
 
-      provider.updateJoinRequest(centerRequest, user);
+      await provider.updateJoinRequest(centerRequest, user);
     } else if (centerRequest.action == 'create-halaqa') {
       //TODO implement creat halaqa
     }

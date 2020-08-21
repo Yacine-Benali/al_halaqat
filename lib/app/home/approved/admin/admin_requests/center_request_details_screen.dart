@@ -1,6 +1,13 @@
 import 'package:al_halaqat/app/common_forms/admin_form.dart';
+import 'package:al_halaqat/app/common_forms/student_form.dart';
+import 'package:al_halaqat/app/common_forms/teacher_form.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_requests_bloc.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_bloc.dart';
+import 'package:al_halaqat/app/models/center_request.dart';
 import 'package:al_halaqat/app/models/global_admin_request.dart';
+import 'package:al_halaqat/app/models/student.dart';
+import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
@@ -9,22 +16,26 @@ import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class GaRequestDetailsScreen extends StatefulWidget {
-  const GaRequestDetailsScreen({
+class CenterRequestDetailsScreen extends StatefulWidget {
+  const CenterRequestDetailsScreen({
     Key key,
-    @required this.gaRequest,
+    @required this.centerRequest,
     @required this.bloc,
+    @required this.centers,
   }) : super(key: key);
 
-  final GlobalAdminRequest gaRequest;
-  final GaRequestsBloc bloc;
+  final CenterRequest centerRequest;
+  final CenterRequestsBloc bloc;
+  final List<StudyCenter> centers;
 
   @override
   _GaRequestDetailsScreenState createState() => _GaRequestDetailsScreenState();
 }
 
-class _GaRequestDetailsScreenState extends State<GaRequestDetailsScreen> {
+class _GaRequestDetailsScreenState extends State<CenterRequestDetailsScreen> {
   ProgressDialog pr;
+  StudyCenter center;
+  final GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -42,13 +53,16 @@ class _GaRequestDetailsScreenState extends State<GaRequestDetailsScreen> {
         child: CircularProgressIndicator(),
       ),
     );
+
+    center = widget.centers
+        .firstWhere((element) => element.id == widget.centerRequest.centerId);
     super.initState();
   }
 
   void updateRequest(BuildContext context, bool isApproved) async {
     try {
       await pr.show();
-      await widget.bloc.updateRequest(widget.gaRequest, isApproved);
+      await widget.bloc.updateRequest(widget.centerRequest, isApproved);
       await pr.hide();
       PlatformAlertDialog(
         title: 'نجحت العملية',
@@ -74,19 +88,36 @@ class _GaRequestDetailsScreenState extends State<GaRequestDetailsScreen> {
       ),
       body: Column(
         children: [
-          Expanded(
-            child: AdminForm(
-              includeCenterIdInput: false,
-              includeUsernameAndPassword: false,
-              includeCenterForm: true,
-              adminFormKey: null,
-              admin: widget.gaRequest.admin,
-              center: widget.gaRequest.center,
-              isEnabled: false,
-              onSavedCenter: (v) {},
-              onSavedAdmin: (v) {},
+          if (widget.centerRequest.user is Student) ...[
+            Expanded(
+              child: StudentForm(
+                student: widget.centerRequest.user,
+                onSaved: (t) {},
+                includeCenterIdInput: false,
+                includeUsernameAndPassword: false,
+                isEnabled: false,
+                studentFormKey: formkey,
+                showUserHalaqa: false,
+                center: center,
+                includeCenterForm: true,
+              ),
             ),
-          ),
+          ],
+          if (widget.centerRequest.user is Teacher) ...[
+            Expanded(
+              child: TeacherForm(
+                teacher: widget.centerRequest.user,
+                onSaved: (t) {},
+                includeCenterIdInput: false,
+                includeUsernameAndPassword: false,
+                isEnabled: false,
+                teacherFormKey: formkey,
+                showUserHalaqa: false,
+                center: center,
+                includeCenterForm: true,
+              ),
+            ),
+          ],
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

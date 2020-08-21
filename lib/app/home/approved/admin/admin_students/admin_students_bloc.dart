@@ -88,7 +88,7 @@ class AdminStudentsBloc {
     return filteredStudentsList;
   }
 
-  void executeAction(Student student, String action) async {
+  Future<void> executeAction(Student student, String action) async {
     switch (action) {
       case 'reApprove':
         student.state = 'approved';

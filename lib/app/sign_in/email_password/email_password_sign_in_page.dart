@@ -75,10 +75,6 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
             content: Strings.resetLinkSentMessage,
             defaultActionText: Strings.ok,
           ).show(context);
-        } else {
-          if (widget.onSignedIn != null) {
-            widget.onSignedIn();
-          }
         }
       }
     } on PlatformException catch (e) {

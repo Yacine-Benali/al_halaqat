@@ -102,6 +102,8 @@ class _AdminNewStudentScreenState extends State<AdminNewStudentScreen> {
         student: widget.student,
         onSaved: (Student newStudent) => student = newStudent,
         studentFormKey: studentFormKey,
+        center: null,
+        includeCenterForm: false,
       ),
     );
   }

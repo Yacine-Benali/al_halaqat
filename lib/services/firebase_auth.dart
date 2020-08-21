@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthService implements Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  String password;
 
   @override
   Future<List<String>> fetchSignInMethodsForEmail({String email}) =>
@@ -19,8 +20,7 @@ class FirebaseAuthService implements Auth {
     return AuthUser(
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName,
-      photoUrl: user.photoUrl,
+      password: password,
     );
   }
 
@@ -30,14 +30,11 @@ class FirebaseAuthService implements Auth {
   }
 
   @override
-  Future<AuthUser> signInAnonymously() async {
-    final AuthResult authResult = await _firebaseAuth.signInAnonymously();
-    return _userFromFirebase(authResult.user);
-  }
-
-  @override
   Future<AuthUser> signInWithEmailAndPassword(
-      String email, String password) async {
+    String email,
+    String password,
+  ) async {
+    this.password = password;
     final AuthResult authResult = await _firebaseAuth
         .signInWithCredential(EmailAuthProvider.getCredential(
       email: email,

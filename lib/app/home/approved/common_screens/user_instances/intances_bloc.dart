@@ -35,12 +35,17 @@ class InstancesBloc {
       //! can this be optimized ?
       if (latestInstanceList.isNotEmpty) {
         if (instancesList.isNotEmpty) {
-          for (Instance existingInstance in instancesList) {
-            for (Instance newInstance in latestInstanceList) {
+          for (Instance newInstance in latestInstanceList) {
+            bool isFound = false;
+            for (Instance existingInstance in instancesList) {
               if (existingInstance.id == newInstance.id) {
+                isFound = true;
                 existingInstance.studentAttendanceSummery =
                     newInstance.studentAttendanceSummery;
               }
+            }
+            if (!isFound) {
+              instancesList.insert(0, newInstance);
             }
           }
         } else {

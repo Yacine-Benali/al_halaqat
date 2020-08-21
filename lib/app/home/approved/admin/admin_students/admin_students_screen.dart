@@ -236,6 +236,21 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
       },
       onSearch: (s) async => bloc.getStudentSearch(studentsList, s),
       buildSuggestion: (Student student, int index) {
+        if (index == studentsList.length - 1) {
+          return Column(
+            children: [
+              AdminStudentTileWidget(
+                bloc: bloc,
+                chosenCenter: chosenCenter,
+                chosenStudentState: chosenStudentState,
+                scaffoldKey: _scaffoldKey,
+                student: student,
+                halaqatList: halaqatList,
+              ),
+              SizedBox(height: 75),
+            ],
+          );
+        }
         return AdminStudentTileWidget(
           bloc: bloc,
           chosenCenter: chosenCenter,

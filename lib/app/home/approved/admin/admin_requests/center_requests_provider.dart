@@ -18,8 +18,6 @@ class CenterRequestsProvider {
     String centerId,
     int limitNumber,
   ) {
-    print(centerId);
-    print(requestsState);
     return database.collectionStream(
       path: APIPath.centerRequestsCollection(),
       builder: (data, documentId) => CenterRequest.fromMap(
@@ -40,17 +38,17 @@ class CenterRequestsProvider {
   ) async {
     await Firestore.instance.runTransaction((Transaction tx) async {
       // update the request
-      final requestDocRef =
-          Firestore.instance.document(APIPath.centerDocument(centerRequest.id));
+      final requestDocRef = Firestore.instance
+          .document(APIPath.centerRequestsDocument(centerRequest.id));
 
       tx.update(requestDocRef, centerRequest.toMap());
 
       // update the user if the action is join-new
       if (user != null) {
-        final centerDocRef =
+        final userDocRef =
             Firestore.instance.document(APIPath.userDocument(user.id));
 
-        tx.update(centerDocRef, user.toMap());
+        tx.update(userDocRef, user.toMap());
       }
     }, timeout: Duration(seconds: 10));
   }

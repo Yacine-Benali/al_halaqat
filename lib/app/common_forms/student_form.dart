@@ -1,5 +1,7 @@
+import 'package:al_halaqat/app/common_forms/center_form.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/student.dart';
+import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/app/sign_in/validator.dart';
 import 'package:al_halaqat/common_widgets/date_picker.dart';
@@ -21,16 +23,21 @@ class StudentForm extends StatefulWidget {
     @required this.studentFormKey,
     @required this.includeCenterIdInput,
     @required this.includeUsernameAndPassword,
+    @required this.includeCenterForm,
+    @required this.center,
     this.isEnabled = true,
     this.halaqatList,
     @required this.showUserHalaqa,
   }) : super(key: key);
   final GlobalKey<FormState> studentFormKey;
+  final StudyCenter center;
 
   final ValueChanged<Student> onSaved;
   final Student student;
   final bool isEnabled;
   final bool includeCenterIdInput;
+  final bool includeCenterForm;
+
   final bool includeUsernameAndPassword;
   final List<Halaqa> halaqatList;
   final bool showUserHalaqa;
@@ -42,7 +49,12 @@ class StudentForm extends StatefulWidget {
 class _NewStudentFormState extends State<StudentForm>
     with UsernameAndPasswordValidators {
   Student get student => widget.student;
+  final GlobalKey<FormState> centerFormKey = GlobalKey<FormState>();
+
   String usernameInitValue;
+  //
+  String centerFormTitle;
+  String adminFormTitle;
   // student information
   String id;
   String name;
@@ -70,6 +82,10 @@ class _NewStudentFormState extends State<StudentForm>
 
   @override
   void initState() {
+    centerFormTitle =
+        widget.isEnabled ? 'إدخل معلومات المركز' : 'معلومات المركز';
+    adminFormTitle =
+        widget.isEnabled ? 'إدخل معلوماتك الشخصية' : 'معلومات الطالب';
     id = student?.id;
     name = student?.name;
     dateOfBirth = student?.dateOfBirth ?? 1950;
@@ -166,6 +182,26 @@ class _NewStudentFormState extends State<StudentForm>
                       _save();
                     },
                     existingPassword: password,
+                  ),
+                ],
+                if (widget.includeCenterForm) ...[
+                  Text(
+                    centerFormTitle,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  CenterForm(
+                    isEnabled: false,
+                    formKey: centerFormKey,
+                    center: widget.center,
+                    onSaved: (newcenter) {},
+                    showCenterOptions: false,
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    adminFormTitle,
+                    style: TextStyle(fontSize: 20),
                   ),
                 ],
                 TextFormField2(
