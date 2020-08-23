@@ -45,7 +45,6 @@ class EmailPasswordSignInModel
           updateWith(isLoading: false);
           break;
       }
-      return true;
     } catch (e) {
       updateWith(isLoading: false);
       rethrow;

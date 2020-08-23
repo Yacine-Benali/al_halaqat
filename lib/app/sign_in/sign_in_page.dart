@@ -1,6 +1,5 @@
 import 'package:al_halaqat/app/sign_in/email_password/email_password_sign_in_page.dart';
-import 'package:al_halaqat/app/sign_in/username_password/username_password_sign_in_page.dart';
-import 'package:al_halaqat/app/sign_in/sign_in_manager.dart';
+import 'package:al_halaqat/app/sign_in/sign_in_bloc.dart';
 import 'package:al_halaqat/app/sign_in/social_sign_in_button.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/constants/keys.dart';
@@ -19,11 +18,10 @@ class SignInPageBuilder extends StatelessWidget {
     return ChangeNotifierProvider<ValueNotifier<bool>>(
       create: (_) => ValueNotifier<bool>(false),
       child: Consumer<ValueNotifier<bool>>(
-        builder: (_, ValueNotifier<bool> isLoading, __) =>
-            Provider<SignInManager>(
-          create: (_) => SignInManager(auth: auth, isLoading: isLoading),
-          child: Consumer<SignInManager>(
-            builder: (_, SignInManager manager, __) => SignInPage._(
+        builder: (_, ValueNotifier<bool> isLoading, __) => Provider<SignInBloc>(
+          create: (_) => SignInBloc(auth: auth, isLoading: isLoading),
+          child: Consumer<SignInBloc>(
+            builder: (_, SignInBloc manager, __) => SignInPage._(
               isLoading: isLoading.value,
               manager: manager,
               title: 'Al halqat',
@@ -38,7 +36,7 @@ class SignInPageBuilder extends StatelessWidget {
 class SignInPage extends StatelessWidget {
   const SignInPage._({Key key, this.isLoading, this.manager, this.title})
       : super(key: key);
-  final SignInManager manager;
+  final SignInBloc manager;
   final String title;
   final bool isLoading;
 
@@ -79,14 +77,6 @@ class SignInPage extends StatelessWidget {
   Future<void> _signInWithEmailAndPassword(BuildContext context) async {
     final navigator = Navigator.of(context);
     await EmailPasswordSignInPage.show(
-      context,
-      onSignedIn: navigator.pop,
-    );
-  }
-
-  Future<void> _signInWithUsernameAndPassword(BuildContext context) async {
-    final navigator = Navigator.of(context);
-    await UsernamePasswordSignIn.show(
       context,
       onSignedIn: navigator.pop,
     );

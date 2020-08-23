@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/home/approved/admin/admin_centers/admin_centers_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_requests_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_screen.dart';
@@ -17,6 +18,8 @@ import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/services/api_path.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:al_halaqat/services/database.dart';
+import 'package:al_halaqat/services/firestore_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -46,6 +49,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
     }
 
     centersListFuture = Future.wait(futures);
+
+    studyCentersStream = database.collectionStream(
+      path: APIPath.centersCollection(),
+      builder: (data, documentId) => StudyCenter.fromMap(data, documentId),
+      queryBuilder: (query) =>
+          query.where(FieldPath.documentId, whereIn: admin.centers),
+    );
 
     super.initState();
   }
@@ -90,8 +100,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
           ),
         ),
       ),
-      body: FutureBuilder<List<StudyCenter>>(
-          future: centersListFuture,
+      body: StreamBuilder<List<StudyCenter>>(
+          stream: studyCentersStream,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final List<StudyCenter> items = snapshot.data;
@@ -169,6 +179,20 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
                     builder: (context) => AdminsStudentsScreen.create(
+                      context: context,
+                      centers: items,
+                    ),
+                    fullscreenDialog: true,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              MenuButtonWidget(
+                text: 'إدارة المراكز ',
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: false).push(
+                  MaterialPageRoute(
+                    builder: (context) => AdminCentersScreen.create(
                       context: context,
                       centers: items,
                     ),

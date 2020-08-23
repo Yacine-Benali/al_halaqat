@@ -71,6 +71,8 @@ class UserBloc {
         'name': teacher.name,
         'id': authUser.uid,
       };
+      teacher.username = authUser.email;
+      teacher.password = authUser.password;
     }
 
     StudyCenter center = await provider.queryCenterbyRId(teacher.centers[0]);

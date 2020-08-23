@@ -4,8 +4,8 @@ import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 
-class SignInManager {
-  SignInManager({@required this.auth, @required this.isLoading});
+class SignInBloc {
+  SignInBloc({@required this.auth, @required this.isLoading});
   final Auth auth;
   final ValueNotifier<bool> isLoading;
 

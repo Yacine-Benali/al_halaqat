@@ -69,6 +69,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
 
   List<Widget> getTabBarView() {
     List<Widget> tabBarViewList = List(titles.length);
+    print(titles.length);
     tabBarViewList[0] = StudentForm(
       student: bloc.student,
       onSaved: (t) {},
@@ -80,6 +81,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
       showUserHalaqa: false,
     );
     for (int i = 1; i < titles.length; i++) {
+      print(studentProfileList.length);
       tabBarViewList[i] = Column(
         children: [
           ListTile(
@@ -88,7 +90,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
               MaterialPageRoute(
                 builder: (context) => StudentAttendanceScreen(
                   bloc: bloc,
-                  instancesList: studentProfileList[i].instancesList,
+                  instancesList: studentProfileList[i - 1].instancesList,
                 ),
                 fullscreenDialog: true,
               ),
@@ -101,7 +103,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
               MaterialPageRoute(
                 builder: (context) => StudentEvaluationScreen(
                   bloc: bloc,
-                  evaluationsList: studentProfileList[i].evaluationsList,
+                  evaluationsList: studentProfileList[i - 1].evaluationsList,
                 ),
                 fullscreenDialog: true,
               ),
@@ -114,7 +116,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
               MaterialPageRoute(
                 builder: (context) => StudentReportCardScreen(
                   bloc: bloc,
-                  reportCard: studentProfileList[i].reportCard,
+                  reportCard: studentProfileList[i - 1].reportCard,
                 ),
                 fullscreenDialog: true,
               ),

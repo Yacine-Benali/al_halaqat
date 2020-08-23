@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class FirestoreDatabase implements Database {
+  Firestore instance = Firestore.instance;
   @override
   String getUniqueId() {
     String _randomId = Firestore.instance.collection(' ').document().documentID;

@@ -121,28 +121,25 @@ class _NewGlobalAdminFormState extends State<GlobalAdminForm>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: TextFormField2(
-                    isEnabled: widget.isEnabled,
-                    title: 'إسم المتستخدم',
-                    initialValue: usernameInitValue,
-                    hintText: 'إدخل إسم المتستخدم',
-                    errorText: 'خطأ',
-                    maxLength: 30,
-                    inputFormatter: usernameInputFormatter,
-                    onChanged: (value) {
-                      value = value + '@al-halaqat.firebaseapp.com';
-                      username = value;
-                    },
-                    isPhoneNumber: false,
-                    validator: (value) {
-                      if (!usernameSubmitValidator.isValid(value)) {
-                        return 'خطأ';
-                      }
-                      return null;
-                    },
-                  ),
+                TextFormField2(
+                  isEnabled: widget.isEnabled,
+                  title: 'إسم المتستخدم',
+                  initialValue: usernameInitValue,
+                  hintText: 'إدخل إسم المتستخدم',
+                  errorText: 'خطأ',
+                  maxLength: 30,
+                  inputFormatter: usernameInputFormatter,
+                  onChanged: (value) {
+                    value = value + '@al-halaqat.firebaseapp.com';
+                    username = value;
+                  },
+                  isPhoneNumber: false,
+                  validator: (value) {
+                    if (!usernameSubmitValidator.isValid(value)) {
+                      return 'خطأ';
+                    }
+                    return null;
+                  },
                 ),
                 PasswordTextField(
                   onPasswordCreated: (value) {

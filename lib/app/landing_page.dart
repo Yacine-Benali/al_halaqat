@@ -1,30 +1,37 @@
-import 'dart:async';
-
 import 'package:al_halaqat/app/home/home_page.dart';
-import 'package:al_halaqat/services/firestore_database.dart';
+import 'package:al_halaqat/app/sign_in/sign_in_page.dart';
+import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:al_halaqat/app/sign_in/sign_in_page.dart';
-import 'package:al_halaqat/services/auth.dart';
-import 'package:al_halaqat/services/database.dart';
-
+//TODO update teacher username
 class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<Auth>(context, listen: false);
+    final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
     return StreamBuilder<AuthUser>(
         stream: auth.onAuthStateChanged,
         builder: (context, snapshot) {
+          print(snapshot);
           if (snapshot.connectionState == ConnectionState.active) {
             AuthUser user = snapshot.data;
             if (user == null) {
-              return SignInPageBuilder();
+              return Navigator(
+                key: navigatorKey,
+                initialRoute: '/',
+                onGenerateRoute: (routeSettings) {
+                  return MaterialPageRoute(
+                      builder: (context) => SignInPageBuilder());
+                },
+              );
+            } else {
+              return Provider<AuthUser>.value(
+                value: user,
+                child: HomePage.create(uid: user.uid),
+              );
             }
-            return Provider<AuthUser>.value(
-              value: user,
-              child: HomePage.create(uid: user.uid),
-            );
           } else {
             return Scaffold(
               body: Center(
