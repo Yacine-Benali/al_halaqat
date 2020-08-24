@@ -41,7 +41,10 @@ class BaseScreen extends StatelessWidget {
       final User user = snapshot.data;
 
       if (user is GlobalAdmin) {
-        return GlobalAdminHomePage();
+        if (user.state == 'approved')
+          return GlobalAdminHomePage();
+        else
+          return ArchivedDeletedScreen();
       } else if (user is Admin) {
         if (isThereAnApprovedCenter(user.centerState)) {
           return AdminHomePage();

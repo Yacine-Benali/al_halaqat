@@ -1,9 +1,9 @@
 import 'package:al_halaqat/app/home/approved/admin/admin_centers/admin_centers_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_screen.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_profile/admin_profile_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_requests_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_screen.dart';
-import 'package:al_halaqat/app/home/approved/admin/ga_profile/admin_profile_screen.dart';
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';

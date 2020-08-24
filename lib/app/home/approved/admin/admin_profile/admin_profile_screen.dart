@@ -1,11 +1,7 @@
 import 'package:al_halaqat/app/common_forms/admin_form.dart';
-import 'package:al_halaqat/app/common_forms/global_admin_form.dart';
-import 'package:al_halaqat/app/home/approved/admin/ga_profile/admin_profile_bloc.dart';
-import 'package:al_halaqat/app/home/approved/admin/ga_profile/admin_profile_provider.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_profile/ga_profile_bloc.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_profile/ga_profile_provider.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_profile/admin_profile_bloc.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_profile/admin_profile_provider.dart';
 import 'package:al_halaqat/app/models/admin.dart';
-import 'package:al_halaqat/app/models/global_admin.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';

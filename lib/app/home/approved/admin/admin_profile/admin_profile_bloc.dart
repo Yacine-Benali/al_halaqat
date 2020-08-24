@@ -1,4 +1,4 @@
-import 'package:al_halaqat/app/home/approved/admin/ga_profile/admin_profile_provider.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_profile/admin_profile_provider.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:flutter/material.dart';
 
