@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 //! TODO load teacher lazly
+//TODO one halaqa per teacher limitation
 class AdminTeachersScreen extends StatefulWidget {
   const AdminTeachersScreen._({
     Key key,
