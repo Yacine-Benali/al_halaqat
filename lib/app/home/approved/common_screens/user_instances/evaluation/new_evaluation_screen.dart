@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/evaluation/evaluation_bloc.dart';
 import 'package:al_halaqat/app/models/evaluation.dart';
 import 'package:al_halaqat/app/models/evaluation_helper.dart';
@@ -112,6 +114,14 @@ class _NewEvaluationScreenState extends State<NewEvaluationScreen> {
       PlatformExceptionAlertDialog(
         title: 'فشلت العملية',
         exception: e,
+      ).show(context);
+    } on TimeoutException catch (e) {
+      await pr.hide();
+//TODO add this to all api calls oh gooood
+      PlatformAlertDialog(
+        title: 'you are offline',
+        content: '',
+        defaultActionText: 'ok',
       ).show(context);
     }
   }

@@ -69,11 +69,13 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
 
   List<Widget> getTabBarView() {
     List<Widget> tabBarViewList = List(titles.length);
-    print(titles.length);
+    // print(titles.length);
+    //TODO add enabled for the the password field
     tabBarViewList[0] = StudentForm(
       student: bloc.student,
       onSaved: (t) {},
       studentFormKey: formKey,
+      isEnabled: false,
       includeCenterIdInput: false,
       includeUsernameAndPassword: true,
       includeCenterForm: false,
@@ -81,7 +83,8 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
       showUserHalaqa: false,
     );
     for (int i = 1; i < titles.length; i++) {
-      print(studentProfileList.length);
+      // print(
+      //     'instance of ${studentProfileList.first.halaqaId}: ${studentProfileList.first.instancesList.length}');
       tabBarViewList[i] = Column(
         children: [
           ListTile(

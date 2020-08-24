@@ -22,21 +22,24 @@ class EvaluationProvider {
         sort: (a, b) => a.createdAt.compareTo(b.createdAt) * -1,
       );
 
-  Future<void> setReportCard(ReportCard reportCard) async =>
-      await database.setData(
+  Future<void> setReportCard(ReportCard reportCard) async => await database
+      .setData(
         path: APIPath.reportCardDocument(reportCard.id),
         data: reportCard.toMap(),
         merge: true,
-      );
+      )
+      .timeout(Duration(seconds: 5));
   Future<void> setEvaluation(
     String reportCardId,
     Evaluation evaluation,
   ) async =>
-      await database.setData(
-        path: APIPath.evaluationDocument(reportCardId, evaluation.id),
-        data: evaluation.toMap(),
-        merge: true,
-      );
+      await database
+          .setData(
+            path: APIPath.evaluationDocument(reportCardId, evaluation.id),
+            data: evaluation.toMap(),
+            merge: true,
+          )
+          .timeout(Duration(seconds: 5));
 
   String getUniqueId() => database.getUniqueId();
 }

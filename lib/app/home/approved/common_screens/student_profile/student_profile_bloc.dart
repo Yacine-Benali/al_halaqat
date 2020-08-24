@@ -88,8 +88,8 @@ class StudentProfileBloc {
 
       final snapshots =
           Future.wait([instancesList, evaluationsList, reportCard]);
-
       List<Object> snapshotsData = await snapshots;
+
       final temp = StudentProfile(
         halaqaId: halaqaLearingIn,
         instancesList: snapshotsData[0],
@@ -98,6 +98,7 @@ class StudentProfileBloc {
       );
       studentsProfileList.add(temp);
     }
+
     return studentsProfileList;
   }
 

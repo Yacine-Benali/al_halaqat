@@ -27,7 +27,7 @@ class AttendanceProvider {
         path: APIPath.usersCollection(),
         builder: (data, documentId) => Teacher.fromMap(data, documentId),
         queryBuilder: (query) =>
-            query.where('halaqatTeachingIn', arrayContains: halaqaId).limit(1),
+            query.where('halaqatTeachingIn', arrayContains: halaqaId),
       );
 
   Future<void> setInstance(Instance instance) async => await database.setData(

@@ -92,21 +92,62 @@ class EvaluationBloc {
     List<ReportCardSummery> summeryList = List();
     List<String> sourateList = getSouratList();
 
-    for (String soura in sourateList) {
-      int biggestAya = 0;
+    //? let the magic begins
+    for (String fromSoura in sourateList) {
       for (Evaluation evaluation in evaluationsList) {
-        if (soura == evaluation.memorized.toSoura) {
-          biggestAya = evaluation.memorized.toAya;
+        if (fromSoura == evaluation.memorized.fromSoura) {
+          String toSoura = evaluation.memorized.toSoura;
+          if (fromSoura == toSoura) {
+            int biggestAya = evaluation.memorized.toAya;
+
+            double precentage = biggestAya / quran.data[fromSoura] * 100;
+            ReportCardSummery temp = ReportCardSummery(
+              soura: fromSoura,
+              numbeOfAyatInSoura: quran.data[fromSoura],
+              numberOfAyatMemorized: biggestAya,
+              percentage: roundDouble(precentage),
+            );
+            summeryList.add(temp);
+          } else {
+            int fromSouraIndex = sourateList.indexOf(fromSoura);
+            int fromAya = evaluation.memorized.fromAya;
+            int toSouraIndex = sourateList.indexOf(toSoura);
+            int toAya = evaluation.memorized.toAya;
+
+            if (fromSouraIndex < toSouraIndex) {
+              int beginingSouraBiggestAya = quran.data[fromSoura] + 1 - fromAya;
+              double precentage =
+                  beginingSouraBiggestAya / quran.data[fromSoura] * 100;
+              ReportCardSummery temp = ReportCardSummery(
+                soura: fromSoura,
+                numbeOfAyatInSoura: quran.data[fromSoura],
+                numberOfAyatMemorized: beginingSouraBiggestAya,
+                percentage: roundDouble(precentage),
+              );
+              summeryList.add(temp);
+              for (int i = fromSouraIndex + 1; i < toSouraIndex; i++) {
+                String finishedSoura = sourateList.elementAt(i);
+                ReportCardSummery temp = ReportCardSummery(
+                  soura: finishedSoura,
+                  numbeOfAyatInSoura: quran.data[finishedSoura],
+                  numberOfAyatMemorized: quran.data[finishedSoura],
+                  percentage: 100,
+                );
+                summeryList.add(temp);
+              }
+              double lastPrecentage = toAya / quran.data[toSoura] * 100;
+
+              ReportCardSummery lastTemp = ReportCardSummery(
+                soura: toSoura,
+                numbeOfAyatInSoura: quran.data[toSoura],
+                numberOfAyatMemorized: toAya,
+                percentage: roundDouble(lastPrecentage),
+              );
+              summeryList.add(lastTemp);
+            }
+          }
         }
       }
-      double precentage = biggestAya / quran.data[soura] * 100;
-      ReportCardSummery temp = ReportCardSummery(
-        soura: soura,
-        numbeOfAyatInSoura: quran.data[soura],
-        numberOfAyatMemorized: biggestAya,
-        percentage: roundDouble(precentage),
-      );
-      summeryList.add(temp);
     }
 
     double summeryPercentage = 0;
