@@ -3,12 +3,8 @@ import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_s
 import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_requests_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_screen.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_screen.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_screen.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_global_admins/ga_global_admins_screen.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_screen.dart';
+import 'package:al_halaqat/app/home/approved/admin/ga_profile/admin_profile_screen.dart';
 import 'package:al_halaqat/app/models/admin.dart';
-import 'package:al_halaqat/app/models/center_request.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
@@ -18,9 +14,7 @@ import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/services/api_path.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:al_halaqat/services/database.dart';
-import 'package:al_halaqat/services/firestore_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -99,6 +93,24 @@ class _AdminHomePageState extends State<AdminHomePage> {
             ),
           ),
         ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(left: 20.0),
+            child: InkWell(
+              onTap: () => Navigator.of(context, rootNavigator: false).push(
+                MaterialPageRoute(
+                  builder: (context) =>
+                      AdminProfileScreen.create(context: context),
+                  fullscreenDialog: true,
+                ),
+              ),
+              child: Icon(
+                Icons.account_circle,
+                size: 26.0,
+              ),
+            ),
+          ),
+        ],
       ),
       body: StreamBuilder<List<StudyCenter>>(
           stream: studyCentersStream,

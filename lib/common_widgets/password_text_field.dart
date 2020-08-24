@@ -18,6 +18,8 @@ class PasswordTextField extends StatefulWidget {
 
 class _PasswordTextFieldState extends State<PasswordTextField> {
   String password;
+  TextEditingController _controller;
+
   String createPassword() {
     String _generatedPassword = generatePassword(true, false, true, false, 6);
     return _generatedPassword;
@@ -29,12 +31,15 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
     if (password == null) {
       password = createPassword();
     }
+    _controller = TextEditingController(text: password);
+
     widget.onPasswordCreated(password);
     super.initState();
   }
 
   void changePassword() {
     password = createPassword();
+    _controller.text = password;
     widget.onPasswordCreated(password);
     setState(() {});
   }
@@ -55,18 +60,9 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
           Row(
             children: [
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      password,
-                    ),
-                    SizedBox(height: 15),
-                    Divider(
-                      thickness: 1.25,
-                      color: Colors.grey,
-                    ),
-                  ],
+                child: TextFormField(
+                  controller: _controller,
+                  onChanged: (value) => widget.onPasswordCreated(value),
                 ),
               ),
               Container(

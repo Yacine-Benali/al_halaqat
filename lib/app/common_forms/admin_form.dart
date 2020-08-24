@@ -1,21 +1,17 @@
 import 'package:al_halaqat/app/common_forms/center_form.dart';
 import 'package:al_halaqat/app/models/admin.dart';
-import 'package:al_halaqat/app/models/global_admin.dart';
-import 'package:al_halaqat/app/models/user.dart';
+import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/sign_in/validator.dart';
-import 'package:al_halaqat/common_widgets/date_picker.dart';
 import 'package:al_halaqat/common_widgets/center_state_form.dart';
+import 'package:al_halaqat/common_widgets/country_picker.dart';
+import 'package:al_halaqat/common_widgets/date_picker.dart';
+import 'package:al_halaqat/common_widgets/drop_down_form_field2.dart';
 import 'package:al_halaqat/common_widgets/password_text_field.dart';
 import 'package:al_halaqat/common_widgets/text_form_field2.dart';
-import 'package:al_halaqat/common_widgets/drop_down_form_field2.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
-import 'package:al_halaqat/constants/strings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/common_widgets/country_picker.dart';
 
 class AdminForm extends StatefulWidget {
   const AdminForm({
@@ -30,6 +26,7 @@ class AdminForm extends StatefulWidget {
     @required this.includeCenterIdInput,
     @required this.includeUsernameAndPassword,
     this.centersList,
+    this.includeCenterState = true,
   }) : super(key: key);
   final GlobalKey<FormState> adminFormKey;
 //
@@ -42,6 +39,7 @@ class AdminForm extends StatefulWidget {
   final bool includeCenterForm;
   final bool includeCenterIdInput;
   final bool includeUsernameAndPassword;
+  final bool includeCenterState;
   // centers List
   final List<StudyCenter> centersList;
   @override
@@ -365,8 +363,7 @@ class _NewAdminFormState extends State<AdminForm>
                   isPhoneNumber: false,
                   onChanged: (value) => note = value,
                 ),
-                if (!widget.includeCenterForm &&
-                    !widget.includeCenterIdInput) ...[
+                if (widget.includeCenterState) ...[
                   CenterStateForm(
                     centersList: widget.centersList,
                     statesList: KeyTranslate.centersStateList.keys.toList(),

@@ -1,7 +1,12 @@
+import 'package:al_halaqat/app/common_forms/admin_form.dart';
 import 'package:al_halaqat/app/common_forms/global_admin_form.dart';
+import 'package:al_halaqat/app/home/approved/admin/ga_profile/admin_profile_bloc.dart';
+import 'package:al_halaqat/app/home/approved/admin/ga_profile/admin_profile_provider.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_profile/ga_profile_bloc.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_profile/ga_profile_provider.dart';
+import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/global_admin.dart';
+import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
@@ -11,37 +16,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-class GaProfileScreen extends StatefulWidget {
-  const GaProfileScreen._({
+class AdminProfileScreen extends StatefulWidget {
+  const AdminProfileScreen._({
     Key key,
     @required this.bloc,
-    @required this.globalAdmin,
+    @required this.user,
   }) : super(key: key);
 
-  final GaProfileBloc bloc;
-  final GlobalAdmin globalAdmin;
+  final AdminProfileBloc bloc;
+  final User user;
 
   static Widget create({@required BuildContext context}) {
     Database database = Provider.of<Database>(context, listen: false);
     User user = Provider.of<User>(context, listen: false);
 
-    GaProfileProvider provider = GaProfileProvider(database: database);
-    GaProfileBloc bloc = GaProfileBloc(
+    AdminProfileProvider provider = AdminProfileProvider(database: database);
+    AdminProfileBloc bloc = AdminProfileBloc(
       provider: provider,
     );
-    return GaProfileScreen._(
+    return AdminProfileScreen._(
       bloc: bloc,
-      globalAdmin: user,
+      user: user,
     );
   }
 
   @override
-  _GaProfileScreenState createState() => _GaProfileScreenState();
+  _AdminProfileScreenState createState() => _AdminProfileScreenState();
 }
 
-class _GaProfileScreenState extends State<GaProfileScreen> {
+class _AdminProfileScreenState extends State<AdminProfileScreen> {
   final GlobalKey<FormState> globalAdminFormKey = GlobalKey<FormState>();
-  GlobalAdmin modifiedGlobalAdmin;
+  Admin modifiedAdmin;
   ProgressDialog pr;
   @override
   void initState() {
@@ -67,7 +72,7 @@ class _GaProfileScreenState extends State<GaProfileScreen> {
       try {
         //   print(admin.centers);
         await pr.show();
-        await widget.bloc.updateProfile(modifiedGlobalAdmin);
+        await widget.bloc.updateProfile(modifiedAdmin);
         await pr.hide();
 
         PlatformAlertDialog(
@@ -105,11 +110,17 @@ class _GaProfileScreenState extends State<GaProfileScreen> {
           ),
         ],
       ),
-      body: GlobalAdminForm(
+      body: AdminForm(
         adminFormKey: globalAdminFormKey,
-        onSavedGlobalAdmin: (GlobalAdmin value) => modifiedGlobalAdmin = value,
-        globalAdmin: widget.globalAdmin,
+        admin: widget.user,
         isEnabled: true,
+        center: null,
+        includeCenterForm: false,
+        includeCenterIdInput: false,
+        includeCenterState: false,
+        includeUsernameAndPassword: true,
+        onSavedAdmin: (Admin value) => modifiedAdmin = value,
+        onSavedCenter: (StudyCenter value) {},
       ),
     );
   }
