@@ -19,7 +19,7 @@ class CenterRequestsProvider {
     int limitNumber,
   ) {
     return database.collectionStream(
-      path: APIPath.centerRequestsCollection(),
+      path: APIPath.centerRequestsCollection(centerId),
       builder: (data, documentId) => CenterRequest.fromMap(
         data,
         documentId,
@@ -33,13 +33,14 @@ class CenterRequestsProvider {
   }
 
   Future<void> updateJoinRequest(
+    String centerId,
     CenterRequest centerRequest,
     User user,
   ) async {
     await Firestore.instance.runTransaction((Transaction tx) async {
       // update the request
       final requestDocRef = Firestore.instance
-          .document(APIPath.centerRequestsDocument(centerRequest.id));
+          .document(APIPath.centerRequestsDocument(centerId, centerRequest.id));
 
       tx.update(requestDocRef, centerRequest.toMap());
 

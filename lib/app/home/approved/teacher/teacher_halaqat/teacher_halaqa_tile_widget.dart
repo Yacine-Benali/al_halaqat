@@ -1,6 +1,7 @@
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_new_halaqa_screen.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/instances_screen.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_halaqat_bloc.dart';
+import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_new_halaqa_screen.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
@@ -29,33 +30,21 @@ class TeacherHalqaTileWidget extends StatefulWidget {
 class _TeacherHalqaTileWidgetState extends State<TeacherHalqaTileWidget> {
   Future<void> _executeAction(String action) async {
     if (action == 'edit') {
-      // await Navigator.of(context, rootNavigator: false).push(
-      //   MaterialPageRoute(
-      //     builder: (context) => AdminNewHalaqaScreen(
-      //       bloc: widget.bloc,
-      //       chosenCenter: widget.chosenCenter,
-      //       halaqa: widget.halaqa,
-      //     ),
-      //     fullscreenDialog: true,
-      //   ),
-      // );
+      await Navigator.of(context, rootNavigator: false).push(
+        MaterialPageRoute(
+          builder: (context) => TeacherNewHalaqaScreen(
+            bloc: widget.bloc,
+            chosenCenter: widget.chosenCenter,
+            halaqa: widget.halaqa,
+          ),
+          fullscreenDialog: true,
+        ),
+      );
     }
   }
 
   Widget _buildAction() {
-    List<String> actions;
-    switch (widget.halaqa.state) {
-      case 'approved':
-        actions = ['edit', 'archive', 'delete'];
-        break;
-      case 'archived':
-        actions = ['reApprove'];
-        break;
-      case 'deleted':
-        actions = [];
-        break;
-    }
-    actions = ['edit'];
+    List<String> actions = ['edit'];
     return PopupMenuButton<String>(
       itemBuilder: (BuildContext context) => List.generate(
         actions.length,

@@ -55,7 +55,7 @@ class Instance {
       studentAttendanceList.add(StudentAttendance.fromMap(temp[i]));
     }
 
-    List<String> studentIdsList = data['studentIdsList'].cast<String>();
+    List<String> studentIdsList = data['studentIdsList']?.cast<String>();
 
     return Instance(
       id: id,

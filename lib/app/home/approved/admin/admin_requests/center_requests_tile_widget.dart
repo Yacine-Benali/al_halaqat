@@ -14,12 +14,12 @@ class CenterRequestTileWidget extends StatelessWidget {
     Key key,
     @required this.centerRequest,
     @required this.bloc,
-    @required this.centersList,
+    @required this.center,
   }) : super(key: key);
 
   final CenterRequest centerRequest;
   final CenterRequestsBloc bloc;
-  final List<StudyCenter> centersList;
+  final StudyCenter center;
   final Map<String, String> actionTranslate = {
     'join-existing': 'يريد الإنضمام إلى المركز ',
     'join-new': 'يريد الإنضمام و إنشاء مركز جديد',
@@ -39,7 +39,7 @@ class CenterRequestTileWidget extends StatelessWidget {
           builder: (context) => CenterRequestDetailsScreen(
             centerRequest: centerRequest,
             bloc: bloc,
-            centers: centersList,
+            center: center,
           ),
           fullscreenDialog: true,
         ),

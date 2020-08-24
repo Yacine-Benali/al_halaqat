@@ -70,7 +70,7 @@ class Student extends User {
     Timestamp createdAt = data['createdAt'];
     Map<String, String> createdBy = Map<String, String>.from(data['createdBy']);
     String center = data['center'];
-    List<String> halaqatLearningIn = data['halaqatLearningIn'].cast<String>();
+    List<String> halaqatLearningIn = data['halaqatLearningIn']?.cast<String>();
     bool isStudent = data['isStudent'];
 
     //

@@ -60,6 +60,7 @@ class UserProvider {
         await tx.set(
           Firestore.instance.document(
             APIPath.centerRequestsDocument(
+              centerRequestCenterId,
               centerRequest.id,
             ),
           ),

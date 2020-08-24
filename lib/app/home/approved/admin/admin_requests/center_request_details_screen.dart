@@ -21,12 +21,12 @@ class CenterRequestDetailsScreen extends StatefulWidget {
     Key key,
     @required this.centerRequest,
     @required this.bloc,
-    @required this.centers,
+    @required this.center,
   }) : super(key: key);
 
   final CenterRequest centerRequest;
   final CenterRequestsBloc bloc;
-  final List<StudyCenter> centers;
+  final StudyCenter center;
 
   @override
   _GaRequestDetailsScreenState createState() => _GaRequestDetailsScreenState();
@@ -54,15 +54,14 @@ class _GaRequestDetailsScreenState extends State<CenterRequestDetailsScreen> {
       ),
     );
 
-    center = widget.centers
-        .firstWhere((element) => element.id == widget.centerRequest.centerId);
     super.initState();
   }
 
   void updateRequest(BuildContext context, bool isApproved) async {
     try {
       await pr.show();
-      await widget.bloc.updateRequest(widget.centerRequest, isApproved);
+      await widget.bloc
+          .updateRequest(widget.center, widget.centerRequest, isApproved);
       await pr.hide();
       PlatformAlertDialog(
         title: 'نجحت العملية',

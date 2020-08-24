@@ -206,7 +206,7 @@ class _RequestsScreenState extends State<CenterRequestsScreen> {
         return CenterRequestTileWidget(
           centerRequest: centerRequests[index],
           bloc: bloc,
-          centersList: widget.centers,
+          center: chosenCenter,
         );
       },
     );

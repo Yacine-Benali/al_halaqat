@@ -9,8 +9,6 @@ class CenterRequest {
     @required this.createdAt,
     @required this.userId,
     @required this.user,
-    @required this.centerId,
-    @required this.centerName,
     @required this.action,
     @required this.state,
     @required this.halaqa,
@@ -18,8 +16,6 @@ class CenterRequest {
   String id;
   Timestamp createdAt;
   String userId;
-  String centerId;
-  String centerName;
   User user;
   String action;
   String state;
@@ -35,16 +31,12 @@ class CenterRequest {
     User user = User.fromMap(data['user'], userId);
     String action = data['action'];
     String state = data['state'];
-    String centerId = data['centerId'];
-    String centerName = data['centerName'];
     Halaqa halaqa = Halaqa.fromMap(data['halaqa']);
 
     return CenterRequest(
       id: id,
       createdAt: createdAt,
       userId: userId,
-      centerId: centerId,
-      centerName: centerName,
       user: user,
       action: action,
       state: state,
@@ -59,8 +51,6 @@ class CenterRequest {
       'user': user.toMap(),
       'action': action,
       'state': state,
-      'centerName': centerName,
-      'centerId': centerId,
       'halaqa': halaqa?.toMap(),
     };
   }

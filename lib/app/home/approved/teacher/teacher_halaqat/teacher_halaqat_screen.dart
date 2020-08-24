@@ -1,8 +1,10 @@
 import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_halaqa_tile_widget.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_halaqat_bloc.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_halaqat_provider.dart';
+import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_new_halaqa_screen.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/services/auth.dart';
@@ -53,17 +55,25 @@ class _TeacherHalaqatScreenState extends State<TeacherHalaqatScreen> {
 
   StudyCenter chosenCenter;
   Stream<List<Halaqa>> halaqatListStream;
+  int numberOfHalaqatTeachingIn;
 
   @override
   void initState() {
     chosenCenter = widget.centers[0];
-    halaqatListStream = bloc.fetchHalaqat();
-
+    halaqatListStream = bloc.fetchHalaqat(bloc.teacher.halaqatTeachingIn);
+    numberOfHalaqatTeachingIn = bloc.teacher.halaqatLearningIn?.length;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    User user = Provider.of<User>(context, listen: false);
+    if (user is Teacher) {
+      if (user.halaqatTeachingIn?.length != numberOfHalaqatTeachingIn) {
+        halaqatListStream = bloc.fetchHalaqat(user.halaqatTeachingIn);
+        numberOfHalaqatTeachingIn = user.halaqatTeachingIn?.length;
+      }
+    }
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -98,11 +108,31 @@ class _TeacherHalaqatScreenState extends State<TeacherHalaqatScreen> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.of(context, rootNavigator: false).push(
+          MaterialPageRoute(
+            builder: (context) => TeacherNewHalaqaScreen(
+              bloc: bloc,
+              chosenCenter: chosenCenter,
+              halaqa: null,
+            ),
+            fullscreenDialog: true,
+          ),
+        ),
+        tooltip: 'add',
+        child: Icon(Icons.add),
+      ),
       body: StreamBuilder<List<Halaqa>>(
         stream: halaqatListStream,
         builder: (context, snapshot) {
+          if (numberOfHalaqatTeachingIn == 0)
+            return EmptyContent(
+              title: 'لا يوجد أي حلقات ',
+              message: '',
+            );
+
           if (snapshot.hasData) {
-            List<Halaqa> halaqatList = bloc.getFilteredHalaqatList(
+            final List<Halaqa> halaqatList = bloc.getFilteredHalaqatList(
               snapshot.data,
               chosenCenter,
             );

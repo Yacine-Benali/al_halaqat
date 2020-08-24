@@ -69,8 +69,8 @@ class Admin extends User {
         Map<String, String>.from(data['centerState']);
     Timestamp createdAt = data['createdAt'];
     Map<String, String> createdBy = Map<String, String>.from(data['createdBy']);
-    List<String> centers = data['centers'].cast<String>();
-    List<String> halaqatLearningIn = data['halaqatLearningIn'].cast<String>();
+    List<String> centers = data['centers']?.cast<String>();
+    List<String> halaqatLearningIn = data['halaqatLearningIn']?.cast<String>();
     bool isStudent = data['isStudent'];
     //
     bool isAdmin = data['isAdmin'];

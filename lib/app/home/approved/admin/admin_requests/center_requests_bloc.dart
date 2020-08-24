@@ -55,6 +55,7 @@ class CenterRequestsBloc {
   }
 
   Future<void> updateRequest(
+    StudyCenter chosenStudyCenter,
     CenterRequest centerRequest,
     bool isApproved,
   ) async {
@@ -64,10 +65,11 @@ class CenterRequestsBloc {
     centerRequest.state = state;
     if (centerRequest.action == 'join-existing') {
       if (user is Teacher)
-        user.centerState[centerRequest.centerId] = state;
+        user.centerState[chosenStudyCenter.id] = state;
       else if (user is Student) user.state = state;
 
-      await provider.updateJoinRequest(centerRequest, user);
+      await provider.updateJoinRequest(
+          chosenStudyCenter.id, centerRequest, user);
     } else if (centerRequest.action == 'create-halaqa') {
       //TODO implement creat halaqa
     }

@@ -8,9 +8,10 @@ class APIPath {
   static String centersCollection() => 'centers/';
   static String centerDocument(String uid) => 'centers/$uid';
 
-  static String centerRequestsCollection() => 'centerRequests/';
-  static String centerRequestsDocument(String requestId) =>
-      'centerRequests/$requestId';
+  static String centerRequestsCollection(String centerId) =>
+      'centers/$centerId/requests';
+  static String centerRequestsDocument(String centerId, String requestId) =>
+      'centers/$centerId/requests/$requestId';
 
   static String globalAdminRequestsCollection() => 'globalAdminRequests/';
   static String globalAdminRequestsDocument(String requestId) =>

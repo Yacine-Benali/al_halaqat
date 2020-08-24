@@ -1,5 +1,5 @@
 import 'package:al_halaqat/app/common_forms/halaqa_form.dart';
-import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_bloc.dart';
+import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_halaqat_bloc.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
@@ -8,23 +8,23 @@ import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AdminNewHalaqaScreen extends StatefulWidget {
-  const AdminNewHalaqaScreen({
+class TeacherNewHalaqaScreen extends StatefulWidget {
+  const TeacherNewHalaqaScreen({
     Key key,
     @required this.bloc,
     @required this.halaqa,
     @required this.chosenCenter,
   }) : super(key: key);
 
-  final AdminHalaqaBloc bloc;
+  final TeacherHalaqaBloc bloc;
   final Halaqa halaqa;
   final StudyCenter chosenCenter;
 
   @override
-  _AdminNewHalaqaScreenState createState() => _AdminNewHalaqaScreenState();
+  _TeacherNewHalaqaScreenState createState() => _TeacherNewHalaqaScreenState();
 }
 
-class _AdminNewHalaqaScreenState extends State<AdminNewHalaqaScreen> {
+class _TeacherNewHalaqaScreenState extends State<TeacherNewHalaqaScreen> {
   final GlobalKey<FormState> halaqaFormKey = GlobalKey<FormState>();
   Halaqa halaqa;
   ProgressDialog pr;
@@ -53,14 +53,29 @@ class _AdminNewHalaqaScreenState extends State<AdminNewHalaqaScreen> {
       try {
         //   print(admin.centers);
         await pr.show();
-        await widget.bloc.createHalaqa(halaqa, widget.chosenCenter);
-        await pr.hide();
+        if (widget.chosenCenter.requestPermissionForHalaqaCreation == false) {
+          if (widget.halaqa != null)
+            await widget.bloc.editHalaqa(halaqa, widget.chosenCenter);
+          else
+            await widget.bloc.creatHalaqa(halaqa, widget.chosenCenter);
+          await pr.hide();
 
-        PlatformAlertDialog(
-          title: 'نجح الحفظ',
-          content: 'تم حفظ البيانات',
-          defaultActionText: 'حسنا',
-        ).show(context);
+          PlatformAlertDialog(
+            title: 'نجح الحفظ',
+            content: 'تم حفظ البيانات',
+            defaultActionText: 'حسنا',
+          ).show(context);
+        } else {
+          print('no permission');
+          await widget.bloc.creatHalaqa(halaqa, widget.chosenCenter);
+          await pr.hide();
+
+          PlatformAlertDialog(
+            title: 'ليس لديك القدرة علي إنشاء حلقة',
+            content: 'تم إسال طلب للمشرف',
+            defaultActionText: 'حسنا',
+          ).show(context);
+        }
         Navigator.of(context).pop();
       } on PlatformException catch (e) {
         await pr.hide();

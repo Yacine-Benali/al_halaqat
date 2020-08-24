@@ -1,4 +1,5 @@
 import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_halaqat_provider.dart';
+import 'package:al_halaqat/app/models/center_request.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
@@ -16,25 +17,52 @@ class TeacherHalaqaBloc {
   final Teacher teacher;
   final Auth auth;
 
-  Stream<List<Halaqa>> fetchHalaqat() =>
-      provider.fetchHalaqat(teacher.halaqatTeachingIn);
+  Stream<List<Halaqa>> fetchHalaqat(List<String> halaqatId) =>
+      provider.fetchHalaqat(halaqatId);
 
-  Future<void> createHalaqa(
+  Future<void> editHalaqa(
     Halaqa halaqa,
     StudyCenter chosenCenter,
   ) async {
-    //TODO create or creat request
-    // if (halaqa.id == null) {
-    //   halaqa.id = provider.getUniqueId();
-    //   halaqa.createdBy = {
-    //     'name': admin.name,
-    //     'id': admin.id,
-    //   };
-    //   halaqa.centerId = chosenCenter.id;
-    //   halaqa.state = 'approved';
-    // }
+    await provider.editHalaqa(halaqa);
+  }
 
-    // await provider.createHalaqa(halaqa);
+  Future<void> creatHalaqa(
+    Halaqa halaqa,
+    StudyCenter chosenCenter,
+  ) async {
+    halaqa.id = provider.getUniqueId();
+    halaqa.createdBy = {
+      'name': teacher.name,
+      'id': teacher.id,
+    };
+    halaqa.centerId = chosenCenter.id;
+    if (teacher.halaqatTeachingIn == null) teacher.halaqatTeachingIn = List();
+
+    teacher.halaqatTeachingIn.add(halaqa.id);
+    if (chosenCenter.requestPermissionForHalaqaCreation == false) {
+      halaqa.state = 'approved';
+
+      await provider.createHalaqa(halaqa, teacher);
+    } else {
+      halaqa.state = 'pending';
+      CenterRequest centerRequest = CenterRequest(
+        id: provider.getUniqueId(),
+        createdAt: null,
+        userId: teacher.id,
+        user: teacher,
+        action: 'create-halaqa',
+        state: 'pending',
+        halaqa: halaqa,
+      );
+
+      await provider.createHalaqaRequest(
+        halaqa,
+        teacher,
+        chosenCenter.id,
+        centerRequest,
+      );
+    }
   }
 
   List<Halaqa> getFilteredHalaqatList(
@@ -42,7 +70,7 @@ class TeacherHalaqaBloc {
     List<Halaqa> filteredHalaqat = List();
 
     for (Halaqa halaqa in data)
-      if (halaqa.centerId == chosenCenter.id) filteredHalaqat.add(halaqa);
+      if (halaqa?.centerId == chosenCenter.id) filteredHalaqat.add(halaqa);
 
     return filteredHalaqat;
   }
