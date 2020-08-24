@@ -125,12 +125,31 @@ class FirestoreDatabase implements Database {
     if (queryBuilder != null) {
       query = queryBuilder(query);
     }
-    final QuerySnapshot snapshot = await query.getDocuments();
+    final QuerySnapshot snapshot = await query.limit(1).getDocuments();
     if (snapshot.documents.isEmpty) {
       return null;
     } else
       return builder(snapshot.documents?.elementAt(0)?.data,
           snapshot.documents.elementAt(0).documentID);
+  }
+
+  @override
+  Stream<T> queryDocument<T>({
+    @required String path,
+    @required T builder(Map<String, dynamic> data, String documentID),
+    @required Query queryBuilder(Query query),
+  }) {
+    Query query = Firestore.instance.collection(path);
+    if (queryBuilder != null) {
+      query = queryBuilder(query);
+    }
+    final Stream<QuerySnapshot> snapshots = query.limit(1).snapshots();
+    return snapshots.map(
+      (snapshot) => builder(
+        snapshot?.documents?.first?.data,
+        snapshot?.documents?.first?.documentID,
+      ),
+    );
   }
 
   @override

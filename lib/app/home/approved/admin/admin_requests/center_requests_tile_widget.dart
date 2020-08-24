@@ -1,13 +1,9 @@
 import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_request_details_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_requests_bloc.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_request_details_screen.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_bloc.dart';
 import 'package:al_halaqat/app/models/center_request.dart';
-import 'package:al_halaqat/app/models/global_admin_request.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:al_halaqat/constants/key_translate.dart';
 
 class CenterRequestTileWidget extends StatelessWidget {
   CenterRequestTileWidget({
@@ -22,7 +18,7 @@ class CenterRequestTileWidget extends StatelessWidget {
   final StudyCenter center;
   final Map<String, String> actionTranslate = {
     'join-existing': 'يريد الإنضمام إلى المركز ',
-    'join-new': 'يريد الإنضمام و إنشاء مركز جديد',
+    'create-halaqa': 'يريد إنشاء حلقة جديدة',
   };
 
   @override

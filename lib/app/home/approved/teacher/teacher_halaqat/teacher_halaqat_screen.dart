@@ -125,6 +125,7 @@ class _TeacherHalaqatScreenState extends State<TeacherHalaqatScreen> {
       body: StreamBuilder<List<Halaqa>>(
         stream: halaqatListStream,
         builder: (context, snapshot) {
+          print(snapshot);
           if (numberOfHalaqatTeachingIn == 0)
             return EmptyContent(
               title: 'لا يوجد أي حلقات ',
@@ -146,8 +147,8 @@ class _TeacherHalaqatScreenState extends State<TeacherHalaqatScreen> {
             }
           } else if (snapshot.hasError) {
             return EmptyContent(
-              title: 'Something went wrong',
-              message: 'Can\'t load items right now',
+              title: 'لا يوجد أي حلقات ',
+              message: '',
             );
           }
           return Center(child: CircularProgressIndicator());

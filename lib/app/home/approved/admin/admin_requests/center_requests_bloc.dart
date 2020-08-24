@@ -3,6 +3,7 @@ import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_requests
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/center_request.dart';
 import 'package:al_halaqat/app/models/global_admin_request.dart';
+import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
@@ -71,7 +72,13 @@ class CenterRequestsBloc {
       await provider.updateJoinRequest(
           chosenStudyCenter.id, centerRequest, user);
     } else if (centerRequest.action == 'create-halaqa') {
-      //TODO implement creat halaqa
+      Halaqa halaqa = centerRequest.halaqa;
+      halaqa.state = state;
+      await provider.updateNewHalaqaRequest(
+        centerRequest,
+        halaqa,
+        chosenStudyCenter.id,
+      );
     }
   }
 

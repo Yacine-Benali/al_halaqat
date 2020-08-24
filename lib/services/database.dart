@@ -56,4 +56,10 @@ abstract class Database {
   });
 
   Future<void> deleteDocument({String path});
+
+  Stream<T> queryDocument<T>({
+    @required String path,
+    @required T builder(Map<String, dynamic> data, String documentID),
+    @required Query queryBuilder(Query query),
+  });
 }

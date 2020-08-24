@@ -17,9 +17,12 @@ class TeacherHalaqatProvider {
   ) {
     List<Stream<Halaqa>> halaqatStreamList = halaqatId
         .map(
-          (halaqaId) => database.documentStream(
-            path: APIPath.halaqaDocument(halaqaId),
+          (halaqaId) => database.queryDocument(
+            path: APIPath.halaqatCollection(),
             builder: (data, documentId) => Halaqa.fromMap(data),
+            queryBuilder: (query) => query
+                .where('id', isEqualTo: halaqaId)
+                .where('state', isEqualTo: 'approved'),
           ),
         )
         .toList();

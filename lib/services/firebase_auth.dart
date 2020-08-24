@@ -56,18 +56,6 @@ class FirebaseAuthService implements Auth {
     await _firebaseAuth.sendPasswordResetEmail(email: email);
   }
 
-  @override
-  Future<AuthUser> signInWithEmailAndLink({String email, String link}) async {
-    final AuthResult authResult =
-        await _firebaseAuth.signInWithEmailAndLink(email: email, link: link);
-    return _userFromFirebase(authResult.user);
-  }
-
-  @override
-  Future<bool> isSignInWithEmailLink(String link) async {
-    return await _firebaseAuth.isSignInWithEmailLink(link);
-  }
-
   Future<void> sendSignInWithEmailLink({
     @required String email,
     @required String url,

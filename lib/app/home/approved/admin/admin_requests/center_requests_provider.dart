@@ -1,6 +1,7 @@
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/center_request.dart';
 import 'package:al_halaqat/app/models/global_admin_request.dart';
+import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/services/api_path.dart';
@@ -24,10 +25,8 @@ class CenterRequestsProvider {
         data,
         documentId,
       ),
-      queryBuilder: (query) => query
-          .where('centerId', isEqualTo: centerId)
-          .where('state', isEqualTo: requestsState)
-          .limit(limitNumber),
+      queryBuilder: (query) =>
+          query.where('state', isEqualTo: requestsState).limit(limitNumber),
       sort: (rhs, lhs) => lhs.createdAt.compareTo(rhs.createdAt),
     );
   }
@@ -56,23 +55,21 @@ class CenterRequestsProvider {
 
   Future<void> updateNewHalaqaRequest(
     CenterRequest centerRequest,
-    User user,
+    Halaqa halaqa,
+    String centerId,
   ) async {
     await Firestore.instance.runTransaction((Transaction tx) async {
-      //TODO implement this function
       // update the request
-      final requestDocRef =
-          Firestore.instance.document(APIPath.centerDocument(centerRequest.id));
+      final centerRequestDocRef = Firestore.instance
+          .document(APIPath.centerRequestsDocument(centerId, centerRequest.id));
 
-      tx.update(requestDocRef, centerRequest.toMap());
+      tx.update(centerRequestDocRef, centerRequest.toMap());
 
       // update the user if the action is join-new
-      if (user != null) {
-        final centerDocRef =
-            Firestore.instance.document(APIPath.userDocument(user.id));
+      final halaqaDocRef =
+          Firestore.instance.document(APIPath.halaqaDocument(halaqa.id));
 
-        tx.update(centerDocRef, user.toMap());
-      }
+      tx.update(halaqaDocRef, halaqa.toMap());
     }, timeout: Duration(seconds: 10));
   }
 }
