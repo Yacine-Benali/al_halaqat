@@ -1,5 +1,6 @@
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
+import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user_halaqa.dart';
@@ -21,6 +22,7 @@ class AdminStudentsBloc {
   final Admin admin;
   final Auth auth;
   List<Halaqa> halaqat;
+  Future<Quran> fetchQuran() => provider.fetchQuran();
 
   Stream<UserHalaqa<Student>> fetchStudents(
     List<StudyCenter> centersList,

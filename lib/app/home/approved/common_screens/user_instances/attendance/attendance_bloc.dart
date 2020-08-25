@@ -21,8 +21,7 @@ class AttendanceBloc {
   final Instance instance;
   final User user;
 
-  Future<Quran> fetchQuran() async =>
-      await provider.fetchQuran(instance.halaqaId);
+  Future<Quran> fetchQuran() async => await provider.fetchQuran();
   List<String> getColumnTitle() {
     List<String> columnTitleList = List();
     columnTitleList.add('إسم');

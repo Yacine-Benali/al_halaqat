@@ -1,7 +1,8 @@
 import 'package:al_halaqat/app/home/approved/common_screens/student_profile/student_profile_bloc.dart';
-import 'package:al_halaqat/app/models/evaluation.dart';
 import 'package:al_halaqat/app/models/report_card.dart';
 import 'package:al_halaqat/app/models/report_card_summery.dart';
+import 'package:al_halaqat/app/models/student_profile.dart';
+import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/common_widgets/size_config.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +12,11 @@ class StudentReportCardScreen extends StatefulWidget {
   const StudentReportCardScreen({
     Key key,
     @required this.bloc,
-    @required this.reportCard,
+    @required this.studentProfileList,
   }) : super(key: key);
 
   final StudentProfileBloc bloc;
-  final ReportCard reportCard;
+  final List<StudentProfile> studentProfileList;
 
   @override
   _StudentReportCardScreenState createState() =>
@@ -25,10 +26,15 @@ class StudentReportCardScreen extends StatefulWidget {
 class _StudentReportCardScreenState extends State<StudentReportCardScreen> {
   StudentProfileBloc get bloc => widget.bloc;
   List<String> studentReportCardTitle;
+  ReportCard reportCard;
+  Future<ReportCard> reportCardFuture;
 
   @override
   void initState() {
     studentReportCardTitle = bloc.getReportCardTitles();
+    List<ReportCard> a =
+        widget.studentProfileList.map((e) => e.reportCard).toList();
+    reportCardFuture = bloc.mergeReportCard(a);
     super.initState();
   }
 
@@ -76,8 +82,7 @@ class _StudentReportCardScreenState extends State<StudentReportCardScreen> {
 
   List<TableRow> buildRowList() {
     List<TableRow> tableRowList = List();
-    print(widget.reportCard.summery.length);
-    for (ReportCardSummery summery in widget.reportCard.summery) {
+    for (ReportCardSummery summery in reportCard.summery) {
       TableRow tableRow = TableRow(children: [
         Container(
           alignment: Alignment.center,
@@ -105,32 +110,64 @@ class _StudentReportCardScreenState extends State<StudentReportCardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('تقييم'),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Card(
-          margin: EdgeInsets.all(4.0),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minWidth: SizeConfig.screenWidth,
-              maxWidth: SizeConfig.screenWidth,
-            ),
-            child: Table(
-              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-              border: TableBorder(
-                horizontalInside:
-                    BorderSide(width: 1.0, color: Colors.grey[350]),
-                bottom: BorderSide(width: 1.0, color: Colors.grey[350]),
+      body: FutureBuilder(
+        future: reportCardFuture,
+        builder: (contextn, snapshot) {
+          if (snapshot.hasData) {
+            reportCard = snapshot.data;
+            return SingleChildScrollView(
+              child: Card(
+                margin: EdgeInsets.all(4.0),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minWidth: SizeConfig.screenWidth,
+                    maxWidth: SizeConfig.screenWidth,
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                              child:
+                                  Center(child: Text('نسبة الحفظ الإجمالية'))),
+                          Expanded(
+                              child: Center(
+                                  child: Text(
+                                      reportCard.precentage.toString() + '%'))),
+                          Container(
+                            height: kMinInteractiveDimension,
+                          ),
+                        ],
+                      ),
+                      Divider(height: 1, color: Colors.grey[350]),
+                      Table(
+                        defaultVerticalAlignment:
+                            TableCellVerticalAlignment.middle,
+                        border: TableBorder(
+                          horizontalInside:
+                              BorderSide(width: 1.0, color: Colors.grey[350]),
+                          bottom:
+                              BorderSide(width: 1.0, color: Colors.grey[350]),
+                        ),
+                        children:
+                            // [
+                            //       buildColumnBlock(),
+                            //     ] +
+                            buildRowList(),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              children: [
-                    buildColumnBlock(),
-                  ] +
-                  buildRowList(),
-            ),
-          ),
-        ),
+            );
+          } else if (snapshot.hasError) {
+            return EmptyContent(
+              title: 'Something went wrong',
+              message: 'Can\'t load items right now',
+            );
+          }
+          return Center(child: CircularProgressIndicator());
+        },
       ),
     );
   }

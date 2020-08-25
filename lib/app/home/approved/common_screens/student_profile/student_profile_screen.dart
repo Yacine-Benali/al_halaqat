@@ -5,6 +5,8 @@ import 'package:al_halaqat/app/home/approved/common_screens/student_profile/stud
 import 'package:al_halaqat/app/home/approved/common_screens/student_profile/student_profile_provider.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/student_profile/student_report_card_screen.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
+import 'package:al_halaqat/app/models/quran.dart';
+import 'package:al_halaqat/app/models/report_card.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/student_profile.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
@@ -21,6 +23,7 @@ class StudentProfileScreen extends StatefulWidget {
     @required BuildContext context,
     @required List<Halaqa> halaqatList,
     @required Student student,
+    @required Quran quran,
   }) {
     Database database = Provider.of<Database>(context, listen: false);
     // User admin = Provider.of<User>(context, listen: false);
@@ -32,6 +35,7 @@ class StudentProfileScreen extends StatefulWidget {
       provider: provider,
       student: student,
       halaqatList: halaqatList,
+      quran: quran,
     );
 
     return StudentProfileScreen._(
@@ -82,7 +86,12 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
       center: null,
       showUserHalaqa: false,
     );
-    for (int i = 1; i < titles.length; i++) {
+
+    tabBarViewList[1] = StudentReportCardScreen(
+      bloc: bloc,
+      studentProfileList: studentProfileList,
+    );
+    for (int i = 2; i < titles.length; i++) {
       // print(
       //     'instance of ${studentProfileList.first.halaqaId}: ${studentProfileList.first.instancesList.length}');
       tabBarViewList[i] = Column(
@@ -107,19 +116,6 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                 builder: (context) => StudentEvaluationScreen(
                   bloc: bloc,
                   evaluationsList: studentProfileList[i - 1].evaluationsList,
-                ),
-                fullscreenDialog: true,
-              ),
-            ),
-          ),
-          Divider(height: 0.5),
-          ListTile(
-            title: Text('ملخص الحفظ'),
-            onTap: () => Navigator.of(context, rootNavigator: false).push(
-              MaterialPageRoute(
-                builder: (context) => StudentReportCardScreen(
-                  bloc: bloc,
-                  reportCard: studentProfileList[i - 1].reportCard,
                 ),
                 fullscreenDialog: true,
               ),
@@ -166,6 +162,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 studentProfileList = snapshot.data;
+
                 return TabBarView(children: getTabBarView());
               } else if (snapshot.hasError) {
                 return TabBarView(children: buildErrorTabBarView());

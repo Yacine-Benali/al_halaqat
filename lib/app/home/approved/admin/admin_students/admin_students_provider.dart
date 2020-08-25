@@ -1,4 +1,5 @@
 import 'package:al_halaqat/app/models/halaqa.dart';
+import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/services/api_path.dart';
 import 'package:al_halaqat/services/database.dart';
@@ -48,6 +49,11 @@ class AdminStudentsProvider {
             .where('state', isEqualTo: 'approved')
             .where('centerId', whereIn: centerIds),
         sort: (a, b) => a.createdAt.compareTo(b.createdAt),
+      );
+
+  Future<Quran> fetchQuran() => database.fetchDocument(
+        path: APIPath.globalConfigurationDoc(),
+        builder: (data, documentId) => Quran.fromMap(data, documentId),
       );
 
   String getUniqueId() => database.getUniqueId();

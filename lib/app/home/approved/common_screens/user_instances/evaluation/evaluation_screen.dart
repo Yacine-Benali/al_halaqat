@@ -1,26 +1,16 @@
-import 'package:al_halaqat/app/home/approved/common_screens/user_instances/attendance/attendance_bloc.dart';
-import 'package:al_halaqat/app/home/approved/common_screens/user_instances/attendance/attendance_provider.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/evaluation/evaluation_bloc.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/evaluation/evaluation_provider.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/evaluation/new_evaluation_screen.dart';
-import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/evaluation.dart';
 import 'package:al_halaqat/app/models/instance.dart';
 import 'package:al_halaqat/app/models/quran.dart';
-import 'package:al_halaqat/app/models/student_attendance.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/app/models/teacher_summery.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
-import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
-import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:al_halaqat/common_widgets/size_config.dart';
-import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:al_halaqat/services/database.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class EvaluationScreen extends StatefulWidget {

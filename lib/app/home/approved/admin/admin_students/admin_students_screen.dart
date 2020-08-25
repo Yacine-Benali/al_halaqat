@@ -8,6 +8,7 @@ import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_til
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_new_admin_screen.dart';
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
+import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
@@ -64,13 +65,15 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
   //
   List<String> studentStateList =
       KeyTranslate.globalAdminsStateList.keys.toList();
-
+  Future<Quran> quranFuture;
+  Quran quran;
   StudyCenter chosenCenter;
   String chosenStudentState;
 
   @override
   void initState() {
     studentsStream = bloc.fetchStudents(widget.centers);
+    quranFuture = bloc.fetchQuran();
 
     chosenCenter = widget.centers[0];
     chosenStudentState = studentStateList[0];
@@ -142,49 +145,55 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
           ),
         ],
       ),
-      body: StreamBuilder<UserHalaqa<Student>>(
-        stream: studentsStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List<Student> studentsList = bloc.getFilteredStudentsList(
-              snapshot.data.usersList,
-              chosenCenter,
-              chosenStudentState,
-            );
-            List<Halaqa> halaqatList = snapshot.data.halaqatList;
-            if (studentsList.isNotEmpty) {
-              return Scaffold(
-                floatingActionButton: FloatingActionButton(
-                  onPressed: () =>
-                      Navigator.of(context, rootNavigator: false).push(
-                    MaterialPageRoute(
-                      builder: (context) => AdminNewStudentScreen(
-                        bloc: bloc,
-                        student: null,
-                        chosenCenter: chosenCenter,
-                        halaqatList: halaqatList,
+      body: FutureBuilder(
+        future: quranFuture,
+        builder: (context, quranSnapshot) {
+          return StreamBuilder<UserHalaqa<Student>>(
+            stream: studentsStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData && quranSnapshot.hasData) {
+                quran = quranSnapshot.data;
+                List<Student> studentsList = bloc.getFilteredStudentsList(
+                  snapshot.data.usersList,
+                  chosenCenter,
+                  chosenStudentState,
+                );
+                List<Halaqa> halaqatList = snapshot.data.halaqatList;
+                if (studentsList.isNotEmpty) {
+                  return Scaffold(
+                    floatingActionButton: FloatingActionButton(
+                      onPressed: () =>
+                          Navigator.of(context, rootNavigator: false).push(
+                        MaterialPageRoute(
+                          builder: (context) => AdminNewStudentScreen(
+                            bloc: bloc,
+                            student: null,
+                            chosenCenter: chosenCenter,
+                            halaqatList: halaqatList,
+                          ),
+                          fullscreenDialog: true,
+                        ),
                       ),
-                      fullscreenDialog: true,
+                      tooltip: 'add',
+                      child: Icon(Icons.add),
                     ),
-                  ),
-                  tooltip: 'add',
-                  child: Icon(Icons.add),
-                ),
-                body: buildBody(studentsList, halaqatList),
-              );
-            } else {
-              return EmptyContent(
-                title: 'لا يوجد أي طلاب',
-                message: '',
-              );
-            }
-          } else if (snapshot.hasError) {
-            return EmptyContent(
-              title: 'Something went wrong',
-              message: 'Can\'t load items right now',
-            );
-          }
-          return Center(child: CircularProgressIndicator());
+                    body: buildBody(studentsList, halaqatList),
+                  );
+                } else {
+                  return EmptyContent(
+                    title: 'لا يوجد أي طلاب',
+                    message: '',
+                  );
+                }
+              } else if (snapshot.hasError || quranSnapshot.hasError) {
+                return EmptyContent(
+                  title: 'Something went wrong',
+                  message: 'Can\'t load items right now',
+                );
+              }
+              return Center(child: CircularProgressIndicator());
+            },
+          );
         },
       ),
     );
@@ -246,6 +255,7 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
                 scaffoldKey: _scaffoldKey,
                 student: student,
                 halaqatList: halaqatList,
+                quran: quran,
               ),
               SizedBox(height: 75),
             ],
@@ -258,6 +268,7 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
           scaffoldKey: _scaffoldKey,
           student: student,
           halaqatList: halaqatList,
+          quran: quran,
         );
       },
       onItemFound: (Student student, int index) {
@@ -268,6 +279,7 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
           chosenStudentState: chosenStudentState,
           scaffoldKey: _scaffoldKey,
           student: student,
+          quran: quran,
         );
       },
     );

@@ -94,8 +94,10 @@ class EvaluationBloc {
 
     //? let the magic begins
     for (String fromSoura in sourateList) {
+      bool isFound = false;
       for (Evaluation evaluation in evaluationsList) {
         if (fromSoura == evaluation.memorized.fromSoura) {
+          isFound = true;
           String toSoura = evaluation.memorized.toSoura;
           if (fromSoura == toSoura) {
             int biggestAya = evaluation.memorized.toAya;
@@ -144,9 +146,20 @@ class EvaluationBloc {
                 percentage: roundDouble(lastPrecentage),
               );
               summeryList.add(lastTemp);
+            } else {
+              //TODO throw exception
             }
           }
         }
+      }
+      if (!isFound) {
+        ReportCardSummery temp = ReportCardSummery(
+          soura: fromSoura,
+          numbeOfAyatInSoura: quran.data[fromSoura],
+          numberOfAyatMemorized: 0,
+          percentage: 0,
+        );
+        summeryList.add(temp);
       }
     }
 

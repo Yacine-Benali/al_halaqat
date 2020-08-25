@@ -1,9 +1,13 @@
+import 'dart:math';
+
 import 'package:al_halaqat/app/home/approved/common_screens/student_profile/student_profile_provider.dart';
 import 'package:al_halaqat/app/models/evaluation.dart';
 import 'package:al_halaqat/app/models/evaluation_helper.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/instance.dart';
+import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/app/models/report_card.dart';
+import 'package:al_halaqat/app/models/report_card_summery.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/student_attendance.dart';
 import 'package:al_halaqat/app/models/student_profile.dart';
@@ -16,11 +20,17 @@ class StudentProfileBloc {
     @required this.halaqatList,
     @required this.student,
     @required this.provider,
+    @required this.quran,
   });
 
   final StudentProfileProvider provider;
   final List<Halaqa> halaqatList;
   final Student student;
+  final Quran quran;
+
+  List<String> getSouratList() {
+    return quran.data.keys.toList();
+  }
 
   List<String> getEvaluationsTableTitle() {
     return [
@@ -63,6 +73,7 @@ class StudentProfileBloc {
     List<String> titles = List();
 
     titles.add('ملف شخصي');
+    titles.add('ملخص');
 
     for (String halaqaLearingIn in student.halaqatLearningIn) {
       for (Halaqa halaqa in halaqatList) {
@@ -114,5 +125,56 @@ class StudentProfileBloc {
       }
     }
     return list;
+  }
+
+  Future<ReportCard> mergeReportCard(List<ReportCard> reportCardsList) async {
+    List<ReportCardSummery> summeryList = List();
+    List<String> souratList = getSouratList();
+
+    //! some fuckery is comming at you beware
+    for (String soura in souratList) {
+      int numberOfAyatMemorized = 0;
+
+      for (ReportCard reportCard in reportCardsList) {
+        int temp = reportCard.summery
+            .firstWhere((reportCardSummery) => reportCardSummery.soura == soura)
+            .numberOfAyatMemorized;
+
+        if (numberOfAyatMemorized < temp) {
+          numberOfAyatMemorized = temp;
+        }
+      }
+      double precentage = numberOfAyatMemorized / quran.data[soura] * 100;
+      ReportCardSummery temp2 = ReportCardSummery(
+        soura: soura,
+        numbeOfAyatInSoura: quran.data[soura],
+        numberOfAyatMemorized: numberOfAyatMemorized,
+        percentage: roundDouble(precentage),
+      );
+      summeryList.add(temp2);
+    }
+    double summeryPercentage = 0;
+
+    for (ReportCardSummery summery in summeryList) {
+      summeryPercentage += summery.percentage;
+    }
+    summeryPercentage = summeryPercentage / summeryList.length;
+
+    return ReportCard(
+      id: 'fuck it',
+      studentName: student.name,
+      centerId: 'null',
+      halaqaId: 'null',
+      studentId: 'null',
+      precentage: roundDouble(summeryPercentage),
+      summery: summeryList,
+    );
+  }
+
+  double roundDouble(double value) {
+    double mod = pow(10.0, 2);
+    double result = (value * mod).round().toDouble() / mod;
+
+    return result;
   }
 }

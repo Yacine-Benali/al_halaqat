@@ -7,6 +7,7 @@ import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_new_admin_
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/global_admin.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
+import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
@@ -27,6 +28,7 @@ class AdminStudentTileWidget extends StatefulWidget {
     @required this.scaffoldKey,
     @required this.chosenCenter,
     @required this.halaqatList,
+    @required this.quran,
   }) : super(key: key);
 
   final Student student;
@@ -35,6 +37,7 @@ class AdminStudentTileWidget extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   final StudyCenter chosenCenter;
   final List<Halaqa> halaqatList;
+  final Quran quran;
 
   @override
   _AdminStudentTileWidgetState createState() => _AdminStudentTileWidgetState();
@@ -150,6 +153,7 @@ class _AdminStudentTileWidgetState extends State<AdminStudentTileWidget> {
                 context: context,
                 halaqatList: widget.halaqatList,
                 student: widget.student,
+                quran: widget.quran,
               ),
               fullscreenDialog: true,
             ),

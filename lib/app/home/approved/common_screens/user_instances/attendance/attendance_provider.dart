@@ -36,10 +36,7 @@ class AttendanceProvider {
         merge: true,
       );
 
-  Future<Quran> fetchQuran(
-    String halaqaId,
-  ) =>
-      database.fetchDocument(
+  Future<Quran> fetchQuran() => database.fetchDocument(
         path: APIPath.globalConfigurationDoc(),
         builder: (data, documentId) => Quran.fromMap(data, documentId),
       );
