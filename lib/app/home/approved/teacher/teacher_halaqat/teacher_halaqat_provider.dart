@@ -5,7 +5,6 @@ import 'package:al_halaqat/services/api_path.dart';
 import 'package:al_halaqat/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:rxdart/rxdart.dart';
 
 class TeacherHalaqatProvider {
   TeacherHalaqatProvider({@required this.database});
@@ -14,23 +13,12 @@ class TeacherHalaqatProvider {
 
   Stream<List<Halaqa>> fetchHalaqat(
     List<String> halaqatId,
-  ) {
-    List<Stream<Halaqa>> halaqatStreamList = halaqatId
-        .map(
-          (halaqaId) => database.queryDocument(
-            path: APIPath.halaqatCollection(),
-            builder: (data, documentId) => Halaqa.fromMap(data),
-            queryBuilder: (query) => query
-                .where('id', isEqualTo: halaqaId)
-                .where('state', isEqualTo: 'approved'),
-          ),
-        )
-        .toList();
-    Stream<List<Halaqa>> a = Rx.combineLatest(halaqatStreamList, (values) {
-      return values.toList();
-    });
-    return a;
-  }
+  ) =>
+      database.collectionStream(
+        path: APIPath.halaqatCollection(),
+        builder: (data, documentId) => Halaqa.fromMap(data),
+        queryBuilder: (query) => query.where('id', whereIn: halaqatId),
+      );
 
   Future<void> editHalaqa(
     Halaqa halaqa,

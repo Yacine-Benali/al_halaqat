@@ -1,9 +1,9 @@
-import 'package:al_halaqat/common_widgets/text_form_field2.dart';
+import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/common_widgets/country_picker.dart';
+import 'package:al_halaqat/common_widgets/text_form_field2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
 
 class CenterForm extends StatefulWidget {
   const CenterForm({
@@ -181,6 +181,17 @@ class _CenterFormState extends State<CenterForm> {
                   value: requestPermissionForHalaqaCreation,
                   onChanged: (value) {
                     requestPermissionForHalaqaCreation = value;
+                    save();
+                    setState(() {});
+                  },
+                ),
+              ),
+              ListTile(
+                title: Text('يمكن للمعلم إزالة طالب من الحلقة'),
+                trailing: Switch(
+                  value: canTeacherRemoveStudentsFromHalaqa,
+                  onChanged: (value) {
+                    canTeacherRemoveStudentsFromHalaqa = value;
                     save();
                     setState(() {});
                   },

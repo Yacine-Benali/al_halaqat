@@ -23,7 +23,7 @@ class EmailPasswordSignInModel
   bool isLoading;
   bool submitted;
 
-  Future<bool> submit() async {
+  Future<void> submit() async {
     try {
       updateWith(submitted: true);
       if (!canSubmit) {

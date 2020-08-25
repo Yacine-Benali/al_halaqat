@@ -1,4 +1,5 @@
 import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_halaqat_screen.dart';
+import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_students_screen.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
@@ -166,7 +167,16 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
               SizedBox(height: 10),
               MenuButtonWidget(
                 text: ' إدارة الطلاب',
-                onPressed: () {},
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: false).push(
+                  MaterialPageRoute(
+                    builder: (context) => TeacherStudentsScreen.create(
+                      context: context,
+                      centers: items,
+                    ),
+                    fullscreenDialog: true,
+                  ),
+                ),
               ),
               SizedBox(height: 10),
               MenuButtonWidget(

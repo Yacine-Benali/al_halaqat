@@ -125,7 +125,6 @@ class _TeacherHalaqatScreenState extends State<TeacherHalaqatScreen> {
       body: StreamBuilder<List<Halaqa>>(
         stream: halaqatListStream,
         builder: (context, snapshot) {
-          print(snapshot);
           if (numberOfHalaqatTeachingIn == 0)
             return EmptyContent(
               title: 'لا يوجد أي حلقات ',

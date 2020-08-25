@@ -4,7 +4,6 @@ import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:al_halaqat/app/common_forms/user_info_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
