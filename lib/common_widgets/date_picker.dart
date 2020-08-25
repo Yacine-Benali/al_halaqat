@@ -1,8 +1,4 @@
-import 'dart:async';
-
-import 'package:al_halaqat/common_widgets/format.dart';
 import 'package:flutter/material.dart';
-import 'package:al_halaqat/common_widgets/input_dropdown.dart';
 
 class DatePicker extends StatefulWidget {
   const DatePicker({
@@ -41,8 +37,6 @@ class _DatePickerState extends State<DatePicker> {
 
   @override
   Widget build(BuildContext context) {
-    final valueStyle = Theme.of(context).textTheme.title;
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Column(

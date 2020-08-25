@@ -99,12 +99,6 @@ class _UsernamePasswordSignInState extends State<UsernamePasswordSignIn> {
     _submit();
   }
 
-  void _updateFormType(UsernamePasswordSignInFormType formType) {
-    model.updateFormType(formType);
-    _emailController.clear();
-    _passwordController.clear();
-  }
-
   Widget _buildEmailField() {
     return TextField(
       key: Key('email'),

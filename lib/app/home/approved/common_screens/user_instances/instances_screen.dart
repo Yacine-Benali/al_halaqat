@@ -3,9 +3,6 @@ import 'package:al_halaqat/app/home/approved/common_screens/user_instances/intan
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/intances_provider.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/instance.dart';
-import 'package:al_halaqat/app/models/student_attendance.dart';
-import 'package:al_halaqat/app/models/students_attendance_summery.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';

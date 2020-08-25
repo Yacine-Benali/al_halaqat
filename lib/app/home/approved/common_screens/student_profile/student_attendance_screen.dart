@@ -1,8 +1,6 @@
 import 'package:al_halaqat/app/home/approved/common_screens/student_profile/student_profile_bloc.dart';
 import 'package:al_halaqat/app/models/instance.dart';
-import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/student_attendance.dart';
-import 'package:al_halaqat/app/models/student_profile.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/size_config.dart';
 import 'package:al_halaqat/constants/key_translate.dart';

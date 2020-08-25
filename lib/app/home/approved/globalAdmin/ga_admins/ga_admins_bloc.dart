@@ -2,9 +2,7 @@ import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_pro
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
-import 'package:al_halaqat/common_widgets/password_generator.dart';
 import 'package:al_halaqat/services/auth.dart';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';

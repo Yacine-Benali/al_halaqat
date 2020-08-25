@@ -24,6 +24,7 @@ class AdminStudentsBloc {
   List<Halaqa> halaqat;
   Future<Quran> fetchQuran() => provider.fetchQuran();
 
+  // ignore: missing_return
   Stream<UserHalaqa<Student>> fetchStudents(
     List<StudyCenter> centersList,
   ) {

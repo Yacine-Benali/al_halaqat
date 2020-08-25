@@ -5,7 +5,6 @@ import 'package:al_halaqat/app/models/student_attendance.dart';
 import 'package:al_halaqat/app/models/students_attendance_summery.dart';
 import 'package:al_halaqat/app/models/teacher_summery.dart';
 import 'package:al_halaqat/app/models/user.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 

@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/evaluation/evaluation_bloc.dart';
 import 'package:al_halaqat/app/models/evaluation.dart';
 import 'package:al_halaqat/app/models/evaluation_helper.dart';
-import 'package:al_halaqat/app/models/instance.dart';
-import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/common_widgets/drop_down_form_field2.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
@@ -121,7 +119,7 @@ class _NewEvaluationScreenState extends State<NewEvaluationScreen> {
       PlatformAlertDialog(
         title: 'you are offline',
         content: '',
-        defaultActionText: 'ok',
+        defaultActionText: e.message,
       ).show(context);
     }
   }

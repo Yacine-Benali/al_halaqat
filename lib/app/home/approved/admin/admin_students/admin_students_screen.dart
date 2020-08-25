@@ -2,11 +2,6 @@ import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_new_stud
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_student_tile_widget.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_provider.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_bloc.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_provider.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_tile_widget.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_new_admin_screen.dart';
-import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/app/models/student.dart';

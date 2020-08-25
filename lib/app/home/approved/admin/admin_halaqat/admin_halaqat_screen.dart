@@ -2,13 +2,8 @@ import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqa_ti
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_provider.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_new_halaqa_screen.dart';
-import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_new_teacher_screen.dart';
-import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_bloc.dart';
-import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_provider.dart';
-import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_tile_widget.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/constants/key_translate.dart';

@@ -1,6 +1,5 @@
 import 'package:al_halaqat/app/common_forms/center_form.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_centers/admin_centers_bloc.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_bloc.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';

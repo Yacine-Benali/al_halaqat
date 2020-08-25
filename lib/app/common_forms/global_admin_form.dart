@@ -1,19 +1,13 @@
-import 'package:al_halaqat/app/common_forms/center_form.dart';
-import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/global_admin.dart';
-
 import 'package:al_halaqat/app/sign_in/validator.dart';
+import 'package:al_halaqat/common_widgets/country_picker.dart';
 import 'package:al_halaqat/common_widgets/date_picker.dart';
-import 'package:al_halaqat/common_widgets/center_state_form.dart';
+import 'package:al_halaqat/common_widgets/drop_down_form_field2.dart';
 import 'package:al_halaqat/common_widgets/password_text_field.dart';
 import 'package:al_halaqat/common_widgets/text_form_field2.dart';
-import 'package:al_halaqat/common_widgets/drop_down_form_field2.dart';
-import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/common_widgets/country_picker.dart';
 
 class GlobalAdminForm extends StatefulWidget {
   const GlobalAdminForm({

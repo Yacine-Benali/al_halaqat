@@ -1,5 +1,4 @@
 import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/services/api_path.dart';
 import 'package:al_halaqat/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

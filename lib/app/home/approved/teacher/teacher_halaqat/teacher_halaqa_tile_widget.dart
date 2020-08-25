@@ -1,15 +1,10 @@
-import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_new_halaqa_screen.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/instances_screen.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_halaqat_bloc.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_new_halaqa_screen.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
-import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
-import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class TeacherHalqaTileWidget extends StatefulWidget {
   TeacherHalqaTileWidget({

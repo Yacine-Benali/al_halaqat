@@ -1,14 +1,10 @@
 import 'package:al_halaqat/app/home/base_sceen.dart';
 import 'package:al_halaqat/app/models/user.dart';
-import 'package:al_halaqat/app/home/notApproved/join_us_screen.dart';
-import 'package:al_halaqat/app/common_forms/user_info_screen.dart';
-import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/services/api_path.dart';
+import 'package:al_halaqat/services/database.dart';
 import 'package:al_halaqat/services/firestore_database.dart';
 import 'package:flutter/material.dart';
-import 'package:al_halaqat/services/database.dart';
 import 'package:provider/provider.dart';
-import 'notApproved/pending_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage._({Key key, this.database, this.uid}) : super(key: key);

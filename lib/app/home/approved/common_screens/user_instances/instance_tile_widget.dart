@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/attendance/attendance_screen.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/intances_bloc.dart';
 import 'package:al_halaqat/app/models/instance.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';

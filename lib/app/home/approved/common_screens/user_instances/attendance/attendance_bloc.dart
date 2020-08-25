@@ -7,8 +7,6 @@ import 'package:al_halaqat/app/models/students_attendance_summery.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
-import 'package:al_halaqat/services/api_path.dart';
-import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/foundation.dart';
 
 class AttendanceBloc {

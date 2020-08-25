@@ -6,7 +6,6 @@ import 'package:al_halaqat/app/home/approved/common_screens/student_profile/stud
 import 'package:al_halaqat/app/home/approved/common_screens/student_profile/student_report_card_screen.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/quran.dart';
-import 'package:al_halaqat/app/models/report_card.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/student_profile.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';

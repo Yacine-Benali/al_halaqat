@@ -1,8 +1,4 @@
-import 'dart:collection';
-
 import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/common_widgets/center_state_tile.dart';
 import 'package:al_halaqat/common_widgets/user_halaqa_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';

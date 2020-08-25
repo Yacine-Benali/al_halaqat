@@ -1,9 +1,5 @@
 import 'package:al_halaqat/app/models/evaluation.dart';
-import 'package:al_halaqat/app/models/instance.dart';
-import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/app/models/report_card.dart';
-import 'package:al_halaqat/app/models/student.dart';
-import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/services/api_path.dart';
 import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/foundation.dart';

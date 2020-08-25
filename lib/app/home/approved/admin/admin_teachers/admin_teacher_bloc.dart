@@ -1,7 +1,6 @@
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_provider.dart';
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user_halaqa.dart';
@@ -21,6 +20,7 @@ class AdminTeacherBloc {
   final Admin admin;
   final Auth auth;
 
+  // ignore: missing_return
   Stream<UserHalaqa<Teacher>> fetchTeachers(
     List<StudyCenter> centersList,
   ) {

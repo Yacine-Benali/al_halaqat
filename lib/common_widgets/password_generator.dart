@@ -11,7 +11,6 @@ import 'dart:math';
  */
 String generatePassword(bool _isWithLetters, bool _isWithUppercase,
     bool _isWithNumbers, bool _isWithSpecial, double _numberCharPassword) {
-
   //Define the allowed chars to use in the password
   String _lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
   String _upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
