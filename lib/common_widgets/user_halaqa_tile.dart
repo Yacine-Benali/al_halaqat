@@ -10,12 +10,14 @@ class UserHalaqaTile extends StatefulWidget {
     @required this.defaultHalaqa,
     @required this.onSaved,
     @required this.onRemove,
+    @required this.isRemovable,
   }) : super(key: key);
 
   final List<Halaqa> halaqatList;
   final Halaqa defaultHalaqa;
   final ValueChanged<Tuple2<Halaqa, Halaqa>> onSaved;
   final ValueChanged<Halaqa> onRemove;
+  final bool isRemovable;
 
   @override
   _UserHalaqaTileState createState() => _UserHalaqaTileState();
@@ -84,15 +86,17 @@ class _UserHalaqaTileState extends State<UserHalaqaTile> {
         SizedBox(
           width: 10,
         ),
-        Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.fromLTRB(0, 16, 8, 8),
-          child: FloatingActionButton(
-            mini: true,
-            onPressed: () => onRemoved(),
-            child: Icon(Icons.remove),
-          ),
-        ),
+        widget.isRemovable
+            ? Container(
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.fromLTRB(0, 16, 8, 8),
+                child: FloatingActionButton(
+                  mini: true,
+                  onPressed: () => onRemoved(),
+                  child: Icon(Icons.remove),
+                ),
+              )
+            : Container(),
       ],
     );
   }

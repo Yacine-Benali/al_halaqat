@@ -113,6 +113,7 @@ class _GaRequestDetailsScreenState extends State<CenterRequestDetailsScreen> {
                       teacherFormKey: formkey,
                       showUserHalaqa: false,
                       center: center,
+                      showIsStudent: false,
                       includeCenterForm: true,
                     ),
                   ),

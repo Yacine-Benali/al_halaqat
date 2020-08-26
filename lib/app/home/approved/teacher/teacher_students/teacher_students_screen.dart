@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_new_student_screen.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_student_tile_widget.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_students_bloc.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_students_provider.dart';
@@ -152,26 +153,30 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
                   chosenCenter,
                   chosenStudentState,
                 );
-                print(quran.data);
                 List<Halaqa> halaqatList = snapshot.data.halaqatList;
                 if (studentsList.isNotEmpty) {
                   return Scaffold(
-                    // floatingActionButton: FloatingActionButton(
-                    //   onPressed: () =>
-                    //       Navigator.of(context, rootNavigator: false).push(
-                    //     MaterialPageRoute(
-                    //       builder: (context) => AdminNewStudentScreen(
-                    //         bloc: bloc,
-                    //         student: null,
-                    //         chosenCenter: chosenCenter,
-                    //         halaqatList: halaqatList,
-                    //       ),
-                    //       fullscreenDialog: true,
-                    //     ),
-                    //   ),
-                    //   tooltip: 'add',
-                    //   child: Icon(Icons.add),
-                    // ),
+                    floatingActionButton: chosenCenter.canTeachersEditStudents
+                        ? FloatingActionButton(
+                            onPressed: () =>
+                                Navigator.of(context, rootNavigator: false)
+                                    .push(
+                              MaterialPageRoute(
+                                builder: (context) => TeacherNewStudentScreen(
+                                  bloc: bloc,
+                                  student: null,
+                                  chosenCenter: chosenCenter,
+                                  halaqatList: halaqatList,
+                                  isRemovable: chosenCenter
+                                      .canTeacherRemoveStudentsFromHalaqa,
+                                ),
+                                fullscreenDialog: true,
+                              ),
+                            ),
+                            tooltip: 'add',
+                            child: Icon(Icons.add),
+                          )
+                        : Container(),
                     body: buildBody(studentsList, halaqatList),
                   );
                 } else {

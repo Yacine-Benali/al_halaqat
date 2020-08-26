@@ -33,18 +33,11 @@ class TeacherStudentsBloc {
           i, i + 10 > halaqatId.length ? halaqatId.length : i + 10));
     }
 
-    List<List<String>> partitionedList2 = List();
-
-    for (var i = 0; i < halaqatId.length; i += 10) {
-      partitionedList2.add(halaqatId.sublist(
-          i, i + 10 > halaqatId.length ? halaqatId.length : i + 10));
-    }
-
     List<Stream<List<Student>>> studentStreamList = partitionedList
         .map((sublist) => provider.fetchStudents(sublist))
         .toList();
 
-    List<Stream<List<Halaqa>>> halaqatStreamList = partitionedList2
+    List<Stream<List<Halaqa>>> halaqatStreamList = partitionedList
         .map((sublist) => provider.fetchHalaqat(sublist))
         .toList();
 
@@ -55,9 +48,9 @@ class TeacherStudentsBloc {
         (List<List<Halaqa>> values) => values.expand((x) => x).toList());
 
     Stream<UserHalaqa<Student>> studentsHalaqatStream = Rx.combineLatest2(
-        studentsStream,
-        halaqatStream,
-        (a, b) => UserHalaqa<Student>(usersList: a, halaqatList: b));
+        studentsStream, halaqatStream, (List<Student> a, List<Halaqa> b) {
+      return UserHalaqa<Student>(usersList: a, halaqatList: b);
+    });
 
     return studentsHalaqatStream;
   }

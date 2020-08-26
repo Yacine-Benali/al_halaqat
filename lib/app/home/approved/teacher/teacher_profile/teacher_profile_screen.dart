@@ -1,37 +1,49 @@
 import 'package:al_halaqat/app/common_forms/teacher_form.dart';
-import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_bloc.dart';
-import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/app/home/approved/teacher/teacher_profile/teacher_profile_bloc.dart';
+import 'package:al_halaqat/app/home/approved/teacher/teacher_profile/teacher_profile_provider.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
+import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
+import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
-class AdminNewTeacherScreen extends StatefulWidget {
-  const AdminNewTeacherScreen({
+class TeacherProfileScreen extends StatefulWidget {
+  const TeacherProfileScreen._({
     Key key,
     @required this.bloc,
-    @required this.teacher,
-    @required this.chosenCenter,
-    @required this.halaqatList,
+    @required this.user,
   }) : super(key: key);
 
-  final AdminTeacherBloc bloc;
-  final Teacher teacher;
-  final StudyCenter chosenCenter;
-  final List<Halaqa> halaqatList;
+  final TeacherProfileBloc bloc;
+  final User user;
+
+  static Widget create({@required BuildContext context}) {
+    Database database = Provider.of<Database>(context, listen: false);
+    User user = Provider.of<User>(context, listen: false);
+
+    TeacherProfileProvider provider =
+        TeacherProfileProvider(database: database);
+    TeacherProfileBloc bloc = TeacherProfileBloc(
+      provider: provider,
+    );
+    return TeacherProfileScreen._(
+      bloc: bloc,
+      user: user,
+    );
+  }
 
   @override
-  _AdminNewTeacherScreenState createState() => _AdminNewTeacherScreenState();
+  _TeacherProfileScreenState createState() => _TeacherProfileScreenState();
 }
 
-class _AdminNewTeacherScreenState extends State<AdminNewTeacherScreen> {
-  final GlobalKey<FormState> teacherFormKey = GlobalKey<FormState>();
-  Teacher teacher;
+class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
+  final GlobalKey<FormState> teacherAdminFormKey = GlobalKey<FormState>();
+  Teacher modifiedTeacher;
   ProgressDialog pr;
-
   @override
   void initState() {
     pr = ProgressDialog(
@@ -52,11 +64,11 @@ class _AdminNewTeacherScreenState extends State<AdminNewTeacherScreen> {
   }
 
   void save() async {
-    if (teacherFormKey.currentState.validate()) {
+    if (teacherAdminFormKey.currentState.validate()) {
       try {
         //   print(admin.centers);
         await pr.show();
-        await widget.bloc.createTeacher(teacher, widget.chosenCenter);
+        await widget.bloc.updateProfile(modifiedTeacher);
         await pr.hide();
 
         PlatformAlertDialog(
@@ -95,17 +107,16 @@ class _AdminNewTeacherScreenState extends State<AdminNewTeacherScreen> {
         ],
       ),
       body: TeacherForm(
-        halaqatList: widget.halaqatList,
-        teacher: widget.teacher,
-        onSaved: (Teacher value) => teacher = value,
-        includeCenterIdInput: false,
-        includeUsernameAndPassword: true,
+        teacherFormKey: teacherAdminFormKey,
+        teacher: widget.user,
         isEnabled: true,
-        teacherFormKey: teacherFormKey,
-        showUserHalaqa: true,
         center: null,
         includeCenterForm: false,
-        showIsStudent: false,
+        includeCenterIdInput: false,
+        includeUsernameAndPassword: true,
+        onSaved: (Teacher value) => modifiedTeacher = value,
+        showUserHalaqa: false,
+        showIsStudent: true,
       ),
     );
   }

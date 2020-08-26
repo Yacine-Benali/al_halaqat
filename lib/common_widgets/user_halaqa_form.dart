@@ -10,12 +10,14 @@ class UserHalaqaForm extends StatefulWidget {
     @required this.onSaved,
     @required this.currentHalaqatIdsList,
     @required this.title,
+    this.isRemovable = true,
   }) : super(key: key);
 
   final List<Halaqa> halaqatList;
   final List<String> currentHalaqatIdsList;
   final ValueChanged<List<String>> onSaved;
   final String title;
+  final bool isRemovable;
 
   @override
   _UserHalaqaFormState createState() => _UserHalaqaFormState();
@@ -80,6 +82,7 @@ class _UserHalaqaFormState extends State<UserHalaqaForm> {
         Widget temp = Padding(
           padding: const EdgeInsets.only(top: 8, bottom: 8),
           child: UserHalaqaTile(
+            isRemovable: widget.isRemovable,
             halaqatList: widget.halaqatList,
             defaultHalaqa: defaultHalaqa,
             onSaved: (Tuple2<Halaqa, Halaqa> value) => onSaved(value),
@@ -98,6 +101,7 @@ class _UserHalaqaFormState extends State<UserHalaqaForm> {
     Widget temp = Padding(
       padding: const EdgeInsets.only(top: 8, bottom: 8),
       child: UserHalaqaTile(
+        isRemovable: widget.isRemovable,
         halaqatList: widget.halaqatList,
         defaultHalaqa: null,
         onSaved: (Tuple2<Halaqa, Halaqa> value) => onSaved(value),

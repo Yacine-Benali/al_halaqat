@@ -18,6 +18,7 @@ class TeacherHalaqatProvider {
         path: APIPath.halaqatCollection(),
         builder: (data, documentId) => Halaqa.fromMap(data),
         queryBuilder: (query) => query.where('id', whereIn: halaqatId),
+        sort: (a, b) => a.state.length.compareTo(b.state.length) * -1,
       );
 
   Future<void> editHalaqa(

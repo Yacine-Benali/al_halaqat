@@ -16,8 +16,7 @@ class TeacherStudentsProvider {
         path: APIPath.usersCollection(),
         builder: (data, documentId) => Student.fromMap(data, documentId),
         queryBuilder: (query) =>
-            query.where('halaqatLearningIn', whereIn: halaqatId),
-        sort: (a, b) => a.createdAt.compareTo(b.createdAt),
+            query.where('halaqatLearningIn', arrayContainsAny: halaqatId),
       );
 
   Future<void> createStudent(Student student) async {

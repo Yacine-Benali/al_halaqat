@@ -11,7 +11,6 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class SignInPageBuilder extends StatelessWidget {
-  //TODO add username paswword sign up
   @override
   Widget build(BuildContext context) {
     final Auth auth = Provider.of<Auth>(context, listen: false);

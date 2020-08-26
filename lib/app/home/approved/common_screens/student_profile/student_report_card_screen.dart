@@ -162,7 +162,7 @@ class _StudentReportCardScreenState extends State<StudentReportCardScreen> {
             );
           } else if (snapshot.hasError) {
             return EmptyContent(
-              title: 'Something went wrong',
+              title: 'no information to display',
               message: 'Can\'t load items right now',
             );
           }

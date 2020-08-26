@@ -1,4 +1,5 @@
 import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_halaqat_screen.dart';
+import 'package:al_halaqat/app/home/approved/teacher/teacher_profile/teacher_profile_screen.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_students_screen.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
@@ -88,22 +89,22 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
           ),
         ),
         actions: [
-          // Padding(
-          //   padding: EdgeInsets.only(left: 20.0),
-          //   child: InkWell(
-          //     onTap: () => Navigator.of(context, rootNavigator: false).push(
-          //       MaterialPageRoute(
-          //         builder: (context) =>
-          //             teacherProfileScreen.create(context: context),
-          //         fullscreenDialog: true,
-          //       ),
-          //     ),
-          //     child: Icon(
-          //       Icons.account_circle,
-          //       size: 26.0,
-          //     ),
-          //   ),
-          // ),
+          Padding(
+            padding: EdgeInsets.only(left: 20.0),
+            child: InkWell(
+              onTap: () => Navigator.of(context, rootNavigator: false).push(
+                MaterialPageRoute(
+                  builder: (context) =>
+                      TeacherProfileScreen.create(context: context),
+                  fullscreenDialog: true,
+                ),
+              ),
+              child: Icon(
+                Icons.account_circle,
+                size: 26.0,
+              ),
+            ),
+          ),
         ],
       ),
       body: StreamBuilder<List<StudyCenter>>(

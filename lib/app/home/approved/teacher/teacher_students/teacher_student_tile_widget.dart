@@ -1,15 +1,13 @@
 import 'package:al_halaqat/app/home/approved/common_screens/student_profile/student_profile_screen.dart';
+import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_new_student_screen.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_students_bloc.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
-import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class TeacherStudentTileWidget extends StatefulWidget {
   TeacherStudentTileWidget({
@@ -58,59 +56,28 @@ class _AdminStudentTileWidgetState extends State<TeacherStudentTileWidget> {
   }
 
   Future<void> _executeAction(String action) async {
-    if (action == 'edit') {
-      // await Navigator.of(context, rootNavigator: false).push(
-      //   MaterialPageRoute(
-      //     builder: (context) => AdminNewStudentScreen(
-      //       bloc: widget.bloc,
-      //       student: widget.student,
-      //       chosenCenter: widget.chosenCenter,
-      //       halaqatList: widget.halaqatList,
-      //     ),
-      //     fullscreenDialog: true,
-      //   ),
-      // );
-    } else {
-      final bool didRequestSignOut = await PlatformAlertDialog(
-        title: KeyTranslate.centersActionsList[action],
-        content: 'هل أنت متأكد ؟',
-        cancelActionText: 'إلغاء',
-        defaultActionText: 'حسنا',
-      ).show(widget.scaffoldKey.currentContext);
-      if (didRequestSignOut == true) {
-        try {
-          await pr.show();
-          await widget.bloc.executeAction(widget.student, action);
-          await pr.hide();
-          PlatformAlertDialog(
-            title: 'نجحت العملية',
-            content: 'تمت العملية بنجاح',
-            defaultActionText: 'حسنا',
-          ).show(widget.scaffoldKey.currentContext);
-        } on PlatformException catch (e) {
-          await pr.hide();
-          PlatformExceptionAlertDialog(
-            title: 'فشلت العملية',
-            exception: e,
-          ).show(widget.scaffoldKey.currentContext);
-        }
-      }
-    }
+    await Navigator.of(context, rootNavigator: false).push(
+      MaterialPageRoute(
+        builder: (context) => TeacherNewStudentScreen(
+          bloc: widget.bloc,
+          student: widget.student,
+          chosenCenter: widget.chosenCenter,
+          halaqatList: widget.halaqatList,
+          isRemovable: widget.chosenCenter.canTeacherRemoveStudentsFromHalaqa,
+        ),
+        fullscreenDialog: true,
+      ),
+    );
   }
 
   Widget _buildAction() {
     List<String> actions;
-    switch (widget.student.state) {
-      case 'approved':
-        actions = ['edit', 'archive', 'delete'];
-        break;
-      case 'archived':
-        actions = ['reApprove'];
-        break;
-      case 'deleted':
-        actions = [];
-        break;
+    if (widget.chosenCenter.canTeachersEditStudents) {
+      actions = ['edit'];
+    } else {
+      return SizedBox();
     }
+
     return PopupMenuButton<String>(
       itemBuilder: (BuildContext context) => List.generate(
         actions.length,

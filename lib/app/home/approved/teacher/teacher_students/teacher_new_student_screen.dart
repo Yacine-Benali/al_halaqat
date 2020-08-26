@@ -16,12 +16,14 @@ class TeacherNewStudentScreen extends StatefulWidget {
     @required this.student,
     @required this.chosenCenter,
     @required this.halaqatList,
+    @required this.isRemovable,
   }) : super(key: key);
 
   final TeacherStudentsBloc bloc;
   final Student student;
   final StudyCenter chosenCenter;
   final List<Halaqa> halaqatList;
+  final bool isRemovable;
 
   @override
   _AdminNewStudentScreenState createState() => _AdminNewStudentScreenState();
@@ -104,6 +106,8 @@ class _AdminNewStudentScreenState extends State<TeacherNewStudentScreen> {
         studentFormKey: studentFormKey,
         center: null,
         includeCenterForm: false,
+        isEnabled: true,
+        isRemovable: widget.chosenCenter.canTeacherRemoveStudentsFromHalaqa,
       ),
     );
   }

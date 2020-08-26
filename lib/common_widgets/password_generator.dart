@@ -1,14 +1,19 @@
 import 'dart:math';
 
-/**
- * @desc Function to generate password based on some criteria
- * @param bool _isWithLetters: password must contain letters
- * @param bool _isWithUppercase: password must contain uppercase letters
- * @param bool _isWithNumbers: password must contain numbers
- * @param bool _isWithSpecial: password must contain special chars
- * @param int _numberCharPassword: password length
- * @return string: new password
- */
+/// @desc Function to generate password based on some criteria
+
+/// @param bool _isWithLetters: password must contain letters
+
+/// @param bool _isWithUppercase: password must contain uppercase letters
+
+/// @param bool _isWithNumbers: password must contain numbers
+
+/// @param bool _isWithSpecial: password must contain special chars
+
+/// @param int _numberCharPassword: password length
+
+/// @return string: new password
+
 String generatePassword(bool _isWithLetters, bool _isWithUppercase,
     bool _isWithNumbers, bool _isWithSpecial, double _numberCharPassword) {
   //Define the allowed chars to use in the password

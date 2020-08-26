@@ -1,17 +1,17 @@
 import 'package:al_halaqat/common_widgets/password_generator.dart';
 import 'package:flutter/material.dart';
 
-//TODO add enabled disabled field
-// ignore: must_be_immutable
 class PasswordTextField extends StatefulWidget {
   PasswordTextField({
     Key key,
     @required this.onPasswordCreated,
     @required this.existingPassword,
+    @required this.isEnabled,
   }) : super(key: key);
 
   final ValueChanged<String> onPasswordCreated;
-  String existingPassword;
+  final String existingPassword;
+  final bool isEnabled;
 
   @override
   _PasswordTextFieldState createState() => _PasswordTextFieldState();
@@ -62,19 +62,22 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
             children: [
               Expanded(
                 child: TextFormField(
+                  enabled: widget.isEnabled,
                   controller: _controller,
                   onChanged: (value) => widget.onPasswordCreated(value),
                 ),
               ),
-              Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.fromLTRB(0, 16, 8, 8),
-                child: FloatingActionButton(
-                  mini: true,
-                  onPressed: () => changePassword(),
-                  child: Icon(Icons.refresh),
-                ),
-              ),
+              widget.isEnabled
+                  ? Container(
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.fromLTRB(0, 16, 8, 8),
+                      child: FloatingActionButton(
+                        mini: true,
+                        onPressed: () => changePassword(),
+                        child: Icon(Icons.refresh),
+                      ),
+                    )
+                  : Container(),
             ],
           ),
         ],

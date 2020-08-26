@@ -140,6 +140,7 @@ class _NewGlobalAdminFormState extends State<GlobalAdminForm>
                     password = value;
                     _save();
                   },
+                  isEnabled: widget.isEnabled,
                   existingPassword: password,
                 ),
                 TextFormField2(

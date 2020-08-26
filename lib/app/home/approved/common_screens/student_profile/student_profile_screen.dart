@@ -72,8 +72,6 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
 
   List<Widget> getTabBarView() {
     List<Widget> tabBarViewList = List(titles.length);
-    // print(titles.length);
-    //TODO add enabled for the the password field
     tabBarViewList[0] = StudentForm(
       student: bloc.student,
       onSaved: (t) {},

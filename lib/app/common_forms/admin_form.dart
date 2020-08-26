@@ -223,6 +223,7 @@ class _NewAdminFormState extends State<AdminForm>
                       _save();
                     },
                     existingPassword: password,
+                    isEnabled: widget.isEnabled,
                   ),
                 ],
                 if (widget.includeCenterForm) ...[

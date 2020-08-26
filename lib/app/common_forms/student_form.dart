@@ -24,6 +24,7 @@ class StudentForm extends StatefulWidget {
     @required this.includeCenterForm,
     @required this.center,
     this.isEnabled = true,
+    this.isRemovable = true,
     this.halaqatList,
     @required this.showUserHalaqa,
   }) : super(key: key);
@@ -35,6 +36,7 @@ class StudentForm extends StatefulWidget {
   final bool isEnabled;
   final bool includeCenterIdInput;
   final bool includeCenterForm;
+  final bool isRemovable;
 
   final bool includeUsernameAndPassword;
   final List<Halaqa> halaqatList;
@@ -179,6 +181,7 @@ class _NewStudentFormState extends State<StudentForm>
                       password = value;
                       _save();
                     },
+                    isEnabled: widget.isEnabled,
                     existingPassword: password,
                   ),
                 ],
@@ -333,6 +336,7 @@ class _NewStudentFormState extends State<StudentForm>
                 ),
                 if (widget.showUserHalaqa) ...[
                   UserHalaqaForm(
+                    isRemovable: widget.isRemovable,
                     title: 'حلقات',
                     halaqatList: widget.halaqatList,
                     onSaved: (List<String> value) {
