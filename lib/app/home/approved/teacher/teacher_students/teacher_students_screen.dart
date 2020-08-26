@@ -10,10 +10,12 @@ import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/app/models/user_halaqa.dart';
 import 'package:al_halaqat/common_packages/pk_search_bar/pk_search_bar.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
-import 'package:al_halaqat/constants/key_translate.dart';
+import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class TeacherStudentsScreen extends StatefulWidget {
@@ -57,27 +59,135 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
   Stream<UserHalaqa<Student>> studentsStream;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  //
-  List<String> studentStateList =
-      KeyTranslate.globalAdminsStateList.keys.toList();
   Future<Quran> quranFuture;
   Quran quran;
   StudyCenter chosenCenter;
   String chosenStudentState;
+  ProgressDialog pr;
+  List<Halaqa> halaqatList;
 
   @override
   void initState() {
     studentsStream = bloc.fetchStudents();
     quranFuture = bloc.fetchQuran();
-
     chosenCenter = widget.centers[0];
-    chosenStudentState = studentStateList[0];
+    pr = ProgressDialog(
+      context,
+      type: ProgressDialogType.Normal,
+      textDirection: TextDirection.ltr,
+      isDismissible: false,
+    );
+    pr.style(
+      message: 'جاري تحميل',
+      messageTextStyle: TextStyle(fontSize: 14),
+      progressWidget: Container(
+        padding: EdgeInsets.all(8.0),
+        child: CircularProgressIndicator(),
+      ),
+    );
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  Future<void> searchForStudent(String nameOrId) async {
+    await pr.show();
+
+    Student student = await bloc.fetchStudent(nameOrId, chosenCenter);
+    if (student != null) {
+      await pr.hide();
+      Navigator.of(context, rootNavigator: false).push(
+        MaterialPageRoute(
+          builder: (context) => TeacherNewStudentScreen(
+            bloc: bloc,
+            student: student,
+            chosenCenter: chosenCenter,
+            halaqatList: halaqatList,
+            isRemovable: chosenCenter.canTeacherRemoveStudentsFromHalaqa,
+          ),
+          fullscreenDialog: true,
+        ),
+      );
+    } else {
+      await pr.hide();
+      await PlatformExceptionAlertDialog(
+        title: 'فشلت العملية',
+        exception: PlatformException(
+          code: 'NO_USER_FOUND',
+          message: 'لايوجد طالب بهذا الرقم أو الإسم',
+        ),
+      ).show(context);
+    }
+  }
+
+  Future<void> searchForStudentDialog() async {
+    String nameOrId;
+    GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+    return await showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => AlertDialog(
+        title: Center(
+          child: Text(
+            'إدخل إسم أو الرقم التعريفي الخاص بالطالب:',
+          ),
+        ),
+        content: Form(
+          key: formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      counterText: '',
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.indigo,
+                        ),
+                      ),
+                      hintStyle: TextStyle(color: Colors.grey),
+                    ),
+                    onChanged: (value) => nameOrId = value,
+                    validator: (value) => value.isEmpty ? 'خطأ' : null,
+                    maxLength: 60,
+                    keyboardAppearance: Brightness.light,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                      side: BorderSide(color: Colors.indigo),
+                    ),
+                    onPressed: () async {
+                      if (formKey.currentState.validate()) {
+                        Navigator.of(context).pop();
+                        await searchForStudent(nameOrId);
+                      }
+                    },
+                    color: Colors.white,
+                    textColor: Colors.indigo,
+                    child: Text(
+                      "إبحث",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -115,26 +225,11 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
           Padding(
             padding: EdgeInsets.only(left: 20.0),
             child: Center(
-              child: DropdownButton<String>(
-                dropdownColor: Colors.indigo,
-                value: chosenStudentState,
-                icon: Icon(Icons.arrow_drop_down, color: Colors.white),
-                iconSize: 24,
-                underline: Container(),
-                elevation: 0,
-                style: TextStyle(color: Colors.white, fontSize: 20),
-                onChanged: (String newValue) {
-                  setState(() {
-                    chosenStudentState = newValue;
-                  });
-                },
-                items: studentStateList
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(KeyTranslate.usersStateList[value]),
-                  );
-                }).toList(),
+              child: InkWell(
+                onTap: () => searchForStudentDialog(),
+                child: Icon(
+                  Icons.add,
+                ),
               ),
             ),
           ),
@@ -148,12 +243,8 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
             builder: (context, snapshot) {
               if (snapshot.hasData && quranSnapshot.hasData) {
                 quran = quranSnapshot.data;
-                List<Student> studentsList = bloc.getFilteredStudentsList(
-                  snapshot.data.usersList,
-                  chosenCenter,
-                  chosenStudentState,
-                );
-                List<Halaqa> halaqatList = snapshot.data.halaqatList;
+                List<Student> studentsList = snapshot.data.usersList;
+                halaqatList = snapshot.data.halaqatList;
                 if (studentsList.isNotEmpty) {
                   return Scaffold(
                     floatingActionButton: chosenCenter.canTeachersEditStudents

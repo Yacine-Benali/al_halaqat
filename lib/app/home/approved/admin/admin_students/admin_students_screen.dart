@@ -59,7 +59,7 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
 
   //
   List<String> studentStateList =
-      KeyTranslate.globalAdminsStateList.keys.toList();
+      KeyTranslate.adminCentersStateList.keys.toList();
   Future<Quran> quranFuture;
   Quran quran;
   StudyCenter chosenCenter;

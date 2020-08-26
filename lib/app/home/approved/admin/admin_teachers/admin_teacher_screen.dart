@@ -55,7 +55,8 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
   AdminTeacherBloc get bloc => widget.bloc;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<String> teachersStateList = KeyTranslate.centersStateList.keys.toList();
+  List<String> teachersStateList =
+      KeyTranslate.adminCentersStateList.keys.toList();
 
   String chosenTeacherState;
   StudyCenter chosenCenter;

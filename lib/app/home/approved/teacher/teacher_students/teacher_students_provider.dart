@@ -15,8 +15,9 @@ class TeacherStudentsProvider {
       database.collectionStream(
         path: APIPath.usersCollection(),
         builder: (data, documentId) => Student.fromMap(data, documentId),
-        queryBuilder: (query) =>
-            query.where('halaqatLearningIn', arrayContainsAny: halaqatId),
+        queryBuilder: (query) => query
+            .where('halaqatLearningIn', arrayContainsAny: halaqatId)
+            .where('state', isEqualTo: 'approved'),
       );
 
   Future<void> createStudent(Student student) async {
@@ -53,5 +54,22 @@ class TeacherStudentsProvider {
         builder: (data, documentId) => Quran.fromMap(data, documentId),
       );
 
+  Future<Student> fetchStudentById(String id, String centerId) =>
+      database.fetchQueryDocument(
+        path: APIPath.usersCollection(),
+        builder: (data, documentId) => Student.fromMap(data, documentId),
+        queryBuilder: (Query query) => query
+            .where('readableId', isEqualTo: id)
+            .where('center', isEqualTo: centerId),
+      );
+
+  Future<Student> fetchStudentByName(String name, String centerId) =>
+      database.fetchQueryDocument(
+        path: APIPath.usersCollection(),
+        builder: (data, documentId) => Student.fromMap(data, documentId),
+        queryBuilder: (Query query) => query
+            .where('name', isEqualTo: name)
+            .where('center', isEqualTo: centerId),
+      );
   String getUniqueId() => database.getUniqueId();
 }

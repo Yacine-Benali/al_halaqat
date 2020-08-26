@@ -47,7 +47,7 @@ class BaseScreen extends StatelessWidget {
           return ArchivedDeletedScreen();
       } else if (user is Admin) {
         if (isThereAnApprovedCenter(user.centerState)) {
-          return AdminHomePage();
+          return AdminHomePage(isGlobalAdmin: false);
         } else if (isTherePendingCenter(user.centerState)) {
           return PendingScreen();
         } else {

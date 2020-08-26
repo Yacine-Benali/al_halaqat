@@ -20,6 +20,11 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class AdminHomePage extends StatefulWidget {
+  const AdminHomePage({Key key, @required this.isGlobalAdmin})
+      : super(key: key);
+
+  final bool isGlobalAdmin;
+
   @override
   _AdminHomePageState createState() => _AdminHomePageState();
 }
@@ -199,24 +204,28 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 ),
               ),
               SizedBox(height: 10),
-              MenuButtonWidget(
-                text: 'إدارة المراكز ',
-                onPressed: () =>
-                    Navigator.of(context, rootNavigator: false).push(
-                  MaterialPageRoute(
-                    builder: (context) => AdminCentersScreen.create(
-                      context: context,
-                      centers: items,
+              if (!widget.isGlobalAdmin) ...[
+                MenuButtonWidget(
+                  text: 'إدارة المراكز ',
+                  onPressed: () =>
+                      Navigator.of(context, rootNavigator: false).push(
+                    MaterialPageRoute(
+                      builder: (context) => AdminCentersScreen.create(
+                        context: context,
+                        centers: items,
+                      ),
+                      fullscreenDialog: true,
                     ),
-                    fullscreenDialog: true,
                   ),
                 ),
-              ),
+              ],
               SizedBox(height: 10),
-              MenuButtonWidget(
-                text: 'المحادثات',
-                onPressed: () {},
-              ),
+              if (!widget.isGlobalAdmin) ...[
+                MenuButtonWidget(
+                  text: 'المحادثات',
+                  onPressed: () {},
+                ),
+              ],
               SizedBox(height: 10),
               MenuButtonWidget(
                 text: 'تقارير',

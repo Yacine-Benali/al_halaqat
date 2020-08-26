@@ -51,7 +51,8 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
   AdminHalaqaBloc get bloc => widget.bloc;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<String> halaqatStateList = KeyTranslate.centersStateList.keys.toList();
+  List<String> halaqatStateList =
+      KeyTranslate.adminCentersStateList.keys.toList();
 
   String chosenHalaqaState;
   StudyCenter chosenCenter;

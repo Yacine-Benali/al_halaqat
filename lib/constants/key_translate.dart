@@ -257,6 +257,10 @@ class KeyTranslate {
     'delete': 'حذف',
     'reApprove': 'اعادة تفعيل',
   };
+  static const Map<String, String> adminCentersStateList = {
+    'approved': 'نشطة',
+    'archived': 'مؤرشفة',
+  };
   static const Map<String, String> centersStateList = {
     'approved': 'نشطة',
     'archived': 'مؤرشفة',

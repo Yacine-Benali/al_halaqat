@@ -135,4 +135,16 @@ class TeacherStudentsBloc {
     }
     return filteredSearchList;
   }
+
+  Future<Student> fetchStudent(String nameOrId, StudyCenter center) async {
+    Student student;
+    try {
+      int.parse(nameOrId);
+      student = await provider.fetchStudentById(nameOrId, center.id);
+    } catch (_) {
+      print('its a name');
+      student = await provider.fetchStudentByName(nameOrId, center.id);
+    }
+    return student;
+  }
 }

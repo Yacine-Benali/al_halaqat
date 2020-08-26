@@ -6,6 +6,8 @@ import 'package:al_halaqat/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
+//todo show teacher as student screen
+//TODO add teacher as student and evaluate him
 class TeacherHalaqatProvider {
   TeacherHalaqatProvider({@required this.database});
 
@@ -17,8 +19,9 @@ class TeacherHalaqatProvider {
       database.collectionStream(
         path: APIPath.halaqatCollection(),
         builder: (data, documentId) => Halaqa.fromMap(data),
-        queryBuilder: (query) => query.where('id', whereIn: halaqatId),
-        sort: (a, b) => a.state.length.compareTo(b.state.length) * -1,
+        queryBuilder: (query) => query
+            .where('id', whereIn: halaqatId)
+            .where('state', isEqualTo: 'approved'),
       );
 
   Future<void> editHalaqa(
