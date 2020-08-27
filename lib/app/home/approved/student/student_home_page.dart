@@ -1,4 +1,5 @@
 import 'package:al_halaqat/app/home/approved/student/student_halaqat/student_halaqat_screen.dart';
+import 'package:al_halaqat/app/home/approved/student/student_summery/student_summery_screen.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
@@ -120,6 +121,18 @@ class _StudentHomePageState extends State<StudentHomePage> {
                   MaterialPageRoute(
                     builder: (context) =>
                         StudentHalaqatScreen.create(context: context),
+                    fullscreenDialog: true,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              MenuButtonWidget(
+                text: ' ملخص الحفظ',
+                onPressed: () async =>
+                    await Navigator.of(context, rootNavigator: false).push(
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        StudentSummeryScreen.create(context: context),
                     fullscreenDialog: true,
                   ),
                 ),
