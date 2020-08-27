@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 //! TODO load teacher lazly
-//TODO one halaqa per teacher limitation
 class AdminTeachersScreen extends StatefulWidget {
   const AdminTeachersScreen._({
     Key key,
@@ -146,7 +145,12 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
               chosenCenter,
               chosenTeacherState,
             );
+
             List<Halaqa> halaqatList = snapshot.data.halaqatList;
+            List<Halaqa> availableHalaqat = bloc.getAvailableHalaqat(
+              halaqatList,
+              teachersList,
+            );
             return Scaffold(
               floatingActionButton: FloatingActionButton(
                 onPressed: () =>
@@ -164,7 +168,7 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
                 tooltip: 'add',
                 child: Icon(Icons.add),
               ),
-              body: buildBody(teachersList, halaqatList),
+              body: buildBody(teachersList, halaqatList, availableHalaqat),
             );
           } else if (snapshot.hasError) {
             return EmptyContent(
@@ -178,34 +182,45 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
     );
   }
 
-  Widget buildBody(List<Teacher> teachersList, List<Halaqa> halaqatList) {
+  Widget buildBody(
+    List<Teacher> teachersList,
+    List<Halaqa> halaqatList,
+    List<Halaqa> availableHalaqatList,
+  ) {
     if (teachersList.isNotEmpty) {
-      return _buildList(teachersList, halaqatList);
+      return ListView.separated(
+        itemCount: teachersList.length + 2,
+        separatorBuilder: (context, index) => Divider(height: 0.5),
+        itemBuilder: (context, index) {
+          if (index == 0 || index == teachersList.length + 1) {
+            return Container();
+          }
+          List<Halaqa> currentHalaqaList = List();
+          currentHalaqaList.addAll(availableHalaqatList);
+
+          Teacher teacher = teachersList[index - 1];
+          if (teacher.halaqatTeachingIn.isNotEmpty) {
+            for (String currentHalaqaId in teacher.halaqatTeachingIn) {
+              for (Halaqa halaqa in halaqatList) {
+                if (currentHalaqaId == halaqa.id) currentHalaqaList.add(halaqa);
+              }
+            }
+          }
+          return AdminTeacherTileWidget(
+            halaqatList: currentHalaqaList,
+            teacher: teacher,
+            chosenTeacherState: chosenTeacherState,
+            bloc: bloc,
+            scaffoldKey: _scaffoldKey,
+            chosenCenter: chosenCenter,
+          );
+        },
+      );
     } else {
       return EmptyContent(
         title: 'لا يوجد مراكز ',
         message: 'لا يوجد مراكز في هذه الحالة',
       );
     }
-  }
-
-  Widget _buildList(List<Teacher> teachersList, List<Halaqa> halaqatList) {
-    return ListView.separated(
-      itemCount: teachersList.length + 2,
-      separatorBuilder: (context, index) => Divider(height: 0.5),
-      itemBuilder: (context, index) {
-        if (index == 0 || index == teachersList.length + 1) {
-          return Container();
-        }
-        return AdminTeacherTileWidget(
-          halaqatList: halaqatList,
-          teacher: teachersList[index - 1],
-          chosenTeacherState: chosenTeacherState,
-          bloc: bloc,
-          scaffoldKey: _scaffoldKey,
-          chosenCenter: chosenCenter,
-        );
-      },
-    );
   }
 }

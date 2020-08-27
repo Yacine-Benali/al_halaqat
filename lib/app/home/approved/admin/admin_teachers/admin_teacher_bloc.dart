@@ -20,6 +20,25 @@ class AdminTeacherBloc {
   final User admin;
   final Auth auth;
 
+  List<Halaqa> getAvailableHalaqat(
+      List<Halaqa> halaqatList, List<Teacher> teachersList) {
+    List<Halaqa> availableHalaqa = List();
+
+    for (Halaqa halaqa in halaqatList) {
+      bool isFound = false;
+      for (Teacher teacher in teachersList) {
+        if (teacher.halaqatTeachingIn.contains(halaqa.id)) {
+          isFound = true;
+        }
+      }
+      if (!isFound) {
+        availableHalaqa.add(halaqa);
+      }
+    }
+
+    return availableHalaqa;
+  }
+
   // ignore: missing_return
   Stream<UserHalaqa<Teacher>> fetchTeachers(
     List<StudyCenter> centersList,
