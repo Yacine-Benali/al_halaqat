@@ -1,4 +1,5 @@
 import 'package:al_halaqat/app/home/approved/admin/admin_centers/admin_centers_screen.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_ga_request/admin_ga_request_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_profile/admin_profile_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_requests_screen.dart';
@@ -37,16 +38,18 @@ class _AdminHomePageState extends State<AdminHomePage> {
   Stream<List<StudyCenter>> studyCentersStream;
   Database database;
   List<String> centerIds;
+
+  List<String> getApprovedCenterIds(Admin admin) {
+    List<String> approvedCenters = List();
+    admin.centerState.forEach((key, value) {
+      if (value == 'approved') approvedCenters.add(key);
+    });
+    return approvedCenters;
+  }
+
   @override
   initState() {
     database = Provider.of<Database>(context, listen: false);
-
-    if (!widget.isGlobalAdmin) {
-      Admin admin = Provider.of<User>(context, listen: false);
-      centerIds = admin.centers;
-    } else {
-      centerIds = [widget.centerId];
-    }
 
     super.initState();
   }
@@ -77,6 +80,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (!widget.isGlobalAdmin) {
+      Admin admin = Provider.of<User>(context, listen: true);
+      centerIds = getApprovedCenterIds(admin);
+    } else {
+      centerIds = [widget.centerId];
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text('')),
@@ -92,9 +102,26 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 ),
               )
             : SizedBox(),
-        actions: [
-          !widget.isGlobalAdmin
-              ? Padding(
+        actions: !widget.isGlobalAdmin
+            ? [
+                Padding(
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: InkWell(
+                    onTap: () =>
+                        Navigator.of(context, rootNavigator: false).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            AdminGaRequestScreen.create(context: context),
+                        fullscreenDialog: true,
+                      ),
+                    ),
+                    child: Icon(
+                      Icons.add,
+                      size: 26.0,
+                    ),
+                  ),
+                ),
+                Padding(
                   padding: EdgeInsets.only(left: 20.0),
                   child: InkWell(
                     onTap: () =>
@@ -110,8 +137,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       size: 26.0,
                     ),
                   ),
-                )
-              : Padding(
+                ),
+              ]
+            : [
+                Padding(
                   padding: EdgeInsets.only(left: 20.0),
                   child: InkWell(
                     onTap: () => Navigator.of(context).pop(),
@@ -121,15 +150,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     ),
                   ),
                 ),
-        ],
+              ],
       ),
       body: StreamBuilder<List<StudyCenter>>(
           stream: database.collectionStream(
             path: APIPath.centersCollection(),
             builder: (data, documentId) =>
                 StudyCenter.fromMap(data, documentId),
-            queryBuilder: (query) =>
-                query.where(FieldPath.documentId, whereIn: centerIds),
+            queryBuilder: (query) => query.where(
+              FieldPath.documentId,
+              whereIn: centerIds,
+            ),
           ),
           builder: (context, snapshot) {
             if (snapshot.hasData) {

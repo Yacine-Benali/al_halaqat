@@ -50,7 +50,8 @@ class GaRequestsProvider {
       final adminDocRef =
           Firestore.instance.document(APIPath.userDocument(admin.id));
 
-      tx.set(adminDocRef, admin.toMap());
+      tx.update(
+          adminDocRef, {'centerState.${gaRequest.center.id}': gaRequest.state});
     }, timeout: Duration(seconds: 10));
   }
 }

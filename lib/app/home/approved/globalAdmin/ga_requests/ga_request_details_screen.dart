@@ -75,6 +75,7 @@ class _GaRequestDetailsScreenState extends State<GaRequestDetailsScreen> {
         children: [
           Expanded(
             child: AdminForm(
+              includeCenterState: false,
               includeCenterIdInput: false,
               includeUsernameAndPassword: false,
               includeCenterForm: true,
