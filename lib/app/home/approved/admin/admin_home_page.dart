@@ -35,11 +35,12 @@ class AdminHomePage extends StatefulWidget {
 
 class _AdminHomePageState extends State<AdminHomePage> {
   Stream<List<StudyCenter>> studyCentersStream;
-  Future<List<StudyCenter>> centersListFuture;
+  Database database;
+  List<String> centerIds;
   @override
   initState() {
-    Database database = Provider.of<Database>(context, listen: false);
-    List<String> centerIds;
+    database = Provider.of<Database>(context, listen: false);
+
     if (!widget.isGlobalAdmin) {
       Admin admin = Provider.of<User>(context, listen: false);
       centerIds = admin.centers;
@@ -47,12 +48,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
       centerIds = [widget.centerId];
     }
 
-    studyCentersStream = database.collectionStream(
-      path: APIPath.centersCollection(),
-      builder: (data, documentId) => StudyCenter.fromMap(data, documentId),
-      queryBuilder: (query) =>
-          query.where(FieldPath.documentId, whereIn: centerIds),
-    );
     super.initState();
   }
 
@@ -129,7 +124,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
         ],
       ),
       body: StreamBuilder<List<StudyCenter>>(
-          stream: studyCentersStream,
+          stream: database.collectionStream(
+            path: APIPath.centersCollection(),
+            builder: (data, documentId) =>
+                StudyCenter.fromMap(data, documentId),
+            queryBuilder: (query) =>
+                query.where(FieldPath.documentId, whereIn: centerIds),
+          ),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final List<StudyCenter> items = snapshot.data;

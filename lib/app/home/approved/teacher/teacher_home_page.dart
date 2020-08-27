@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/home/approved/teacher/teacher_center_request/teacher_center_request_screen.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_halaqat_screen.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_profile/teacher_profile_screen.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_students_screen.dart';
@@ -23,7 +24,7 @@ class TeacherHomePage extends StatefulWidget {
 
 class _TeacherHomePageState extends State<TeacherHomePage> {
   Stream<List<StudyCenter>> studyCentersStream;
-
+  Database database;
   List<String> getApprovedCenterIds(Teacher teacher) {
     List<String> approvedCenters = List();
     teacher.centerState.forEach((key, value) {
@@ -34,17 +35,8 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
 
   @override
   initState() {
-    Database database = Provider.of<Database>(context, listen: false);
+    database = Provider.of<Database>(context, listen: false);
     Teacher teacher = Provider.of<User>(context, listen: false);
-
-    studyCentersStream = database.collectionStream(
-      path: APIPath.centersCollection(),
-      builder: (data, documentId) => StudyCenter.fromMap(data, documentId),
-      queryBuilder: (query) => query.where(
-        FieldPath.documentId,
-        whereIn: getApprovedCenterIds(teacher),
-      ),
-    );
 
     super.initState();
   }
@@ -75,6 +67,8 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Teacher teacher = Provider.of<User>(context, listen: true);
+
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text('')),
@@ -95,6 +89,22 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
               onTap: () => Navigator.of(context, rootNavigator: false).push(
                 MaterialPageRoute(
                   builder: (context) =>
+                      TeacherCenterRequestScreen.create(context: context),
+                  fullscreenDialog: true,
+                ),
+              ),
+              child: Icon(
+                Icons.add,
+                size: 26.0,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 20.0),
+            child: InkWell(
+              onTap: () => Navigator.of(context, rootNavigator: false).push(
+                MaterialPageRoute(
+                  builder: (context) =>
                       TeacherProfileScreen.create(context: context),
                   fullscreenDialog: true,
                 ),
@@ -108,7 +118,15 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
         ],
       ),
       body: StreamBuilder<List<StudyCenter>>(
-          stream: studyCentersStream,
+          stream: database.collectionStream(
+            path: APIPath.centersCollection(),
+            builder: (data, documentId) =>
+                StudyCenter.fromMap(data, documentId),
+            queryBuilder: (query) => query.where(
+              FieldPath.documentId,
+              whereIn: getApprovedCenterIds(teacher),
+            ),
+          ),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final List<StudyCenter> items = snapshot.data;

@@ -45,7 +45,7 @@ class CenterRequestsProvider {
         final userDocRef =
             Firestore.instance.document(APIPath.userDocument(user.id));
 
-        tx.update(userDocRef, user.toMap());
+        tx.update(userDocRef, {'centerState.$centerId': centerRequest.state});
       }
     }, timeout: Duration(seconds: 10));
   }

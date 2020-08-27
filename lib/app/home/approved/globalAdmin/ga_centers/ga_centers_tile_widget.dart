@@ -124,10 +124,16 @@ class _GaCentersTileWidgetState extends State<GaCentersTileWidget> {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(widget.center.name),
-      subtitle: Text(
-        KeyTranslate.isoCountryToArabic[widget.center.country] +
-            ' ' +
-            widget.center.city,
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            KeyTranslate.isoCountryToArabic[widget.center.country] +
+                ' ' +
+                widget.center.city,
+          ),
+          Text(widget.center.readableId),
+        ],
       ),
       trailing: widget.center.state == 'deleted'
           ? Container(

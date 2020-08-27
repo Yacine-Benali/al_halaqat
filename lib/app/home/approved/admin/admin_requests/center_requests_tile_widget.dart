@@ -1,7 +1,9 @@
 import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_request_details_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_requests_bloc.dart';
 import 'package:al_halaqat/app/models/center_request.dart';
+import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -44,8 +46,16 @@ class CenterRequestTileWidget extends StatelessWidget {
   }
 
   Widget _buildTitle() {
+    String role = '';
+    if (centerRequest.user is Teacher) {
+      role = 'المعلم';
+    } else if (centerRequest.user is Student) {
+      role = 'الطالب';
+    }
     return Text(
-      '${centerRequest.user.name} ' + actionTranslate[centerRequest.action],
+      role +
+          ' ${centerRequest.user.name} ' +
+          actionTranslate[centerRequest.action],
     );
   }
 
