@@ -116,7 +116,16 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     ),
                   ),
                 )
-              : SizedBox(),
+              : Padding(
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: InkWell(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: Icon(
+                      Icons.chevron_right,
+                      size: 26.0,
+                    ),
+                  ),
+                ),
         ],
       ),
       body: StreamBuilder<List<StudyCenter>>(

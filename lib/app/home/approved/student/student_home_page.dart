@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/home/approved/student/s_profile/s_profile_screen.dart';
 import 'package:al_halaqat/app/home/approved/student/student_halaqat/student_halaqat_screen.dart';
 import 'package:al_halaqat/app/home/approved/student/student_summery/student_summery_screen.dart';
 import 'package:al_halaqat/app/models/student.dart';
@@ -71,14 +72,12 @@ class _StudentHomePageState extends State<StudentHomePage> {
           Padding(
             padding: EdgeInsets.only(left: 20.0),
             child: InkWell(
-              onTap: () {},
-              // Navigator.of(context, rootNavigator: false).push(
-              //   MaterialPageRoute(
-              //     builder: (context) =>
-              //         TeacherProfileScreen.create(context: context),
-              //     fullscreenDialog: true,
-              //   ),
-              // ),
+              onTap: () => Navigator.of(context, rootNavigator: false).push(
+                MaterialPageRoute(
+                  builder: (context) => SProfileScreen.create(context: context),
+                  fullscreenDialog: true,
+                ),
+              ),
               child: Icon(
                 Icons.account_circle,
                 size: 26.0,
