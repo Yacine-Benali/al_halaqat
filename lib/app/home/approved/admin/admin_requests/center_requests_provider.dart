@@ -69,4 +69,6 @@ class CenterRequestsProvider {
       tx.update(halaqaDocRef, halaqa.toMap());
     }, timeout: Duration(seconds: 10));
   }
+
+  String getUniqueId() => database.getUniqueId();
 }

@@ -2,6 +2,7 @@ import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_new_stud
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_student_tile_widget.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_provider.dart';
+import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/app/models/student.dart';
@@ -58,8 +59,7 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   //
-  List<String> studentStateList =
-      KeyTranslate.adminCentersStateList.keys.toList();
+  List<String> studentStateList;
   Future<Quran> quranFuture;
   Quran quran;
   StudyCenter chosenCenter;
@@ -67,6 +67,11 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
 
   @override
   void initState() {
+    if (bloc.admin is Admin) {
+      studentStateList = KeyTranslate.adminCentersStateList.keys.toList();
+    } else {
+      studentStateList = KeyTranslate.centersStateList.keys.toList();
+    }
     studentsStream = bloc.fetchStudents(widget.centers);
     quranFuture = bloc.fetchQuran();
 

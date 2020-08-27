@@ -1,8 +1,8 @@
-import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/app/models/user_halaqa.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class AdminStudentsBloc {
   });
 
   final AdminStudentsProvider provider;
-  final Admin admin;
+  final User admin;
   final Auth auth;
   List<Halaqa> halaqat;
   Future<Quran> fetchQuran() => provider.fetchQuran();

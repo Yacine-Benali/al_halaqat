@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/home/approved/admin/admin_home_page.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_bloc.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_new_center_screen.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
@@ -135,7 +136,15 @@ class _GaCentersTileWidgetState extends State<GaCentersTileWidget> {
             )
           : _buildAction(),
       enabled: widget.center.state == 'approved' ? true : false,
-      onTap: () {},
+      onTap: () async => await Navigator.of(context, rootNavigator: false).push(
+        MaterialPageRoute(
+          builder: (context) => AdminHomePage(
+            isGlobalAdmin: true,
+            centerId: widget.center.id,
+          ),
+          fullscreenDialog: true,
+        ),
+      ),
     );
   }
 }

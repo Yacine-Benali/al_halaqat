@@ -2,6 +2,7 @@ import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqa_ti
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_provider.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_new_halaqa_screen.dart';
+import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
@@ -51,8 +52,7 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
   AdminHalaqaBloc get bloc => widget.bloc;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<String> halaqatStateList =
-      KeyTranslate.adminCentersStateList.keys.toList();
+  List<String> halaqatStateList;
 
   String chosenHalaqaState;
   StudyCenter chosenCenter;
@@ -60,6 +60,11 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
 
   @override
   void initState() {
+    if (bloc.admin is Admin) {
+      halaqatStateList = KeyTranslate.adminCentersStateList.keys.toList();
+    } else {
+      halaqatStateList = KeyTranslate.centersStateList.keys.toList();
+    }
     chosenCenter = widget.centers[0];
     chosenHalaqaState = halaqatStateList[0];
     halaqatListStream = bloc.fetchHalaqat(chosenCenter);

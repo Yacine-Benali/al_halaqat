@@ -20,10 +20,14 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class AdminHomePage extends StatefulWidget {
-  const AdminHomePage({Key key, @required this.isGlobalAdmin})
-      : super(key: key);
+  const AdminHomePage({
+    Key key,
+    @required this.isGlobalAdmin,
+    @required this.centerId,
+  }) : super(key: key);
 
   final bool isGlobalAdmin;
+  final String centerId;
 
   @override
   _AdminHomePageState createState() => _AdminHomePageState();
@@ -35,27 +39,20 @@ class _AdminHomePageState extends State<AdminHomePage> {
   @override
   initState() {
     Database database = Provider.of<Database>(context, listen: false);
-    Admin admin = Provider.of<User>(context, listen: false);
-    List<String> centerIds = admin.centers;
-    List<Future<StudyCenter>> futures = List();
-
-    for (String centerId in centerIds) {
-      Future<StudyCenter> temp = database.fetchDocument(
-        path: APIPath.centerDocument(centerId),
-        builder: (data, documentId) => StudyCenter.fromMap(data, documentId),
-      );
-      futures.add(temp);
+    List<String> centerIds;
+    if (!widget.isGlobalAdmin) {
+      Admin admin = Provider.of<User>(context, listen: false);
+      centerIds = admin.centers;
+    } else {
+      centerIds = [widget.centerId];
     }
-
-    centersListFuture = Future.wait(futures);
 
     studyCentersStream = database.collectionStream(
       path: APIPath.centersCollection(),
       builder: (data, documentId) => StudyCenter.fromMap(data, documentId),
       queryBuilder: (query) =>
-          query.where(FieldPath.documentId, whereIn: admin.centers),
+          query.where(FieldPath.documentId, whereIn: centerIds),
     );
-
     super.initState();
   }
 
@@ -88,33 +85,38 @@ class _AdminHomePageState extends State<AdminHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text('')),
-        leading: Padding(
-          padding: EdgeInsets.only(right: 20.0),
-          child: InkWell(
-            onTap: () => _confirmSignOut(context),
-            child: Icon(
-              Icons.exit_to_app,
-              size: 26.0,
-            ),
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: InkWell(
-              onTap: () => Navigator.of(context, rootNavigator: false).push(
-                MaterialPageRoute(
-                  builder: (context) =>
-                      AdminProfileScreen.create(context: context),
-                  fullscreenDialog: true,
+        leading: !widget.isGlobalAdmin
+            ? Padding(
+                padding: EdgeInsets.only(right: 20.0),
+                child: InkWell(
+                  onTap: () => _confirmSignOut(context),
+                  child: Icon(
+                    Icons.exit_to_app,
+                    size: 26.0,
+                  ),
                 ),
-              ),
-              child: Icon(
-                Icons.account_circle,
-                size: 26.0,
-              ),
-            ),
-          ),
+              )
+            : SizedBox(),
+        actions: [
+          !widget.isGlobalAdmin
+              ? Padding(
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: InkWell(
+                    onTap: () =>
+                        Navigator.of(context, rootNavigator: false).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            AdminProfileScreen.create(context: context),
+                        fullscreenDialog: true,
+                      ),
+                    ),
+                    child: Icon(
+                      Icons.account_circle,
+                      size: 26.0,
+                    ),
+                  ),
+                )
+              : SizedBox(),
         ],
       ),
       body: StreamBuilder<List<StudyCenter>>(
@@ -218,15 +220,15 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     ),
                   ),
                 ),
+                SizedBox(height: 10),
               ],
-              SizedBox(height: 10),
               if (!widget.isGlobalAdmin) ...[
                 MenuButtonWidget(
                   text: 'المحادثات',
                   onPressed: () {},
                 ),
+                SizedBox(height: 10),
               ],
-              SizedBox(height: 10),
               MenuButtonWidget(
                 text: 'تقارير',
                 onPressed: () {},

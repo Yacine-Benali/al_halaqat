@@ -63,6 +63,7 @@ class TeacherStudentsProvider {
             .where('center', isEqualTo: centerId),
       );
 
+//TODO what if two users have the same name
   Future<Student> fetchStudentByName(String name, String centerId) =>
       database.fetchQueryDocument(
         path: APIPath.usersCollection(),

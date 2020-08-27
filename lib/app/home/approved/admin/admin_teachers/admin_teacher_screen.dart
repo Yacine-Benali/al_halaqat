@@ -2,6 +2,7 @@ import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_new_teac
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_provider.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_tile_widget.dart';
+import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
@@ -55,8 +56,7 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
   AdminTeacherBloc get bloc => widget.bloc;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<String> teachersStateList =
-      KeyTranslate.adminCentersStateList.keys.toList();
+  List<String> teachersStateList;
 
   String chosenTeacherState;
   StudyCenter chosenCenter;
@@ -64,6 +64,11 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
   Stream<UserHalaqa<Teacher>> teachersListStream;
   @override
   void initState() {
+    if (bloc.admin is Admin) {
+      teachersStateList = KeyTranslate.adminCentersStateList.keys.toList();
+    } else {
+      teachersStateList = KeyTranslate.centersStateList.keys.toList();
+    }
     teachersListStream = bloc.fetchTeachers(widget.centers);
     chosenCenter = widget.centers[0];
     chosenTeacherState = teachersStateList[0];

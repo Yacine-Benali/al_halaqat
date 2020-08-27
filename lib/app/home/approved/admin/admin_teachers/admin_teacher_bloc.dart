@@ -1,8 +1,8 @@
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_provider.dart';
-import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
+import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/app/models/user_halaqa.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class AdminTeacherBloc {
   });
 
   final AdminTeachersProvider provider;
-  final Admin admin;
+  final User admin;
   final Auth auth;
 
   // ignore: missing_return

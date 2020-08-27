@@ -1,7 +1,7 @@
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_provider.dart';
-import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +13,7 @@ class AdminHalaqaBloc {
   });
 
   final AdminHalaqatProvider provider;
-  final Admin admin;
+  final User admin;
   final Auth auth;
 
   Stream<List<Halaqa>> fetchHalaqat(StudyCenter center) =>

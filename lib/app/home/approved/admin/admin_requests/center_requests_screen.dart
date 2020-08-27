@@ -2,6 +2,7 @@ import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_request
 import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_requests_provider.dart';
 import 'package:al_halaqat/app/models/center_request.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:al_halaqat/services/database.dart';
@@ -27,7 +28,12 @@ class CenterRequestsScreen extends StatefulWidget {
     Database database = Provider.of<Database>(context, listen: false);
     CenterRequestsProvider provider =
         CenterRequestsProvider(database: database);
-    CenterRequestsBloc bloc = CenterRequestsBloc(provider: provider);
+    User user = Provider.of<User>(context, listen: false);
+
+    CenterRequestsBloc bloc = CenterRequestsBloc(
+      provider: provider,
+      admin: user,
+    );
 
     return CenterRequestsScreen._(
       bloc: bloc,

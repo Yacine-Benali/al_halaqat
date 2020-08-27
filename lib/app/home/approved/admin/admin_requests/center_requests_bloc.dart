@@ -1,6 +1,10 @@
 import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_requests_provider.dart';
+import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/center_request.dart';
+import 'package:al_halaqat/app/models/conversation.dart';
+import 'package:al_halaqat/app/models/conversation_user.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
+import 'package:al_halaqat/app/models/message.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
@@ -9,8 +13,12 @@ import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CenterRequestsBloc {
-  CenterRequestsBloc({@required this.provider});
+  CenterRequestsBloc({
+    @required this.provider,
+    @required this.admin,
+  });
   final CenterRequestsProvider provider;
+  final User admin;
 
   List<CenterRequest> centerRequests = [];
   List<CenterRequest> emptyList = [];
@@ -58,16 +66,37 @@ class CenterRequestsBloc {
     bool isApproved,
   ) async {
     String state = isApproved ? 'approved' : 'disapproved';
-    User user = centerRequest.user;
+    User requestUser = centerRequest.user;
 
     centerRequest.state = state;
     if (centerRequest.action == 'join-existing') {
-      if (user is Teacher)
-        user.centerState[chosenStudyCenter.id] = state;
-      else if (user is Student) user.state = state;
+      if (requestUser is Teacher)
+        requestUser.centerState[chosenStudyCenter.id] = state;
+      else if (requestUser is Student) {
+        requestUser.state = state;
+        if (admin is Admin) {
+          String groupChatId = _calculateGroupeChatId(admin.id, requestUser.id);
+          Message emptyMessage = Message(
+            content: null,
+            receiverId: requestUser.id,
+            seen: null,
+            senderId: admin.id,
+            timestamp: null,
+            uid: provider.getUniqueId(),
+          );
+          Conversation conversation = Conversation(
+            groupChatId: groupChatId,
+            latestMessage: emptyMessage,
+            student: ConversationUser.fromUser(requestUser),
+            teacher: ConversationUser.fromUser(admin),
+            isMessagingEnabled: null,
+            centerId: null,
+          );
+        }
+      }
 
       await provider.updateJoinRequest(
-          chosenStudyCenter.id, centerRequest, user);
+          chosenStudyCenter.id, centerRequest, requestUser);
     } else if (centerRequest.action == 'create-halaqa') {
       Halaqa halaqa = centerRequest.halaqa;
       halaqa.state = state;
@@ -77,6 +106,17 @@ class CenterRequestsBloc {
         chosenStudyCenter.id,
       );
     }
+  }
+
+  String _calculateGroupeChatId(String teacherUid, String studentUid) {
+    String groupChatId;
+
+    if (studentUid.hashCode <= teacherUid.hashCode) {
+      groupChatId = '$studentUid-$teacherUid';
+    } else {
+      groupChatId = '$teacherUid-$studentUid';
+    }
+    return groupChatId;
   }
 
   void dispose() async {
