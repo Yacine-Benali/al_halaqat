@@ -47,8 +47,13 @@ class AttendanceBloc {
           await provider.fetchHalaqaStudents(instance.halaqaId);
 
       // setting teacher info
-      newInstance.teacherSummery.id = halaqaTeacher.id;
-      newInstance.teacherSummery.name = halaqaTeacher.name;
+      try {
+        newInstance.teacherSummery.id = halaqaTeacher.id;
+        newInstance.teacherSummery.name = halaqaTeacher.name;
+      } catch (_) {
+        newInstance.teacherSummery.id = user.id;
+        newInstance.teacherSummery.name = user.name;
+      }
 
       //setting current students info
       List<StudentAttendance> studentAttendaceList = List();

@@ -72,16 +72,9 @@ class StudentProfileBloc {
   List<String> getTitles() {
     List<String> titles = List();
 
-    titles.add('ملف شخصي');
-    titles.add('ملخص');
+    titles.add('الحضور');
+    titles.add('التقييمات');
 
-    for (String halaqaLearingIn in student.halaqatLearningIn) {
-      for (Halaqa halaqa in halaqatList) {
-        if (halaqa.id == halaqaLearingIn) {
-          titles.add(halaqa.name);
-        }
-      }
-    }
     return titles;
   }
 
