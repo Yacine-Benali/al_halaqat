@@ -156,6 +156,7 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
             List<Halaqa> halaqatList = bloc.getFilteredHalaqatList(
               snapshot.data,
               chosenHalaqaState,
+              chosenCenter,
             );
             if (halaqatList.isNotEmpty) {
               return _buildList(halaqatList);

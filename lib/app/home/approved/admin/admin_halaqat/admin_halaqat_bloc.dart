@@ -39,11 +39,12 @@ class AdminHalaqaBloc {
   List<Halaqa> getFilteredHalaqatList(
     List<Halaqa> data,
     String chosenHalaqaState,
+    StudyCenter center,
   ) {
     List<Halaqa> filteredHalaqatList = List();
 
     for (Halaqa halaqa in data) {
-      if (halaqa.state == chosenHalaqaState) {
+      if (halaqa.state == chosenHalaqaState && halaqa.centerId == center.id) {
         filteredHalaqatList.add(halaqa);
       }
     }
