@@ -105,7 +105,7 @@ class _AdminNewTeacherScreenState extends State<AdminNewTeacherScreen> {
         showUserHalaqa: true,
         center: null,
         includeCenterForm: false,
-        showIsStudent: false,
+        showIsStudent: true,
       ),
     );
   }

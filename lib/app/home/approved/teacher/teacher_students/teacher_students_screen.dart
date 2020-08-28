@@ -128,64 +128,66 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
       builder: (context) => AlertDialog(
         title: Center(
           child: Text(
-            'إدخل إسم أو الرقم التعريفي الخاص بالطالب:',
+            'إدخل إسم أو الرقم التعريفي :',
           ),
         ),
-        content: Form(
-          key: formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    textAlign: TextAlign.center,
-                    decoration: InputDecoration(
-                      counterText: '',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.grey,
+        content: StatefulBuilder(builder: (context, StateSetter setState) {
+          return Form(
+            key: formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      textAlign: TextAlign.center,
+                      decoration: InputDecoration(
+                        counterText: '',
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                          ),
                         ),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.indigo,
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.indigo,
+                          ),
                         ),
+                        hintStyle: TextStyle(color: Colors.grey),
                       ),
-                      hintStyle: TextStyle(color: Colors.grey),
-                    ),
-                    onChanged: (value) => nameOrId = value,
-                    validator: (value) => value.isEmpty ? 'خطأ' : null,
-                    maxLength: 60,
-                    keyboardAppearance: Brightness.light,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      side: BorderSide(color: Colors.indigo),
-                    ),
-                    onPressed: () async {
-                      if (formKey.currentState.validate()) {
-                        Navigator.of(context).pop();
-                        await searchForStudent(nameOrId);
-                      }
-                    },
-                    color: Colors.white,
-                    textColor: Colors.indigo,
-                    child: Text(
-                      "إبحث",
-                      style: TextStyle(fontSize: 14),
+                      onChanged: (value) => nameOrId = value,
+                      validator: (value) => value.isEmpty ? 'خطأ' : null,
+                      maxLength: 60,
+                      keyboardAppearance: Brightness.light,
                     ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        side: BorderSide(color: Colors.indigo),
+                      ),
+                      onPressed: () async {
+                        if (formKey.currentState.validate()) {
+                          Navigator.of(context).pop();
+                          await searchForStudent(nameOrId);
+                        }
+                      },
+                      color: Colors.white,
+                      textColor: Colors.indigo,
+                      child: Text(
+                        "إبحث",
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ),
+          );
+        }),
       ),
     );
   }

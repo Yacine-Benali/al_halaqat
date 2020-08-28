@@ -66,22 +66,14 @@ class TeacherStudentsBloc {
         throw PlatformException(
           code: 'ERROR_USED_USERNAME',
         );
-    }
+      student.id = provider.getUniqueId();
+      student.state = 'approved';
+      student.center = chosenCenter.id;
 
-    if (student.createdBy.isEmpty) {
       student.createdBy = {
         'name': teacher.name,
         'id': teacher.id,
       };
-    }
-    if (student.id == null) {
-      student.id = provider.getUniqueId();
-    }
-    if (student.state == null) {
-      student.state = 'approved';
-    }
-    if (student.center == null) {
-      student.center = chosenCenter.id;
     }
 
     await provider.createStudent(student);
@@ -140,9 +132,9 @@ class TeacherStudentsBloc {
     Student student;
     try {
       int.parse(nameOrId);
+
       student = await provider.fetchStudentById(nameOrId, center.id);
     } catch (_) {
-      print('its a name');
       student = await provider.fetchStudentByName(nameOrId, center.id);
     }
     return student;
