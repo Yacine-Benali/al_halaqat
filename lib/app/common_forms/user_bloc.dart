@@ -40,7 +40,7 @@ class UserBloc {
     if (center != null) {
       joinRequestCenterId = center.id;
       joinRequest = CenterRequest(
-        id: 'join-' + authUser.uid,
+        id: authUser.uid,
         createdAt: null,
         userId: authUser.uid,
         user: student,
@@ -83,7 +83,7 @@ class UserBloc {
     if (center != null) {
       joinRequestCenterId = center.id;
       joinRequest = CenterRequest(
-        id: 'join-' + authUser.uid,
+        id: authUser.uid,
         createdAt: null,
         userId: authUser.uid,
         user: teacher,
@@ -105,37 +105,39 @@ class UserBloc {
     );
   }
 
-  Future<void> createAdmin(Admin user) async {
+  Future<void> createAdmin(Admin admin) async {
     GlobalAdminRequest joinGlobalAdminRequest;
 
-    user.createdBy = {
-      'name': user.name,
+    admin.createdBy = {
+      'name': admin.name,
       'id': authUser.uid,
     };
-    user.centerState = {
-      '${user.centers[0]}': 'pending',
+    admin.centerState = {
+      '${admin.centers[0]}': 'pending',
     };
-    StudyCenter center = await provider.queryCenterbyRId(user.centers[0]);
+    admin.username = authUser.email;
+    admin.password = authUser.password;
+    StudyCenter center = await provider.queryCenterbyRId(admin.centers[0]);
     if (center != null) {
       joinGlobalAdminRequest = GlobalAdminRequest(
-        id: 'signup-' + authUser.uid,
+        id: authUser.uid,
         createdAt: null,
         adminId: authUser.uid,
-        admin: user,
+        admin: admin,
         centerId: center.id,
         center: center,
         action: 'join-existing',
         state: 'pending',
       );
       // change center readable id to the centerid
-      user.centerState = {
+      admin.centerState = {
         '${center.id}': 'pending',
       };
-      user.centers[0] = center.id;
+      admin.centers[0] = center.id;
     }
 
     await provider.createAdmin(
-      user,
+      admin,
       authUser.uid,
       joinGlobalAdminRequest,
       null,
@@ -161,9 +163,13 @@ class UserBloc {
       'name': admin.name,
       'id': authUser.uid,
     };
+
+    admin.username = authUser.email;
+    admin.password = authUser.password;
+    print('password');
     //
     joinGlobalAdminRequest = GlobalAdminRequest(
-      id: 'signup-' + authUser.uid,
+      id: authUser.uid,
       createdAt: null,
       adminId: authUser.uid,
       admin: admin,

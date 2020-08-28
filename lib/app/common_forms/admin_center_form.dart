@@ -3,17 +3,17 @@ import 'package:al_halaqat/app/common_forms/user_bloc.dart';
 import 'package:al_halaqat/app/common_forms/user_info_screen.dart';
 import 'package:al_halaqat/app/common_forms/user_provider.dart';
 import 'package:al_halaqat/app/models/admin.dart';
-import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
+import 'package:al_halaqat/services/auth.dart';
+import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:al_halaqat/services/database.dart';
-import 'package:al_halaqat/services/auth.dart';
 
 class AdminCenterForm extends StatefulWidget {
   const AdminCenterForm._({
@@ -27,8 +27,7 @@ class AdminCenterForm extends StatefulWidget {
 
   static Widget create({
     @required BuildContext context,
-    User user,
-    StudyCenter center,
+    @required User user,
   }) {
     Database database = Provider.of<Database>(context, listen: false);
     AuthUser authUser = Provider.of<AuthUser>(context, listen: false);
@@ -123,33 +122,54 @@ class _AdminCenterFormState extends State<AdminCenterForm> {
           ),
         ],
       ),
-      body: FutureBuilder<StudyCenter>(
-        future: bloc.getCenter(widget.admin.centers[0]),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            StudyCenter studyCenter = snapshot.data;
-            return AdminForm(
-              includeUsernameAndPassword: false,
-              includeCenterIdInput: false,
-              admin: widget.admin,
-              center: studyCenter,
-              onSavedAdmin: (newAdmin) => admin = newAdmin,
-              onSavedCenter: (newCenter) => center = newCenter,
-              isEnabled: true,
-              adminFormKey: adminFormKey,
-              includeCenterForm: true,
-            );
-          } else if (snapshot.hasError) {
-            return EmptyContent(
-              title: 'Something went wrong',
-              message: 'Can\'t load items right now',
-            );
-          }
-          return Center(
-            child: CircularProgressIndicator(),
+      body: buildForm(bloc),
+    );
+  }
+
+  Widget buildForm(UserBloc bloc) {
+    // if (center == null) {
+    //   return AdminForm(
+    //     includeUsernameAndPassword: false,
+    //     includeCenterState: false,
+    //     includeCenterIdInput: false,
+    //     admin: widget.admin,
+    //     center: null,
+    //     onSavedAdmin: (newAdmin) => admin = newAdmin,
+    //     onSavedCenter: (newCenter) => center = newCenter,
+    //     isEnabled: true,
+    //     adminFormKey: adminFormKey,
+    //     includeCenterForm: true,
+    //   );
+    // }
+    return FutureBuilder<StudyCenter>(
+      future: bloc.getCenter(widget.admin.centers[0]),
+      initialData: null,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          StudyCenter studyCenter = snapshot.data;
+
+          return AdminForm(
+            includeUsernameAndPassword: false,
+            includeCenterIdInput: false,
+            includeCenterState: false,
+            admin: widget.admin,
+            center: studyCenter,
+            onSavedAdmin: (newAdmin) => admin = newAdmin,
+            onSavedCenter: (newCenter) => center = newCenter,
+            isEnabled: true,
+            adminFormKey: adminFormKey,
+            includeCenterForm: true,
           );
-        },
-      ),
+        } else if (snapshot.hasError) {
+          return EmptyContent(
+            title: 'Something went wrong',
+            message: 'Can\'t load items right now',
+          );
+        }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/common_forms/admin_center_form.dart';
 import 'package:al_halaqat/app/common_forms/admin_form.dart';
 import 'package:al_halaqat/app/common_forms/student_form.dart';
 import 'package:al_halaqat/app/common_forms/teacher_form.dart';
@@ -117,6 +118,11 @@ class _NewUserScreenState extends State<UserInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (bloc.userType == FormType.adminAndCenter)
+      return AdminCenterForm.create(
+        context: context,
+        user: widget.user,
+      );
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

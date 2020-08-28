@@ -1,9 +1,8 @@
-import 'package:al_halaqat/app/common_forms/admin_center_form.dart';
+import 'package:al_halaqat/app/common_forms/user_info_screen.dart';
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
-import 'package:al_halaqat/app/common_forms/user_info_screen.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
@@ -77,15 +76,17 @@ class _PendingScreenState extends State<PendingScreen> {
                 padding: EdgeInsets.only(left: 20.0),
                 child: InkWell(
                   onTap: () => userType == FormType.adminAndCenter
-                      ? Navigator.of(context, rootNavigator: false).push(
-                          MaterialPageRoute(
-                            builder: (context) => AdminCenterForm.create(
-                              context: context,
-                              user: user,
-                            ),
-                            fullscreenDialog: true,
-                          ),
-                        )
+                      ?
+                      //  Navigator.of(context, rootNavigator: false).push(
+                      //     MaterialPageRoute(
+                      //       builder: (context) => AdminCenterForm.create(
+                      //         context: context,
+                      //         user: user,
+                      //       ),
+                      //       fullscreenDialog: true,
+                      //     ),
+                      //   )
+                      Container()
                       : Navigator.of(context, rootNavigator: false).push(
                           MaterialPageRoute(
                             builder: (context) => UserInfoScreen.create(
@@ -96,10 +97,12 @@ class _PendingScreenState extends State<PendingScreen> {
                             fullscreenDialog: true,
                           ),
                         ),
-                  child: Icon(
-                    Icons.edit,
-                    size: 26.0,
-                  ),
+                  child: userType == FormType.adminAndCenter
+                      ? Container()
+                      : Icon(
+                          Icons.edit,
+                          size: 26.0,
+                        ),
                 ),
               ),
             ],
