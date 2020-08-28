@@ -71,6 +71,7 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
     studentsStream = bloc.fetchStudents();
     quranFuture = bloc.fetchQuran();
     chosenCenter = widget.centers[0];
+    chosenStudentState = 'approved';
     pr = ProgressDialog(
       context,
       type: ProgressDialogType.Normal,
@@ -230,7 +231,7 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
               child: InkWell(
                 onTap: () => searchForStudentDialog(),
                 child: Icon(
-                  Icons.add,
+                  Icons.search,
                 ),
               ),
             ),
@@ -245,7 +246,11 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
             builder: (context, snapshot) {
               if (snapshot.hasData && quranSnapshot.hasData) {
                 quran = quranSnapshot.data;
-                List<Student> studentsList = snapshot.data.usersList;
+                List<Student> studentsList = bloc.getFilteredStudentsList(
+                  snapshot.data.usersList,
+                  chosenCenter,
+                  chosenStudentState,
+                );
                 halaqatList = snapshot.data.halaqatList;
                 if (studentsList.isNotEmpty) {
                   return Scaffold(
