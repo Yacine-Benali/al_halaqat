@@ -159,32 +159,26 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
                   chosenStudentState,
                 );
                 List<Halaqa> halaqatList = snapshot.data.halaqatList;
-                if (studentsList.isNotEmpty) {
-                  return Scaffold(
-                    floatingActionButton: FloatingActionButton(
-                      onPressed: () =>
-                          Navigator.of(context, rootNavigator: false).push(
-                        MaterialPageRoute(
-                          builder: (context) => AdminNewStudentScreen(
-                            bloc: bloc,
-                            student: null,
-                            chosenCenter: chosenCenter,
-                            halaqatList: halaqatList,
-                          ),
-                          fullscreenDialog: true,
+
+                return Scaffold(
+                  floatingActionButton: FloatingActionButton(
+                    onPressed: () =>
+                        Navigator.of(context, rootNavigator: false).push(
+                      MaterialPageRoute(
+                        builder: (context) => AdminNewStudentScreen(
+                          bloc: bloc,
+                          student: null,
+                          chosenCenter: chosenCenter,
+                          halaqatList: halaqatList,
                         ),
+                        fullscreenDialog: true,
                       ),
-                      tooltip: 'add',
-                      child: Icon(Icons.add),
                     ),
-                    body: buildBody(studentsList, halaqatList),
-                  );
-                } else {
-                  return EmptyContent(
-                    title: 'لا يوجد أي طلاب',
-                    message: '',
-                  );
-                }
+                    tooltip: 'add',
+                    child: Icon(Icons.add),
+                  ),
+                  body: buildBody(studentsList, halaqatList),
+                );
               } else if (snapshot.hasError || quranSnapshot.hasError) {
                 return EmptyContent(
                   title: 'Something went wrong',
@@ -199,13 +193,13 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
     );
   }
 
-  Widget buildBody(List<Student> teachersList, List<Halaqa> halaqatList) {
-    if (teachersList.isNotEmpty) {
-      return _buildList(teachersList, halaqatList);
+  Widget buildBody(List<Student> studentsList, List<Halaqa> halaqatList) {
+    if (studentsList.isNotEmpty) {
+      return _buildList(studentsList, halaqatList);
     } else {
       return EmptyContent(
-        title: 'لا يوجد مراكز ',
-        message: 'لا يوجد مراكز في هذه الحالة',
+        title: 'لا يوجد أي طلاب',
+        message: '',
       );
     }
   }

@@ -238,6 +238,25 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
           ),
         ],
       ),
+      floatingActionButton: chosenCenter.canTeachersEditStudents
+          ? FloatingActionButton(
+              onPressed: () => Navigator.of(context, rootNavigator: false).push(
+                MaterialPageRoute(
+                  builder: (context) => TeacherNewStudentScreen(
+                    bloc: bloc,
+                    student: null,
+                    chosenCenter: chosenCenter,
+                    halaqatList: halaqatList,
+                    isRemovable:
+                        chosenCenter.canTeacherRemoveStudentsFromHalaqa,
+                  ),
+                  fullscreenDialog: true,
+                ),
+              ),
+              tooltip: 'add',
+              child: Icon(Icons.add),
+            )
+          : Container(),
       body: FutureBuilder(
         future: quranFuture,
         builder: (context, quranSnapshot) {
@@ -253,30 +272,7 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
                 );
                 halaqatList = snapshot.data.halaqatList;
                 if (studentsList.isNotEmpty) {
-                  return Scaffold(
-                    floatingActionButton: chosenCenter.canTeachersEditStudents
-                        ? FloatingActionButton(
-                            onPressed: () =>
-                                Navigator.of(context, rootNavigator: false)
-                                    .push(
-                              MaterialPageRoute(
-                                builder: (context) => TeacherNewStudentScreen(
-                                  bloc: bloc,
-                                  student: null,
-                                  chosenCenter: chosenCenter,
-                                  halaqatList: halaqatList,
-                                  isRemovable: chosenCenter
-                                      .canTeacherRemoveStudentsFromHalaqa,
-                                ),
-                                fullscreenDialog: true,
-                              ),
-                            ),
-                            tooltip: 'add',
-                            child: Icon(Icons.add),
-                          )
-                        : Container(),
-                    body: buildBody(studentsList, halaqatList),
-                  );
+                  return buildBody(studentsList, halaqatList);
                 } else {
                   return EmptyContent(
                     title: 'لا يوجد أي طلاب',
