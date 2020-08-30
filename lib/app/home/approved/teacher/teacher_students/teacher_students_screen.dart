@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/conversation_helper/conversation_helper_bloc.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_students/fuck_you_screen.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_new_student_screen.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_student_tile_widget.dart';
@@ -39,10 +40,13 @@ class TeacherStudentsScreen extends StatefulWidget {
 
     TeacherStudentsProvider provider =
         TeacherStudentsProvider(database: database);
+    ConversationHelpeBloc conversationHelper =
+        Provider.of<ConversationHelpeBloc>(context, listen: false);
     TeacherStudentsBloc bloc = TeacherStudentsBloc(
       provider: provider,
       teacher: teacher,
       auth: auth,
+      conversationHelper: conversationHelper,
     );
 
     return TeacherStudentsScreen._(

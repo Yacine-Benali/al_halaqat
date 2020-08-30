@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/conversation_helper/conversation_helper_bloc.dart';
 import 'package:al_halaqat/app/home/base_sceen.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/services/api_path.dart';
@@ -14,12 +15,15 @@ class HomePage extends StatefulWidget {
   static Widget create({@required String uid}) {
     return Provider<Database>(
       create: (_) => FirestoreDatabase(),
-      child: Consumer<Database>(
-        builder: (_, Database database, __) => HomePage._(
-          database: database,
-          uid: uid,
-        ),
-      ),
+      child: Consumer<Database>(builder: (_, Database database, __) {
+        return Provider<ConversationHelpeBloc>(
+          create: (_) => ConversationHelpeBloc(database: database),
+          child: HomePage._(
+            database: database,
+            uid: uid,
+          ),
+        );
+      }),
     );
   }
 

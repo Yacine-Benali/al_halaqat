@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/conversation_helper/conversation_helper_bloc.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/app/models/student.dart';
@@ -16,11 +17,13 @@ class AdminStudentsBloc {
     @required this.provider,
     @required this.admin,
     @required this.auth,
+    @required this.conversationHelper,
   });
 
   final AdminStudentsProvider provider;
   final User admin;
   final Auth auth;
+  final ConversationHelpeBloc conversationHelper;
   List<Halaqa> halaqat;
   Future<Quran> fetchQuran() => provider.fetchQuran();
 
@@ -43,10 +46,40 @@ class AdminStudentsBloc {
     }
   }
 
+  List<Halaqa> getFilteredHalaqaList(
+    List<Halaqa> data,
+    StudyCenter chosenCenter,
+  ) {
+    List<Halaqa> filteredStudentsList = List();
+
+    for (Halaqa halaqa in data) {
+      if (halaqa.centerId == chosenCenter.id) {
+        filteredStudentsList.add(halaqa);
+      }
+    }
+    return filteredStudentsList;
+  }
+
+  Future<void> modifieStudent(Student oldStudent, Student newStudent) async {
+    List<String> temp = List();
+    for (String a in newStudent.halaqatLearningIn) {
+      if (a != null) temp.add(a);
+    }
+    newStudent.halaqatLearningIn = temp;
+    await conversationHelper.onStudentModification(oldStudent, newStudent);
+    await provider.createStudent(newStudent);
+  }
+
   Future<void> createStudent(
     Student student,
     StudyCenter chosenCenter,
   ) async {
+    List<String> temp = List();
+
+    for (String a in student.halaqatLearningIn) {
+      if (a != null) temp.add(a);
+    }
+    student.halaqatLearningIn = temp;
     if (student.readableId == null) {
       List<String> testList =
           await auth.fetchSignInMethodsForEmail(email: student.username);
@@ -54,22 +87,15 @@ class AdminStudentsBloc {
         throw PlatformException(
           code: 'ERROR_USED_USERNAME',
         );
-    }
 
-    if (student.createdBy.isEmpty) {
       student.createdBy = {
         'name': admin.name,
         'id': admin.id,
       };
-    }
-    if (student.id == null) {
       student.id = provider.getUniqueId();
-    }
-    if (student.state == null) {
       student.state = 'approved';
-    }
-    if (student.center == null) {
       student.center = chosenCenter.id;
+      await conversationHelper.onStudentCreation(student);
     }
 
     await provider.createStudent(student);

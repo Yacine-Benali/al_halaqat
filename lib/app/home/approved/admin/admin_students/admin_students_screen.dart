@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/conversation_helper/conversation_helper_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_new_student_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_student_tile_widget.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_bloc.dart';
@@ -35,12 +36,15 @@ class AdminsStudentsScreen extends StatefulWidget {
     Database database = Provider.of<Database>(context, listen: false);
     User admin = Provider.of<User>(context, listen: false);
     Auth auth = Provider.of<Auth>(context, listen: false);
+    ConversationHelpeBloc conversationHelper =
+        Provider.of<ConversationHelpeBloc>(context, listen: false);
 
     AdminStudentsProvider provider = AdminStudentsProvider(database: database);
     AdminStudentsBloc bloc = AdminStudentsBloc(
       provider: provider,
       admin: admin,
       auth: auth,
+      conversationHelper: conversationHelper,
     );
 
     return AdminsStudentsScreen._(
@@ -158,7 +162,10 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
                   chosenCenter,
                   chosenStudentState,
                 );
-                List<Halaqa> halaqatList = snapshot.data.halaqatList;
+                List<Halaqa> halaqatList = bloc.getFilteredHalaqaList(
+                  snapshot.data.halaqatList,
+                  chosenCenter,
+                );
 
                 return Scaffold(
                   floatingActionButton: FloatingActionButton(

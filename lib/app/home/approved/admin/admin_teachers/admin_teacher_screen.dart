@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/conversation_helper/conversation_helper_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_new_teacher_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_provider.dart';
@@ -35,10 +36,13 @@ class AdminTeachersScreen extends StatefulWidget {
     Auth auth = Provider.of<Auth>(context, listen: false);
 
     AdminTeachersProvider provider = AdminTeachersProvider(database: database);
+    ConversationHelpeBloc conversationHelper =
+        Provider.of<ConversationHelpeBloc>(context, listen: false);
     AdminTeacherBloc bloc = AdminTeacherBloc(
       auth: auth,
       admin: user,
       provider: provider,
+      conversationHelper: conversationHelper,
     );
 
     return AdminTeachersScreen._(
@@ -150,6 +154,7 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
             List<Halaqa> availableHalaqat = bloc.getAvailableHalaqat(
               halaqatList,
               teachersList,
+              chosenCenter,
             );
             return Scaffold(
               floatingActionButton: FloatingActionButton(

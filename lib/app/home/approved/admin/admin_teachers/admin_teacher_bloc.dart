@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/conversation_helper/conversation_helper_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_provider.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
@@ -14,29 +15,48 @@ class AdminTeacherBloc {
     @required this.provider,
     @required this.admin,
     @required this.auth,
+    @required this.conversationHelper,
   });
 
   final AdminTeachersProvider provider;
+  final ConversationHelpeBloc conversationHelper;
+
   final User admin;
   final Auth auth;
 
-  List<Halaqa> getAvailableHalaqat(
-      List<Halaqa> halaqatList, List<Teacher> teachersList) {
+  List<Halaqa> getAvailableHalaqat(List<Halaqa> halaqatList,
+      List<Teacher> teachersList, StudyCenter chosenCenter) {
     List<Halaqa> availableHalaqa = List();
 
     for (Halaqa halaqa in halaqatList) {
       bool isFound = false;
-      for (Teacher teacher in teachersList) {
-        if (teacher.halaqatTeachingIn.contains(halaqa.id)) {
-          isFound = true;
+      if (halaqa.centerId == chosenCenter.id) {
+        for (Teacher teacher in teachersList) {
+          if (teacher.halaqatTeachingIn.contains(halaqa.id)) {
+            isFound = true;
+          }
         }
-      }
-      if (!isFound) {
-        availableHalaqa.add(halaqa);
+        if (!isFound) {
+          availableHalaqa.add(halaqa);
+        }
       }
     }
 
     return availableHalaqa;
+  }
+
+  List<Halaqa> getFilteredHalaqaList(
+    List<Halaqa> data,
+    StudyCenter chosenCenter,
+  ) {
+    List<Halaqa> filteredStudentsList = List();
+
+    for (Halaqa halaqa in data) {
+      if (halaqa.centerId == chosenCenter.id) {
+        filteredStudentsList.add(halaqa);
+      }
+    }
+    return filteredStudentsList;
   }
 
   // ignore: missing_return

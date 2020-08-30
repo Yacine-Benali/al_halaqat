@@ -8,12 +8,12 @@ class Conversation {
     @required this.latestMessage,
     @required this.student,
     @required this.teacher,
-    @required this.isMessagingEnabled,
+    @required this.isEnabled,
     @required this.centerId,
   });
 
   //
-  bool isMessagingEnabled;
+  bool isEnabled;
   String centerId;
   String groupChatId;
   final Message latestMessage;
@@ -37,7 +37,7 @@ class Conversation {
       ConversationUser teacher = ConversationUser.fromMap(data['teacher']);
       ConversationUser student = ConversationUser.fromMap(data['student']);
       //
-      bool isMessagingEnabled = data['isMessagingEnabled'];
+      bool isEnabled = data['isEnabled'];
       String centerId = data['centerId'];
 
       return Conversation(
@@ -45,7 +45,7 @@ class Conversation {
         latestMessage: latestMessage,
         student: student,
         teacher: teacher,
-        isMessagingEnabled: isMessagingEnabled,
+        isEnabled: isEnabled,
         centerId: centerId,
       );
     }
@@ -56,7 +56,17 @@ class Conversation {
       'latestMessage': latestMessage.toMap(),
       'teacher': teacher.toMap(),
       'student': student.toMap(),
-      'isMessagingEnabled': isMessagingEnabled,
+      'isEnabled': isEnabled,
+      'centerId': centerId,
+    };
+  }
+
+  Map<String, dynamic> toMapMerge() {
+    return <String, dynamic>{
+      'latestMessage': latestMessage.toMapmerge(),
+      'teacher': teacher.toMap(),
+      'student': student.toMap(),
+      'isEnabled': isEnabled,
       'centerId': centerId,
     };
   }

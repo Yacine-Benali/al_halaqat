@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/center_request.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/student.dart';
@@ -47,7 +48,7 @@ class CenterRequestsProvider {
         final userDocRef =
             Firestore.instance.document(APIPath.userDocument(user.id));
 
-        if (user is Teacher)
+        if (user is Teacher || user is Admin)
           tx.update(userDocRef, {'centerState.$centerId': centerRequest.state});
         else if (user is Student)
           tx.update(userDocRef, {'state': centerRequest.state});

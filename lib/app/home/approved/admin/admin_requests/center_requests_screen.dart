@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/conversation_helper/conversation_helper_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_requests_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_requests_provider.dart';
 import 'package:al_halaqat/app/models/center_request.dart';
@@ -29,10 +30,13 @@ class CenterRequestsScreen extends StatefulWidget {
     CenterRequestsProvider provider =
         CenterRequestsProvider(database: database);
     User user = Provider.of<User>(context, listen: false);
+    ConversationHelpeBloc conversationHelper =
+        Provider.of<ConversationHelpeBloc>(context, listen: false);
 
     CenterRequestsBloc bloc = CenterRequestsBloc(
       provider: provider,
       admin: user,
+      conversationHelper: conversationHelper,
     );
 
     return CenterRequestsScreen._(

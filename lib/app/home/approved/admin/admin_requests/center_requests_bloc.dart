@@ -1,10 +1,7 @@
+import 'package:al_halaqat/app/conversation_helper/conversation_helper_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_requests_provider.dart';
-import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/center_request.dart';
-import 'package:al_halaqat/app/models/conversation.dart';
-import 'package:al_halaqat/app/models/conversation_user.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/models/message.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
@@ -16,9 +13,11 @@ class CenterRequestsBloc {
   CenterRequestsBloc({
     @required this.provider,
     @required this.admin,
+    @required this.conversationHelper,
   });
   final CenterRequestsProvider provider;
   final User admin;
+  final ConversationHelpeBloc conversationHelper;
 
   List<CenterRequest> centerRequests = [];
   List<CenterRequest> emptyList = [];
@@ -74,25 +73,8 @@ class CenterRequestsBloc {
         requestUser.centerState[chosenStudyCenter.id] = state;
       else if (requestUser is Student) {
         requestUser.state = state;
-        if (admin is Admin) {
-          String groupChatId = _calculateGroupeChatId(admin.id, requestUser.id);
-          Message emptyMessage = Message(
-            content: null,
-            receiverId: requestUser.id,
-            seen: null,
-            senderId: admin.id,
-            timestamp: null,
-            uid: provider.getUniqueId(),
-          );
-          Conversation conversation = Conversation(
-            groupChatId: groupChatId,
-            latestMessage: emptyMessage,
-            student: ConversationUser.fromUser(requestUser),
-            teacher: ConversationUser.fromUser(admin),
-            isMessagingEnabled: null,
-            centerId: null,
-          );
-        }
+        if (state == 'approved')
+          conversationHelper.onStudentAcceptance(requestUser);
       }
 
       await provider.updateJoinRequest(

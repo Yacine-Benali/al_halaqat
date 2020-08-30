@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/conversation_helper/conversation_helper_bloc.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/app/models/student.dart';
@@ -16,11 +17,14 @@ class TeacherStudentsBloc {
     @required this.provider,
     @required this.teacher,
     @required this.auth,
+    @required this.conversationHelper,
   });
 
   final TeacherStudentsProvider provider;
   final Teacher teacher;
   final Auth auth;
+  final ConversationHelpeBloc conversationHelper;
+
   List<Halaqa> halaqat;
   Future<Quran> fetchQuran() => provider.fetchQuran();
 
@@ -55,10 +59,27 @@ class TeacherStudentsBloc {
     return studentsHalaqatStream;
   }
 
+  Future<void> modifieStudent(Student oldStudent, Student newStudent) async {
+    List<String> temp = List();
+    print('modfie called');
+    for (String a in newStudent.halaqatLearningIn) {
+      if (a != null) temp.add(a);
+    }
+    newStudent.halaqatLearningIn = temp;
+    await conversationHelper.onStudentModification(oldStudent, newStudent);
+    await provider.createStudent(newStudent);
+  }
+
   Future<void> createStudent(
     Student student,
     StudyCenter chosenCenter,
   ) async {
+    List<String> temp = List();
+
+    for (String a in student.halaqatLearningIn) {
+      if (a != null) temp.add(a);
+    }
+    student.halaqatLearningIn = temp;
     if (student.readableId == null) {
       List<String> testList =
           await auth.fetchSignInMethodsForEmail(email: student.username);
@@ -74,6 +95,7 @@ class TeacherStudentsBloc {
         'name': teacher.name,
         'id': teacher.id,
       };
+      await conversationHelper.onStudentCreation(student);
     }
 
     await provider.createStudent(student);

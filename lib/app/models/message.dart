@@ -8,10 +8,10 @@ class Message {
     @required this.seen,
     @required this.senderId,
     @required this.timestamp,
-    @required this.uid,
+    @required this.id,
   });
+  final String id;
   final String content;
-  final String uid;
   final String receiverId;
   bool seen;
   final String senderId;
@@ -23,7 +23,7 @@ class Message {
     final bool seen = data['seen'];
     final String senderId = data['senderId'];
     final Timestamp timestamp = data['timestamp'];
-    final String uid = documentId;
+    final String id = documentId;
 
     return Message(
       content: content,
@@ -31,7 +31,7 @@ class Message {
       seen: seen,
       senderId: senderId,
       timestamp: timestamp,
-      uid: uid,
+      id: id,
     );
   }
 
@@ -40,6 +40,15 @@ class Message {
       'content': content,
       'receiverId': receiverId,
       'seen': seen,
+      'senderId': senderId,
+      'timestamp': timestamp ?? FieldValue.serverTimestamp(),
+    };
+  }
+
+  Map<String, dynamic> toMapmerge() {
+    return <String, dynamic>{
+      'content': content,
+      'receiverId': receiverId,
       'senderId': senderId,
       'timestamp': timestamp ?? FieldValue.serverTimestamp(),
     };

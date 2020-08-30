@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:al_halaqat/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -10,20 +8,6 @@ class FirestoreDatabase implements Database {
   String getUniqueId() {
     String _randomId = Firestore.instance.collection(' ').document().documentID;
     return _randomId;
-  }
-
-  @override
-  Future<dynamic> uploadFile({
-    @required String path,
-    @required File file,
-  }) async {
-    // StorageReference storageReference =
-    //     FirebaseStorage.instance.ref().child(path);
-    // StorageUploadTask uploadTask = storageReference.putFile(file);
-    // StorageTaskSnapshot storageTaskSnapshot = await uploadTask.onComplete;
-
-    // var result = await storageTaskSnapshot.ref.getDownloadURL();
-    // return result;
   }
 
   @override

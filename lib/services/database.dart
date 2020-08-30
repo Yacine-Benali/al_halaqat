@@ -1,15 +1,11 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 
 abstract class Database {
   String getUniqueId();
-  Future<dynamic> uploadFile({
-    @required String path,
-    @required File file,
-  });
+
   Future<void> setData({
     @required String path,
     @required Map<String, dynamic> data,
