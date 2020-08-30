@@ -77,6 +77,16 @@ class AdminTeacherBloc {
     }
   }
 
+  Future<void> modifieStudent(Teacher oldTeacher, Teacher newTeacher) async {
+    List<String> temp = List();
+    for (String a in newTeacher.halaqatLearningIn) {
+      if (a != null) temp.add(a);
+    }
+    newTeacher.halaqatLearningIn = temp;
+    await conversationHelper.onTeacherModification(oldTeacher, newTeacher);
+    await provider.createTeacher(newTeacher);
+  }
+
   Future<void> createTeacher(
     Teacher teacher,
     StudyCenter chosenCenter,
@@ -88,28 +98,20 @@ class AdminTeacherBloc {
         throw PlatformException(
           code: 'ERROR_USED_USERNAME',
         );
-    }
 
-    if (teacher.createdBy.isEmpty) {
       teacher.createdBy = {
         'name': admin.name,
         'id': admin.id,
       };
-    }
-
-    if (teacher.id == null) {
       teacher.id = provider.getUniqueId();
-    }
-
-    if (!teacher.centers.contains(chosenCenter.id)) {
-      teacher.centers[0] = chosenCenter.id;
-    }
-    if (teacher.centerState.isEmpty) {
+      if (!teacher.centers.contains(chosenCenter.id)) {
+        teacher.centers[0] = chosenCenter.id;
+      }
       teacher.centerState = {
         chosenCenter.id: 'approved',
       };
+      await conversationHelper.onTeacherCreation(teacher);
     }
-
     await provider.createTeacher(teacher);
   }
 

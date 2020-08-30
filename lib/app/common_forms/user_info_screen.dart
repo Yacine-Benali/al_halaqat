@@ -153,6 +153,7 @@ class _NewUserScreenState extends State<UserInfoScreen> {
         admin: widget.user,
         onSavedAdmin: (admin) => user = admin,
         adminFormKey: userFormKey,
+        includeCenterState: false,
         center: null,
         isEnabled: true,
         onSavedCenter: (value) {},

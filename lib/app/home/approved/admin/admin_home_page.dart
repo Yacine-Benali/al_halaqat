@@ -5,6 +5,7 @@ import 'package:al_halaqat/app/home/approved/admin/admin_profile/admin_profile_s
 import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_requests_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_screen.dart';
+import 'package:al_halaqat/app/home/approved/common_screens/conversation/conversations_screen.dart';
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
@@ -266,7 +267,15 @@ class _AdminHomePageState extends State<AdminHomePage> {
               if (!widget.isGlobalAdmin) ...[
                 MenuButtonWidget(
                   text: 'المحادثات',
-                  onPressed: () {},
+                  onPressed: () =>
+                      Navigator.of(context, rootNavigator: false).push(
+                    MaterialPageRoute(
+                      builder: (context) => ConversationScreen.create(
+                        context: context,
+                      ),
+                      fullscreenDialog: true,
+                    ),
+                  ),
                 ),
                 SizedBox(height: 10),
               ],

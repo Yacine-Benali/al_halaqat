@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/conversation_helper/conversation_helper_bloc.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_provider.dart';
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/global_admin_request.dart';
@@ -6,8 +7,12 @@ import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 
 class GaRequestsBloc {
-  GaRequestsBloc({@required this.provider});
+  GaRequestsBloc({
+    @required this.provider,
+    @required this.conversationHelper,
+  });
   final GaRequestsProvider provider;
+  final ConversationHelpeBloc conversationHelper;
 
   List<GlobalAdminRequest> gaRequests = [];
   List<GlobalAdminRequest> emptyList = [];
@@ -60,6 +65,10 @@ class GaRequestsBloc {
     // update admin
     globalAdminRequest.admin.centerState[center.id] = state;
     admin = globalAdminRequest.admin;
+    if (globalAdminRequest.action == 'join-existing' &&
+        globalAdminRequest.state == 'approved') {
+      await conversationHelper.onAdminAcceptance(admin, center.id);
+    }
     await provider.updateRequest(
       globalAdminRequest,
       center,

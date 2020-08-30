@@ -56,7 +56,10 @@ class _AdminNewTeacherScreenState extends State<AdminNewTeacherScreen> {
       try {
         //   print(admin.centers);
         await pr.show();
-        await widget.bloc.createTeacher(teacher, widget.chosenCenter);
+        if (widget.teacher != null)
+          await widget.bloc.modifieStudent(widget.teacher, teacher);
+        else
+          await widget.bloc.createTeacher(teacher, widget.chosenCenter);
         await pr.hide();
 
         PlatformAlertDialog(

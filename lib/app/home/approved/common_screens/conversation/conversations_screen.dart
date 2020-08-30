@@ -1,92 +1,113 @@
-// import 'package:al_halaqat/app/home/approved/common_screens/conversation/conversations_bloc.dart';
-// import 'package:al_halaqat/app/home/approved/common_screens/conversation/conversations_provider.dart';
-// import 'package:al_halaqat/app/models/conversation_model.dart';
-// import 'package:al_halaqat/services/database.dart';
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/material.dart';
+import 'package:al_halaqat/app/home/approved/common_screens/conversation/conversation_tile.dart';
+import 'package:al_halaqat/app/home/approved/common_screens/conversation/conversations_bloc.dart';
+import 'package:al_halaqat/app/home/approved/common_screens/conversation/conversations_provider.dart';
+import 'package:al_halaqat/app/models/conversation.dart';
+import 'package:al_halaqat/app/models/conversation_user.dart';
+import 'package:al_halaqat/app/models/user.dart';
+import 'package:al_halaqat/common_widgets/empty_content.dart';
+import 'package:al_halaqat/services/database.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-// import 'package:provider/provider.dart';
+class ConversationScreen extends StatefulWidget {
+  final ConversationsBloc conversationsBloc;
 
-// import 'chat/chat_screen.dart';
+  final Database database;
+  ConversationScreen._({
+    Key key,
+    @required this.conversationsBloc,
+    @required this.database,
+  }) : super(key: key);
 
-// class ConversationScreen extends StatefulWidget {
-//   final ConversationsBloc conversationsBloc;
+  static Widget create({@required BuildContext context}) {
+    Database database = Provider.of<Database>(context, listen: false);
+    User user = Provider.of<User>(context, listen: false);
+    ConversationsProvider conversationsProvider =
+        ConversationsProvider(database: database);
 
-// final Database database;
-//   ConversationScreen._({
-//     Key key,
-//     @required this.conversationsBloc,
-//     @required this.database,
-//   }) : super(key: key);
+    return Provider<ConversationsBloc>(
+      create: (_) => ConversationsBloc(
+        provider: conversationsProvider,
+        user: user,
+      ),
+      child: Consumer<ConversationsBloc>(
+        builder: (_, conversationsBloc, __) => ConversationScreen._(
+          conversationsBloc: conversationsBloc,
+          database: database,
+        ),
+      ),
+    );
+  }
 
-//   static Widget create({@required BuildContext context}) {
-//     Database database = Provider.of<Database>(context, listen: false);
-//     StudentModel student = Provider.of<StudentModel>(context, listen: false);
-//     ConversationsProvider conversationsProvider = ConversationsProvider(database: database);
+  @override
+  _TeachersSceenState createState() => _TeachersSceenState();
+}
 
-//     return Provider<ConversationsBloc>(
-//       create: (_) => ConversationsBloc(
-//         conversationsProvider: conversationsProvider,
-//         student: student,
-//       ),
-//       child: Consumer<ConversationsBloc>(
-//         builder: (_, conversationsBloc, __) =>
-//             ConversationScreen._(conversationsBloc: conversationsBloc,database: database,),
-//       ),
-//     );
-//   }
+class _TeachersSceenState extends State<ConversationScreen> {
+  ConversationsBloc get bloc => widget.conversationsBloc;
 
-//   @override
-//   _TeachersSceenState createState() => _TeachersSceenState();
-// }
+  Stream conversationStream;
+  ConversationUser conversationUser;
+  bool isTeacher;
 
-// class _TeachersSceenState extends State<ConversationScreen> {
-//   ConversationsBloc get bloc => widget.conversationsBloc;
+  @override
+  void initState() {
+    conversationStream = bloc.getConversationStream();
+    conversationUser = bloc.conversationUser;
+    isTeacher = bloc.checkIfTeacher();
+    super.initState();
+  }
 
-//   Stream conversationStream;
-//   @override
-//   void initState() {
-//     conversationStream = bloc.getConversationStream();
-//     super.initState();
-//   }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Center(child: Text('messages_screen_title')),
+      ),
+      body: Material(
+        child: StreamBuilder<List<Conversation>>(
+          stream: conversationStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final List<Conversation> items = snapshot.data;
+              if (items.isNotEmpty) {
+                return _buildList(items);
+              } else {
+                return EmptyContent(
+                  title: 'title',
+                  message: 'message',
+                );
+              }
+            } else if (snapshot.hasError) {
+              return EmptyContent(
+                title: 'Something went wrong',
+                message: 'Can\'t load items right now',
+              );
+            }
+            return Center(child: CircularProgressIndicator());
+          },
+        ),
+      ),
+    );
+  }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Center(child: Text('messages_screen_title')),
-//       ),
-//       body: Material(
-//         child: StreamBuilder<List<ConversationModel>>(
-//           stream: conversationStream,
-//           builder: (context, snapshot) {
-//             if (!snapshot.hasData) {
-//               return Center(child: CircularProgressIndicator());
-//             } else {
-//               return SnapshotItemBuilder(
-//                 title: 'nothing here',
-//                 message: 'assinged teachers will show up here',
-//                 snapshot: snapshot,
-//                 itemBuilder: (context, conversation) => ConversationTile(
-//                   conversation: conversation,
-//                   onTap: () async {
-//                     await Navigator.push(context,
-//                       CupertinoPageRoute(
-//                         builder: (context) => ChatScreen.create(
-//                           conversation: conversation,
-//                           database: widget.database,
-//                           student: bloc.student,
-//                         ),
-//                         fullscreenDialog: false,
-//                       ),
-//                     );
-//                   },
-//                 ),
-//               );
-//             }
-//           },
-//         ),
-//       ),
-//     );
-//   }
-// }
+  Widget _buildList(List<Conversation> items) {
+    return ListView.separated(
+      itemCount: items.length + 2,
+      separatorBuilder: (context, index) => Divider(height: 0.5),
+      itemBuilder: (context, index) {
+        if (index == 0 || index == items.length + 1) {
+          return Container();
+        }
+        //return Container();
+        return ConversationTile(
+          conversation: items[index - 1],
+          conversationUser: conversationUser,
+          isTeacher: isTeacher,
+          onTap: () {},
+        );
+      },
+    );
+  }
+}

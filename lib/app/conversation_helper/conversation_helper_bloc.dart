@@ -83,9 +83,7 @@ class ConversationHelpeBloc {
   }
 
   Future<void> onStudentModification(
-    Student oldStudent,
-    Student newStudent,
-  ) async {
+      Student oldStudent, Student newStudent) async {
     final ConversationHelperProvide provider =
         ConversationHelperProvide(database: database);
     print('on student modification');
@@ -93,12 +91,12 @@ class ConversationHelpeBloc {
 
     // print('new:  ${newStudent.halaqatLearningIn}');
 
-    List<String> removedHalaqat = List();
-    List<String> addedHalaqat = List();
-
     List<String> oldHalaqat = oldStudent.halaqatLearningIn;
     List<String> newHalaqat = newStudent.halaqatLearningIn;
+    if (oldHalaqat == newHalaqat) return;
 
+    List<String> removedHalaqat = List();
+    List<String> addedHalaqat = List();
     //removed halaqat
     for (String old in oldHalaqat) {
       bool isRemoved = true;
@@ -148,6 +146,120 @@ class ConversationHelpeBloc {
 
         await provider.createConversation(conversation);
       }
+    }
+  }
+
+  Future<void> onTeacherCreation(Teacher teacher) async {
+    print('on teacher creation');
+    final ConversationHelperProvide provider =
+        ConversationHelperProvide(database: database);
+    if (teacher.halaqatTeachingIn != null) {
+      if (teacher.halaqatTeachingIn.isNotEmpty) {
+        final List<Student> studentsList =
+            await provider.fetchHalaqatStudent(teacher.halaqatTeachingIn);
+        for (Student student in studentsList) {
+          print('foudn student');
+          String groupeChatId = _calculateGroupeChatId(student.id, teacher.id);
+
+          Conversation conversation = Conversation(
+            groupChatId: groupeChatId,
+            latestMessage: latestMessage,
+            student: ConversationUser.fromUser(student),
+            teacher: ConversationUser.fromUser(teacher),
+            isEnabled: true,
+            centerId: student.center,
+          );
+
+          await provider.createConversation(conversation);
+        }
+      }
+    }
+  }
+
+  Future<void> onTeacherModification(
+      Teacher oldTeacher, Teacher newTeacher) async {
+    final ConversationHelperProvide provider =
+        ConversationHelperProvide(database: database);
+    print('on teacher  modification');
+
+    List<String> oldHalaqat = oldTeacher.halaqatTeachingIn;
+    List<String> newHalaqat = newTeacher.halaqatTeachingIn;
+    if (oldHalaqat == newHalaqat) return;
+    List<String> removedHalaqat = List();
+    List<String> addedHalaqat = List();
+    //removed halaqat
+    for (String old in oldHalaqat) {
+      bool isRemoved = true;
+      for (String neww in newHalaqat) {
+        if (old == neww) isRemoved = false;
+      }
+      if (isRemoved && old != null) removedHalaqat.add(old);
+    }
+    //added halaqat
+    for (String neww in newHalaqat) {
+      bool isAdded = true;
+      for (String old in oldHalaqat) {
+        if (neww == old) isAdded = false;
+      }
+      if (isAdded && neww != null) addedHalaqat.add(neww);
+    }
+
+    //disable
+    if (removedHalaqat.isNotEmpty) {
+      print('removing: $removedHalaqat');
+      final List<Student> teachersList =
+          await provider.fetchHalaqatStudent(removedHalaqat);
+      for (Student student in teachersList) {
+        print('found student to remove ');
+        String groupChatId = _calculateGroupeChatId(newTeacher.id, student.id);
+        await provider.disableConversation(groupChatId);
+      }
+    }
+    // create
+    if (addedHalaqat.isNotEmpty) {
+      print('adding: $addedHalaqat');
+
+      final List<Student> teachersList =
+          await provider.fetchHalaqatStudent(addedHalaqat);
+      for (Student student in teachersList) {
+        print('found student to creating conv with');
+
+        String groupChatId = _calculateGroupeChatId(newTeacher.id, student.id);
+        Conversation conversation = Conversation(
+          groupChatId: groupChatId,
+          latestMessage: latestMessage,
+          student: ConversationUser.fromUser(student),
+          teacher: ConversationUser.fromUser(newTeacher),
+          isEnabled: true,
+          centerId: student.center,
+        );
+
+        await provider.createConversation(conversation);
+      }
+    }
+  }
+
+  Future<void> onAdminAcceptance(Admin admin, String centerId) async {
+    print('on admin acceptance');
+    final ConversationHelperProvide provider =
+        ConversationHelperProvide(database: database);
+    final List<Student> studentsList =
+        await provider.fetchCenterStudents(centerId);
+
+    for (Student student in studentsList) {
+      print('foudn studnents');
+      String groupeChatId = _calculateGroupeChatId(student.id, admin.id);
+
+      Conversation conversation = Conversation(
+        groupChatId: groupeChatId,
+        latestMessage: latestMessage,
+        student: ConversationUser.fromUser(student),
+        teacher: ConversationUser.fromUser(admin),
+        isEnabled: true,
+        centerId: student.center,
+      );
+
+      await provider.createConversation(conversation);
     }
   }
 }

@@ -377,6 +377,12 @@ class _NewAdminFormState extends State<AdminForm>
                   inputFormatter: FilteringTextInputFormatter.deny(''),
                   isPhoneNumber: false,
                   onChanged: (value) => note = value,
+                  validator: (value) {
+                    if (value.toString().isEmpty) {
+                      return 'خطأ';
+                    }
+                    return null;
+                  },
                 ),
                 if (widget.includeCenterState) ...[
                   CenterStateForm(

@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/conversation_helper/conversation_helper_bloc.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_bloc.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_provider.dart';
 import 'package:al_halaqat/app/models/global_admin_request.dart';
@@ -6,6 +7,7 @@ import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'ga_requests_tile_widget.dart';
 
 class GaRequestsScreen extends StatefulWidget {
@@ -16,7 +18,12 @@ class GaRequestsScreen extends StatefulWidget {
   static Widget create({@required BuildContext context}) {
     Database database = Provider.of<Database>(context, listen: false);
     GaRequestsProvider provider = GaRequestsProvider(database: database);
-    GaRequestsBloc bloc = GaRequestsBloc(provider: provider);
+    ConversationHelpeBloc conversationHelper =
+        Provider.of<ConversationHelpeBloc>(context, listen: false);
+    GaRequestsBloc bloc = GaRequestsBloc(
+      provider: provider,
+      conversationHelper: conversationHelper,
+    );
 
     return GaRequestsScreen._(
       bloc: bloc,
