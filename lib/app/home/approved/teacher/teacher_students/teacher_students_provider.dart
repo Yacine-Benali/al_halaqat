@@ -31,11 +31,11 @@ class TeacherStudentsProvider {
           'nextUserReadableId': postSnapshot.data['nextUserReadableId'] + 1,
         });
         student.readableId = postSnapshot['nextUserReadableId'].toString();
-        await tx.set(
-          Firestore.instance.document(APIPath.userDocument(student.id)),
-          student.toMap(),
-        );
       }
+      await tx.set(
+        Firestore.instance.document(APIPath.userDocument(student.id)),
+        student.toMap(),
+      );
     }, timeout: Duration(seconds: 10));
   }
 

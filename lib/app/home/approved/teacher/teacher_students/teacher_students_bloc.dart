@@ -95,6 +95,20 @@ class TeacherStudentsBloc {
     return filteredStudentsList;
   }
 
+  List<Halaqa> getFilteredHalaqaList(
+    List<Halaqa> data,
+    StudyCenter chosenCenter,
+  ) {
+    List<Halaqa> filteredStudentsList = List();
+
+    for (Halaqa halaqa in data) {
+      if (halaqa.centerId == chosenCenter.id) {
+        filteredStudentsList.add(halaqa);
+      }
+    }
+    return filteredStudentsList;
+  }
+
   Future<void> executeAction(Student student, String action) async {
     switch (action) {
       case 'reApprove':

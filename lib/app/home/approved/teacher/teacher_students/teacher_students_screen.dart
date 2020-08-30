@@ -96,6 +96,16 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
     List<Student> students = await bloc.fetchStudent(nameOrId, chosenCenter);
 
     if (students != null) {
+      if (students.length == 0) {
+        await pr.hide();
+        await PlatformExceptionAlertDialog(
+          title: 'فشلت العملية',
+          exception: PlatformException(
+            code: 'NO_USER_FOUND',
+            message: 'لايوجد طالب بهذا الرقم أو الإسم',
+          ),
+        ).show(context);
+      }
       if (students.length == 1) {
         Student student = students[0];
         if (student != null) {
@@ -231,7 +241,10 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
                   chosenCenter,
                   chosenStudentState,
                 );
-                halaqatList = snapshot.data.halaqatList;
+                halaqatList = bloc.getFilteredHalaqaList(
+                  snapshot.data.halaqatList,
+                  chosenCenter,
+                );
                 return Scaffold(
                   appBar: AppBar(
                     actions: [
