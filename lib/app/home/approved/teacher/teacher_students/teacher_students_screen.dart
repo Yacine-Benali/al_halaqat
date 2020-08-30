@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/home/approved/teacher/teacher_students/fuck_you_screen.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_new_student_screen.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_student_tile_widget.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_students_bloc.dart';
@@ -92,31 +93,49 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
   Future<void> searchForStudent(String nameOrId) async {
     await pr.show();
 
-    Student student = await bloc.fetchStudent(nameOrId, chosenCenter);
-    if (student != null) {
+    List<Student> students = await bloc.fetchStudent(nameOrId, chosenCenter);
+
+    if (students != null) if (students.length == 1) {
+      Student student = students[0];
+      if (student != null) {
+        await pr.hide();
+        await Navigator.of(context, rootNavigator: false).push(
+          MaterialPageRoute(
+            builder: (context) => TeacherNewStudentScreen(
+              bloc: bloc,
+              student: student,
+              chosenCenter: chosenCenter,
+              halaqatList: halaqatList,
+              isRemovable: chosenCenter.canTeacherRemoveStudentsFromHalaqa,
+            ),
+            fullscreenDialog: true,
+          ),
+        );
+      }
+    } else if (students.length > 1) {
       await pr.hide();
-      Navigator.of(context, rootNavigator: false).push(
+      await Navigator.of(context, rootNavigator: false).push(
         MaterialPageRoute(
-          builder: (context) => TeacherNewStudentScreen(
+          builder: (context) => FuckYouScreen(
+            studentsList: students,
             bloc: bloc,
-            student: student,
             chosenCenter: chosenCenter,
             halaqatList: halaqatList,
-            isRemovable: chosenCenter.canTeacherRemoveStudentsFromHalaqa,
+            quran: quran,
           ),
           fullscreenDialog: true,
         ),
       );
-    } else {
-      await pr.hide();
-      await PlatformExceptionAlertDialog(
-        title: 'فشلت العملية',
-        exception: PlatformException(
-          code: 'NO_USER_FOUND',
-          message: 'لايوجد طالب بهذا الرقم أو الإسم',
-        ),
-      ).show(context);
     }
+
+    await pr.hide();
+    await PlatformExceptionAlertDialog(
+      title: 'فشلت العملية',
+      exception: PlatformException(
+        code: 'NO_USER_FOUND',
+        message: 'لايوجد طالب بهذا الرقم أو الإسم',
+      ),
+    ).show(context);
   }
 
   Future<void> searchForStudentDialog() async {
@@ -197,66 +216,6 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: Center(
-              child: DropdownButton<StudyCenter>(
-                dropdownColor: Colors.indigo,
-                value: chosenCenter,
-                icon: Icon(Icons.arrow_drop_down, color: Colors.white),
-                iconSize: 24,
-                underline: Container(),
-                elevation: 0,
-                style: TextStyle(color: Colors.white, fontSize: 20),
-                onChanged: (StudyCenter newValue) {
-                  setState(() {
-                    chosenCenter = newValue;
-                  });
-                },
-                items: widget.centers
-                    .map<DropdownMenuItem<StudyCenter>>((StudyCenter value) {
-                  return DropdownMenuItem<StudyCenter>(
-                    value: value,
-                    child: Text(value.name),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: Center(
-              child: InkWell(
-                onTap: () => searchForStudentDialog(),
-                child: Icon(
-                  Icons.search,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: chosenCenter.canTeachersEditStudents
-          ? FloatingActionButton(
-              onPressed: () => Navigator.of(context, rootNavigator: false).push(
-                MaterialPageRoute(
-                  builder: (context) => TeacherNewStudentScreen(
-                    bloc: bloc,
-                    student: null,
-                    chosenCenter: chosenCenter,
-                    halaqatList: halaqatList,
-                    isRemovable:
-                        chosenCenter.canTeacherRemoveStudentsFromHalaqa,
-                  ),
-                  fullscreenDialog: true,
-                ),
-              ),
-              tooltip: 'add',
-              child: Icon(Icons.add),
-            )
-          : Container(),
       body: FutureBuilder(
         future: quranFuture,
         builder: (context, quranSnapshot) {
@@ -271,21 +230,82 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
                   chosenStudentState,
                 );
                 halaqatList = snapshot.data.halaqatList;
-                if (studentsList.isNotEmpty) {
-                  return buildBody(studentsList, halaqatList);
-                } else {
-                  return EmptyContent(
-                    title: 'لا يوجد أي طلاب',
-                    message: '',
-                  );
-                }
+                print(studentsList);
+                return Scaffold(
+                  appBar: AppBar(
+                    actions: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 20.0),
+                        child: Center(
+                          child: DropdownButton<StudyCenter>(
+                            dropdownColor: Colors.indigo,
+                            value: chosenCenter,
+                            icon: Icon(Icons.arrow_drop_down,
+                                color: Colors.white),
+                            iconSize: 24,
+                            underline: Container(),
+                            elevation: 0,
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                            onChanged: (StudyCenter newValue) {
+                              setState(() {
+                                chosenCenter = newValue;
+                              });
+                            },
+                            items: widget.centers
+                                .map<DropdownMenuItem<StudyCenter>>(
+                                    (StudyCenter value) {
+                              return DropdownMenuItem<StudyCenter>(
+                                value: value,
+                                child: Text(value.name),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 20.0),
+                        child: Center(
+                          child: InkWell(
+                            onTap: () => searchForStudentDialog(),
+                            child: Icon(
+                              Icons.search,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  floatingActionButton: chosenCenter.canTeachersEditStudents
+                      ? FloatingActionButton(
+                          onPressed: () =>
+                              Navigator.of(context, rootNavigator: false).push(
+                            MaterialPageRoute(
+                              builder: (context) => TeacherNewStudentScreen(
+                                bloc: bloc,
+                                student: null,
+                                chosenCenter: chosenCenter,
+                                halaqatList: halaqatList,
+                                isRemovable: chosenCenter
+                                    .canTeacherRemoveStudentsFromHalaqa,
+                              ),
+                              fullscreenDialog: true,
+                            ),
+                          ),
+                          tooltip: 'add',
+                          child: Icon(Icons.add),
+                        )
+                      : Container(),
+                  body: buildBody(studentsList, halaqatList),
+                );
               } else if (snapshot.hasError || quranSnapshot.hasError) {
                 return EmptyContent(
                   title: 'Something went wrong',
                   message: 'Can\'t load items right now',
                 );
               }
-              return Center(child: CircularProgressIndicator());
+              return Scaffold(
+                  appBar: AppBar(),
+                  body: Center(child: CircularProgressIndicator()));
             },
           );
         },
@@ -298,8 +318,8 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
       return _buildList(teachersList, halaqatList);
     } else {
       return EmptyContent(
-        title: 'لا يوجد مراكز ',
-        message: 'لا يوجد مراكز في هذه الحالة',
+        title: 'لا يوجد  ',
+        message: '',
       );
     }
   }

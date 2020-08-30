@@ -128,8 +128,9 @@ class TeacherStudentsBloc {
     return filteredSearchList;
   }
 
-  Future<Student> fetchStudent(String nameOrId, StudyCenter center) async {
-    Student student;
+  Future<List<Student>> fetchStudent(
+      String nameOrId, StudyCenter center) async {
+    List<Student> student;
     try {
       int.parse(nameOrId);
 

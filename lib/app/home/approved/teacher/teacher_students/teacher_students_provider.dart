@@ -53,8 +53,8 @@ class TeacherStudentsProvider {
         builder: (data, documentId) => Quran.fromMap(data, documentId),
       );
 
-  Future<Student> fetchStudentById(String id, String centerId) =>
-      database.fetchQueryDocument(
+  Future<List<Student>> fetchStudentById(String id, String centerId) =>
+      database.fetchCollection(
         path: APIPath.usersCollection(),
         builder: (data, documentId) => Student.fromMap(data, documentId),
         queryBuilder: (Query query) => query
@@ -62,9 +62,9 @@ class TeacherStudentsProvider {
             .where('center', isEqualTo: centerId),
       );
 
-//TODO what if two users have the same name
-  Future<Student> fetchStudentByName(String name, String centerId) =>
-      database.fetchQueryDocument(
+//TODO what if a user in archived
+  Future<List<Student>> fetchStudentByName(String name, String centerId) =>
+      database.fetchCollection(
         path: APIPath.usersCollection(),
         builder: (data, documentId) => Student.fromMap(data, documentId),
         queryBuilder: (Query query) => query
