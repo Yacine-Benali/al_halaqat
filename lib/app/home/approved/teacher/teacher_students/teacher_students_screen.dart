@@ -95,47 +95,49 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
 
     List<Student> students = await bloc.fetchStudent(nameOrId, chosenCenter);
 
-    if (students != null) if (students.length == 1) {
-      Student student = students[0];
-      if (student != null) {
+    if (students != null) {
+      if (students.length == 1) {
+        Student student = students[0];
+        if (student != null) {
+          await pr.hide();
+          await Navigator.of(context, rootNavigator: false).push(
+            MaterialPageRoute(
+              builder: (context) => TeacherNewStudentScreen(
+                bloc: bloc,
+                student: student,
+                chosenCenter: chosenCenter,
+                halaqatList: halaqatList,
+                isRemovable: chosenCenter.canTeacherRemoveStudentsFromHalaqa,
+              ),
+              fullscreenDialog: true,
+            ),
+          );
+        }
+      } else if (students.length > 1) {
         await pr.hide();
         await Navigator.of(context, rootNavigator: false).push(
           MaterialPageRoute(
-            builder: (context) => TeacherNewStudentScreen(
+            builder: (context) => FuckYouScreen(
+              studentsList: students,
               bloc: bloc,
-              student: student,
               chosenCenter: chosenCenter,
               halaqatList: halaqatList,
-              isRemovable: chosenCenter.canTeacherRemoveStudentsFromHalaqa,
+              quran: quran,
             ),
             fullscreenDialog: true,
           ),
         );
       }
-    } else if (students.length > 1) {
+    } else {
       await pr.hide();
-      await Navigator.of(context, rootNavigator: false).push(
-        MaterialPageRoute(
-          builder: (context) => FuckYouScreen(
-            studentsList: students,
-            bloc: bloc,
-            chosenCenter: chosenCenter,
-            halaqatList: halaqatList,
-            quran: quran,
-          ),
-          fullscreenDialog: true,
+      await PlatformExceptionAlertDialog(
+        title: 'فشلت العملية',
+        exception: PlatformException(
+          code: 'NO_USER_FOUND',
+          message: 'لايوجد طالب بهذا الرقم أو الإسم',
         ),
-      );
+      ).show(context);
     }
-
-    await pr.hide();
-    await PlatformExceptionAlertDialog(
-      title: 'فشلت العملية',
-      exception: PlatformException(
-        code: 'NO_USER_FOUND',
-        message: 'لايوجد طالب بهذا الرقم أو الإسم',
-      ),
-    ).show(context);
   }
 
   Future<void> searchForStudentDialog() async {
@@ -230,7 +232,6 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
                   chosenStudentState,
                 );
                 halaqatList = snapshot.data.halaqatList;
-                print(studentsList);
                 return Scaffold(
                   appBar: AppBar(
                     actions: [

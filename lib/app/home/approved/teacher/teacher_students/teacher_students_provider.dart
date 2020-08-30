@@ -59,6 +59,7 @@ class TeacherStudentsProvider {
         builder: (data, documentId) => Student.fromMap(data, documentId),
         queryBuilder: (Query query) => query
             .where('readableId', isEqualTo: id)
+            .where('state', isEqualTo: 'approved')
             .where('center', isEqualTo: centerId),
       );
 
@@ -69,6 +70,7 @@ class TeacherStudentsProvider {
         builder: (data, documentId) => Student.fromMap(data, documentId),
         queryBuilder: (Query query) => query
             .where('name', isEqualTo: name)
+            .where('state', isEqualTo: 'approved')
             .where('center', isEqualTo: centerId),
       );
 
