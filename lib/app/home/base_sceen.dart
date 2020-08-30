@@ -66,6 +66,9 @@ class BaseScreen extends StatelessWidget {
           return ArchivedDeletedScreen();
         }
       } else if (user is Student) {
+        print(user.username);
+        print(user.state);
+
         if (user.state == 'pending') {
           return PendingScreen();
         } else if (user.state == 'approved') {

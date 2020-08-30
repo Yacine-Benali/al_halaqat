@@ -154,6 +154,16 @@ class _NewAdminFormState extends State<AdminForm>
     }
   }
 
+  bool isGmailOrFacebook() {
+    if (widget.admin != null) {
+      if (widget.admin.username != null) {
+        if (widget.admin.username.contains('gmail.com')) return true;
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
   // void _temp() {
   //   GlobalAdmin admin = GlobalAdmin(
   //     id: null,
@@ -196,7 +206,8 @@ class _NewAdminFormState extends State<AdminForm>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                if (widget.includeUsernameAndPassword) ...[
+                if (widget.includeUsernameAndPassword &&
+                    !isGmailOrFacebook()) ...[
                   TextFormField2(
                     isEnabled: widget.isEnabled,
                     title: 'إسم المتستخدم',

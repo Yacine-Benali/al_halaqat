@@ -139,6 +139,17 @@ class _NewStudentFormState extends State<TeacherForm>
     widget.onSaved(teacher);
   }
 
+  bool isGmailOrFacebook() {
+    if (widget.teacher != null) {
+      if (widget.teacher.username != null) {
+        if (widget.teacher.username.contains('gmail.com')) return true;
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,7 +164,8 @@ class _NewStudentFormState extends State<TeacherForm>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                if (widget.includeUsernameAndPassword) ...[
+                if (widget.includeUsernameAndPassword &&
+                    !isGmailOrFacebook()) ...[
                   TextFormField2(
                     isEnabled: widget.isEnabled,
                     title: 'إسم المتستخدم',
