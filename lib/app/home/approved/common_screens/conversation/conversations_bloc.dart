@@ -2,7 +2,6 @@ import 'package:al_halaqat/app/home/approved/common_screens/conversation/convers
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/conversation.dart';
 import 'package:al_halaqat/app/models/conversation_user.dart';
-import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:meta/meta.dart';
@@ -16,10 +15,11 @@ class ConversationsBloc {
   final ConversationsProvider provider;
   final User user;
 
+  //TODO omptimize this
   Stream<List<Conversation>> getConversationStream() {
     if (user is Teacher || user is Admin)
       return provider.getTeacherConversationStream(user.id);
-    else if (user is Student)
+    else
       return provider.getStudentConversationStream(user.id);
   }
 

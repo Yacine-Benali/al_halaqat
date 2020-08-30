@@ -63,7 +63,8 @@ class _TeachersSceenState extends State<ConversationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('messages_screen_title')),
+        centerTitle: true,
+        title: Text('messages_screen_title'),
       ),
       body: Material(
         child: StreamBuilder<List<Conversation>>(
@@ -105,7 +106,6 @@ class _TeachersSceenState extends State<ConversationScreen> {
           conversation: items[index - 1],
           conversationUser: conversationUser,
           isTeacher: isTeacher,
-          onTap: () {},
         );
       },
     );

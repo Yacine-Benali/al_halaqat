@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/home/approved/common_screens/conversation/conversations_screen.dart';
 import 'package:al_halaqat/app/home/approved/student/s_profile/s_profile_screen.dart';
 import 'package:al_halaqat/app/home/approved/student/student_halaqat/student_halaqat_screen.dart';
 import 'package:al_halaqat/app/home/approved/student/student_summery/student_summery_screen.dart';
@@ -139,7 +140,15 @@ class _StudentHomePageState extends State<StudentHomePage> {
               SizedBox(height: 10),
               MenuButtonWidget(
                 text: 'المحادثات',
-                onPressed: () {},
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: false).push(
+                  MaterialPageRoute(
+                    builder: (context) => ConversationScreen.create(
+                      context: context,
+                    ),
+                    fullscreenDialog: true,
+                  ),
+                ),
               ),
               SizedBox(height: 10),
             ],

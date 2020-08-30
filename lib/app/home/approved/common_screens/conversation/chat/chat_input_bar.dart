@@ -1,131 +1,98 @@
-// import 'dart:io';
-// import 'package:flutter/material.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
-// //import 'package:fluttertoast/fluttertoast.dart';
-// import 'package:image_picker/image_picker.dart';
-// import 'package:b1_parent/app/conversation/chat/chat_bloc.dart';
-// import 'package:b1_parent/app/conversation/message_model.dart';
-// import 'package:provider/provider.dart';
+import 'dart:io';
 
-// /// handles the input of the chat screen
-// /// send messages and photos
-// class ChatInputBar extends StatefulWidget {
-//   ChatInputBar({
-//     Key key,
-//   }) : super(key: key);
+import 'package:al_halaqat/app/home/approved/common_screens/conversation/chat/chat_bloc.dart';
+import 'package:al_halaqat/app/models/message.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
-//   @override
-//   _ChatInputBarState createState() => _ChatInputBarState();
-// }
+/// handles the input of the chat screen
+/// send messages and photos
+class ChatInputBar extends StatefulWidget {
+  ChatInputBar({
+    Key key,
+  }) : super(key: key);
 
-// class _ChatInputBarState extends State<ChatInputBar> {
-//   TextEditingController textEditingController = TextEditingController();
-//   bool isLoading = false;
+  @override
+  _ChatInputBarState createState() => _ChatInputBarState();
+}
 
-//   File imageFile;
-//   String imageUrl;
-//   int timestamp;
-//   MessageModel message;
+class _ChatInputBarState extends State<ChatInputBar> {
+  TextEditingController textEditingController = TextEditingController();
+  bool isLoading = false;
 
-//   ChatBloc bloc;
+  File imageFile;
+  String imageUrl;
+  int timestamp;
+  Message message;
 
-//   // this app is specefic for students so this var is cosnt
+  ChatBloc bloc;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     bloc = Provider.of<ChatBloc>(context, listen: false);
+  // this app is specefic for students so this var is cosnt
 
-//     return Padding(
-//       padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10, 20),
-//       child: Material(
-//         child: Container(
-//           child: Row(
-//             children: <Widget>[
-//               // send image Button
-//               Container(
-//                 child: IconButton(
-//                   iconSize: 30.0,
-//                   icon: Icon(Icons.image),
-//                   onPressed: sendImageMessage, //getImage,
-//                   color: Colors.indigo,
-//                 ),
-//               ),
-//               // Edit text
-//               Flexible(
-//                 child: Container(
-//                   child: TextField(
-//                     maxLines: 4,
-//                     minLines: 1,
-//                     style: TextStyle(color: Colors.black, fontSize: 15.0),
-//                     controller: textEditingController,
-//                     decoration: InputDecoration.collapsed(
-//                       hintText: 'Type your message...',
-//                       hintStyle: TextStyle(color: Colors.grey),
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//               // send message button
-//               Container(
-//                 margin: EdgeInsets.symmetric(horizontal: 8.0),
-//                 child: !isLoading
-//                     ? IconButton(
-//                         icon: Icon(Icons.send),
-//                         onPressed: () =>
-//                             sendTextMessage(textEditingController.text, 0),
-//                         color: Colors.indigo,
-//                         iconSize: 30.0,
-//                       )
-//                     : CircularProgressIndicator(),
-//               ),
-//             ],
-//           ),
-//           width: double.infinity,
-//           margin: EdgeInsets.all(9),
-//         ),
-//         type: MaterialType.button,
-//         borderRadius: BorderRadius.circular(20.0),
-//         color: Colors.white,
-//         elevation: 5.0,
-//       ),
-//     );
-//   }
+  @override
+  Widget build(BuildContext context) {
+    bloc = Provider.of<ChatBloc>(context, listen: false);
 
-//   /// responsible for sending the message to the cloud
-//   void sendTextMessage(String content, int type) {
-//     // type: 0 = text, 1 = image
-//     if (content.trim() != '') {
-//       textEditingController.clear();
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10, 20),
+      child: Material(
+        child: Container(
+          child: Row(
+            children: <Widget>[
+              // send message button
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 8.0),
+                child: !isLoading
+                    ? RotatedBox(
+                        quarterTurns: 2,
+                        child: IconButton(
+                          icon: Icon(Icons.send),
+                          onPressed: () =>
+                              sendTextMessage(textEditingController.text, 0),
+                          color: Colors.indigo,
+                          iconSize: 30.0,
+                        ),
+                      )
+                    : CircularProgressIndicator(),
+              ),
+              // Edit text
+              Flexible(
+                child: Container(
+                  child: TextField(
+                    maxLines: 4,
+                    minLines: 1,
+                    style: TextStyle(color: Colors.black, fontSize: 15.0),
+                    controller: textEditingController,
+                    decoration: InputDecoration.collapsed(
+                      hintText: 'Type your message...',
+                      hintStyle: TextStyle(color: Colors.grey),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          width: double.infinity,
+          margin: EdgeInsets.all(9),
+        ),
+        type: MaterialType.button,
+        borderRadius: BorderRadius.circular(20.0),
+        color: Colors.white,
+        elevation: 5.0,
+      ),
+    );
+  }
 
-//       bloc.sendMessage(content, type);
-//     } else {
-//       Fluttertoast.showToast(msg: 'Nothing to send');
-//     }
-//   }
+  /// responsible for sending the message to the cloud
+  void sendTextMessage(String content, int type) {
+    // type: 0 = text, 1 = image
+    if (content.trim() != '') {
+      textEditingController.clear();
 
-//   /// called on pressing the photo button
-//   /// calls image_picker package to chose image from gallery
-//   void sendImageMessage() async {
-//     imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
-//     // print('image file: ');
-//     // print(imageFile);
-//     if (imageFile == null) {
-//       return;
-//     }
-//     // set loading state
-//     setState(() {
-//       isLoading = true;
-//     });
-//     bool result = await bloc.sendImageMessage(imageFile, 1);
-//     if (result == true) {
-//       setState(() {
-//         isLoading = false;
-//       });
-//     } else {
-//       Fluttertoast.showToast(msg: 'photo failed to upload');
-//       setState(() {
-//         isLoading = false;
-//       });
-//     }
-//   }
-// }
+      bloc.sendMessage(content);
+    } else {
+      Fluttertoast.showToast(msg: 'Nothing to send');
+    }
+  }
+}

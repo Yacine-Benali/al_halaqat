@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/home/approved/common_screens/conversation/chat/chat_screen.dart';
 import 'package:al_halaqat/app/models/conversation.dart';
 import 'package:al_halaqat/app/models/conversation_user.dart';
 import 'package:al_halaqat/common_widgets/size_config.dart';
@@ -7,7 +8,6 @@ class ConversationTile extends StatelessWidget {
   const ConversationTile({
     Key key,
     @required this.conversation,
-    @required this.onTap,
     @required this.conversationUser,
     @required this.isTeacher,
   }) : super(key: key);
@@ -15,21 +15,29 @@ class ConversationTile extends StatelessWidget {
   final Conversation conversation;
   final ConversationUser conversationUser;
   final bool isTeacher;
-  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     bool notification = false;
     String name = '';
-    if ('conversation.latestMessage.senderId' != conversationUser.id) {
-      notification = conversation.latestMessage.seen ?? false;
+    if (conversation.latestMessage.senderId != conversationUser.id) {
+      notification = conversation.latestMessage.seen ?? true;
+      notification = !notification;
     }
     if (isTeacher)
       name = conversation.student.name;
     else
       name = conversation.teacher.name;
     return ListTile(
-      onTap: onTap,
+      onTap: () async => await Navigator.of(context, rootNavigator: false).push(
+        MaterialPageRoute(
+          builder: (context) => ChatScreen.create(
+            context: context,
+            conversation: conversation,
+          ),
+          fullscreenDialog: true,
+        ),
+      ),
       title: Text(
         name,
         // diffrent style if there is unseen message

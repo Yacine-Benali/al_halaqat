@@ -34,4 +34,10 @@ class APIPath {
   static String conversationsCollection() => 'conversations';
   static String conversationDocument(String groupChatId) =>
       'conversations/$groupChatId';
+
+  static String messagesCollection(String groupChatId) =>
+      'conversations/$groupChatId/messages';
+
+  static String messageDocument(String groupChatId, String messageId) =>
+      'conversations/$groupChatId/messages/$messageId';
 }
