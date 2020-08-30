@@ -13,6 +13,7 @@ class AdminTeachersProvider {
   Stream<List<Teacher>> fetchTeachers(
     List<String> centerIds,
   ) {
+    print(centerIds);
     return database.collectionStream(
       path: APIPath.usersCollection(),
       builder: (data, documentId) => Teacher.fromMap(data, documentId),

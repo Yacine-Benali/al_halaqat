@@ -18,6 +18,7 @@ class TeacherCenterRequestBloc {
     if (center == null) {
     } else {
       teacher.centerState[center.id] = 'pending';
+      teacher.centers.add(center.id);
       CenterRequest joinRequest = CenterRequest(
         id: 'join-' + teacher.id,
         createdAt: null,

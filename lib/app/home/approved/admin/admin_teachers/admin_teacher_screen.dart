@@ -79,7 +79,7 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Center(child: Text('المراكز')),
+        title: Center(child: Text('')),
         centerTitle: true,
         actions: [
           Padding(
@@ -218,8 +218,8 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
       );
     } else {
       return EmptyContent(
-        title: 'لا يوجد مراكز ',
-        message: 'لا يوجد مراكز في هذه الحالة',
+        title: 'لا يوجد  ',
+        message: 'لا يوجد  ',
       );
     }
   }
