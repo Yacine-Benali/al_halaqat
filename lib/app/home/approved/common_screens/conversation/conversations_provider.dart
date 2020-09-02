@@ -15,7 +15,8 @@ class ConversationsProvider {
       builder: (data, documentId) => Conversation.fromMap(data, documentId),
       queryBuilder: (query) => query
           .where('isEnabled', isEqualTo: true)
-          .where('teacher.id', isEqualTo: teacherId),
+          .where('teacher.id', isEqualTo: teacherId)
+          .orderBy('latestMessage.seen', descending: false),
     );
   }
 

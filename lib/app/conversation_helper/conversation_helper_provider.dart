@@ -46,6 +46,7 @@ class ConversationHelperProvide {
             .where('center', isEqualTo: centerId),
       );
 
+  //TODO fix to map merge
   Future<void> createConversation(Conversation conversation) async =>
       await database.setData(
         path: APIPath.conversationDocument(conversation.groupChatId),
