@@ -57,6 +57,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
   void initState() {
     studentProfileFuture = bloc.getStudentProfile();
     titles = bloc.getTitles();
+
     super.initState();
   }
 
@@ -99,7 +100,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
               MaterialPageRoute(
                 builder: (context) => StudentAttendanceScreen(
                   bloc: bloc,
-                  instancesList: studentProfileList[i - 1].instancesList,
+                  instancesList: studentProfileList[i - 2].instancesList,
                 ),
                 fullscreenDialog: true,
               ),
@@ -112,7 +113,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
               MaterialPageRoute(
                 builder: (context) => StudentEvaluationScreen(
                   bloc: bloc,
-                  evaluationsList: studentProfileList[i - 1].evaluationsList,
+                  evaluationsList: studentProfileList[i - 2].evaluationsList,
                 ),
                 fullscreenDialog: true,
               ),

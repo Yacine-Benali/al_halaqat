@@ -13,7 +13,7 @@ class ConversationHelpeBloc {
   final Message latestMessage = Message(
     content: '',
     receiverId: '',
-    seen: true,
+    seen: false,
     senderId: '',
     timestamp: null,
     id: '',

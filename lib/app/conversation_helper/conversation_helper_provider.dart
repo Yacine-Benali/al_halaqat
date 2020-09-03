@@ -50,7 +50,7 @@ class ConversationHelperProvide {
   Future<void> createConversation(Conversation conversation) async =>
       await database.setData(
         path: APIPath.conversationDocument(conversation.groupChatId),
-        data: conversation.toMapMerge(),
+        data: conversation.toMap(),
         merge: true,
       );
 
