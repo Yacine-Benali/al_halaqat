@@ -69,9 +69,7 @@ class _NewStudentFormState extends State<TeacherForm>
   Timestamp createdAt;
   Map<String, String> createdBy;
   List<String> centers;
-  List<String> halaqatLearningIn;
   //
-  bool isStudent;
   bool isTeacher;
   List<String> halaqatTeachingIn;
 
@@ -101,7 +99,7 @@ class _NewStudentFormState extends State<TeacherForm>
     centers = teacher?.centers ?? List<String>(1);
     //
     isTeacher = teacher?.isTeacher;
-    halaqatTeachingIn = teacher?.halaqatTeachingIn ?? List<String>(1);
+    halaqatTeachingIn = teacher?.halaqatTeachingIn ?? List<String>();
     //
     usernameInitValue = username?.replaceAll('@al-halaqat.firebaseapp.com', '');
     _save();
@@ -337,17 +335,6 @@ class _NewStudentFormState extends State<TeacherForm>
                     currentHalaqatIdsList: halaqatTeachingIn,
                   ),
                 ],
-                if (isStudent && widget.showUserHalaqa) ...[
-                  UserHalaqaForm(
-                    title: 'حلقات طالب فيها',
-                    halaqatList: widget.halaqatList,
-                    onSaved: (List<String> value) {
-                      halaqatLearningIn = value;
-                      _save();
-                    },
-                    currentHalaqatIdsList: halaqatLearningIn,
-                  )
-                ]
               ],
             ),
           ),

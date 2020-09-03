@@ -8,6 +8,7 @@ import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 
 //! cant send request to not active centrs
 class UserBloc {
@@ -44,7 +45,7 @@ class UserBloc {
         createdAt: null,
         userId: authUser.uid,
         user: student,
-        action: 'join-existing',
+        action: 'join-existing-new',
         state: 'pending',
         halaqa: null,
       );
@@ -87,7 +88,7 @@ class UserBloc {
         createdAt: null,
         userId: authUser.uid,
         user: teacher,
-        action: 'join-existing',
+        action: 'join-existing-new',
         state: 'pending',
         halaqa: null,
       );
@@ -144,9 +145,27 @@ class UserBloc {
     );
   }
 
+  Future<bool> checkIfNameUnique(
+    StudyCenter newcenter,
+  ) async {
+    List<StudyCenter> duplicate =
+        await provider.getCenterByname(newcenter.name);
+    for (StudyCenter studyCenter in duplicate)
+      if (newcenter.name == studyCenter.name) return true;
+
+    return false;
+  }
+
   Future<void> createAdminAndCenter(Admin admin, StudyCenter center) async {
     GlobalAdminRequest joinGlobalAdminRequest;
 
+    bool isNameDuplicated = await checkIfNameUnique(
+      center,
+    );
+    if (isNameDuplicated)
+      throw PlatformException(
+        code: 'ERROR_DUPLICATE_NAME',
+      );
     admin.createdBy = {
       'name': admin.name,
       'id': authUser.uid,

@@ -14,11 +14,13 @@ class TeacherCenterRequestBloc {
   final Teacher teacher;
 
   Future<void> sendJoinRequest(String centerId) async {
+    List<String> centersIdList = teacher.centerState.keys.toList();
     StudyCenter center = await provider.queryCenterbyRId(centerId);
     if (center == null) {
+    } else if (centersIdList.contains(center.id)) {
+      return;
     } else {
       teacher.centerState[center.id] = 'pending';
-      teacher.centers.add(center.id);
       CenterRequest joinRequest = CenterRequest(
         id: 'join-' + teacher.id,
         createdAt: null,

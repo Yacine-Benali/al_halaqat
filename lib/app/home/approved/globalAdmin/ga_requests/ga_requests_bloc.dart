@@ -74,14 +74,14 @@ class GaRequestsBloc {
 
       if (globalAdminRequest.state == 'approved') {
         //approved
-        print("approved");
+        // print("approved");
         await conversationHelper.onAdminAcceptance(admin, center.id);
         return await provider.updateJoinExistingRequestAccepted(
           globalAdminRequest,
           admin,
         );
       } else {
-        print('dissapproved');
+        // print('dissapproved');
         //disapproved
         return await provider.updateJoinExistingRequestRefused(
           globalAdminRequest,

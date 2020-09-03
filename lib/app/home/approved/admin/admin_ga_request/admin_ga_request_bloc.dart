@@ -13,10 +13,10 @@ class AdminGaRequestBloc {
   final AdminGaRequestProvider provider;
   final Admin admin;
 
-  Future<void> sendJoinRequest(String centerId) async {
+  Future<void> sendJoinRequest(String centerReadableId) async {
     List<String> centersIdList = admin.centerState.keys.toList();
 
-    StudyCenter center = await provider.queryCenterbyRId(centerId);
+    StudyCenter center = await provider.queryCenterbyRId(centerReadableId);
     if (center == null) {
     } else if (centersIdList.contains(center.id)) {
       return;

@@ -34,6 +34,13 @@ class UserProvider {
         queryBuilder: (query) =>
             query.where('readableId', isEqualTo: readableId),
       );
+  Future<List<StudyCenter>> getCenterByname(String centerName) {
+    return database.fetchCollection(
+      path: APIPath.centersCollection(),
+      builder: (data, documentId) => StudyCenter.fromMap(data, documentId),
+      queryBuilder: (query) => query.where('name', isEqualTo: centerName),
+    );
+  }
 
   Future<void> createTeacherOrStudent(
     User user,

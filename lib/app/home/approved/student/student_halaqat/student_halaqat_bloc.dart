@@ -24,6 +24,9 @@ class StudentHalaqaBloc {
       partitionedList.add(halaqatId.sublist(
           i, i + 10 > halaqatId.length ? halaqatId.length : i + 10));
     }
+    if (halaqatId.isEmpty) {
+      partitionedList.add(['emptyId']);
+    }
     List<Stream<List<Halaqa>>> halaqatStreamList = partitionedList
         .map((sublist) => provider.fetchHalaqat(sublist))
         .toList();

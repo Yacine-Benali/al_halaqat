@@ -56,6 +56,49 @@ class CenterRequestsProvider {
     }, timeout: Duration(seconds: 10));
   }
 
+  Future<void> updateJoinExistingRequestAccepted(
+    String centerId,
+    CenterRequest centerRequest,
+    User user,
+  ) async {
+    await Firestore.instance.runTransaction((Transaction tx) async {
+      // update the request
+      final requestDocRef = Firestore.instance
+          .document(APIPath.centerRequestsDocument(centerId, centerRequest.id));
+
+      tx.update(requestDocRef, centerRequest.toMap());
+
+      final userDocRef =
+          Firestore.instance.document(APIPath.userDocument(user.id));
+
+      tx.update(userDocRef, {
+        'centerState.$centerId': centerRequest.state,
+        'centers': FieldValue.arrayUnion([centerId])
+      });
+    }, timeout: Duration(seconds: 10));
+  }
+
+  Future<void> updateJoinExistingRequestRefused(
+    String centerId,
+    CenterRequest centerRequest,
+    User user,
+  ) async {
+    await Firestore.instance.runTransaction((Transaction tx) async {
+      // update the request
+      final requestDocRef = Firestore.instance
+          .document(APIPath.centerRequestsDocument(centerId, centerRequest.id));
+
+      tx.update(requestDocRef, centerRequest.toMap());
+
+      final userDocRef =
+          Firestore.instance.document(APIPath.userDocument(user.id));
+
+      tx.update(userDocRef, {
+        'centerState.$centerId': FieldValue.delete(),
+      });
+    }, timeout: Duration(seconds: 10));
+  }
+
   Future<void> updateNewHalaqaRequest(
     CenterRequest centerRequest,
     Halaqa halaqa,

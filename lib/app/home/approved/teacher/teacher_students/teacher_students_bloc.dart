@@ -36,6 +36,9 @@ class TeacherStudentsBloc {
       partitionedList.add(halaqatId.sublist(
           i, i + 10 > halaqatId.length ? halaqatId.length : i + 10));
     }
+    if (halaqatId.isEmpty) {
+      partitionedList.add(['emptyId']);
+    }
 
     List<Stream<List<Student>>> studentStreamList = partitionedList
         .map((sublist) => provider.fetchStudents(sublist))

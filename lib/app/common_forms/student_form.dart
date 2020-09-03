@@ -104,7 +104,7 @@ class _NewStudentFormState extends State<StudentForm>
     state = student?.state;
     createdBy = student?.createdBy ?? Map<String, String>();
     center = student?.center;
-    halaqatLearningIn = student?.halaqatLearningIn ?? List<String>(1);
+    halaqatLearningIn = student?.halaqatLearningIn ?? List<String>();
     isStudent = student?.isStudent;
     parentPhoneNumber = student?.parentPhoneNumber;
     //

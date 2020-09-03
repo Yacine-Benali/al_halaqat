@@ -20,6 +20,7 @@ class CenterRequestTileWidget extends StatelessWidget {
   final StudyCenter center;
   final Map<String, String> actionTranslate = {
     'join-existing': 'يريد الإنضمام إلى المركز ',
+    'join-existing-new': 'يريد الإنضمام إلى المركز ',
     'create-halaqa': 'يريد إنشاء حلقة جديدة',
   };
 
