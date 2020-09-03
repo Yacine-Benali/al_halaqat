@@ -63,7 +63,6 @@ class TeacherStudentsProvider {
             .where('center', isEqualTo: centerId),
       );
 
-//TODO what if a user in archived
   Future<List<Student>> fetchStudentByName(String name, String centerId) =>
       database.fetchCollection(
         path: APIPath.usersCollection(),

@@ -6,8 +6,6 @@ import 'package:al_halaqat/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
-//todo show teacher as student screen
-//TODO add teacher as student and evaluate him
 class TeacherHalaqatProvider {
   TeacherHalaqatProvider({@required this.database});
 

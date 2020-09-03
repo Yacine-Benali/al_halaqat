@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 
 import 'user.dart';
 
-//TODO teacher can not be astudent
 class Teacher extends User {
   Teacher({
     @required String id,
