@@ -40,7 +40,6 @@ class UsernamePasswordSignInModel
           await auth.createUserWithEmailAndPassword(email, password);
           break;
         case UsernamePasswordSignInFormType.forgotPassword:
-          await auth.sendPasswordResetEmail(email);
           updateWith(isLoading: false);
           break;
       }

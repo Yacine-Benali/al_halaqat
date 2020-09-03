@@ -166,7 +166,7 @@ class UserBloc {
 
     admin.username = authUser.email;
     admin.password = authUser.password;
-    print('password');
+    print('password: ${authUser.password}');
     //
     joinGlobalAdminRequest = GlobalAdminRequest(
       id: authUser.uid,

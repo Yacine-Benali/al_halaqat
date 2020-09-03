@@ -62,7 +62,7 @@ class _CenterFormState extends State<CenterForm> {
     canTeacherRemoveStudentsFromHalaqa =
         center?.canTeacherRemoveStudentsFromHalaqa ?? false;
     state = center?.state;
-    nextHalaqaReadableId = center?.nextHalaqaReadableId;
+    nextHalaqaReadableId = center?.nextHalaqaReadableId ?? 1000;
     createdBy = center?.createdBy;
     createdAt = center?.createdAt;
     save();

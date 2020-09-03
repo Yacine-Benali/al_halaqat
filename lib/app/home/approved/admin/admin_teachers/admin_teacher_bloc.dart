@@ -77,12 +77,12 @@ class AdminTeacherBloc {
     }
   }
 
-  Future<void> modifieStudent(Teacher oldTeacher, Teacher newTeacher) async {
+  Future<void> modifieTeacher(Teacher oldTeacher, Teacher newTeacher) async {
     List<String> temp = List();
-    for (String a in newTeacher.halaqatLearningIn) {
+    for (String a in newTeacher.halaqatTeachingIn) {
       if (a != null) temp.add(a);
     }
-    newTeacher.halaqatLearningIn = temp;
+    newTeacher.halaqatTeachingIn = temp;
     await conversationHelper.onTeacherModification(oldTeacher, newTeacher);
     await provider.createTeacher(newTeacher);
   }
@@ -91,6 +91,12 @@ class AdminTeacherBloc {
     Teacher teacher,
     StudyCenter chosenCenter,
   ) async {
+    List<String> temp = List();
+
+    for (String a in teacher.halaqatTeachingIn) {
+      if (a != null) temp.add(a);
+    }
+    teacher.halaqatTeachingIn = temp;
     if (teacher.readableId == null) {
       List<String> testList =
           await auth.fetchSignInMethodsForEmail(email: teacher.username);

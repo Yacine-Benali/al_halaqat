@@ -151,6 +151,7 @@ class ConversationHelpeBloc {
 
   Future<void> onTeacherCreation(Teacher teacher) async {
     print('on teacher creation');
+    print(teacher.halaqatTeachingIn);
     final ConversationHelperProvide provider =
         ConversationHelperProvide(database: database);
     if (teacher.halaqatTeachingIn != null) {
@@ -172,7 +173,11 @@ class ConversationHelpeBloc {
 
           await provider.createConversation(conversation);
         }
+      } else {
+        // print('halaqatTeacheing in empty');
       }
+    } else {
+      // print('halaqatTeacheing is null');
     }
   }
 

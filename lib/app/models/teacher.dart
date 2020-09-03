@@ -21,10 +21,8 @@ class Teacher extends User {
     @required String password,
     @required Timestamp createdAt,
     @required Map<String, String> createdBy,
-    @required this.isStudent,
     @required this.isTeacher,
     @required this.halaqatTeachingIn,
-    @required this.halaqatLearningIn,
     @required this.centers,
     @required this.centerState,
   }) : super(
@@ -46,9 +44,7 @@ class Teacher extends User {
         );
 
   bool isTeacher;
-  bool isStudent;
   List<String> halaqatTeachingIn;
-  List<String> halaqatLearningIn;
   Map<String, String> centerState;
   List<String> centers;
 
@@ -75,8 +71,6 @@ class Teacher extends User {
     Timestamp createdAt = data['createdAt'];
     Map<String, String> createdBy = Map<String, String>.from(data['createdBy']);
     List<String> centers = data['centers']?.cast<String>();
-    List<String> halaqatLearningIn = data['halaqatLearningIn']?.cast<String>();
-    bool isStudent = data['isStudent'];
     //
     bool isTeacher = data['isTeacher'];
     List<String> halaqatTeachingIn = data['halaqatTeachingIn']?.cast<String>();
@@ -99,8 +93,6 @@ class Teacher extends User {
       createdAt: createdAt,
       createdBy: createdBy,
       centers: centers,
-      halaqatLearningIn: halaqatLearningIn,
-      isStudent: isStudent,
       //
       isTeacher: isTeacher,
       halaqatTeachingIn: halaqatTeachingIn,
@@ -126,8 +118,6 @@ class Teacher extends User {
       'createdAt': createdAt ?? FieldValue.serverTimestamp(),
       'createdBy': createdBy,
       'centers': centers,
-      'halaqatLearningIn': halaqatLearningIn,
-      'isStudent': isStudent,
       //
       'isTeacher': isTeacher,
       'halaqatTeachingIn': halaqatTeachingIn,

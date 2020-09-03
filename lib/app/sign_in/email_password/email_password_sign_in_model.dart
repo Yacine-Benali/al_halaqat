@@ -41,7 +41,6 @@ class EmailPasswordSignInModel
           await auth.createUserWithEmailAndPassword(email2, password);
           break;
         case EmailPasswordSignInFormType.forgotPassword:
-          await auth.sendPasswordResetEmail(email2);
           updateWith(isLoading: false);
           break;
       }

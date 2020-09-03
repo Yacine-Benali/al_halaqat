@@ -57,7 +57,7 @@ class _AdminNewTeacherScreenState extends State<AdminNewTeacherScreen> {
         //   print(admin.centers);
         await pr.show();
         if (widget.teacher != null)
-          await widget.bloc.modifieStudent(widget.teacher, teacher);
+          await widget.bloc.modifieTeacher(widget.teacher, teacher);
         else
           await widget.bloc.createTeacher(teacher, widget.chosenCenter);
         await pr.hide();
@@ -108,7 +108,6 @@ class _AdminNewTeacherScreenState extends State<AdminNewTeacherScreen> {
         showUserHalaqa: true,
         center: null,
         includeCenterForm: false,
-        showIsStudent: true,
       ),
     );
   }

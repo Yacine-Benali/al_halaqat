@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+
 import 'user.dart';
 
 class Admin extends User {
@@ -20,8 +21,6 @@ class Admin extends User {
     @required Timestamp createdAt,
     @required Map<String, String> createdBy,
     @required this.centers,
-    @required this.halaqatLearningIn,
-    @required this.isStudent,
     @required this.isAdmin,
     @required this.centerState,
   }) : super(
@@ -43,10 +42,8 @@ class Admin extends User {
         );
 
   bool isAdmin;
-  bool isStudent;
   List<String> centers;
   Map<String, String> centerState;
-  List<String> halaqatLearningIn;
   factory Admin.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
       return null;
@@ -70,8 +67,6 @@ class Admin extends User {
     Timestamp createdAt = data['createdAt'];
     Map<String, String> createdBy = Map<String, String>.from(data['createdBy']);
     List<String> centers = data['centers']?.cast<String>();
-    List<String> halaqatLearningIn = data['halaqatLearningIn']?.cast<String>();
-    bool isStudent = data['isStudent'];
     //
     bool isAdmin = data['isAdmin'];
 
@@ -93,8 +88,6 @@ class Admin extends User {
       createdAt: createdAt,
       createdBy: createdBy,
       centers: centers,
-      halaqatLearningIn: halaqatLearningIn,
-      isStudent: isStudent,
       //
       isAdmin: isAdmin,
     );
@@ -119,8 +112,6 @@ class Admin extends User {
       'createdAt': createdAt ?? FieldValue.serverTimestamp(),
       'createdBy': createdBy,
       'centers': centers,
-      'halaqatLearningIn': halaqatLearningIn,
-      'isStudent': isStudent,
       //
       'isAdmin': isAdmin,
     };

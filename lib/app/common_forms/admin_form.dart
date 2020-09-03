@@ -76,9 +76,7 @@ class _NewAdminFormState extends State<AdminForm>
   Timestamp createdAt;
   Map<String, String> createdBy;
   List<String> centers;
-  List<String> halaqatLearningIn;
   //
-  bool isStudent;
   bool isAdmin;
 
   @override
@@ -106,9 +104,7 @@ class _NewAdminFormState extends State<AdminForm>
     createdAt = admin?.createdAt;
     createdBy = admin?.createdBy ?? Map<String, String>();
     centers = admin?.centers ?? List<String>(1);
-    halaqatLearningIn = admin?.halaqatLearningIn ?? List<String>(1);
     //
-    isStudent = admin?.isStudent ?? false;
     isAdmin = admin?.isAdmin;
     //
     usernameInitValue = username?.replaceAll('@al-halaqat.firebaseapp.com', '');
@@ -141,8 +137,6 @@ class _NewAdminFormState extends State<AdminForm>
       centerState: centerState,
       createdAt: createdAt,
       createdBy: createdBy,
-      isStudent: isStudent,
-      halaqatLearningIn: halaqatLearningIn,
       centers: centers,
       isAdmin: true,
     );
@@ -164,33 +158,6 @@ class _NewAdminFormState extends State<AdminForm>
     }
     return false;
   }
-  // void _temp() {
-  //   GlobalAdmin admin = GlobalAdmin(
-  //     id: null,
-  //     name: 'a',
-  //     dateOfBirth: 1950,
-  //     gender: 'male',
-  //     nationality: 'LB',
-  //     address: 'global admin address',
-  //     phoneNumber: 'phoneNumber',
-  //     educationalLevel: 'educationalLevel',
-  //     etablissement: 'etablissement',
-  //     note: 'note',
-  //     readableId: 'readableId',
-  //     username: 'null',
-  //     email: 'null',
-  //     password: 'null',
-  //     centerState: null,
-  //     createdAt: null,
-  //     createdBy: null,
-  //     halaqatLearningIn: [null],
-  //     centers: [null],
-  //     isGlobalAdmin: true,
-  //     isStudent: false,
-  //   );
-
-  //   widget.onSavedAdmin(admin);
-  // }
 
   @override
   Widget build(BuildContext context) {

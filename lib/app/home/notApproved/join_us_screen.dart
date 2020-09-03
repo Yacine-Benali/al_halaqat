@@ -1,8 +1,11 @@
 import 'package:al_halaqat/app/common_forms/user_info_screen.dart';
+import 'package:al_halaqat/app/models/global_admin.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:al_halaqat/services/api_path.dart';
 import 'package:al_halaqat/services/auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +40,48 @@ class _NewUserScreenState extends State<JoinUsScreen> {
     }
   }
 
+  void _temp() {
+    GlobalAdmin admin = GlobalAdmin(
+      id: 'WNSk1ey20IZ1GkwxrBoCTjlqqe53',
+      name: 'a',
+      dateOfBirth: 1950,
+      gender: 'ذكر',
+      nationality: 'LB',
+      address: 'ga address',
+      phoneNumber: 'ga phoneNumber',
+      educationalLevel: 'سنة أولى',
+      etablissement: 'ga etablissement',
+      note: 'ga note',
+      readableId: null,
+      username: 'a.a',
+      password: '123abc',
+      createdAt: null,
+      createdBy: {
+        'name': 'super admin',
+        'id': 'super admin Id',
+      },
+      isGlobalAdmin: true,
+      state: 'approved',
+    );
+
+    final DocumentReference postRef =
+        Firestore.instance.document('/globalConfiguration/globalConfiguration');
+    Firestore.instance.runTransaction((Transaction tx) async {
+      if (admin.readableId == null) {
+        DocumentSnapshot postSnapshot = await tx.get(postRef);
+        await tx.update(postRef, <String, dynamic>{
+          'nextUserReadableId': postSnapshot.data['nextUserReadableId'] + 1
+        });
+        admin.readableId = postSnapshot['nextUserReadableId'].toString();
+      }
+
+      await tx.set(
+        Firestore.instance.document(APIPath.userDocument(admin.id)),
+        admin.toMap(),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,6 +98,18 @@ class _NewUserScreenState extends State<JoinUsScreen> {
             ),
           ),
         ),
+        // actions: [
+        //   Padding(
+        //     padding: EdgeInsets.only(left: 20.0),
+        //     child: InkWell(
+        //       onTap: () => _temp(),
+        //       child: Icon(
+        //         Icons.bug_report,
+        //         size: 26.0,
+        //       ),
+        //     ),
+        //   ),
+        // ],
       ),
       body: SingleChildScrollView(
         child: Padding(

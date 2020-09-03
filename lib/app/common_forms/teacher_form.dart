@@ -26,7 +26,6 @@ class TeacherForm extends StatefulWidget {
     @required this.includeCenterForm,
     this.halaqatList,
     @required this.showUserHalaqa,
-    @required this.showIsStudent,
   }) : super(key: key);
   final GlobalKey<FormState> teacherFormKey;
   final ValueChanged<Teacher> onSaved;
@@ -38,7 +37,6 @@ class TeacherForm extends StatefulWidget {
   final bool showUserHalaqa;
   final StudyCenter center;
   final bool includeCenterForm;
-  final bool showIsStudent;
 
   @override
   _NewStudentFormState createState() => _NewStudentFormState();
@@ -101,9 +99,7 @@ class _NewStudentFormState extends State<TeacherForm>
     createdBy = teacher?.createdBy ?? Map<String, String>();
 
     centers = teacher?.centers ?? List<String>(1);
-    halaqatLearningIn = teacher?.halaqatLearningIn ?? List<String>(1);
     //
-    isStudent = teacher?.isStudent ?? false;
     isTeacher = teacher?.isTeacher;
     halaqatTeachingIn = teacher?.halaqatTeachingIn ?? List<String>(1);
     //
@@ -130,8 +126,6 @@ class _NewStudentFormState extends State<TeacherForm>
       centerState: centerState,
       createdAt: createdAt,
       createdBy: createdBy,
-      isStudent: isStudent,
-      halaqatLearningIn: halaqatLearningIn,
       centers: centers,
       isTeacher: true,
       halaqatTeachingIn: halaqatTeachingIn,
@@ -332,19 +326,6 @@ class _NewStudentFormState extends State<TeacherForm>
                   isPhoneNumber: false,
                   onChanged: (value) => note = value,
                 ),
-                if (widget.showIsStudent) ...[
-                  ListTile(
-                    title: Text('مفتوح كطالب'),
-                    trailing: Switch(
-                      value: isStudent,
-                      onChanged: (value) {
-                        isStudent = value;
-                        _save();
-                        setState(() {});
-                      },
-                    ),
-                  ),
-                ],
                 if (widget.showUserHalaqa) ...[
                   UserHalaqaForm(
                     title: 'حلقات يعلم فيها',

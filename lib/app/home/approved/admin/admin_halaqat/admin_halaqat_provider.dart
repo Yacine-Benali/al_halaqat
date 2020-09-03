@@ -21,11 +21,10 @@ class AdminHalaqatProvider {
   Future<void> createHalaqa(
     Halaqa halaqa,
   ) async {
-    final DocumentReference postRef =
-        Firestore.instance.document(APIPath.centerDocument(halaqa.centerId));
-
     Firestore.instance.runTransaction((Transaction tx) async {
       if (halaqa.readableId == null) {
+        final DocumentReference postRef = Firestore.instance
+            .document(APIPath.centerDocument(halaqa.centerId));
         DocumentSnapshot postSnapshot = await tx.get(postRef);
         await tx.update(postRef, <String, dynamic>{
           'nextHalaqaReadableId': postSnapshot.data['nextHalaqaReadableId'] + 1,

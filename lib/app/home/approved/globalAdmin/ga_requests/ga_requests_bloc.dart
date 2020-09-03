@@ -56,24 +56,39 @@ class GaRequestsBloc {
     Admin admin;
     // update ga request
     globalAdminRequest.state = state;
-    // update center
+    globalAdminRequest.admin.centerState[globalAdminRequest.centerId] = state;
+    admin = globalAdminRequest.admin;
     center = globalAdminRequest.center;
+
+    //join-new
     if (globalAdminRequest.action == 'join-new') {
       globalAdminRequest.center.state = state;
       center = globalAdminRequest.center;
+      return await provider.updateJoinNewRequest(
+        globalAdminRequest,
+        center,
+        admin,
+      );
+    } else if (globalAdminRequest.action == 'join-existing') {
+      //join-existing
+
+      if (globalAdminRequest.state == 'approved') {
+        //approved
+        print("approved");
+        await conversationHelper.onAdminAcceptance(admin, center.id);
+        return await provider.updateJoinExistingRequestAccepted(
+          globalAdminRequest,
+          admin,
+        );
+      } else {
+        print('dissapproved');
+        //disapproved
+        return await provider.updateJoinExistingRequestRefused(
+          globalAdminRequest,
+          admin,
+        );
+      }
     }
-    // update admin
-    globalAdminRequest.admin.centerState[center.id] = state;
-    admin = globalAdminRequest.admin;
-    if (globalAdminRequest.action == 'join-existing' &&
-        globalAdminRequest.state == 'approved') {
-      await conversationHelper.onAdminAcceptance(admin, center.id);
-    }
-    await provider.updateRequest(
-      globalAdminRequest,
-      center,
-      admin,
-    );
   }
 
   void dispose() async {

@@ -168,7 +168,6 @@ class _NewUserScreenState extends State<UserInfoScreen> {
         showUserHalaqa: false,
         teacherFormKey: userFormKey,
         center: null,
-        showIsStudent: false,
         includeCenterForm: false,
       );
 

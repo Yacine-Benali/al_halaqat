@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:meta/meta.dart';
 
 @immutable
@@ -19,7 +20,6 @@ abstract class Auth {
   Future<AuthUser> signInWithEmailAndPassword(String email, String password);
   Future<AuthUser> createUserWithEmailAndPassword(
       String email, String password);
-  Future<void> sendPasswordResetEmail(String email);
   Future<AuthUser> signInWithGoogle();
   Future<AuthUser> signInWithFacebook();
   Future<void> signOut();

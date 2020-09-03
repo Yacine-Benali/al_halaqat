@@ -122,7 +122,18 @@ class _AdminCenterFormState extends State<AdminCenterForm> {
           ),
         ],
       ),
-      body: buildForm(bloc),
+      body: AdminForm(
+        includeUsernameAndPassword: false,
+        includeCenterState: false,
+        includeCenterIdInput: false,
+        admin: widget.admin,
+        center: null,
+        onSavedAdmin: (newAdmin) => admin = newAdmin,
+        onSavedCenter: (newCenter) => center = newCenter,
+        isEnabled: true,
+        adminFormKey: adminFormKey,
+        includeCenterForm: true,
+      ),
     );
   }
 

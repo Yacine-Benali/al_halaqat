@@ -45,7 +45,7 @@ class BaseScreen extends StatelessWidget {
         if (user.state == 'approved')
           return GlobalAdminHomePage();
         else
-          return ArchivedDeletedScreen();
+          return ArchivedDeletedEmptyScreen(user: user);
       } else if (user is Admin) {
         if (isThereAnApprovedCenter(user.centerState)) {
           return AdminHomePage(
@@ -55,7 +55,7 @@ class BaseScreen extends StatelessWidget {
         } else if (isTherePendingCenter(user.centerState)) {
           return PendingScreen();
         } else {
-          return ArchivedDeletedScreen();
+          return ArchivedDeletedEmptyScreen(user: user);
         }
       } else if (user is Teacher) {
         if (isThereAnApprovedCenter(user.centerState)) {
@@ -63,7 +63,7 @@ class BaseScreen extends StatelessWidget {
         } else if (isTherePendingCenter(user.centerState)) {
           return PendingScreen();
         } else {
-          return ArchivedDeletedScreen();
+          return ArchivedDeletedEmptyScreen(user: user);
         }
       } else if (user is Student) {
         if (user.state == 'pending') {

@@ -116,7 +116,6 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
         includeUsernameAndPassword: true,
         onSaved: (Teacher value) => modifiedTeacher = value,
         showUserHalaqa: false,
-        showIsStudent: true,
       ),
     );
   }

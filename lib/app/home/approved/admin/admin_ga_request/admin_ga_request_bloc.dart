@@ -14,8 +14,12 @@ class AdminGaRequestBloc {
   final Admin admin;
 
   Future<void> sendJoinRequest(String centerId) async {
+    List<String> centersIdList = admin.centerState.keys.toList();
+
     StudyCenter center = await provider.queryCenterbyRId(centerId);
     if (center == null) {
+    } else if (centersIdList.contains(center.id)) {
+      return;
     } else {
       admin.centerState[center.id] = 'pending';
       GlobalAdminRequest gaRequest = GlobalAdminRequest(

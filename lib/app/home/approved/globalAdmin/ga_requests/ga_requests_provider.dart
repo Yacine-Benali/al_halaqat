@@ -27,9 +27,35 @@ class GaRequestsProvider {
     );
   }
 
-  Future<void> updateRequest(
+  Future<void> updateJoinNewRequest(
     GlobalAdminRequest gaRequest,
     StudyCenter center,
+    Admin admin,
+  ) async {
+    await Firestore.instance.runTransaction((Transaction tx) async {
+      // update the request
+      final requestDocRef = Firestore.instance
+          .document(APIPath.globalAdminRequestsDocument(gaRequest.id));
+      tx.update(requestDocRef, gaRequest.toMap());
+
+      // update the center if the action is join-new
+      final centerDocRef =
+          Firestore.instance.document(APIPath.centerDocument(center.id));
+      tx.update(centerDocRef, center.toMap());
+
+      // update the admin
+      final adminDocRef =
+          Firestore.instance.document(APIPath.userDocument(admin.id));
+      tx.update(
+        adminDocRef,
+        {'centerState.${gaRequest.center.id}': gaRequest.state},
+      );
+      //
+    }, timeout: Duration(seconds: 10));
+  }
+
+  Future<void> updateJoinExistingRequestAccepted(
+    GlobalAdminRequest gaRequest,
     Admin admin,
   ) async {
     await Firestore.instance.runTransaction((Transaction tx) async {
@@ -39,19 +65,35 @@ class GaRequestsProvider {
 
       tx.update(requestDocRef, gaRequest.toMap());
 
-      // update the center if the action is join-new
-      if (center != null) {
-        final centerDocRef =
-            Firestore.instance.document(APIPath.centerDocument(center.id));
-
-        tx.update(centerDocRef, center.toMap());
-      }
       // update the admin
       final adminDocRef =
           Firestore.instance.document(APIPath.userDocument(admin.id));
 
-      tx.update(
-          adminDocRef, {'centerState.${gaRequest.center.id}': gaRequest.state});
+      tx.update(adminDocRef, {
+        'centerState.${gaRequest.center.id}': gaRequest.state,
+        'centers': FieldValue.arrayUnion([gaRequest.centerId])
+      });
+    }, timeout: Duration(seconds: 10));
+  }
+
+  Future<void> updateJoinExistingRequestRefused(
+    GlobalAdminRequest gaRequest,
+    Admin admin,
+  ) async {
+    await Firestore.instance.runTransaction((Transaction tx) async {
+      // update the request
+      final requestDocRef = Firestore.instance
+          .document(APIPath.globalAdminRequestsDocument(gaRequest.id));
+
+      tx.update(requestDocRef, gaRequest.toMap());
+
+      // update the admin
+      final adminDocRef =
+          Firestore.instance.document(APIPath.userDocument(admin.id));
+
+      tx.update(adminDocRef, {
+        'centerState.${gaRequest.center.id}': FieldValue.delete(),
+      });
     }, timeout: Duration(seconds: 10));
   }
 }

@@ -61,7 +61,7 @@ class _TeacherHalaqatScreenState extends State<TeacherHalaqatScreen> {
   void initState() {
     chosenCenter = widget.centers[0];
     halaqatListStream = bloc.fetchHalaqat(bloc.teacher.halaqatTeachingIn);
-    numberOfHalaqatTeachingIn = bloc.teacher.halaqatLearningIn?.length;
+    numberOfHalaqatTeachingIn = bloc.teacher.halaqatTeachingIn?.length;
     super.initState();
   }
 
