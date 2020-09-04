@@ -113,6 +113,7 @@ class _AdminStudentTileWidgetState extends State<TeacherStudentTileWidget> {
                 halaqatList: widget.halaqatList,
                 student: widget.student,
                 quran: widget.quran,
+                studentRoaming: widget.chosenCenter.studentRoaming,
               ),
               fullscreenDialog: true,
             ),

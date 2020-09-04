@@ -21,12 +21,14 @@ class StudentProfileBloc {
     @required this.student,
     @required this.provider,
     @required this.quran,
+    @required this.studentRoaming,
   });
 
   final StudentProfileProvider provider;
   final List<Halaqa> halaqatList;
   final Student student;
   final Quran quran;
+  final bool studentRoaming;
 
   List<String> getSouratList() {
     return quran.data.keys.toList();
@@ -69,26 +71,23 @@ class StudentProfileBloc {
     return columnTitleList;
   }
 
-  List<String> getTitles() {
-    List<String> titles = List();
-
-    titles.add('ملف شخصي');
-    titles.add('ملخص');
-
-    for (String halaqaLearingIn in student.halaqatLearningIn) {
-      for (Halaqa halaqa in halaqatList) {
-        if (halaqa.id == halaqaLearingIn) {
-          titles.add(halaqa.name);
-        }
-      }
-    }
-    return titles;
-  }
-
   Future<List<StudentProfile>> getStudentProfile() async {
     List<StudentProfile> studentsProfileList = List();
 
     for (String halaqaLearingIn in student.halaqatLearningIn) {
+      bool isFound = false;
+      String profileHalaqaName = '';
+      for (Halaqa halaqa in halaqatList) {
+        if (halaqa.id == halaqaLearingIn) {
+          isFound = true;
+          profileHalaqaName = halaqa.name;
+        }
+      }
+      if (!isFound && studentRoaming) {
+        Halaqa halaqa = await provider.fetchHalaqa(halaqaLearingIn);
+        profileHalaqaName = halaqa.name;
+      }
+
       String reportCardId = student.id + '_' + halaqaLearingIn;
 
       Future<List<Instance>> instancesList =
@@ -103,6 +102,7 @@ class StudentProfileBloc {
 
       final temp = StudentProfile(
         halaqaId: halaqaLearingIn,
+        halaqaName: profileHalaqaName,
         instancesList: snapshotsData[0],
         evaluationsList: snapshotsData[1],
         reportCard: snapshotsData[2],
@@ -136,12 +136,15 @@ class StudentProfileBloc {
       int numberOfAyatMemorized = 0;
 
       for (ReportCard reportCard in reportCardsList) {
-        int temp = reportCard.summery
-            .firstWhere((reportCardSummery) => reportCardSummery.soura == soura)
-            .numberOfAyatMemorized;
+        if (reportCard != null) {
+          int temp = reportCard.summery
+              .firstWhere(
+                  (reportCardSummery) => reportCardSummery.soura == soura)
+              .numberOfAyatMemorized;
 
-        if (numberOfAyatMemorized < temp) {
-          numberOfAyatMemorized = temp;
+          if (numberOfAyatMemorized < temp) {
+            numberOfAyatMemorized = temp;
+          }
         }
       }
       double precentage = numberOfAyatMemorized / quran.data[soura] * 100;

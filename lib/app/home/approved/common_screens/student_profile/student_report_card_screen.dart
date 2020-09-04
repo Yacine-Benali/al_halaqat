@@ -34,6 +34,8 @@ class _StudentReportCardScreenState extends State<StudentReportCardScreen> {
     studentReportCardTitle = bloc.getReportCardTitles();
     List<ReportCard> a =
         widget.studentProfileList.map((e) => e.reportCard).toList();
+    // print(a);
+
     reportCardFuture = bloc.mergeReportCard(a);
     super.initState();
   }

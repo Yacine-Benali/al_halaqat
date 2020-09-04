@@ -23,6 +23,7 @@ class StudentProfileScreen extends StatefulWidget {
     @required List<Halaqa> halaqatList,
     @required Student student,
     @required Quran quran,
+    @required bool studentRoaming,
   }) {
     Database database = Provider.of<Database>(context, listen: false);
     // User admin = Provider.of<User>(context, listen: false);
@@ -35,6 +36,7 @@ class StudentProfileScreen extends StatefulWidget {
       student: student,
       halaqatList: halaqatList,
       quran: quran,
+      studentRoaming: studentRoaming,
     );
 
     return StudentProfileScreen._(
@@ -56,8 +58,9 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
   @override
   void initState() {
     studentProfileFuture = bloc.getStudentProfile();
-    titles = bloc.getTitles();
-
+    titles = List();
+    titles.add('ملف شخصي');
+    titles.add('ملخص');
     super.initState();
   }
 
@@ -147,27 +150,35 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: titles.length,
-      child: Scaffold(
-        appBar: AppBar(
-          bottom: TabBar(
-            tabs: buildTabBars(),
-          ),
-        ),
-        body: FutureBuilder<List<StudentProfile>>(
-            future: studentProfileFuture,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                studentProfileList = snapshot.data;
-
-                return TabBarView(children: getTabBarView());
-              } else if (snapshot.hasError) {
-                return TabBarView(children: buildErrorTabBarView());
-              }
-              return TabBarView(children: buildLoadingTabBarView());
-            }),
-      ),
+    return FutureBuilder<List<StudentProfile>>(
+      future: studentProfileFuture,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          studentProfileList = snapshot.data;
+          titles.addAll(studentProfileList.map((e) => e.halaqaName).toList());
+          return DefaultTabController(
+            length: titles.length,
+            child: Scaffold(
+              appBar: AppBar(
+                bottom: TabBar(
+                  isScrollable: true,
+                  tabs: buildTabBars(),
+                ),
+              ),
+              body: TabBarView(children: getTabBarView()),
+            ),
+          );
+        } else if (snapshot.hasError) {
+          return Scaffold(
+            appBar: AppBar(),
+            body: Text('error'),
+          );
+        }
+        return Scaffold(
+          appBar: AppBar(),
+          body: Center(child: CircularProgressIndicator()),
+        );
+      },
     );
   }
 }

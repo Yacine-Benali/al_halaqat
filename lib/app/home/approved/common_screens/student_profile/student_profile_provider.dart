@@ -1,4 +1,5 @@
 import 'package:al_halaqat/app/models/evaluation.dart';
+import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/instance.dart';
 import 'package:al_halaqat/app/models/report_card.dart';
 import 'package:al_halaqat/services/api_path.dart';
@@ -32,6 +33,12 @@ class StudentProfileProvider {
       await database.fetchDocument(
         path: APIPath.reportCardDocument(reportCardId),
         builder: (data, documentId) => ReportCard.fromMap(data, documentId),
+      );
+
+  Future<Halaqa> fetchHalaqa(String halaqaId) async =>
+      await database.fetchDocument(
+        path: APIPath.halaqaDocument(halaqaId),
+        builder: (data, documentId) => Halaqa.fromMap(data),
       );
 
   String getUniqueId() => database.getUniqueId();
