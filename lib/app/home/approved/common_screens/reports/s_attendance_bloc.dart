@@ -143,37 +143,19 @@ class SAttendanceBloc {
     return columnTitleList;
   }
 
-  Future<void> getReportasCsv(
+  Future<String> getReportasCsv(
     List<UsersAttendanceSummery> list,
     DateTime first,
     DateTime last,
   ) async {
     var excel = Excel.createExcel();
     Sheet sheetObject = excel['Sheet1'];
-    // List<List<String>> rows = List<List<String>>();
-    // List<String> row = List();
-    // row.addAll(getColumnTitle());
-    // rows.add(row);
-    // //
-    // for (UsersAttendanceSummery data in list) {
-    //   //row refer to each column of a row in csv file and rows refer to each row in a file
-    //   List<String> row = List();
-    //   row.add(data.name);
-    //   row.add(data.present.toString());
-    //   row.add(data.latee.toString());
-    //   row.add(data.absent.toString());
-    //   row.add(data.absentWithExecuse.toString());
-    //   rows.add(row);
-    // }
-    // String csv = ListToCsvConverter().convert(rows);
-    // return csv;
 
     List<List<String>> rows = List<List<String>>();
     List<String> row = List();
     row.addAll(getColumnTitle());
     sheetObject.insertRowIterables(row, 0);
 
-    //
     for (int i = 0; i < list.length; i++) {
       List<String> row = List();
       row.add(list[i].name);
@@ -191,11 +173,12 @@ class SAttendanceBloc {
         ..createSync(recursive: true)
         ..writeAsBytesSync(onValue);
     });
+    return file.path;
   }
 
   String getFileName(DateTime first, DateTime last) {
     String a = Format.date(first);
     String b = Format.date(last);
-    return 'attendance-' + a + '-' + b + '.xls';
+    return 'attendance-' + a + '-' + b + '.xlsx';
   }
 }

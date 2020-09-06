@@ -5,12 +5,12 @@ import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/user_attendance_summery.dart';
 import 'package:al_halaqat/common_widgets/date_range_picker.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
-import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:open_file/open_file.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
@@ -51,6 +51,7 @@ class _SAttendanceScreenState extends State<SAttendanceScreen> {
 
   @override
   void initState() {
+    userSummeryList = List();
     halaqatFuture = bloc.fetchHalaqat();
     firstDate = DateTime.now().subtract(Duration(days: 7));
     lastDate = DateTime.now();
@@ -78,14 +79,31 @@ class _SAttendanceScreenState extends State<SAttendanceScreen> {
 
       if (isPermissionStatusGranted) {
         await pr.show();
-        await bloc.getReportasCsv(userSummeryList, firstDate, lastDate);
+        String filePath =
+            await bloc.getReportasCsv(userSummeryList, firstDate, lastDate);
         await pr.hide();
 
-        PlatformAlertDialog(
-          title: 'نجح الحفظ',
-          content: 'تم حفظ البيانات',
-          defaultActionText: 'حسنا',
-        ).show(context);
+        bool isConfirm = await showDialog<bool>(
+          context: context,
+          child: AlertDialog(
+            title: Text('نجح الحفظ'),
+            contentPadding: const EdgeInsets.all(16.0),
+            content: Text('نجح الحفظ'),
+            actions: <Widget>[
+              FlatButton(
+                child: const Text('إلغاء'),
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: true).pop(false),
+              ),
+              FlatButton(
+                child: const Text('فتح الملف'),
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: true).pop(true),
+              ),
+            ],
+          ),
+        );
+        if (isConfirm) OpenFile.open(filePath);
       } else {
         throw PlatformException(
           code: 'storage permission are required',
@@ -120,7 +138,7 @@ class _SAttendanceScreenState extends State<SAttendanceScreen> {
         actions: [
           IconButton(
             icon: Icon(Icons.cloud_download),
-            onPressed: () => userSummeryList.isEmpty ? () {} : downloadReport(),
+            onPressed: () => userSummeryList.isEmpty ? null : downloadReport(),
           ),
         ],
       ),
