@@ -1,6 +1,6 @@
-import 'package:al_halaqat/app/home/approved/common_screens/reports/s_attendance_bloc.dart';
-import 'package:al_halaqat/app/home/approved/common_screens/reports/s_attendance_card.dart';
-import 'package:al_halaqat/app/home/approved/common_screens/reports/s_attendance_provider.dart';
+import 'package:al_halaqat/app/home/approved/common_screens/reports/s_attendance/s_attendance_bloc.dart';
+import 'package:al_halaqat/app/home/approved/common_screens/reports/s_attendance/s_attendance_card.dart';
+import 'package:al_halaqat/app/home/approved/common_screens/reports/s_attendance/s_attendance_provider.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/user_attendance_summery.dart';
 import 'package:al_halaqat/common_widgets/date_range_picker.dart';

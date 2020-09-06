@@ -26,6 +26,8 @@ class APIPath {
   static String reportCardDocument(String reportcardId) =>
       'reportCards/$reportcardId/';
 
+  static String reportCardsCollection() => 'reportCards';
+
   static String evaluationsCollection(String reportcardId) =>
       'reportCards/$reportcardId/evaluations';
   static String evaluationDocument(String reportcardId, String evaluationId) =>

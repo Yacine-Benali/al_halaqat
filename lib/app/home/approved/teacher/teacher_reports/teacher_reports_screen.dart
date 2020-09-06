@@ -1,4 +1,5 @@
-import 'package:al_halaqat/app/home/approved/common_screens/reports/s_attendance_screen.dart';
+import 'package:al_halaqat/app/home/approved/common_screens/reports/s_attendance/s_attendance_screen.dart';
+import 'package:al_halaqat/app/home/approved/common_screens/reports/s_learning/s_learning_screen.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
@@ -46,16 +47,16 @@ class _TeacherHomePageState extends State<TeacherReportsScreen> {
               SizedBox(height: 10),
               MenuButtonWidget(
                 text: 'حفظ الطلاب',
-                onPressed: () {},
-                // onPressed: () => Navigator.of(context, rootNavigator: false).push(
-                //   MaterialPageRoute(
-                //     builder: (context) => TeacherStudentsScreen.create(
-                //       context: context,
-                //       centers: items,
-                //     ),
-                //     fullscreenDialog: true,
-                //   ),
-                // ),
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: false).push(
+                  MaterialPageRoute(
+                    builder: (context) => SLearningScreen.create(
+                      context: context,
+                      halaqatId: teacher.halaqatTeachingIn,
+                    ),
+                    fullscreenDialog: true,
+                  ),
+                ),
               ),
             ],
           ),

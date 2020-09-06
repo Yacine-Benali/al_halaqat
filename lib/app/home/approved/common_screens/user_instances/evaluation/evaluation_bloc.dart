@@ -92,7 +92,7 @@ class EvaluationBloc {
     List<ReportCardSummery> summeryList = List();
     List<String> sourateList = getSouratList();
 
-    //? let the magic begins
+    //! let the magic begins
     for (String fromSoura in sourateList) {
       bool isFound = false;
       for (Evaluation evaluation in evaluationsList) {
@@ -150,6 +150,14 @@ class EvaluationBloc {
               //TODO throw exception
             }
           }
+        } else {
+          int fromSouraIndex = sourateList.indexOf(fromSoura);
+          int evaluationFromSouraIndex =
+              sourateList.indexOf(evaluation.memorized.fromSoura);
+          int evaluationToSouraIndex =
+              sourateList.indexOf(evaluation.memorized.toSoura);
+          if (fromSouraIndex < evaluationToSouraIndex &&
+              fromSouraIndex > evaluationFromSouraIndex) isFound = true;
         }
       }
       if (!isFound) {
@@ -169,7 +177,6 @@ class EvaluationBloc {
       summeryPercentage += summery.percentage;
     }
     summeryPercentage = summeryPercentage / summeryList.length;
-
     ReportCard reportCard = ReportCard(
       id: studentId + '_' + instance.halaqaId,
       studentName: studentName,
@@ -180,7 +187,6 @@ class EvaluationBloc {
       precentage: roundDouble(summeryPercentage),
     );
 
-    // for(Evaluation)
     await provider.setReportCard(reportCard);
     await provider.setEvaluation(reportCard.id, evaluation);
   }

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:al_halaqat/app/home/approved/common_screens/reports/s_attendance_provider.dart';
+import 'package:al_halaqat/app/home/approved/common_screens/reports/s_attendance/s_attendance_provider.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/instance.dart';
 import 'package:al_halaqat/app/models/student_attendance.dart';

@@ -1,4 +1,4 @@
-import 'package:al_halaqat/app/home/approved/common_screens/reports/s_attendance_bloc.dart';
+import 'package:al_halaqat/app/home/approved/common_screens/reports/s_attendance/s_attendance_bloc.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/user_attendance_summery.dart';
 import 'package:al_halaqat/common_widgets/size_config.dart';
@@ -39,7 +39,7 @@ class _SAttendanceCardState extends State<SAttendanceCard> {
         child: Container(
           padding: EdgeInsets.all(8),
           child: Align(
-            alignment: Alignment.centerLeft,
+            alignment: Alignment.centerRight,
             child: AutoSizeText(
               '$columnTitle',
               wrapWords: false,
@@ -60,35 +60,35 @@ class _SAttendanceCardState extends State<SAttendanceCard> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            alignment: Alignment.center,
+            alignment: Alignment.centerRight,
             child: Text(
               studentAttendance.name,
             ),
           ),
         ),
         Container(
-          alignment: Alignment.center,
+          alignment: Alignment.centerRight,
           height: kMinInteractiveDimension,
           child: Text(widget.showPercentages
               ? '${studentAttendance.present}%'
               : '${studentAttendance.present}'),
         ),
         Container(
-          alignment: Alignment.center,
+          alignment: Alignment.centerRight,
           height: kMinInteractiveDimension,
           child: Text(widget.showPercentages
               ? '${studentAttendance.latee}%'
               : '${studentAttendance.latee}'),
         ),
         Container(
-          alignment: Alignment.center,
+          alignment: Alignment.centerRight,
           height: kMinInteractiveDimension,
           child: Text(widget.showPercentages
               ? '${studentAttendance.absent}%'
               : '${studentAttendance.absent}'),
         ),
         Container(
-          alignment: Alignment.center,
+          alignment: Alignment.centerRight,
           height: kMinInteractiveDimension,
           child: Text(widget.showPercentages
               ? '${studentAttendance.absentWithExecuse}%'
