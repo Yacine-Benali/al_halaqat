@@ -76,8 +76,7 @@ class _SLearningScreenState extends State<SLearningScreen> {
 
       if (isPermissionStatusGranted) {
         await pr.show();
-        String filePath = '';
-        // await bloc.getReportasCsv(reportCardList, firstDate, lastDate);
+        String filePath = await bloc.saveReport(reportCardList, chosenHalaqa);
         await pr.hide();
 
         bool isConfirm = await showDialog<bool>(
@@ -100,7 +99,7 @@ class _SLearningScreenState extends State<SLearningScreen> {
             ],
           ),
         );
-        if (isConfirm) OpenFile.open(filePath);
+        if (isConfirm) await OpenFile.open(filePath);
       } else {
         throw PlatformException(
           code: 'storage permission are required',
@@ -178,7 +177,6 @@ class _SLearningScreenState extends State<SLearningScreen> {
                           child: FutureBuilder(
                             future: bloc.fetchReportCards(chosenHalaqa),
                             builder: (context, snapshot) {
-                              print(snapshot);
                               if (snapshot.hasData) {
                                 reportCardList = snapshot.data;
                                 if (reportCardList.isNotEmpty) {
