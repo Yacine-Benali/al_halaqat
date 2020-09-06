@@ -73,12 +73,6 @@ class AttendanceBloc {
     return newInstance;
   }
 
-  // Future<void> setInstance(Instance instance) async => await database.setData(
-  //       path: APIPath.instanceDocument(instance.id),
-  //       data: instance.toMap(),
-  //       merge: true,
-  //     );
-
   Instance getNewInstance() {
     return Instance(
       id: this.instance.id,

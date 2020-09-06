@@ -2,6 +2,7 @@ import 'package:al_halaqat/app/home/approved/common_screens/conversation/convers
 import 'package:al_halaqat/app/home/approved/teacher/teacher_center_request/teacher_center_request_screen.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_halaqat_screen.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_profile/teacher_profile_screen.dart';
+import 'package:al_halaqat/app/home/approved/teacher/teacher_reports/teacher_reports_screen.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_students_screen.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
@@ -214,7 +215,13 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
               SizedBox(height: 10),
               MenuButtonWidget(
                 text: 'تقارير',
-                onPressed: () {},
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: false).push(
+                  MaterialPageRoute(
+                    builder: (context) => TeacherReportsScreen(),
+                    fullscreenDialog: true,
+                  ),
+                ),
               ),
             ],
           ),

@@ -9,7 +9,7 @@ class Format {
   }
 
   static String date(DateTime date) {
-    return DateFormat.yMMMd().format(date);
+    return DateFormat.yMMMd('ar').format(date);
   }
 
   static String dayOfWeek(DateTime date) {

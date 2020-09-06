@@ -104,7 +104,6 @@ class _AdminCenterFormState extends State<AdminCenterForm> {
 
   @override
   Widget build(BuildContext context) {
-    UserBloc bloc = Provider.of<UserBloc>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
