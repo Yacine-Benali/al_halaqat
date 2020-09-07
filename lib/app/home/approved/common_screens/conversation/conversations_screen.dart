@@ -64,7 +64,7 @@ class _TeachersSceenState extends State<ConversationScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('messages_screen_title'),
+        title: Text('المحادثات'),
       ),
       body: Material(
         child: StreamBuilder<List<Conversation>>(

@@ -21,14 +21,14 @@ class SAttendanceScreen extends StatefulWidget {
 
   static Widget create({
     @required BuildContext context,
-    @required List<String> halaqatId,
+    @required List<Halaqa> halaqatList,
   }) {
     Database database = Provider.of<Database>(context, listen: false);
 
     SAttendanceProvider provider = SAttendanceProvider(database: database);
     SAttendanceBloc bloc = SAttendanceBloc(
       provider: provider,
-      halaqatId: halaqatId,
+      halaqatList: halaqatList,
     );
     return SAttendanceScreen._(
       bloc: bloc,
@@ -41,7 +41,6 @@ class SAttendanceScreen extends StatefulWidget {
 
 class _SAttendanceScreenState extends State<SAttendanceScreen> {
   SAttendanceBloc get bloc => widget.bloc;
-  Future<List<List<Halaqa>>> halaqatFuture;
   Halaqa chosenHalaqa;
   DateTime firstDate;
   DateTime lastDate;
@@ -52,7 +51,6 @@ class _SAttendanceScreenState extends State<SAttendanceScreen> {
   @override
   void initState() {
     userSummeryList = List();
-    halaqatFuture = bloc.fetchHalaqat();
     firstDate = DateTime.now().subtract(Duration(days: 7));
     lastDate = DateTime.now();
     showPercentages = false;
@@ -160,111 +158,90 @@ class _SAttendanceScreenState extends State<SAttendanceScreen> {
           ),
         ],
       ),
-      body: FutureBuilder(
-          future: halaqatFuture,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final List<List<Halaqa>> temp = snapshot.data;
-              final List<Halaqa> items = temp.expand((x) => x).toList();
-              if (items.isNotEmpty) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ListTile(
-                        title: Text('نسبية المؤية'),
-                        trailing: Switch(
-                          value: showPercentages,
-                          onChanged: (value) {
-                            showPercentages = value;
-                            setState(() {});
-                          },
-                        ),
-                      ),
-                      DropdownButton<Halaqa>(
-                        itemHeight: 67,
-                        value: chosenHalaqa,
-                        hint: Text('إختر الحلقة'),
-                        isExpanded: true,
-                        icon: Icon(Icons.arrow_drop_down),
-                        iconSize: 24,
-                        underline: Container(
-                          height: 2,
-                          color: Colors.grey[400],
-                        ),
-                        onChanged: (Halaqa newValue) =>
-                            setState(() => chosenHalaqa = newValue),
-                        items:
-                            items.map<DropdownMenuItem<Halaqa>>((Halaqa value) {
-                          return DropdownMenuItem<Halaqa>(
-                            value: value,
-                            child: Text(value.name + '-' + value.readableId),
-                          );
-                        }).toList(),
-                      ),
-                      DateRangePicker(
-                        firstDate: (value) => setState(() => firstDate = value),
-                        lastDate: (value) => setState(() => lastDate = value),
-                      ),
-                      SizedBox(height: 8),
-                      if (chosenHalaqa != null) ...[
-                        Expanded(
-                          child: FutureBuilder<List<UsersAttendanceSummery>>(
-                            future: bloc.fetchInstances(
-                              chosenHalaqa,
-                              firstDate,
-                              lastDate,
-                              showPercentages,
-                            ),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                userSummeryList = snapshot.data;
-                                if (userSummeryList.isNotEmpty) {
-                                  return SAttendanceCard(
-                                    bloc: bloc,
-                                    halaqa: chosenHalaqa,
-                                    firstDate: firstDate,
-                                    lastDate: lastDate,
-                                    showPercentages: showPercentages,
-                                    list: userSummeryList,
-                                  );
-                                } else {
-                                  return EmptyContent(
-                                    title: 'empty',
-                                    message: 'empty',
-                                  );
-                                }
-                              } else if (snapshot.hasError) {
-                                return EmptyContent(
-                                  title: 'Something went wrong',
-                                  message: 'Can\'t load items right now',
-                                );
-                              }
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            },
-                          ),
-                        ),
-                      ]
-                    ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              title: Text('نسبية المؤية'),
+              trailing: Switch(
+                value: showPercentages,
+                onChanged: (value) {
+                  showPercentages = value;
+                  setState(() {});
+                },
+              ),
+            ),
+            DropdownButton<Halaqa>(
+              itemHeight: 67,
+              value: chosenHalaqa,
+              hint: Text('إختر الحلقة'),
+              isExpanded: true,
+              icon: Icon(Icons.arrow_drop_down),
+              iconSize: 24,
+              underline: Container(
+                height: 2,
+                color: Colors.grey[400],
+              ),
+              onChanged: (Halaqa newValue) =>
+                  setState(() => chosenHalaqa = newValue),
+              items: bloc.halaqatList
+                  .map<DropdownMenuItem<Halaqa>>((Halaqa value) {
+                return DropdownMenuItem<Halaqa>(
+                  value: value,
+                  child: Text(value.name + '-' + value.readableId),
+                );
+              }).toList(),
+            ),
+            DateRangePicker(
+              firstDate: (value) => setState(() => firstDate = value),
+              lastDate: (value) => setState(() => lastDate = value),
+            ),
+            SizedBox(height: 8),
+            if (chosenHalaqa != null) ...[
+              Expanded(
+                child: FutureBuilder<List<UsersAttendanceSummery>>(
+                  future: bloc.fetchInstances(
+                    chosenHalaqa,
+                    firstDate,
+                    lastDate,
+                    showPercentages,
                   ),
-                );
-              } else {
-                return EmptyContent(
-                  title: 'empty',
-                  message: 'mesemptysage',
-                );
-              }
-            } else if (snapshot.hasError) {
-              return EmptyContent(
-                title: 'Something went wrong',
-                message: 'Can\'t load items right now',
-              );
-            }
-            return Center(child: CircularProgressIndicator());
-          }),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      userSummeryList = snapshot.data;
+                      if (userSummeryList.isNotEmpty) {
+                        return SAttendanceCard(
+                          bloc: bloc,
+                          halaqa: chosenHalaqa,
+                          firstDate: firstDate,
+                          lastDate: lastDate,
+                          showPercentages: showPercentages,
+                          list: userSummeryList,
+                        );
+                      } else {
+                        return EmptyContent(
+                          title: 'empty',
+                          message: 'empty',
+                        );
+                      }
+                    } else if (snapshot.hasError) {
+                      return EmptyContent(
+                        title: 'Something went wrong',
+                        message: 'Can\'t load items right now',
+                      );
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                ),
+              ),
+            ]
+          ],
+        ),
+      ),
     );
   }
 }

@@ -20,14 +20,14 @@ class SLearningScreen extends StatefulWidget {
 
   static Widget create({
     @required BuildContext context,
-    @required List<String> halaqatId,
+    @required List<Halaqa> halaqatList,
   }) {
     Database database = Provider.of<Database>(context, listen: false);
 
     SLearningProvider provider = SLearningProvider(database: database);
     SLearningBloc bloc = SLearningBloc(
       provider: provider,
-      halaqatId: halaqatId,
+      halaqatList: halaqatList,
     );
     return SLearningScreen._(
       bloc: bloc,
@@ -40,7 +40,6 @@ class SLearningScreen extends StatefulWidget {
 
 class _SLearningScreenState extends State<SLearningScreen> {
   SLearningBloc get bloc => widget.bloc;
-  Future<List<List<Halaqa>>> halaqatFuture;
   Halaqa chosenHalaqa;
   DateTime firstDate;
   DateTime lastDate;
@@ -51,7 +50,6 @@ class _SLearningScreenState extends State<SLearningScreen> {
   @override
   void initState() {
     reportCardList = List();
-    halaqatFuture = bloc.fetchHalaqat();
     showPercentages = false;
     pr = ProgressDialog(
       context,
@@ -158,88 +156,67 @@ class _SLearningScreenState extends State<SLearningScreen> {
           ),
         ],
       ),
-      body: FutureBuilder(
-          future: halaqatFuture,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final List<List<Halaqa>> temp = snapshot.data;
-              final List<Halaqa> items = temp.expand((x) => x).toList();
-              if (items.isNotEmpty) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      DropdownButton<Halaqa>(
-                        itemHeight: 67,
-                        value: chosenHalaqa,
-                        hint: Text('إختر الحلقة'),
-                        isExpanded: true,
-                        icon: Icon(Icons.arrow_drop_down),
-                        iconSize: 24,
-                        underline: Container(
-                          height: 2,
-                          color: Colors.grey[400],
-                        ),
-                        onChanged: (Halaqa newValue) =>
-                            setState(() => chosenHalaqa = newValue),
-                        items:
-                            items.map<DropdownMenuItem<Halaqa>>((Halaqa value) {
-                          return DropdownMenuItem<Halaqa>(
-                            value: value,
-                            child: Text(value.name + '-' + value.readableId),
-                          );
-                        }).toList(),
-                      ),
-                      SizedBox(height: 8),
-                      if (chosenHalaqa != null) ...[
-                        Expanded(
-                          child: FutureBuilder(
-                            future: bloc.fetchReportCards(chosenHalaqa),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                reportCardList = snapshot.data;
-                                if (reportCardList.isNotEmpty) {
-                                  return SLearningCard(
-                                    bloc: bloc,
-                                    list: reportCardList,
-                                  );
-                                } else {
-                                  return EmptyContent(
-                                    title: 'empty',
-                                    message: 'empty',
-                                  );
-                                }
-                              } else if (snapshot.hasError) {
-                                return EmptyContent(
-                                  title: 'Something went wrong',
-                                  message: 'Can\'t load items right now',
-                                );
-                              }
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            DropdownButton<Halaqa>(
+              itemHeight: 67,
+              value: chosenHalaqa,
+              hint: Text('إختر الحلقة'),
+              isExpanded: true,
+              icon: Icon(Icons.arrow_drop_down),
+              iconSize: 24,
+              underline: Container(
+                height: 2,
+                color: Colors.grey[400],
+              ),
+              onChanged: (Halaqa newValue) =>
+                  setState(() => chosenHalaqa = newValue),
+              items: bloc.halaqatList
+                  .map<DropdownMenuItem<Halaqa>>((Halaqa value) {
+                return DropdownMenuItem<Halaqa>(
+                  value: value,
+                  child: Text(value.name + '-' + value.readableId),
                 );
-              } else {
-                return EmptyContent(
-                  title: 'empty',
-                  message: 'mesemptysage',
-                );
-              }
-            } else if (snapshot.hasError) {
-              return EmptyContent(
-                title: 'Something went wrong',
-                message: 'Can\'t load items right now',
-              );
-            }
-            return Center(child: CircularProgressIndicator());
-          }),
+              }).toList(),
+            ),
+            SizedBox(height: 8),
+            if (chosenHalaqa != null) ...[
+              Expanded(
+                child: FutureBuilder(
+                  future: bloc.fetchReportCards(chosenHalaqa),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      reportCardList = snapshot.data;
+                      if (reportCardList.isNotEmpty) {
+                        return SLearningCard(
+                          bloc: bloc,
+                          list: reportCardList,
+                        );
+                      } else {
+                        return EmptyContent(
+                          title: 'empty',
+                          message: 'empty',
+                        );
+                      }
+                    } else if (snapshot.hasError) {
+                      return EmptyContent(
+                        title: 'Something went wrong',
+                        message: 'Can\'t load items right now',
+                      );
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
     );
   }
 }

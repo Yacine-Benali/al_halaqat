@@ -133,7 +133,7 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
             if (snapshot.hasData) {
               final List<StudyCenter> items = snapshot.data;
               if (items.isNotEmpty) {
-                return _buildContent(items);
+                return _buildContent(items, teacher);
               } else {
                 return EmptyContent(
                   title: 'title',
@@ -151,7 +151,7 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
     );
   }
 
-  Widget _buildContent(List<StudyCenter> items) {
+  Widget _buildContent(List<StudyCenter> items, Teacher teacher) {
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(16.0),
@@ -218,7 +218,10 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
-                    builder: (context) => TeacherReportsScreen(),
+                    builder: (context) => TeacherReportsScreen.create(
+                      context: context,
+                      halaqatId: teacher.halaqatTeachingIn,
+                    ),
                     fullscreenDialog: true,
                   ),
                 ),

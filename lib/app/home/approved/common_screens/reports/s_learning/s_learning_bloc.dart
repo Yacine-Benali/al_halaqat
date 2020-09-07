@@ -10,24 +10,11 @@ import 'package:flutter/foundation.dart';
 class SLearningBloc {
   SLearningBloc({
     @required this.provider,
-    @required this.halaqatId,
+    @required this.halaqatList,
   });
 
   final SLearningProvider provider;
-  final List<String> halaqatId;
-  Future<List<List<Halaqa>>> fetchHalaqat() {
-    List<List<String>> partitionedList = List();
-
-    for (var i = 0; i < halaqatId.length; i += 10) {
-      partitionedList.add(halaqatId.sublist(
-          i, i + 10 > halaqatId.length ? halaqatId.length : i + 10));
-    }
-    List<Future<List<Halaqa>>> halaqatFuturesList = partitionedList
-        .map((sublist) => provider.fetchHalaqat(sublist))
-        .toList();
-
-    return Future.wait(halaqatFuturesList);
-  }
+  final List<Halaqa> halaqatList;
 
   Future<List<ReportCard>> fetchReportCards(
     Halaqa halaqa,

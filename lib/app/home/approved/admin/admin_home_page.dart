@@ -2,6 +2,7 @@ import 'package:al_halaqat/app/home/approved/admin/admin_centers/admin_centers_s
 import 'package:al_halaqat/app/home/approved/admin/admin_ga_request/admin_ga_request_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_profile/admin_profile_screen.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_reports/admin_reports_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_requests_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_screen.dart';
@@ -281,7 +282,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
               ],
               MenuButtonWidget(
                 text: 'تقارير',
-                onPressed: () {},
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: false).push(
+                  MaterialPageRoute(
+                    builder: (context) => AdminReportsScreen(),
+                    fullscreenDialog: true,
+                  ),
+                ),
               ),
               SizedBox(height: 10),
               MenuButtonWidget(

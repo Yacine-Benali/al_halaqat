@@ -54,6 +54,9 @@ class ChatBloc {
         }
       } else {
         messagesListController.sink.add(emptyList);
+        if (conversation.latestMessage.seen == false) {
+          setLatesttMessageToSeen(conversation.latestMessage);
+        }
       }
     });
   }
@@ -109,9 +112,9 @@ class ChatBloc {
       return conversation.teacher.name;
   }
 
-  void setLatesttMessageToSeen(Message message) {
+  Future<void> setLatesttMessageToSeen(Message message) async {
     message.seen = true;
-    provider.updateLatestMessage(
+    await provider.updateLatestMessage(
       conversation.groupChatId,
       message,
     );
