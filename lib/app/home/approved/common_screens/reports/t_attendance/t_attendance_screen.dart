@@ -1,7 +1,8 @@
-import 'package:al_halaqat/app/home/approved/common_screens/reports/s_attendance/s_attendance_bloc.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/reports/s_attendance/s_attendance_card.dart';
-import 'package:al_halaqat/app/home/approved/common_screens/reports/s_attendance/s_attendance_provider.dart';
+import 'package:al_halaqat/app/home/approved/common_screens/reports/t_attendance/t_attendance_bloc.dart';
+import 'package:al_halaqat/app/home/approved/common_screens/reports/t_attendance/t_attendance_provider.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
+import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user_attendance_summery.dart';
 import 'package:al_halaqat/common_widgets/date_range_picker.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
@@ -14,33 +15,35 @@ import 'package:open_file/open_file.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
-class SAttendanceScreen extends StatefulWidget {
-  SAttendanceScreen._({Key key, this.bloc}) : super(key: key);
+class TAttendanceScreen extends StatefulWidget {
+  TAttendanceScreen._({Key key, this.bloc}) : super(key: key);
 
-  final SAttendanceBloc bloc;
+  final TAttendanceBloc bloc;
 
   static Widget create({
     @required BuildContext context,
+    @required StudyCenter center,
     @required List<Halaqa> halaqatList,
   }) {
     Database database = Provider.of<Database>(context, listen: false);
 
-    SAttendanceProvider provider = SAttendanceProvider(database: database);
-    SAttendanceBloc bloc = SAttendanceBloc(
+    TAttendanceProvider provider = TAttendanceProvider(database: database);
+    TAttendanceBloc bloc = TAttendanceBloc(
       provider: provider,
+      center: center,
       halaqatList: halaqatList,
     );
-    return SAttendanceScreen._(
+    return TAttendanceScreen._(
       bloc: bloc,
     );
   }
 
   @override
-  _SAttendanceScreenState createState() => _SAttendanceScreenState();
+  _TAttendanceScreenState createState() => _TAttendanceScreenState();
 }
 
-class _SAttendanceScreenState extends State<SAttendanceScreen> {
-  SAttendanceBloc get bloc => widget.bloc;
+class _TAttendanceScreenState extends State<TAttendanceScreen> {
+  TAttendanceBloc get bloc => widget.bloc;
   Halaqa chosenHalaqa;
   DateTime firstDate;
   DateTime lastDate;

@@ -285,7 +285,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
-                    builder: (context) => AdminReportsScreen(),
+                    builder: (context) => AdminReportsScreen.create(
+                        context: context, centers: items),
                     fullscreenDialog: true,
                   ),
                 ),

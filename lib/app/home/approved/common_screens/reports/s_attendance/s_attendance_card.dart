@@ -1,14 +1,13 @@
-import 'package:al_halaqat/app/home/approved/common_screens/reports/s_attendance/s_attendance_bloc.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/user_attendance_summery.dart';
 import 'package:al_halaqat/common_widgets/size_config.dart';
+import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class SAttendanceCard extends StatefulWidget {
   const SAttendanceCard({
     Key key,
-    @required this.bloc,
     @required this.halaqa,
     @required this.firstDate,
     @required this.lastDate,
@@ -16,7 +15,6 @@ class SAttendanceCard extends StatefulWidget {
     @required this.list,
   }) : super(key: key);
 
-  final SAttendanceBloc bloc;
   final Halaqa halaqa;
   final DateTime firstDate;
   final DateTime lastDate;
@@ -28,10 +26,17 @@ class SAttendanceCard extends StatefulWidget {
 }
 
 class _SAttendanceCardState extends State<SAttendanceCard> {
-  SAttendanceBloc get bloc => widget.bloc;
   List<UsersAttendanceSummery> get list => widget.list;
+  List<String> columnTitleList = List();
+
+  @override
+  void initState() {
+    columnTitleList.add('إسم');
+    columnTitleList.addAll(KeyTranslate.attendanceState.values);
+    super.initState();
+  }
+
   TableRow buildColumnBlock() {
-    List<String> columnTitleList = bloc.getColumnTitle();
     List<TableCell> cells = [];
 
     for (String columnTitle in columnTitleList) {
