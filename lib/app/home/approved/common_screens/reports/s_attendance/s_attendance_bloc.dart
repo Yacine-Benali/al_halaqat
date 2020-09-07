@@ -126,10 +126,11 @@ class SAttendanceBloc {
             element.absent +
             element.absentWithExecuse;
 
-        element.present = element.present / all * 100;
-        element.latee = element.latee / all * 100;
-        element.absent = element.absent / all * 100;
-        element.absentWithExecuse = element.absentWithExecuse / all * 100;
+        element.present = Format.roundDouble(element.present / all * 100);
+        element.latee = Format.roundDouble(element.latee / all * 100);
+        element.absent = Format.roundDouble(element.absent / all * 100);
+        element.absentWithExecuse =
+            Format.roundDouble(element.absentWithExecuse / all * 100);
       });
     }
     return userAttendaceList;

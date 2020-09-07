@@ -84,7 +84,15 @@ class _SLearningScreenState extends State<SLearningScreen> {
           child: AlertDialog(
             title: Text('نجح الحفظ'),
             contentPadding: const EdgeInsets.all(16.0),
-            content: Text('نجح الحفظ'),
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('نجح الحفظ'),
+                Text(filePath),
+              ],
+            ),
             actions: <Widget>[
               FlatButton(
                 child: const Text('إلغاء'),
@@ -99,7 +107,19 @@ class _SLearningScreenState extends State<SLearningScreen> {
             ],
           ),
         );
-        if (isConfirm) await OpenFile.open(filePath);
+
+        if (isConfirm) {
+          OpenResult b = await OpenFile.open(filePath);
+          print(b.type);
+          if (b.type == ResultType.noAppToOpen)
+            PlatformExceptionAlertDialog(
+              title: 'فشلت العملية',
+              exception: PlatformException(
+                code: 'excel is required',
+                message: 'يرجى تحميل إكسل',
+              ),
+            ).show(context);
+        }
       } else {
         throw PlatformException(
           code: 'storage permission are required',

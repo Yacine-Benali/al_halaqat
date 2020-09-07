@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:intl/intl.dart';
 
 class Format {
@@ -22,5 +24,12 @@ class Format {
       return formatter.format(pay);
     }
     return '';
+  }
+
+  static double roundDouble(double value) {
+    double mod = pow(10.0, 2);
+    double result = (value * mod).round().toDouble() / mod;
+
+    return result;
   }
 }

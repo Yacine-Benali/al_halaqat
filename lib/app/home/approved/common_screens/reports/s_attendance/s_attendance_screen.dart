@@ -82,13 +82,20 @@ class _SAttendanceScreenState extends State<SAttendanceScreen> {
         String filePath =
             await bloc.getReportasCsv(userSummeryList, firstDate, lastDate);
         await pr.hide();
-
         bool isConfirm = await showDialog<bool>(
           context: context,
           child: AlertDialog(
             title: Text('نجح الحفظ'),
             contentPadding: const EdgeInsets.all(16.0),
-            content: Text('نجح الحفظ'),
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('نجح الحفظ'),
+                Text(filePath),
+              ],
+            ),
             actions: <Widget>[
               FlatButton(
                 child: const Text('إلغاء'),
@@ -103,7 +110,18 @@ class _SAttendanceScreenState extends State<SAttendanceScreen> {
             ],
           ),
         );
-        if (isConfirm) OpenFile.open(filePath);
+        if (isConfirm) {
+          OpenResult b = await OpenFile.open(filePath);
+          print(b.type);
+          if (b.type == ResultType.noAppToOpen)
+            PlatformExceptionAlertDialog(
+              title: 'فشلت العملية',
+              exception: PlatformException(
+                code: 'excel is required',
+                message: 'يرجى تحميل إكسل',
+              ),
+            ).show(context);
+        }
       } else {
         throw PlatformException(
           code: 'storage permission are required',
@@ -133,7 +151,7 @@ class _SAttendanceScreenState extends State<SAttendanceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('d'),
+        title: Text(''),
         centerTitle: true,
         actions: [
           IconButton(
