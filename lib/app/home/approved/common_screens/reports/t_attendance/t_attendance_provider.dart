@@ -9,7 +9,7 @@ class TAttendanceProvider {
   final Database database;
 
   Future<List<Instance>> fetchInstances(
-    String centerId,
+    String halaqaId,
     DateTime firstDate,
     DateTime lastDate,
   ) =>
@@ -17,7 +17,7 @@ class TAttendanceProvider {
         path: APIPath.instancesCollection(),
         builder: (data, documentId) => Instance.fromMap(data, documentId),
         queryBuilder: (query) => query
-            .where('centerId', isEqualTo: centerId)
+            .where('halaqaId', isEqualTo: halaqaId)
             .where('createdAt', isGreaterThanOrEqualTo: firstDate)
             .where('createdAt', isLessThanOrEqualTo: lastDate),
       );

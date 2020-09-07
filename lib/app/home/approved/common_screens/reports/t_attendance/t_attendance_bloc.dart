@@ -24,14 +24,14 @@ class TAttendanceBloc {
   final List<Halaqa> halaqatList;
 
   Future<List<UsersAttendanceSummery>> fetchInstances(
-    Halaqa halaqa,
+    Halaqa halaqaId,
     DateTime firstDate,
     DateTime lastDate,
     bool showPercentages,
   ) async {
     List<UsersAttendanceSummery> userAttendaceList = List();
     List<Instance> instances = await provider.fetchInstances(
-      center.id,
+      halaqaId.id,
       firstDate,
       lastDate,
     );
