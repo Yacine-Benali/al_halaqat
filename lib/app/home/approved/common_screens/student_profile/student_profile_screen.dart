@@ -26,8 +26,6 @@ class StudentProfileScreen extends StatefulWidget {
     @required bool studentRoaming,
   }) {
     Database database = Provider.of<Database>(context, listen: false);
-    // User admin = Provider.of<User>(context, listen: false);
-    // Auth auth = Provider.of<Auth>(context, listen: false);
 
     StudentProfileProvider provider =
         StudentProfileProvider(database: database);

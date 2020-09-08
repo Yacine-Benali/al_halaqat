@@ -12,10 +12,15 @@ import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/app/models/user_halaqa.dart';
 import 'package:al_halaqat/common_packages/pk_search_bar/pk_search_bar.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
+import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:open_file/open_file.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 //! add halaqa-state widget
@@ -61,6 +66,7 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
   AdminStudentsBloc get bloc => widget.bloc;
   Stream<UserHalaqa<Student>> studentsStream;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  ProgressDialog pr;
 
   //
   List<String> studentStateList;
@@ -68,6 +74,8 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
   Quran quran;
   StudyCenter chosenCenter;
   String chosenStudentState;
+  //
+  UserHalaqa<Student> studentHalaqaList;
 
   @override
   void initState() {
@@ -81,12 +89,98 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
 
     chosenCenter = widget.centers[0];
     chosenStudentState = studentStateList[0];
+    pr = ProgressDialog(
+      context,
+      type: ProgressDialogType.Normal,
+      textDirection: TextDirection.ltr,
+      isDismissible: false,
+    );
+    pr.style(
+      message: 'جاري تحميل',
+      messageTextStyle: TextStyle(fontSize: 14),
+      progressWidget: Container(
+        padding: EdgeInsets.all(8.0),
+        child: CircularProgressIndicator(),
+      ),
+    );
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  Future<void> downloadReport() async {
+    try {
+      final isPermissionStatusGranted = await _requestPermissions();
+
+      if (isPermissionStatusGranted) {
+        await pr.show();
+        String filePath = await bloc.getReportasCsv(
+          studentHalaqaList,
+          chosenCenter,
+          chosenStudentState,
+        );
+        await pr.hide();
+        bool isConfirm = await showDialog<bool>(
+          context: context,
+          child: AlertDialog(
+            title: Text('نجح الحفظ'),
+            contentPadding: const EdgeInsets.all(16.0),
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('نجح الحفظ'),
+                Text(filePath),
+              ],
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: const Text('إلغاء'),
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: true).pop(false),
+              ),
+              FlatButton(
+                child: const Text('فتح الملف'),
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: true).pop(true),
+              ),
+            ],
+          ),
+        );
+        if (isConfirm) {
+          OpenResult b = await OpenFile.open(filePath);
+          print(b.type);
+          if (b.type == ResultType.noAppToOpen)
+            PlatformExceptionAlertDialog(
+              title: 'فشلت العملية',
+              exception: PlatformException(
+                code: 'excel is required',
+                message: 'يرجى تحميل إكسل',
+              ),
+            ).show(context);
+        }
+      } else {
+        throw PlatformException(
+          code: 'storage permission are required',
+          message: 'storage permission are required',
+        );
+      }
+    } on Exception catch (e) {
+      await pr.hide();
+      if (e is PlatformException)
+        PlatformExceptionAlertDialog(
+          title: 'فشلت العملية',
+          exception: e,
+        ).show(context);
+    }
+  }
+
+  Future<bool> _requestPermissions() async {
+    var permission = await Permission.storage.status;
+
+    if (permission != PermissionStatus.granted)
+      permission = await Permission.storage.request();
+
+    return permission == PermissionStatus.granted;
   }
 
   @override
@@ -147,6 +241,14 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
               ),
             ),
           ),
+          Padding(
+            padding: EdgeInsets.only(left: 20.0),
+            child: IconButton(
+              icon: Icon(Icons.cloud_download),
+              onPressed: () =>
+                  studentHalaqaList == null ? null : downloadReport(),
+            ),
+          ),
         ],
       ),
       body: FutureBuilder(
@@ -157,6 +259,7 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
             builder: (context, snapshot) {
               if (snapshot.hasData && quranSnapshot.hasData) {
                 quran = quranSnapshot.data;
+                studentHalaqaList = snapshot.data;
                 List<Student> studentsList = bloc.getFilteredStudentsList(
                   snapshot.data.usersList,
                   chosenCenter,

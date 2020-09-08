@@ -147,7 +147,6 @@ class TAttendanceBloc {
     var excel = Excel.createExcel();
     Sheet sheetObject = excel['Sheet1'];
 
-    List<List<String>> rows = List<List<String>>();
     List<String> row = List();
     row.addAll(getColumnTitle());
     sheetObject.insertRowIterables(row, 0);
