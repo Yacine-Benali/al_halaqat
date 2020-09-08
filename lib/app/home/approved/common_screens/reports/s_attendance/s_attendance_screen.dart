@@ -51,7 +51,15 @@ class _SAttendanceScreenState extends State<SAttendanceScreen> {
   @override
   void initState() {
     userSummeryList = List();
-    firstDate = DateTime.now().subtract(Duration(days: 7));
+    DateTime defaulte = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+      0,
+      0,
+      0,
+    );
+    firstDate = defaulte.subtract(Duration(days: 7));
     lastDate = DateTime.now();
     showPercentages = false;
     pr = ProgressDialog(

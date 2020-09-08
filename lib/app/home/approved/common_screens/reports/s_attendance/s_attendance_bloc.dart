@@ -36,23 +36,25 @@ class SAttendanceBloc {
     for (Instance instance in instances) {
       for (StudentAttendance instanceSa in instance.studentAttendanceList) {
         bool isFound = false;
-        for (UsersAttendanceSummery userAttendance in userAttendaceList) {
-          if (userAttendance.id == instanceSa.id) {
-            isFound = true;
-            switch (instanceSa.state) {
-              case 'present':
-                userAttendance.present = userAttendance.present + 1;
-                break;
-              case 'latee':
-                userAttendance.latee = userAttendance.latee + 1;
-                break;
-              case 'absentWithExecuse':
-                userAttendance.absentWithExecuse =
-                    userAttendance.absentWithExecuse + 1;
-                break;
-              case 'absent':
-                userAttendance.absent = userAttendance.absent + 1;
-                break;
+        if (userAttendaceList.isNotEmpty) {
+          for (UsersAttendanceSummery userAttendance in userAttendaceList) {
+            if (userAttendance.id == instanceSa.id) {
+              isFound = true;
+              switch (instanceSa.state) {
+                case 'present':
+                  userAttendance.present = userAttendance.present + 1;
+                  break;
+                case 'latee':
+                  userAttendance.latee = userAttendance.latee + 1;
+                  break;
+                case 'absentWithExecuse':
+                  userAttendance.absentWithExecuse =
+                      userAttendance.absentWithExecuse + 1;
+                  break;
+                case 'absent':
+                  userAttendance.absent = userAttendance.absent + 1;
+                  break;
+              }
             }
           }
         }
@@ -68,6 +70,7 @@ class SAttendanceBloc {
                 absent: 0,
                 absentWithExecuse: 0,
               );
+              userAttendaceList.add(userAttendance);
               break;
             case 'latee':
               userAttendance = UsersAttendanceSummery(
@@ -78,6 +81,7 @@ class SAttendanceBloc {
                 absent: 0,
                 absentWithExecuse: 0,
               );
+              userAttendaceList.add(userAttendance);
               break;
             case 'absentWithExecuse':
               userAttendance = UsersAttendanceSummery(
@@ -88,6 +92,7 @@ class SAttendanceBloc {
                 absent: 0,
                 absentWithExecuse: 1,
               );
+              userAttendaceList.add(userAttendance);
               break;
             case 'absent':
               userAttendance = UsersAttendanceSummery(
@@ -98,10 +103,9 @@ class SAttendanceBloc {
                 absent: 0,
                 absentWithExecuse: 1,
               );
+              userAttendaceList.add(userAttendance);
               break;
           }
-
-          userAttendaceList.add(userAttendance);
         }
       }
     }
