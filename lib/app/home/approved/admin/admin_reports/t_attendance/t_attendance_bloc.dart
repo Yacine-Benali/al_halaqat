@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:al_halaqat/app/home/approved/common_screens/reports/t_attendance/t_attendance_provider.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/instance.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
@@ -11,6 +10,8 @@ import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:al_halaqat/services/storage.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/foundation.dart';
+
+import 't_attendance_provider.dart';
 
 class TAttendanceBloc {
   TAttendanceBloc({

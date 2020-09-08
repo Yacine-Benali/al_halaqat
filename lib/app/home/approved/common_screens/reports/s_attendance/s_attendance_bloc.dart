@@ -123,6 +123,23 @@ class SAttendanceBloc {
             Format.roundDouble(element.absentWithExecuse / all * 100);
       });
     }
+
+    UsersAttendanceSummery halaqaAttendanceSummery = UsersAttendanceSummery(
+      id: halaqa.id,
+      name: halaqa.name,
+      present: 0,
+      latee: 0,
+      absent: 0,
+      absentWithExecuse: 0,
+    );
+    for (UsersAttendanceSummery usersAttendance in userAttendaceList) {
+      halaqaAttendanceSummery.present += usersAttendance.present;
+      halaqaAttendanceSummery.latee += usersAttendance.latee;
+      halaqaAttendanceSummery.absentWithExecuse +=
+          usersAttendance.absentWithExecuse;
+      halaqaAttendanceSummery.absent += usersAttendance.absent;
+    }
+    userAttendaceList.insert(0, halaqaAttendanceSummery);
     return userAttendaceList;
   }
 
