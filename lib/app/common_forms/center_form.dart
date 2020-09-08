@@ -112,6 +112,18 @@ class _CenterFormState extends State<CenterForm> {
               inputFormatter: FilteringTextInputFormatter.deny(''),
               onChanged: (value) => name = value,
             ),
+            if (widget.showCenterOptions) ...[
+              TextFormField2(
+                isEnabled: false,
+                title: 'رقم التعريفي',
+                initialValue: readableId,
+                hintText: 'إدخل إسم المركز',
+                errorText: 'خطأ',
+                maxLength: 30,
+                inputFormatter: FilteringTextInputFormatter.deny(''),
+                onChanged: (value) => name = value,
+              ),
+            ],
             CountryPicker(
               isEnabled: widget.isEnabled,
               title: 'دولة',
@@ -198,7 +210,7 @@ class _CenterFormState extends State<CenterForm> {
                 ),
               ),
               ListTile(
-                title: Text('student roaming'),
+                title: Text('إظهار حفظ الطالب للقرآن عبر الحلقات '),
                 trailing: Switch(
                   value: studentRoaming,
                   onChanged: (value) {

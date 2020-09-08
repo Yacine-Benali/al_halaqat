@@ -65,6 +65,7 @@ class CountryPicker extends StatelessWidget {
               icon: isEnabled ? Icon(Icons.arrow_drop_down) : Container(),
               itemHeight: 70,
               isDense: false,
+              itemFilter: (country) => country.iso3Code != 'ISR',
               isExpanded: true,
               itemBuilder: (Country country) =>
                   _buildDropdownItemWithLongText(country, dropdownItemWidth),

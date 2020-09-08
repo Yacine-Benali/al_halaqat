@@ -20,7 +20,7 @@ class Strings {
   static const String or = 'or';
 
   // Email & Password page
-  static const String register = 'Register';
+  static const String register = 'تسجيل الدخول';
   static const String forgotPassword = 'إنشاء نسيت كلمة المرور';
   static const String forgotPasswordQuestion = 'هل نسيت كلمة المرور؟';
   static const String createAnAccount = 'انشئ حساب';

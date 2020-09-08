@@ -175,7 +175,8 @@ class _NewStudentFormState extends State<StudentForm>
                     title: 'إسم المتستخدم',
                     initialValue: usernameInitValue,
                     hintText: 'إدخل إسم المتستخدم',
-                    errorText: 'خطأ',
+                    errorText:
+                        'إسم المستخدم يجب أن يكون بدون فراغ من 3 إلى 20 حرف',
                     maxLength: 30,
                     inputFormatter: FilteringTextInputFormatter.deny(''),
                     onChanged: (value) {
