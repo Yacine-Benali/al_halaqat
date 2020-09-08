@@ -16,7 +16,7 @@ class GaRequestTileWidget extends StatelessWidget {
   final GaRequestsBloc bloc;
 
   final Map<String, String> actionTranslate = {
-    'join-existing': 'يريد الإنضمام إلى مركز ',
+    'join-existing': ':يريد الإنضمام إلى مركز ',
     'join-new': 'يريد الإنضمام و إنشاء مركز جديد',
   };
 
@@ -41,8 +41,11 @@ class GaRequestTileWidget extends StatelessWidget {
   }
 
   Widget _buildTitle() {
+    String t = gaRequest.action == 'join-new' ? "انضمام مشرف" : "إنشاء مركز";
     return Text(
-      '${gaRequest.admin.name} ' +
+      t +
+          ': ' +
+          '${gaRequest.admin.name} ' +
           actionTranslate[gaRequest.action] +
           ' ' +
           gaRequest.center.name,

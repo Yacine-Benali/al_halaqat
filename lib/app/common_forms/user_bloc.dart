@@ -51,6 +51,11 @@ class UserBloc {
       );
       student.center = center.id;
       student.state = 'pending';
+    } else {
+      throw PlatformException(
+        code: 'CENTE_DOES_NOT_EXIST',
+        message: 'لا يوجد مركز بذلك الرقم التعريفي',
+      );
     }
 
     await provider.createTeacherOrStudent(
@@ -96,6 +101,11 @@ class UserBloc {
       teacher.centerState = {
         '${teacher.centers[0]}': 'pending',
       };
+    } else {
+      throw PlatformException(
+        code: 'CENTE_DOES_NOT_EXIST',
+        message: 'لا يوجد مركز بذلك الرقم التعريفي',
+      );
     }
 
     await provider.createTeacherOrStudent(
@@ -135,6 +145,11 @@ class UserBloc {
         '${center.id}': 'pending',
       };
       admin.centers[0] = center.id;
+    } else {
+      throw PlatformException(
+        code: 'CENTE_DOES_NOT_EXIST',
+        message: 'لا يوجد مركز بذلك الرقم التعريفي',
+      );
     }
 
     await provider.createAdmin(

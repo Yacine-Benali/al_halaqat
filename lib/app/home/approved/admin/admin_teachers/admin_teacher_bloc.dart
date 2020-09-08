@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:al_halaqat/app/conversation_helper/conversation_helper_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_provider.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
@@ -5,7 +7,11 @@ import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/app/models/user_halaqa.dart';
+import 'package:al_halaqat/common_widgets/format.dart';
+import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:al_halaqat/services/auth.dart';
+import 'package:al_halaqat/services/storage.dart';
+import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
@@ -151,5 +157,89 @@ class AdminTeacherBloc {
         break;
     }
     await provider.createTeacher(teacher);
+  }
+
+  Future<String> getReportasCsv(
+    UserHalaqa<Teacher> teacherHalaqaList,
+    StudyCenter center,
+    String chosenState,
+  ) async {
+    var excel = Excel.createExcel();
+    Sheet teacherSheet = excel['المعلمين'];
+    Sheet teacherHalaqaSheet = excel['الحلقة-المعلمين'];
+    excel.delete('Sheet1');
+
+    List<Teacher> teachersList = teacherHalaqaList.usersList;
+    List<Halaqa> halaqatList = teacherHalaqaList.halaqatList;
+
+    // add stamp
+    List<String> stamp = [
+      'المركز',
+      center.name,
+      '',
+      'التاريخ',
+      Format.date(DateTime.now())
+    ];
+    teacherSheet.insertRowIterables(stamp, 0);
+    teacherHalaqaSheet.insertRowIterables(stamp, 0);
+
+    teacherSheet.appendRow([
+      "رقم المعلم",
+      "الاسم",
+      "سنة الميلاد",
+      "الجنس",
+      "الجنسية",
+      "العنوان",
+      "رقم الهاتف",
+      "المستوى التعليمي",
+      "المدرسة/الجامعة",
+      "ملاحظات",
+      "تاريخ إنشاء الحساب",
+      "بواسطة",
+    ]);
+    teacherHalaqaSheet.appendRow([
+      "اسم الحلقة",
+      "رقم الحلقة",
+      "المعلم",
+    ]);
+    // add headers
+    for (Teacher teacher in teachersList) {
+      List<String> studentRow = List();
+      studentRow.add(teacher.readableId);
+      studentRow.add(teacher.name);
+      studentRow.add(teacher.dateOfBirth.toString());
+      studentRow.add(teacher.gender);
+      studentRow.add(KeyTranslate.isoCountryToArabic[teacher.nationality]);
+      studentRow.add(teacher.address);
+      studentRow.add(teacher.phoneNumber);
+      studentRow.add(teacher.educationalLevel);
+      studentRow.add(teacher.etablissement);
+      studentRow.add(teacher.note);
+      studentRow.add(Format.date(teacher.createdAt.toDate()));
+      studentRow.add(teacher.createdBy['name']);
+
+      teacherSheet.appendRow(studentRow);
+
+      List<Halaqa> halaqatEnrolledIn = halaqatList
+          .where((element) => teacher.halaqatTeachingIn.contains(element.id))
+          .toList();
+      for (Halaqa item in halaqatEnrolledIn) {
+        List<String> teacherHalaqaRow = List();
+
+        teacherHalaqaRow.add(item.name);
+        teacherHalaqaRow.add(item.readableId);
+        teacherHalaqaRow.add(teacher.name);
+        teacherHalaqaSheet.appendRow(teacherHalaqaRow);
+      }
+    }
+    Storage storage = Storage();
+    String name = 'teacher-reports-${center.name}-$chosenState.xlsx';
+    File file = await storage.getLocalFile(name);
+    await excel.encode().then((onValue) {
+      file
+        ..createSync(recursive: true)
+        ..writeAsBytesSync(onValue);
+    });
+    return file.path;
   }
 }

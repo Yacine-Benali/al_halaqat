@@ -4,10 +4,12 @@ import 'package:al_halaqat/app/home/approved/common_screens/student_profile/stud
 import 'package:al_halaqat/app/home/approved/common_screens/student_profile/student_profile_bloc.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/student_profile/student_profile_provider.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/student_profile/student_report_card_screen.dart';
+import 'package:al_halaqat/app/models/global_admin.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/student_profile.dart';
+import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/material.dart';
@@ -52,13 +54,18 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
   Future<List<StudentProfile>> studentProfileFuture;
   List<StudentProfile> studentProfileList;
   List<String> titles;
-
+  bool hidePassword;
   @override
   void initState() {
     studentProfileFuture = bloc.getStudentProfile();
     titles = List();
     titles.add('ملف شخصي');
     titles.add('ملخص');
+    User user = Provider.of<User>(context, listen: false);
+    if (user is GlobalAdmin)
+      hidePassword = false;
+    else
+      hidePassword = true;
     super.initState();
   }
 
@@ -84,6 +91,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
       includeCenterForm: false,
       center: null,
       showUserHalaqa: false,
+      hidePassword: hidePassword,
     );
 
     tabBarViewList[1] = StudentReportCardScreen(

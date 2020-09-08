@@ -2,9 +2,11 @@ import 'package:al_halaqat/app/common_forms/student_form.dart';
 import 'package:al_halaqat/app/common_forms/teacher_form.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_requests_bloc.dart';
 import 'package:al_halaqat/app/models/center_request.dart';
+import 'package:al_halaqat/app/models/global_admin.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
+import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
@@ -12,6 +14,7 @@ import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:al_halaqat/common_widgets/text_form_field2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class CenterRequestDetailsScreen extends StatefulWidget {
   const CenterRequestDetailsScreen({
@@ -33,7 +36,7 @@ class _GaRequestDetailsScreenState extends State<CenterRequestDetailsScreen> {
   ProgressDialog pr;
   StudyCenter center;
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
-
+  bool hidePassword;
   @override
   void initState() {
     pr = ProgressDialog(
@@ -50,7 +53,11 @@ class _GaRequestDetailsScreenState extends State<CenterRequestDetailsScreen> {
         child: CircularProgressIndicator(),
       ),
     );
-
+    User user = Provider.of<User>(context, listen: false);
+    if (user is GlobalAdmin)
+      hidePassword = false;
+    else
+      hidePassword = true;
     super.initState();
   }
 
@@ -98,6 +105,7 @@ class _GaRequestDetailsScreenState extends State<CenterRequestDetailsScreen> {
                       showUserHalaqa: false,
                       center: null,
                       includeCenterForm: false,
+                      hidePassword: hidePassword,
                     ),
                   ),
                 ],
@@ -114,6 +122,7 @@ class _GaRequestDetailsScreenState extends State<CenterRequestDetailsScreen> {
                       showUserHalaqa: false,
                       center: null,
                       includeCenterForm: false,
+                      hidePassword: hidePassword,
                     ),
                   ),
                 ],

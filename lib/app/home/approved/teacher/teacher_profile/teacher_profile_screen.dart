@@ -60,6 +60,7 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
         child: CircularProgressIndicator(),
       ),
     );
+
     super.initState();
   }
 
@@ -116,6 +117,7 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
         includeUsernameAndPassword: true,
         onSaved: (Teacher value) => modifiedTeacher = value,
         showUserHalaqa: false,
+        hidePassword: false,
       ),
     );
   }

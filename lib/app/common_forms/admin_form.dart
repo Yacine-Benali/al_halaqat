@@ -196,6 +196,7 @@ class _NewAdminFormState extends State<AdminForm>
                     },
                   ),
                   PasswordTextField(
+                    hidePassword: false,
                     onPasswordCreated: (value) {
                       password = value;
                       _save();
@@ -241,7 +242,7 @@ class _NewAdminFormState extends State<AdminForm>
                 DatePicker(
                     isEnabled: widget.isEnabled,
                     initialValue: dateOfBirth,
-                    title: 'تاريخ الميلاد',
+                    title: 'سنة الميلاد ',
                     onSelectedDate: (value) {
                       dateOfBirth = value;
                       _save();

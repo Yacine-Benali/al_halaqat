@@ -1,6 +1,6 @@
+import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
-import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 
 class PlatformExceptionAlertDialog extends PlatformAlertDialog {
   PlatformExceptionAlertDialog({
@@ -23,7 +23,8 @@ class PlatformExceptionAlertDialog extends PlatformAlertDialog {
   static Map<String, String> _errors = {
     ///   • `ERROR_WEAK_PASSWORD` - If the password is not strong enough.
     ///   • `ERROR_INVALID_CREDENTIAL` - If the email address is malformed.
-    ///   • `ERROR_EMAIL_ALREADY_IN_USE` - If the email is already in use by a different account.
+    'ERROR_EMAIL_ALREADY_IN_USE': 'هذا الاسم مستخدم، اختر اسماً آخر',
+
     ///   • `ERROR_INVALID_EMAIL` - If the [email] address is malformed.
     'ERROR_WRONG_PASSWORD': 'The password is invalid',
     'ERROR_DUPLICATE_NAME': 'إسم المركز موجود يرجى إختيار إسم آخر',

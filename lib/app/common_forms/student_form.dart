@@ -27,6 +27,7 @@ class StudentForm extends StatefulWidget {
     this.isRemovable = true,
     this.halaqatList,
     @required this.showUserHalaqa,
+    @required this.hidePassword,
   }) : super(key: key);
   final GlobalKey<FormState> studentFormKey;
   final StudyCenter center;
@@ -41,6 +42,7 @@ class StudentForm extends StatefulWidget {
   final bool includeUsernameAndPassword;
   final List<Halaqa> halaqatList;
   final bool showUserHalaqa;
+  final bool hidePassword;
 
   @override
   _NewStudentFormState createState() => _NewStudentFormState();
@@ -189,6 +191,7 @@ class _NewStudentFormState extends State<StudentForm>
                     },
                   ),
                   PasswordTextField(
+                    hidePassword: widget.hidePassword,
                     onPasswordCreated: (value) {
                       password = value;
                       _save();
@@ -231,7 +234,7 @@ class _NewStudentFormState extends State<StudentForm>
                 DatePicker(
                     isEnabled: widget.isEnabled,
                     initialValue: dateOfBirth,
-                    title: 'تاريخ الميلاد',
+                    title: 'سنة الميلاد ',
                     onSelectedDate: (value) {
                       dateOfBirth = value;
                       _save();

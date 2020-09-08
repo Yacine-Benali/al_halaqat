@@ -3,6 +3,7 @@ import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/global_admin_request.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AdminGaRequestBloc {
   AdminGaRequestBloc({
@@ -18,6 +19,10 @@ class AdminGaRequestBloc {
 
     StudyCenter center = await provider.queryCenterbyRId(centerReadableId);
     if (center == null) {
+      throw PlatformException(
+        code: 'CENTE_DOES_NOT_EXIST',
+        message: 'لا يوجد مركز بذلك الرقم التعريفي',
+      );
     } else if (centersIdList.contains(center.id)) {
       return;
     } else {

@@ -115,6 +115,7 @@ class _SProfileScreenState extends State<SProfileScreen> {
         includeUsernameAndPassword: true,
         onSaved: (Student value) => modifiedStudent = value,
         showUserHalaqa: false,
+        hidePassword: false,
       ),
     );
   }

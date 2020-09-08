@@ -169,6 +169,7 @@ class _NewUserScreenState extends State<UserInfoScreen> {
         teacherFormKey: userFormKey,
         center: null,
         includeCenterForm: false,
+        hidePassword: false,
       );
 
     if (bloc.userType == FormType.student)
@@ -181,6 +182,7 @@ class _NewUserScreenState extends State<UserInfoScreen> {
         studentFormKey: userFormKey,
         center: null,
         includeCenterForm: false,
+        hidePassword: false,
       );
     else
       return Container();

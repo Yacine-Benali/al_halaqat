@@ -163,7 +163,6 @@ class AdminStudentsBloc {
   ) async {
     var excel = Excel.createExcel();
     Sheet studentSheet = excel['الطلاب'];
-    //excel.setDefaultSheet('الطلاب');
     Sheet studentHalaqaSheet = excel['الحلقة-الطالب'];
     excel.delete('Sheet1');
 
@@ -233,7 +232,7 @@ class AdminStudentsBloc {
       }
     }
     Storage storage = Storage();
-    String name = 'students-reports-$chosenState.xlsx';
+    String name = 'students-reports-${center.name}-$chosenState.xlsx';
     File file = await storage.getLocalFile(name);
     await excel.encode().then((onValue) {
       file

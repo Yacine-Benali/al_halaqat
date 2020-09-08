@@ -1,13 +1,16 @@
 import 'package:al_halaqat/app/common_forms/student_form.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_students_bloc.dart';
+import 'package:al_halaqat/app/models/global_admin.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class TeacherNewStudentScreen extends StatefulWidget {
   const TeacherNewStudentScreen({
@@ -33,7 +36,7 @@ class _AdminNewStudentScreenState extends State<TeacherNewStudentScreen> {
   final GlobalKey<FormState> studentFormKey = GlobalKey<FormState>();
   Student student;
   ProgressDialog pr;
-
+  bool hidePassword;
   @override
   void initState() {
     pr = ProgressDialog(
@@ -50,6 +53,11 @@ class _AdminNewStudentScreenState extends State<TeacherNewStudentScreen> {
         child: CircularProgressIndicator(),
       ),
     );
+    User user = Provider.of<User>(context, listen: false);
+    if (user is GlobalAdmin)
+      hidePassword = false;
+    else
+      hidePassword = true;
     super.initState();
   }
 
@@ -111,6 +119,7 @@ class _AdminNewStudentScreenState extends State<TeacherNewStudentScreen> {
         includeCenterForm: false,
         isEnabled: true,
         isRemovable: widget.chosenCenter.canTeacherRemoveStudentsFromHalaqa,
+        hidePassword: hidePassword,
       ),
     );
   }

@@ -7,11 +7,13 @@ class PasswordTextField extends StatefulWidget {
     @required this.onPasswordCreated,
     @required this.existingPassword,
     @required this.isEnabled,
+    @required this.hidePassword,
   }) : super(key: key);
 
   final ValueChanged<String> onPasswordCreated;
   final String existingPassword;
   final bool isEnabled;
+  final bool hidePassword;
 
   @override
   _PasswordTextFieldState createState() => _PasswordTextFieldState();
@@ -28,7 +30,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
 
   @override
   void initState() {
-    password = widget.existingPassword;
+    password = widget.hidePassword ? '******' : widget.existingPassword;
     if (password == null) {
       password = createPassword();
     }

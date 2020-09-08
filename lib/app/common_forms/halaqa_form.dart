@@ -115,6 +115,7 @@ class _NewHalaqaFormState extends State<HalaqaForm>
                   maxLength: 30,
                   inputFormatter: FilteringTextInputFormatter.deny(''),
                   onChanged: (value) => description = value,
+                  validator: (t) {},
                 ),
                 if (halaqa?.readableId != null) ...[
                   TextFormField2(

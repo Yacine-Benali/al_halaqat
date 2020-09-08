@@ -26,6 +26,7 @@ class TeacherForm extends StatefulWidget {
     @required this.includeCenterForm,
     this.halaqatList,
     @required this.showUserHalaqa,
+    @required this.hidePassword,
   }) : super(key: key);
   final GlobalKey<FormState> teacherFormKey;
   final ValueChanged<Teacher> onSaved;
@@ -37,6 +38,7 @@ class TeacherForm extends StatefulWidget {
   final bool showUserHalaqa;
   final StudyCenter center;
   final bool includeCenterForm;
+  final bool hidePassword;
 
   @override
   _NewStudentFormState createState() => _NewStudentFormState();
@@ -179,6 +181,7 @@ class _NewStudentFormState extends State<TeacherForm>
                     },
                   ),
                   PasswordTextField(
+                    hidePassword: widget.hidePassword,
                     onPasswordCreated: (value) {
                       password = value;
                       _save();
@@ -220,7 +223,7 @@ class _NewStudentFormState extends State<TeacherForm>
                 DatePicker(
                     isEnabled: widget.isEnabled,
                     initialValue: dateOfBirth,
-                    title: 'تاريخ الميلاد',
+                    title: 'سنة الميلاد ',
                     onSelectedDate: (value) {
                       dateOfBirth = value;
                       _save();

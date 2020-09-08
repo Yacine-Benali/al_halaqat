@@ -10,10 +10,15 @@ import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/app/models/user_halaqa.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
+import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:open_file/open_file.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 //! TODO load teacher lazly
@@ -63,8 +68,10 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
 
   String chosenTeacherState;
   StudyCenter chosenCenter;
-
+  UserHalaqa<Teacher> teacherHalaqaList;
   Stream<UserHalaqa<Teacher>> teachersListStream;
+  ProgressDialog pr;
+
   @override
   void initState() {
     if (bloc.admin is Admin) {
@@ -75,7 +82,97 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
     teachersListStream = bloc.fetchTeachers(widget.centers);
     chosenCenter = widget.centers[0];
     chosenTeacherState = teachersStateList[0];
+    pr = ProgressDialog(
+      context,
+      type: ProgressDialogType.Normal,
+      textDirection: TextDirection.ltr,
+      isDismissible: false,
+    );
+    pr.style(
+      message: 'جاري تحميل',
+      messageTextStyle: TextStyle(fontSize: 14),
+      progressWidget: Container(
+        padding: EdgeInsets.all(8.0),
+        child: CircularProgressIndicator(),
+      ),
+    );
     super.initState();
+  }
+
+  Future<void> downloadReport() async {
+    try {
+      final isPermissionStatusGranted = await _requestPermissions();
+
+      if (isPermissionStatusGranted) {
+        await pr.show();
+        String filePath = await bloc.getReportasCsv(
+          teacherHalaqaList,
+          chosenCenter,
+          chosenTeacherState,
+        );
+        await pr.hide();
+        bool isConfirm = await showDialog<bool>(
+          context: context,
+          child: AlertDialog(
+            title: Text('نجح الحفظ'),
+            contentPadding: const EdgeInsets.all(16.0),
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('نجح الحفظ'),
+                Text(filePath),
+              ],
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: const Text('إلغاء'),
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: true).pop(false),
+              ),
+              FlatButton(
+                child: const Text('فتح الملف'),
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: true).pop(true),
+              ),
+            ],
+          ),
+        );
+        if (isConfirm) {
+          OpenResult b = await OpenFile.open(filePath);
+          if (b.type == ResultType.noAppToOpen)
+            PlatformExceptionAlertDialog(
+              title: 'فشلت العملية',
+              exception: PlatformException(
+                code: 'excel is required',
+                message: 'يرجى تحميل إكسل',
+              ),
+            ).show(context);
+        }
+      } else {
+        throw PlatformException(
+          code: 'storage permission are required',
+          message: 'storage permission are required',
+        );
+      }
+    } on Exception catch (e) {
+      await pr.hide();
+      if (e is PlatformException)
+        PlatformExceptionAlertDialog(
+          title: 'فشلت العملية',
+          exception: e,
+        ).show(context);
+    }
+  }
+
+  Future<bool> _requestPermissions() async {
+    var permission = await Permission.storage.status;
+
+    if (permission != PermissionStatus.granted)
+      permission = await Permission.storage.request();
+
+    return permission == PermissionStatus.granted;
   }
 
   @override
@@ -138,12 +235,21 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
               ),
             ),
           ),
+          Padding(
+            padding: EdgeInsets.only(left: 20.0),
+            child: IconButton(
+              icon: Icon(Icons.cloud_download),
+              onPressed: () =>
+                  teacherHalaqaList == null ? null : downloadReport(),
+            ),
+          ),
         ],
       ),
       body: StreamBuilder<UserHalaqa<Teacher>>(
         stream: teachersListStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            teacherHalaqaList = snapshot.data;
             List<Teacher> teachersList = bloc.getFilteredTeachersList(
               snapshot.data.usersList,
               chosenCenter,
