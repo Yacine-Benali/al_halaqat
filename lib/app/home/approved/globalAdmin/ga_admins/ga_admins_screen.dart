@@ -139,6 +139,7 @@ class _GaAdminsScreenState extends State<GaAdminsScreen> {
             builder: (context) => GaNewAdminScreen(
               bloc: bloc,
               admin: null,
+              isEnabled: true,
             ),
             fullscreenDialog: true,
           ),

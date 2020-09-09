@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/services/api_path.dart';
 import 'package:al_halaqat/services/database.dart';
@@ -16,6 +17,11 @@ class GaCentersProvider {
       builder: (data, documentId) => StudyCenter.fromMap(data, documentId),
     );
   }
+
+  Future<Admin> getAdminById(String id) => database.fetchDocument(
+        path: APIPath.userDocument(id),
+        builder: (data, documentId) => Admin.fromMap(data, documentId),
+      );
 
   Future<void> createCenter(
     StudyCenter center,

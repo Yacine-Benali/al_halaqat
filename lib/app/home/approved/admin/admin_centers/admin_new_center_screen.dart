@@ -90,6 +90,7 @@ class _AdminNewCenterScreenState extends State<AdminNewCenterScreen> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: CenterForm(
+          showReadableId: false,
           showCenterOptions: true,
           isEnabled: true,
           formKey: _formKey,

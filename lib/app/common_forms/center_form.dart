@@ -13,13 +13,14 @@ class CenterForm extends StatefulWidget {
     @required this.formKey,
     @required this.isEnabled,
     @required this.showCenterOptions,
+    @required this.showReadableId,
   }) : super(key: key);
   final ValueChanged<StudyCenter> onSaved;
   final StudyCenter center;
   final GlobalKey<FormState> formKey;
   final bool isEnabled;
   final bool showCenterOptions;
-  // final bool showReadableId;
+  final bool showReadableId;
 
   @override
   _CenterFormState createState() => _CenterFormState();
@@ -113,7 +114,7 @@ class _CenterFormState extends State<CenterForm> {
               inputFormatter: FilteringTextInputFormatter.deny(''),
               onChanged: (value) => name = value,
             ),
-            if (widget.showCenterOptions) ...[
+            if (widget.showReadableId) ...[
               TextFormField2(
                 isEnabled: false,
                 title: 'رقم التعريفي',

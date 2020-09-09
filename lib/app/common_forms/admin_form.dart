@@ -26,7 +26,7 @@ class AdminForm extends StatefulWidget {
     @required this.includeCenterIdInput,
     @required this.includeUsernameAndPassword,
     this.centersList,
-    this.includeCenterState = true,
+    @required this.includeCenterState,
   }) : super(key: key);
   final GlobalKey<FormState> adminFormKey;
 //
@@ -212,6 +212,7 @@ class _NewAdminFormState extends State<AdminForm>
                     style: TextStyle(fontSize: 20),
                   ),
                   CenterForm(
+                    showReadableId: false,
                     isEnabled: widget.isEnabled,
                     formKey: centerFormKey,
                     center: widget.center,
@@ -355,6 +356,7 @@ class _NewAdminFormState extends State<AdminForm>
                 ),
                 if (widget.includeCenterState) ...[
                   CenterStateForm(
+                    isEnabled: widget.isEnabled,
                     centersList: widget.centersList,
                     statesList: KeyTranslate.centersStateList.keys.toList(),
                     centerState: centerState,

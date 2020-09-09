@@ -11,6 +11,7 @@ class CenterStateForm extends StatefulWidget {
     @required this.centerState,
     @required this.onSavedCenterStates,
     @required this.onSavedCentersIds,
+    @required this.isEnabled,
   }) : super(key: key);
 
   final List<StudyCenter> centersList;
@@ -18,6 +19,7 @@ class CenterStateForm extends StatefulWidget {
   final Map<String, String> centerState;
   final ValueChanged<Map<String, String>> onSavedCenterStates;
   final ValueChanged<List<String>> onSavedCentersIds;
+  final bool isEnabled;
 
   @override
   _CenterStateFormState createState() => _CenterStateFormState();
@@ -32,16 +34,9 @@ class _CenterStateFormState extends State<CenterStateForm> {
     newCenterState = Map();
     newCenterState.addAll(widget.centerState);
     if (newCenterState == null) {
-      //  print('null savd :)');
       newCenterState = Map();
     }
 
-    // print('building centerstate form');
-    // print('centers list Ids');
-    // widget.centersList.forEach((element) => print(element.id));
-    // print('centers list ${widget.centersList.length}');
-    // print('states list ${widget.statesList}');
-    //print('center-states ${newCenterState}');
     save();
     _buildDefaultRows();
     super.initState();
@@ -52,21 +47,14 @@ class _CenterStateFormState extends State<CenterStateForm> {
           changeResult) {
     MapEntry<StudyCenter, String> oldValue = changeResult.item1;
     MapEntry<StudyCenter, String> newValue = changeResult.item2;
-    // print('old');
-    // print(newCenterState);
-    // print(
-    //     '${oldValue?.key?.name},${oldValue?.value} => ${newValue.key.name},${newValue.value}');
     Map<String, String> temp = Map();
     bool isFound = false;
 
     newCenterState.forEach((key, value) {
       if (key == oldValue?.key?.id && value == oldValue?.value) {
-        // print(
-        //     '${oldValue?.key?.name},${oldValue?.value} => ${newValue.key.name},${newValue.value}');
         temp[newValue.key.id] = newValue.value;
         isFound = true;
       } else {
-        // print('=> $key,$value');
         temp[key] = value;
       }
     });
@@ -93,8 +81,6 @@ class _CenterStateFormState extends State<CenterStateForm> {
       StudyCenter defaultCenter = widget.centersList
           .firstWhere((center) => center.id == key, orElse: () => null);
 
-      // print('building ${defaultCenter.name},$value');
-
       if (defaultCenter != null) {
         Widget temp = Padding(
           padding: const EdgeInsets.only(top: 8, bottom: 8),
@@ -105,12 +91,11 @@ class _CenterStateFormState extends State<CenterStateForm> {
             defaultState: value,
             onSaved: onTileSaved,
             onRemove: removeRow,
+            isEnabled: widget.isEnabled,
           ),
         );
         rows.add(temp);
-      } else {
-        //print('could not find center for this id $key');
-      }
+      } else {}
     });
     setState(() {});
   }
@@ -130,23 +115,19 @@ class _CenterStateFormState extends State<CenterStateForm> {
           statesList: widget.statesList,
           defaultCenter: null,
           defaultState: null,
+          isEnabled: widget.isEnabled,
           onSaved: onTileSaved,
           onRemove: removeRow,
         ),
       );
       rows.add(temp);
-    } else {
-      // print('could not find center for this id ${lastEntry.key}');
-    }
+    } else {}
 
     setState(() {});
   }
 
   void removeRow(MapEntry<StudyCenter, String> mapEntryToRemove) {
     Map<String, String> temp = Map();
-    // print(newCenterState);
-    // print(
-    //     'looking to remove ${mapEntryToRemove?.key?.name} && ${mapEntryToRemove.value}');
 
     newCenterState.forEach((key, value) {
       if (key == mapEntryToRemove?.key?.id && value == mapEntryToRemove.value) {
@@ -177,20 +158,22 @@ class _CenterStateFormState extends State<CenterStateForm> {
           Column(
             children: rows,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.fromLTRB(0, 16, 8, 8),
-                child: FloatingActionButton(
-                  mini: true,
-                  onPressed: () => addRow(),
-                  child: Icon(Icons.add),
-                ),
-              ),
-            ],
-          ),
+          widget.isEnabled
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.fromLTRB(0, 16, 8, 8),
+                      child: FloatingActionButton(
+                        mini: true,
+                        onPressed: () => addRow(),
+                        child: Icon(Icons.add),
+                      ),
+                    ),
+                  ],
+                )
+              : Container(),
         ],
       ),
     );

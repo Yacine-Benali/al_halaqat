@@ -207,6 +207,7 @@ class _NewStudentFormState extends State<StudentForm>
                     style: TextStyle(fontSize: 20),
                   ),
                   CenterForm(
+                    showReadableId: false,
                     isEnabled: false,
                     formKey: centerFormKey,
                     center: widget.center,

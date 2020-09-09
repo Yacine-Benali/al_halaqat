@@ -1,4 +1,5 @@
 import 'package:al_halaqat/app/home/approved/admin/admin_home_page.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_about_center_screen.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_bloc.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_new_center_screen.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
@@ -8,6 +9,8 @@ import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'ga_about_admin_screen.dart';
 // import 'package:progress_dialog/progress_dialog.dart';
 
 enum WhyFarther { edit, archive, centerAction }
@@ -65,15 +68,21 @@ class _GaCentersTileWidgetState extends State<GaCentersTileWidget> {
           fullscreenDialog: true,
         ),
       );
-    }
-    if (action == 'aboutCenter') {
+    } else if (action == 'aboutCenter') {
       await Navigator.of(context, rootNavigator: false).push(
         MaterialPageRoute(
-          builder: (context) => GaNewCenterScreen(
-            bloc: widget.bloc,
+          builder: (context) => GaAboutCenterScreen(
             center: widget.center,
-            centersList: widget.centersList,
-            isEnabled: false,
+          ),
+          fullscreenDialog: true,
+        ),
+      );
+    } else if (action == 'aboutAdmin') {
+      await Navigator.of(context, rootNavigator: false).push(
+        MaterialPageRoute(
+          builder: (context) => GaAboutAdminScreen(
+            bloc: widget.bloc,
+            createdById: widget.center.createdBy['id'],
           ),
           fullscreenDialog: true,
         ),

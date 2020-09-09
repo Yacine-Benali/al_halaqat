@@ -13,10 +13,12 @@ class GaNewAdminScreen extends StatefulWidget {
     Key key,
     @required this.admin,
     @required this.bloc,
+    @required this.isEnabled,
   }) : super(key: key);
 
   final Admin admin;
   final GaAdminsBloc bloc;
+  final bool isEnabled;
 
   @override
   _GaNewAdminScreenState createState() => _GaNewAdminScreenState();
@@ -103,9 +105,10 @@ class _GaNewAdminScreenState extends State<GaNewAdminScreen> {
         onSavedAdmin: (Admin newAdmin) => admin = newAdmin,
         admin: widget.admin,
         center: null,
-        isEnabled: true,
+        isEnabled: widget.isEnabled,
         onSavedCenter: (value) {},
         centersList: widget.bloc.centersList,
+        includeCenterState: true,
       ),
     );
   }
