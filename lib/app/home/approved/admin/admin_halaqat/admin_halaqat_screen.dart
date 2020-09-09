@@ -5,7 +5,9 @@ import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_new_halaq
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
+import 'package:al_halaqat/app/models/user_halaqa.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:al_halaqat/services/auth.dart';
@@ -56,7 +58,7 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
 
   String chosenHalaqaState;
   StudyCenter chosenCenter;
-  Stream<List<Halaqa>> halaqatListStream;
+  Stream<UserHalaqa<Teacher>> teachersHalaqatListStream;
 
   @override
   void initState() {
@@ -67,7 +69,7 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
     }
     chosenCenter = widget.centers[0];
     chosenHalaqaState = halaqatStateList[0];
-    halaqatListStream = bloc.fetchHalaqat(chosenCenter);
+    teachersHalaqatListStream = bloc.fetchTeachers(widget.centers);
 
     super.initState();
   }
@@ -93,8 +95,7 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
                 style: TextStyle(color: Colors.white, fontSize: 20),
                 onChanged: (StudyCenter newValue) {
                   setState(() {
-                    chosenCenter = newValue;
-                    halaqatListStream = bloc.fetchHalaqat(chosenCenter);
+                    print('change center');
                   });
                 },
                 items: widget.centers
@@ -149,17 +150,18 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
         tooltip: 'add',
         child: Icon(Icons.add),
       ),
-      body: StreamBuilder<List<Halaqa>>(
-        stream: halaqatListStream,
+      body: StreamBuilder<UserHalaqa<Teacher>>(
+        stream: teachersHalaqatListStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            List<Teacher> teachersList = snapshot.data.usersList;
             List<Halaqa> halaqatList = bloc.getFilteredHalaqatList(
-              snapshot.data,
+              snapshot.data.halaqatList,
               chosenHalaqaState,
               chosenCenter,
             );
             if (halaqatList.isNotEmpty) {
-              return _buildList(halaqatList);
+              return _buildList(halaqatList, teachersList);
             } else {
               return EmptyContent(
                 title: 'لا يوجد أي حلقات ',
@@ -178,7 +180,7 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
     );
   }
 
-  Widget _buildList(List<Halaqa> halaqatList) {
+  Widget _buildList(List<Halaqa> halaqatList, List<Teacher> teachersLis) {
     return ListView.separated(
       itemCount: halaqatList.length + 2,
       separatorBuilder: (context, index) => Divider(height: 0.5),
@@ -186,9 +188,13 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
         if (index == 0 || index == halaqatList.length + 1) {
           return Container();
         }
+        Halaqa halaqa = halaqatList[index - 1];
+        Teacher teacher = bloc.getTeacherOfHalaqa(halaqa, teachersLis);
+
         return AdminHalqaTileWidget(
+          teacher: teacher,
           bloc: bloc,
-          halaqa: halaqatList[index - 1],
+          halaqa: halaqa,
           scaffoldKey: _scaffoldKey,
           chosenHalaqaState: chosenHalaqaState,
           chosenCenter: chosenCenter,

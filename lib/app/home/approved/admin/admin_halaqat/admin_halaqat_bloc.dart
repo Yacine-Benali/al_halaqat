@@ -1,9 +1,12 @@
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_provider.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/user.dart';
+import 'package:al_halaqat/app/models/user_halaqa.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
 class AdminHalaqaBloc {
   AdminHalaqaBloc({
@@ -16,8 +19,22 @@ class AdminHalaqaBloc {
   final User admin;
   final Auth auth;
 
-  Stream<List<Halaqa>> fetchHalaqat(StudyCenter center) =>
-      provider.fetchHalaqat(center.id);
+  Stream<UserHalaqa<Teacher>> fetchTeachers(
+    List<StudyCenter> centersList,
+  ) {
+    List<String> centerIds = centersList.map((e) => e.id).toList();
+    if (centerIds.length <= 10) {
+      Stream<List<Teacher>> teachersStream = provider.fetchTeachers(centerIds);
+      Stream<List<Halaqa>> halaqatStream = provider.fetchHalaqat(centerIds);
+      Stream<UserHalaqa<Teacher>> teachersHalaqatStream = Rx.combineLatest2(
+          teachersStream,
+          halaqatStream,
+          (a, b) => UserHalaqa<Teacher>(usersList: a, halaqatList: b));
+      return teachersHalaqatStream;
+    } else {
+      print('huston we got a problem');
+    }
+  }
 
   Future<void> createHalaqa(
     Halaqa halaqa,
@@ -67,5 +84,11 @@ class AdminHalaqaBloc {
         break;
     }
     await provider.createHalaqa(halaqa);
+  }
+
+  Teacher getTeacherOfHalaqa(Halaqa halaqa, List<Teacher> teachersList) {
+    for (Teacher teacher in teachersList)
+      if (teacher.halaqatTeachingIn.contains(halaqa.id)) return teacher;
+    return null;
   }
 }

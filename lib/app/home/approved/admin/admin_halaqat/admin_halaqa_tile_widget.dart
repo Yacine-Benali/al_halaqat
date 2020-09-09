@@ -3,6 +3,7 @@ import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_new_halaq
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/instances_screen.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
@@ -18,6 +19,7 @@ class AdminHalqaTileWidget extends StatefulWidget {
     @required this.bloc,
     @required this.scaffoldKey,
     @required this.chosenCenter,
+    @required this.teacher,
   }) : super(key: key);
 
   final Halaqa halaqa;
@@ -25,6 +27,7 @@ class AdminHalqaTileWidget extends StatefulWidget {
   final AdminHalaqaBloc bloc;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final StudyCenter chosenCenter;
+  final Teacher teacher;
 
   @override
   _AdminHalqaTileWidgetState createState() => _AdminHalqaTileWidgetState();
@@ -32,6 +35,7 @@ class AdminHalqaTileWidget extends StatefulWidget {
 
 class _AdminHalqaTileWidgetState extends State<AdminHalqaTileWidget> {
   ProgressDialog pr;
+  String teacherName;
 
   @override
   void initState() {
@@ -49,6 +53,7 @@ class _AdminHalqaTileWidgetState extends State<AdminHalqaTileWidget> {
         child: CircularProgressIndicator(),
       ),
     );
+    teacherName = widget.teacher == null ? '' : widget.teacher.name;
     super.initState();
   }
 
@@ -128,7 +133,20 @@ class _AdminHalqaTileWidgetState extends State<AdminHalqaTileWidget> {
       children: [
         ListTile(
           title: Text(widget.halaqa.name),
-          subtitle: Text(widget.halaqa.readableId),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(widget.halaqa.readableId),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Text(teacherName),
+                ),
+              ],
+            ),
+          ),
           trailing: widget.halaqa.state == 'deleted'
               ? Container(
                   height: 1,
