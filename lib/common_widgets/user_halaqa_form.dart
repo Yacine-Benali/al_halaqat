@@ -11,6 +11,7 @@ class UserHalaqaForm extends StatefulWidget {
     @required this.currentHalaqatIdsList,
     @required this.title,
     this.isRemovable = true,
+    @required this.isEnabled,
   }) : super(key: key);
 
   final List<Halaqa> halaqatList;
@@ -18,6 +19,7 @@ class UserHalaqaForm extends StatefulWidget {
   final ValueChanged<List<String>> onSaved;
   final String title;
   final bool isRemovable;
+  final bool isEnabled;
 
   @override
   _UserHalaqaFormState createState() => _UserHalaqaFormState();
@@ -31,8 +33,6 @@ class _UserHalaqaFormState extends State<UserHalaqaForm> {
     rows = List();
     halaqatIdsList = List();
     halaqatIdsList.addAll(widget.currentHalaqatIdsList);
-
-    //save();
     _buildDefaultRows();
     super.initState();
   }
@@ -40,23 +40,17 @@ class _UserHalaqaFormState extends State<UserHalaqaForm> {
   void onSaved(Tuple2<Halaqa, Halaqa> changeResult) {
     Halaqa oldHalaqa = changeResult.item1;
     Halaqa newHalaqa = changeResult.item2;
-    //print('${oldHalaqa?.id} => ${newHalaqa.id} ');
     List<String> temp = List();
     bool isFound = false;
-    //
     for (String halaqaId in halaqatIdsList) {
-      // print('target $halaqaId');
       if (halaqaId == oldHalaqa?.id) {
-        // print('changed!');
         temp.add(newHalaqa.id);
         isFound = true;
       } else {
-        // print('not the target adding it...');
         temp.add(halaqaId);
       }
     }
     if (!isFound && !halaqatIdsList.contains(newHalaqa.id)) {
-      // print('new value added ${newHalaqa.id}');
       temp.add(newHalaqa.id);
     }
 
@@ -87,6 +81,7 @@ class _UserHalaqaFormState extends State<UserHalaqaForm> {
             defaultHalaqa: defaultHalaqa,
             onSaved: (Tuple2<Halaqa, Halaqa> value) => onSaved(value),
             onRemove: (Halaqa value) => removeRow(value),
+            isEnabled: widget.isEnabled,
           ),
         );
         rows.add(temp);
@@ -106,6 +101,7 @@ class _UserHalaqaFormState extends State<UserHalaqaForm> {
         defaultHalaqa: null,
         onSaved: (Tuple2<Halaqa, Halaqa> value) => onSaved(value),
         onRemove: (Halaqa value) => removeRow(value),
+        isEnabled: widget.isEnabled,
       ),
     );
     rows.add(temp);
@@ -147,20 +143,22 @@ class _UserHalaqaFormState extends State<UserHalaqaForm> {
           Column(
             children: rows,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.fromLTRB(0, 16, 8, 8),
-                child: FloatingActionButton(
-                  mini: true,
-                  onPressed: () => addRow(),
-                  child: Icon(Icons.add),
-                ),
-              ),
-            ],
-          ),
+          widget.isEnabled
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.fromLTRB(0, 16, 8, 8),
+                      child: FloatingActionButton(
+                        mini: true,
+                        onPressed: () => addRow(),
+                        child: Icon(Icons.add),
+                      ),
+                    ),
+                  ],
+                )
+              : Container(),
         ],
       ),
     );

@@ -331,6 +331,7 @@ class _NewStudentFormState extends State<TeacherForm>
                 ),
                 if (widget.showUserHalaqa) ...[
                   UserHalaqaForm(
+                    isEnabled: widget.isEnabled,
                     title: 'حلقات يعلم فيها',
                     halaqatList: widget.halaqatList,
                     onSaved: (List<String> value) {

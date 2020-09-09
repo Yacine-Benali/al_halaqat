@@ -11,6 +11,7 @@ class UserHalaqaTile extends StatefulWidget {
     @required this.onSaved,
     @required this.onRemove,
     @required this.isRemovable,
+    @required this.isEnabled,
   }) : super(key: key);
 
   final List<Halaqa> halaqatList;
@@ -18,6 +19,7 @@ class UserHalaqaTile extends StatefulWidget {
   final ValueChanged<Tuple2<Halaqa, Halaqa>> onSaved;
   final ValueChanged<Halaqa> onRemove;
   final bool isRemovable;
+  final bool isEnabled;
 
   @override
   _UserHalaqaTileState createState() => _UserHalaqaTileState();
@@ -50,52 +52,57 @@ class _UserHalaqaTileState extends State<UserHalaqaTile> {
       children: <Widget>[
         Expanded(
           flex: 3,
-          child: DropdownButton<Halaqa>(
-            isExpanded: true,
-            underline: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 0.5,
+          child: IgnorePointer(
+            ignoring: !widget.isEnabled,
+            child: DropdownButton<Halaqa>(
+              isExpanded: true,
+              underline: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 0.5,
+                  ),
                 ),
               ),
+              value: chosenHalaqa,
+              hint: Text('إختر حلقة'),
+              icon: Icon(Icons.arrow_drop_down, color: Colors.indigo),
+              iconSize: 24,
+              elevation: 0,
+              style: TextStyle(color: Colors.black, fontSize: 20),
+              onChanged: (Halaqa newValue) {
+                onSaved(newValue);
+              },
+              items: widget.halaqatList
+                  .map<DropdownMenuItem<Halaqa>>((Halaqa value) {
+                return DropdownMenuItem<Halaqa>(
+                  value: value,
+                  child: AutoSizeText(
+                    value.name,
+                    minFontSize: 16,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                );
+              }).toList(),
             ),
-            value: chosenHalaqa,
-            hint: Text('إختر حلقة'),
-            icon: Icon(Icons.arrow_drop_down, color: Colors.indigo),
-            iconSize: 24,
-            elevation: 0,
-            style: TextStyle(color: Colors.black, fontSize: 20),
-            onChanged: (Halaqa newValue) {
-              onSaved(newValue);
-            },
-            items: widget.halaqatList
-                .map<DropdownMenuItem<Halaqa>>((Halaqa value) {
-              return DropdownMenuItem<Halaqa>(
-                value: value,
-                child: AutoSizeText(
-                  value.name,
-                  minFontSize: 16,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              );
-            }).toList(),
           ),
         ),
         SizedBox(
           width: 10,
         ),
-        widget.isRemovable
-            ? Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.fromLTRB(0, 16, 8, 8),
-                child: FloatingActionButton(
-                  mini: true,
-                  onPressed: () => onRemoved(),
-                  child: Icon(Icons.remove),
-                ),
-              )
+        widget.isEnabled
+            ? widget.isRemovable
+                ? Container(
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.fromLTRB(0, 16, 8, 8),
+                    child: FloatingActionButton(
+                      mini: true,
+                      onPressed: () => onRemoved(),
+                      child: Icon(Icons.remove),
+                    ),
+                  )
+                : Container()
             : Container(),
       ],
     );

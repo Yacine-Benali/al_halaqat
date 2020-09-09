@@ -19,12 +19,14 @@ class AdminNewTeacherScreen extends StatefulWidget {
     @required this.teacher,
     @required this.chosenCenter,
     @required this.halaqatList,
+    @required this.isEnabled,
   }) : super(key: key);
 
   final AdminTeacherBloc bloc;
   final Teacher teacher;
   final StudyCenter chosenCenter;
   final List<Halaqa> halaqatList;
+  final bool isEnabled;
 
   @override
   _AdminNewTeacherScreenState createState() => _AdminNewTeacherScreenState();
@@ -108,11 +110,11 @@ class _AdminNewTeacherScreenState extends State<AdminNewTeacherScreen> {
       ),
       body: TeacherForm(
         halaqatList: widget.halaqatList,
+        isEnabled: widget.isEnabled,
         teacher: widget.teacher,
         onSaved: (Teacher value) => teacher = value,
         includeCenterIdInput: false,
         includeUsernameAndPassword: true,
-        isEnabled: true,
         teacherFormKey: teacherFormKey,
         showUserHalaqa: true,
         center: null,

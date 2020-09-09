@@ -107,8 +107,8 @@ class _InstancesScreenState extends State<InstancesScreen> {
         await pr.hide();
 
         PlatformAlertDialog(
-          title: 'نجح الحفظ',
-          content: 'تم حفظ البيانات',
+          title: 'تم إنشاء جلسة ',
+          content: 'يرجى إذخال المعلومات',
           defaultActionText: 'حسنا',
         ).show(context);
       } on PlatformException catch (e) {

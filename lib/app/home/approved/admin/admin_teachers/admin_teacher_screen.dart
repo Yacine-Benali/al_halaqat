@@ -230,6 +230,7 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
                     builder: (context) => AdminNewTeacherScreen(
+                      isEnabled: true,
                       halaqatList: availableHalaqat,
                       bloc: bloc,
                       chosenCenter: chosenCenter,

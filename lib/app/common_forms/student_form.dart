@@ -353,6 +353,7 @@ class _NewStudentFormState extends State<StudentForm>
                 ),
                 if (widget.showUserHalaqa) ...[
                   UserHalaqaForm(
+                    isEnabled: widget.isEnabled,
                     isRemovable: widget.isRemovable,
                     title: 'حلقات',
                     halaqatList: widget.halaqatList,
