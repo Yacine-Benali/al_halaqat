@@ -19,6 +19,7 @@ class CenterForm extends StatefulWidget {
   final GlobalKey<FormState> formKey;
   final bool isEnabled;
   final bool showCenterOptions;
+  // final bool showReadableId;
 
   @override
   _CenterFormState createState() => _CenterFormState();

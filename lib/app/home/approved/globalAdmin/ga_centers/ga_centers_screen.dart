@@ -88,6 +88,7 @@ class _GaCentersScreenState extends State<GaCentersScreen> {
               bloc: bloc,
               center: null,
               centersList: centersList,
+              isEnabled: true,
             ),
             fullscreenDialog: true,
           ),

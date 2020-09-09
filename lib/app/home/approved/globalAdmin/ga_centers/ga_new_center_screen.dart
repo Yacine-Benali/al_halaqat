@@ -14,10 +14,12 @@ class GaNewCenterScreen extends StatefulWidget {
     @required this.bloc,
     @required this.centersList,
     @required this.center,
+    @required this.isEnabled,
   }) : super(key: key);
   final StudyCenter center;
   final GaCentersBloc bloc;
   final List<StudyCenter> centersList;
+  final bool isEnabled;
 
   @override
   _GaNewCenterScreenState createState() => _GaNewCenterScreenState();
@@ -28,6 +30,7 @@ class _GaNewCenterScreenState extends State<GaNewCenterScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   StudyCenter center;
   ProgressDialog pr;
+  String title;
 
   @override
   void initState() {
@@ -45,6 +48,7 @@ class _GaNewCenterScreenState extends State<GaNewCenterScreen> {
         child: CircularProgressIndicator(),
       ),
     );
+    title = !widget.isEnabled ? 'حول المركز' : 'إنشاء مركز جديد';
     super.initState();
   }
 
@@ -75,26 +79,28 @@ class _GaNewCenterScreenState extends State<GaNewCenterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('إنشاء مركز جديد'),
+        title: Text(title),
         centerTitle: true,
         actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: InkWell(
-              onTap: () => save(),
-              child: Icon(
-                Icons.save,
-                size: 26.0,
-              ),
-            ),
-          ),
+          widget.isEnabled
+              ? Padding(
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: InkWell(
+                    onTap: () => save(),
+                    child: Icon(
+                      Icons.save,
+                      size: 26.0,
+                    ),
+                  ),
+                )
+              : Container(),
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: CenterForm(
-          showCenterOptions: true,
-          isEnabled: true,
+          showCenterOptions: widget.isEnabled,
+          isEnabled: widget.isEnabled,
           formKey: _formKey,
           center: widget.center,
           onSaved: (newcenter) => center = newcenter,

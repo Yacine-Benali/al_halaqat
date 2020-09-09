@@ -256,6 +256,8 @@ class KeyTranslate {
     'archive': 'أرشفة',
     'delete': 'حذف',
     'reApprove': 'اعادة تفعيل',
+    'aboutCenter': 'حول المركز',
+    'aboutAdmin': 'حول المشرف',
   };
   static const Map<String, String> adminCentersStateList = {
     'approved': 'نشطة',

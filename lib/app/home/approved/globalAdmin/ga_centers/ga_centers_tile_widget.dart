@@ -60,6 +60,20 @@ class _GaCentersTileWidgetState extends State<GaCentersTileWidget> {
             bloc: widget.bloc,
             center: widget.center,
             centersList: widget.centersList,
+            isEnabled: true,
+          ),
+          fullscreenDialog: true,
+        ),
+      );
+    }
+    if (action == 'aboutCenter') {
+      await Navigator.of(context, rootNavigator: false).push(
+        MaterialPageRoute(
+          builder: (context) => GaNewCenterScreen(
+            bloc: widget.bloc,
+            center: widget.center,
+            centersList: widget.centersList,
+            isEnabled: false,
           ),
           fullscreenDialog: true,
         ),
@@ -93,13 +107,14 @@ class _GaCentersTileWidgetState extends State<GaCentersTileWidget> {
   }
 
   Widget _buildAction() {
-    List<String> actions;
+    List<String> actions = List();
     switch (widget.center.state) {
       case 'approved':
-        actions = ['edit', 'archive', 'delete'];
+        actions
+            .addAll(['aboutCenter', 'aboutAdmin', 'edit', 'archive', 'delete']);
         break;
       case 'archived':
-        actions = ['reApprove'];
+        actions.addAll(['aboutCenter', 'aboutAdmin', 'reApprove']);
         break;
       case 'deleted':
         actions = [];
@@ -112,7 +127,8 @@ class _GaCentersTileWidgetState extends State<GaCentersTileWidget> {
         (i) {
           return PopupMenuItem<String>(
             value: actions[i],
-            child: Text(KeyTranslate.centersActionsList[actions[i]]),
+            child:
+                Text(KeyTranslate.centersActionsList[actions[i]] ?? actions[i]),
           );
         },
       ),
