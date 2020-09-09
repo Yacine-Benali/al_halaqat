@@ -61,11 +61,14 @@ class _PendingScreenState extends State<PendingScreen> {
     return Consumer<User>(
       builder: (BuildContext context, user, Widget child) {
         FormType userType;
-        if (user is Teacher) userType = FormType.teacher;
-        if (user is Student) userType = FormType.student;
-        if (user is Admin && isTherePendingCenter(user.centerState))
+        if (user is Teacher)
+          userType = FormType.teacher;
+        else if (user is Student)
+          userType = FormType.student;
+        else if (user is Admin && isTherePendingWithCenter(user.centerState))
+          userType = FormType.adminAndCenter;
+        else if (user is Admin && isTherePendingCenter(user.centerState))
           userType = FormType.admin;
-        if (user is Admin) userType = FormType.adminAndCenter;
 
         return Scaffold(
           appBar: AppBar(
@@ -75,34 +78,20 @@ class _PendingScreenState extends State<PendingScreen> {
               Padding(
                 padding: EdgeInsets.only(left: 20.0),
                 child: InkWell(
-                  onTap: () => userType == FormType.adminAndCenter
-                      ?
-                      //  Navigator.of(context, rootNavigator: false).push(
-                      //     MaterialPageRoute(
-                      //       builder: (context) => AdminCenterForm.create(
-                      //         context: context,
-                      //         user: user,
-                      //       ),
-                      //       fullscreenDialog: true,
-                      //     ),
-                      //   )
-                      Container()
-                      : Navigator.of(context, rootNavigator: false).push(
-                          MaterialPageRoute(
-                            builder: (context) => UserInfoScreen.create(
-                              context: context,
-                              userType: userType,
-                              user: user,
-                            ),
-                            fullscreenDialog: true,
-                          ),
-                        ),
-                  child: userType == FormType.adminAndCenter
-                      ? Container()
-                      : Icon(
-                          Icons.edit,
-                          size: 26.0,
-                        ),
+                  onTap: () => Navigator.of(context, rootNavigator: false).push(
+                    MaterialPageRoute(
+                      builder: (context) => UserInfoScreen.create(
+                        context: context,
+                        userType: userType,
+                        user: user,
+                      ),
+                      fullscreenDialog: true,
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.edit,
+                    size: 26.0,
+                  ),
                 ),
               ),
             ],

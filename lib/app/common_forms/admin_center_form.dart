@@ -56,7 +56,7 @@ class _AdminCenterFormState extends State<AdminCenterForm> {
   bool isSaved = false;
   final GlobalKey<FormState> adminFormKey = GlobalKey<FormState>();
   ProgressDialog pr;
-
+  Future<StudyCenter> centerFutre;
   @override
   void initState() {
     admin = widget.admin;
@@ -74,6 +74,9 @@ class _AdminCenterFormState extends State<AdminCenterForm> {
         child: CircularProgressIndicator(),
       ),
     );
+    UserBloc bloc = Provider.of<UserBloc>(context, listen: false);
+    if (widget.admin != null)
+      centerFutre = bloc.getCenter(widget.admin.centers[0]);
     super.initState();
   }
 
@@ -104,6 +107,7 @@ class _AdminCenterFormState extends State<AdminCenterForm> {
 
   @override
   Widget build(BuildContext context) {
+    UserBloc bloc = Provider.of<UserBloc>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -121,18 +125,14 @@ class _AdminCenterFormState extends State<AdminCenterForm> {
           ),
         ],
       ),
-      body: AdminForm(
-        includeUsernameAndPassword: false,
-        includeCenterState: false,
-        includeCenterIdInput: false,
-        admin: widget.admin,
-        center: null,
-        onSavedAdmin: (newAdmin) => admin = newAdmin,
-        onSavedCenter: (newCenter) => center = newCenter,
-        isEnabled: true,
-        adminFormKey: adminFormKey,
-        includeCenterForm: true,
-      ),
+      body: FutureBuilder(
+          future: Future.delayed(Duration(seconds: 1)),
+          builder: (_, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done)
+              return buildForm(bloc);
+
+            return Center(child: CircularProgressIndicator());
+          }),
     );
   }
 
@@ -152,7 +152,7 @@ class _AdminCenterFormState extends State<AdminCenterForm> {
       );
     }
     return FutureBuilder<StudyCenter>(
-      future: bloc.getCenter(widget.admin.centers[0]),
+      future: centerFutre,
       initialData: null,
       builder: (context, snapshot) {
         if (snapshot.hasData) {

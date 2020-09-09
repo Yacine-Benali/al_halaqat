@@ -132,7 +132,7 @@ class _NewUserScreenState extends State<JoinUsScreen> {
               ),
               SizedBox(height: 10.0),
               MenuButtonWidget(
-                text: 'إنظم كمشرف و أنشأ المركز الخاص بك',
+                text: 'إنشاء مركز جديد',
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
