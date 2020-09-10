@@ -134,8 +134,9 @@ class LogsHelperBloc {
     );
 
     AdminLog adminLog = AdminLog(
+      id: '',
       createdAt: null,
-      teacher: ConversationUser.fromUser(admin),
+      admin: ConversationUser.fromUser(admin),
       action: _getAction(action),
       object: logObject,
       center: MiniCenter.fromCenter(center),
@@ -158,8 +159,9 @@ class LogsHelperBloc {
     );
 
     AdminLog adminLog = AdminLog(
+      id: '',
       createdAt: null,
-      teacher: ConversationUser.fromUser(admin),
+      admin: ConversationUser.fromUser(admin),
       action: _getAction(action),
       object: logObject,
       center: MiniCenter.fromCenter(center),
@@ -182,8 +184,9 @@ class LogsHelperBloc {
     );
 
     AdminLog adminLog = AdminLog(
+      id: '',
       createdAt: null,
-      teacher: ConversationUser.fromUser(admin),
+      admin: ConversationUser.fromUser(admin),
       action: _getAction(action),
       object: logObject,
       center: MiniCenter.fromCenter(center),
@@ -206,8 +209,9 @@ class LogsHelperBloc {
     );
 
     AdminLog adminLog = AdminLog(
+      id: '',
       createdAt: null,
-      teacher: ConversationUser.fromUser(admin),
+      admin: ConversationUser.fromUser(admin),
       action: _getAction(action),
       object: logObject,
       center: MiniCenter.fromCenter(center),

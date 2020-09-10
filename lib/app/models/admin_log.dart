@@ -6,32 +6,36 @@ import 'package:flutter/foundation.dart';
 
 class AdminLog {
   AdminLog({
+    @required this.id,
     @required this.createdAt,
-    @required this.teacher,
+    @required this.admin,
     @required this.action,
     @required this.object,
     @required this.center,
   });
+  String id;
   Timestamp createdAt;
-  ConversationUser teacher;
+  ConversationUser admin;
   String action;
   LogObject object;
   MiniCenter center;
 
-  factory AdminLog.fromMap(Map<String, dynamic> data) {
+  factory AdminLog.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
       return null;
     }
+    String id = documentId;
     Timestamp createdAt = data['createdAt'];
-    ConversationUser teacher = ConversationUser.fromMap(data['teacher']);
+    ConversationUser admin = ConversationUser.fromMap(data['admin']);
     String action = data['action'];
     LogObject object = LogObject.fromMap(data['object']);
     MiniCenter center = MiniCenter.fromMap(data['center']);
 
     return AdminLog(
+      id: id,
       center: center,
       createdAt: createdAt,
-      teacher: teacher,
+      admin: admin,
       action: action,
       object: object,
     );
@@ -40,7 +44,7 @@ class AdminLog {
   Map<String, dynamic> toMap() {
     return {
       'createdAt': createdAt ?? FieldValue.serverTimestamp(),
-      'teacher': teacher.toMap(),
+      'admin': admin.toMap(),
       'action': action,
       'object': object.toMap(),
       'center': center.toMap(),
