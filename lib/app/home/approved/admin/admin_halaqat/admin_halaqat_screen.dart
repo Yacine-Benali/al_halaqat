@@ -99,7 +99,7 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
                 style: TextStyle(color: Colors.white, fontSize: 20),
                 onChanged: (StudyCenter newValue) {
                   setState(() {
-                    print('change center');
+                    chosenCenter = newValue;
                   });
                 },
                 items: widget.centers

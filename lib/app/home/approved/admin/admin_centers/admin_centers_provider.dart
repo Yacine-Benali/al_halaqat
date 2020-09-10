@@ -27,6 +27,15 @@ class AdminCentersProvider {
     );
   }
 
+  Future<void> setCenter(
+    StudyCenter center,
+  ) async =>
+      database.setData(
+        path: APIPath.centerDocument(center.id),
+        data: center.toMap(),
+        merge: true,
+      );
+
   Future<void> createCenter(
     StudyCenter center,
   ) async {
@@ -49,6 +58,6 @@ class AdminCentersProvider {
         FirebaseFirestore.instance.doc(APIPath.centerDocument(center.id)),
         center.toMap(),
       );
-    }, timeout: Duration(seconds: 10));
+    });
   }
 }

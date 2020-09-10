@@ -15,7 +15,7 @@ class EvaluationProvider {
       database.collectionStream(
         path: APIPath.evaluationsCollection(studentId + '_' + halaqaId),
         builder: (data, documentId) => Evaluation.fromMap(data, documentId),
-        sort: (a, b) => a.createdAt.compareTo(b.createdAt) * -1,
+        queryBuilder: (query) => query.orderBy('createdAt', descending: true),
       );
 
   Future<void> setReportCard(ReportCard reportCard) async => await database

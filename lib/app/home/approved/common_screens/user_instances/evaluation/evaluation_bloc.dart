@@ -187,8 +187,10 @@ class EvaluationBloc {
       precentage: roundDouble(summeryPercentage),
     );
 
-    await provider.setReportCard(reportCard);
-    await provider.setEvaluation(reportCard.id, evaluation);
+    await Future.wait([
+      provider.setReportCard(reportCard),
+      provider.setEvaluation(reportCard.id, evaluation)
+    ]);
   }
 
   double roundDouble(double value) {

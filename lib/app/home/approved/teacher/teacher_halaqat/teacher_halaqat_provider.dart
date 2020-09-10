@@ -57,9 +57,8 @@ class TeacherHalaqatProvider {
           FirebaseFirestore.instance.doc(APIPath.userDocument(teacher.id)),
           teacher.toMap(),
         );
-      }, timeout: Duration(seconds: 10));
+      });
     } catch (e) {
-      print('fuck it $e');
       rethrow;
     }
   }
@@ -99,7 +98,7 @@ class TeacherHalaqatProvider {
         )),
         centerRequest.toMap(),
       );
-    }, timeout: Duration(seconds: 10));
+    });
   }
 
   String getUniqueId() => database.getUniqueId();

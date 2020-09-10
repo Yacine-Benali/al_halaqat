@@ -8,6 +8,7 @@ import 'package:al_halaqat/app/models/student_attendance.dart';
 import 'package:al_halaqat/app/models/teacher_summery.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
+import 'package:al_halaqat/common_widgets/firebase_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
@@ -15,6 +16,7 @@ import 'package:al_halaqat/common_widgets/size_config.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:al_halaqat/services/database.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -91,7 +93,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   void action() async {
     try {
       await pr.show();
-      await bloc.saveInstance(instance);
+      bloc.saveInstance(instance);
+      await Future.delayed(Duration(seconds: 1));
       await pr.hide();
 
       PlatformAlertDialog(
@@ -99,12 +102,24 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
         content: 'تم حفظ البيانات',
         defaultActionText: 'حسنا',
       ).show(context);
-    } on PlatformException catch (e) {
+    } catch (e) {
       await pr.hide();
-      PlatformExceptionAlertDialog(
-        title: 'فشلت العملية',
-        exception: e,
-      ).show(context);
+      if (e is PlatformException) {
+        PlatformExceptionAlertDialog(
+          title: 'فشلت العملية',
+          exception: e,
+        ).show(context);
+      } else if (e is FirebaseException)
+        FirebaseExceptionAlertDialog(
+          title: 'فشلت العملية',
+          exception: e,
+        ).show(context);
+      else
+        PlatformAlertDialog(
+          title: 'فشلت العملية',
+          content: 'فشلت العملية',
+          defaultActionText: 'حسنا',
+        ).show(context);
     }
   }
 

@@ -69,9 +69,11 @@ class _AdminNewStudentScreenState extends State<TeacherNewStudentScreen> {
         //   print(admin.centers);
         await pr.show();
         if (widget.student != null)
-          await widget.bloc.modifieStudent(widget.student, student);
+          widget.bloc.modifieStudent(widget.student, student);
         else
-          await widget.bloc.createStudent(student, widget.chosenCenter);
+          widget.bloc.createStudent(student, widget.chosenCenter);
+
+        await Future.delayed(Duration(seconds: 1));
         await pr.hide();
 
         PlatformAlertDialog(

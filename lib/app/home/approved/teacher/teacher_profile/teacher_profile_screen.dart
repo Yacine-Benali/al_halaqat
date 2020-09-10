@@ -69,7 +69,8 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
       try {
         //   print(admin.centers);
         await pr.show();
-        await widget.bloc.updateProfile(modifiedTeacher);
+        widget.bloc.updateProfile(modifiedTeacher);
+        await Future.delayed(Duration(seconds: 1));
         await pr.hide();
 
         PlatformAlertDialog(

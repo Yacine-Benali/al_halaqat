@@ -1,8 +1,11 @@
 import 'package:al_halaqat/app/sign_in/email_password/email_password_sign_in_model.dart';
+import 'package:al_halaqat/common_widgets/firebase_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/form_submit_button.dart';
+import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/constants/strings.dart';
 import 'package:al_halaqat/services/auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -67,8 +70,20 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
   Future<void> _submit() async {
     try {
       await model.submit();
-    } on PlatformException catch (e) {
-      _showSignInError(model, e);
+    } catch (e) {
+      if (e is PlatformException) {
+        _showSignInError(model, e);
+      } else if (e is FirebaseException)
+        FirebaseExceptionAlertDialog(
+          title: 'فشلت العملية',
+          exception: e,
+        ).show(context);
+      else
+        PlatformAlertDialog(
+          title: 'فشلت العملية',
+          content: 'فشلت العملية',
+          defaultActionText: 'حسنا',
+        ).show(context);
     }
   }
 

@@ -51,7 +51,7 @@ class AdminHalaqatProvider {
         FirebaseFirestore.instance.doc(APIPath.halaqaDocument(halaqa.id)),
         halaqa.toMap(),
       );
-    }, timeout: Duration(seconds: 10));
+    });
   }
 
   String getUniqueId() => database.getUniqueId();

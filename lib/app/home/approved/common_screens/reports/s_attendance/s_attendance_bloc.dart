@@ -109,21 +109,6 @@ class SAttendanceBloc {
         }
       }
     }
-    if (showPercentages) {
-      userAttendaceList.forEach((element) {
-        double all = element.present +
-            element.latee +
-            element.absent +
-            element.absentWithExecuse;
-
-        element.present = Format.roundDouble(element.present / all * 100);
-        element.latee = Format.roundDouble(element.latee / all * 100);
-        element.absent = Format.roundDouble(element.absent / all * 100);
-        element.absentWithExecuse =
-            Format.roundDouble(element.absentWithExecuse / all * 100);
-      });
-    }
-
     UsersAttendanceSummery halaqaAttendanceSummery = UsersAttendanceSummery(
       id: halaqa.id,
       name: halaqa.name,
@@ -140,6 +125,21 @@ class SAttendanceBloc {
       halaqaAttendanceSummery.absent += usersAttendance.absent;
     }
     userAttendaceList.insert(0, halaqaAttendanceSummery);
+    if (showPercentages) {
+      userAttendaceList.forEach((element) {
+        double all = element.present +
+            element.latee +
+            element.absent +
+            element.absentWithExecuse;
+        element.present = Format.roundDouble(element.present / all * 100);
+
+        element.latee = Format.roundDouble(element.latee / all * 100);
+        element.absent = Format.roundDouble(element.absent / all * 100);
+        element.absentWithExecuse =
+            Format.roundDouble(element.absentWithExecuse / all * 100);
+      });
+    }
+
     return userAttendaceList;
   }
 

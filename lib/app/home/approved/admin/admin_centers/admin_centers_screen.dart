@@ -56,20 +56,6 @@ class _AdminCentersScreenState extends State<AdminCentersScreen> {
         title: Text('المراكز'),
         centerTitle: true,
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () => Navigator.of(context, rootNavigator: false).push(
-      //     MaterialPageRoute(
-      //       builder: (context) => GaNewCenterScreen(
-      //         bloc: bloc,
-      //         center: null,
-      //         centersList: centersList,
-      //       ),
-      //       fullscreenDialog: true,
-      //     ),
-      //   ),
-      //   tooltip: 'add',
-      //   child: Icon(Icons.add),
-      // ),
       body: StreamBuilder<List<StudyCenter>>(
         stream: centersListStream,
         builder: (context, snapshot) {

@@ -1,9 +1,11 @@
 import 'package:al_halaqat/app/common_forms/center_form.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_centers/admin_centers_bloc.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/common_widgets/firebase_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -58,12 +60,26 @@ class _AdminNewCenterScreenState extends State<AdminNewCenterScreen> {
           defaultActionText: 'حسنا',
         ).show(context);
         Navigator.of(context).pop();
-      } on PlatformException catch (e) {
+      } catch (e) {
+        print(e);
+        print(e.runtimeType);
         await pr.hide();
-        PlatformExceptionAlertDialog(
-          title: 'فشلت العملية',
-          exception: e,
-        ).show(context);
+        if (e is PlatformException) {
+          PlatformExceptionAlertDialog(
+            title: 'فشلت العملية',
+            exception: e,
+          ).show(context);
+        } else if (e is FirebaseException)
+          FirebaseExceptionAlertDialog(
+            title: 'فشلت العملية',
+            exception: e,
+          ).show(context);
+        else
+          PlatformAlertDialog(
+            title: 'فشلت العملية',
+            content: 'فشلت العملية',
+            defaultActionText: 'حسنا',
+          ).show(context);
       }
     }
   }

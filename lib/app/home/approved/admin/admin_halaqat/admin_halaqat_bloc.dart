@@ -44,25 +44,27 @@ class AdminHalaqaBloc {
     Halaqa halaqa,
     StudyCenter chosenCenter,
   ) async {
-    if (halaqa.id == null) {
-      halaqa.id = provider.getUniqueId();
-      halaqa.createdBy = {
-        'name': admin.name,
-        'id': admin.id,
-      };
-      halaqa.centerId = chosenCenter.id;
-      halaqa.state = 'approved';
-      return await Future.wait([
-        logsHelperBloc.adminHalaqaLog(
-            admin, halaqa, ObjectAction.add, chosenCenter),
-        provider.createHalaqa(halaqa)
-      ]);
-    } else {
-      return await Future.wait([
-        logsHelperBloc.adminHalaqaLog(
-            admin, halaqa, ObjectAction.edit, chosenCenter),
-        provider.createHalaqa(halaqa)
-      ]);
+    try {
+      if (halaqa.id == null) {
+        halaqa.id = provider.getUniqueId();
+        halaqa.createdBy = {
+          'name': admin.name,
+          'id': admin.id,
+        };
+        halaqa.centerId = chosenCenter.id;
+        halaqa.state = 'approved';
+
+        await provider.createHalaqa(halaqa);
+        return logsHelperBloc.adminHalaqaLog(
+            admin, halaqa, ObjectAction.add, chosenCenter);
+      } else {
+        await provider.createHalaqa(halaqa);
+        return logsHelperBloc.adminHalaqaLog(
+            admin, halaqa, ObjectAction.add, chosenCenter);
+      }
+    } catch (e) {
+      print('bloc $e');
+      rethrow;
     }
   }
 

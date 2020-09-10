@@ -2,9 +2,11 @@ import 'package:al_halaqat/app/common_forms/halaqa_form.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_halaqat_bloc.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:al_halaqat/common_widgets/firebase_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -84,12 +86,17 @@ class _TeacherNewHalaqaScreenState extends State<TeacherNewHalaqaScreen> {
             title: 'فشلت العملية',
             exception: e,
           ).show(context);
-        } else
+        } else if (e is FirebaseException)
+          FirebaseExceptionAlertDialog(
+            title: 'فشلت العملية',
+            exception: e,
+          ).show(context);
+        else
           PlatformAlertDialog(
             title: 'فشلت العملية',
             content: 'فشلت العملية',
             defaultActionText: 'حسنا',
-          );
+          ).show(context);
       }
     }
   }
