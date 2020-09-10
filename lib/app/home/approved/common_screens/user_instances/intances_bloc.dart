@@ -5,6 +5,7 @@ import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/instance.dart';
 import 'package:al_halaqat/app/models/student_attendance.dart';
 import 'package:al_halaqat/app/models/students_attendance_summery.dart';
+import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/teacher_summery.dart';
 import 'package:al_halaqat/app/models/user.dart';
@@ -17,12 +18,14 @@ class InstancesBloc {
     @required this.halaqa,
     @required this.user,
     @required this.logsHelperBloc,
+    @required this.chosenCenter,
   });
 
   final InstancesProvider provider;
   final Halaqa halaqa;
   final User user;
   final LogsHelperBloc logsHelperBloc;
+  final StudyCenter chosenCenter;
 
   List<Instance> instancesList = [];
   List<Instance> emptyList = [];
@@ -88,15 +91,17 @@ class InstancesBloc {
     }
     if (user is Teacher) {
       await Future.wait([
-        logsHelperBloc.teacherInstanceLog(user, instance, ObjectAction.add),
+        logsHelperBloc.teacherInstanceLog(user, instance, ObjectAction.edit),
         provider.setInstance(instance)
       ]);
     } else if (user is Admin) {
       await Future.wait([
-        // logsHelperBloc.teacherInstanceLog(teacher, instance, action),
+        logsHelperBloc.adminInstanceLog(
+            user, instance, ObjectAction.edit, chosenCenter),
         provider.setInstance(instance)
       ]);
-    }
+    } else
+      provider.setInstance(instance);
   }
 
   Future<void> createNewInstance() async {
@@ -125,10 +130,12 @@ class InstancesBloc {
       ]);
     } else if (user is Admin) {
       await Future.wait([
-        //logsHelperBloc.teacherInstanceLog(teacher, instance, action),
+        logsHelperBloc.adminInstanceLog(
+            user, instance, ObjectAction.add, chosenCenter),
         provider.setInstance(instance)
       ]);
-    }
+    } else
+      provider.setInstance(instance);
   }
 
   Future<void> deleteInstance(Instance deletedInstance) async {
@@ -148,10 +155,12 @@ class InstancesBloc {
       ]);
     } else if (user is Admin) {
       await Future.wait([
-        // logsHelperBloc.teacherInstanceLog(teacher, instance, action),
+        logsHelperBloc.adminInstanceLog(
+            user, deletedInstance, ObjectAction.delete, chosenCenter),
         provider.deleteInstance(deletedInstance)
       ]);
-    }
+    } else
+      provider.deleteInstance(deletedInstance);
 
     if (!instancessListController.isClosed) {
       instancessListController.sink.add(instancesList);

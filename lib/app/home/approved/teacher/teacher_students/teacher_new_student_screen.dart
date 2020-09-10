@@ -56,6 +56,8 @@ class _AdminNewStudentScreenState extends State<TeacherNewStudentScreen> {
     User user = Provider.of<User>(context, listen: false);
     if (user is GlobalAdmin)
       hidePassword = false;
+    else if (widget.student == null)
+      hidePassword = false;
     else
       hidePassword = true;
     super.initState();

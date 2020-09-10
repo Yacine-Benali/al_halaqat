@@ -3,6 +3,7 @@ import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_new_stud
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_student_tile_widget.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_students/admin_students_provider.dart';
+import 'package:al_halaqat/app/logs_helper/logs_helper_bloc.dart';
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/quran.dart';
@@ -43,13 +44,15 @@ class AdminsStudentsScreen extends StatefulWidget {
     Auth auth = Provider.of<Auth>(context, listen: false);
     ConversationHelpeBloc conversationHelper =
         Provider.of<ConversationHelpeBloc>(context, listen: false);
-
+    LogsHelperBloc logsHelperBloc =
+        Provider.of<LogsHelperBloc>(context, listen: false);
     AdminStudentsProvider provider = AdminStudentsProvider(database: database);
     AdminStudentsBloc bloc = AdminStudentsBloc(
       provider: provider,
       admin: admin,
       auth: auth,
       conversationHelper: conversationHelper,
+      logsHelperBloc: logsHelperBloc,
     );
 
     return AdminsStudentsScreen._(

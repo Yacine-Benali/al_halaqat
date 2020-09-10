@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:al_halaqat/app/conversation_helper/conversation_helper_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_teachers/admin_teacher_provider.dart';
+import 'package:al_halaqat/app/logs_helper/logs_helper_bloc.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
@@ -22,11 +23,12 @@ class AdminTeacherBloc {
     @required this.admin,
     @required this.auth,
     @required this.conversationHelper,
+    @required this.logsHelperBloc,
   });
 
   final AdminTeachersProvider provider;
   final ConversationHelpeBloc conversationHelper;
-
+  final LogsHelperBloc logsHelperBloc;
   final User admin;
   final Auth auth;
 
@@ -52,9 +54,7 @@ class AdminTeacherBloc {
   }
 
   List<Halaqa> getFilteredHalaqaList(
-    List<Halaqa> data,
-    StudyCenter chosenCenter,
-  ) {
+      List<Halaqa> data, StudyCenter chosenCenter) {
     List<Halaqa> filteredStudentsList = List();
 
     for (Halaqa halaqa in data) {
@@ -66,9 +66,7 @@ class AdminTeacherBloc {
   }
 
   // ignore: missing_return
-  Stream<UserHalaqa<Teacher>> fetchTeachers(
-    List<StudyCenter> centersList,
-  ) {
+  Stream<UserHalaqa<Teacher>> fetchTeachers(List<StudyCenter> centersList) {
     List<String> centerIds = centersList.map((e) => e.id).toList();
     if (centerIds.length <= 10) {
       Stream<List<Teacher>> teachersStream = provider.fetchTeachers(centerIds);
@@ -83,20 +81,25 @@ class AdminTeacherBloc {
     }
   }
 
-  Future<void> modifieTeacher(Teacher oldTeacher, Teacher newTeacher) async {
+  Future<void> modifieTeacher(
+    Teacher oldTeacher,
+    Teacher newTeacher,
+    StudyCenter chosenCenter,
+  ) async {
     List<String> temp = List();
     for (String a in newTeacher.halaqatTeachingIn) {
       if (a != null) temp.add(a);
     }
     newTeacher.halaqatTeachingIn = temp;
-    await conversationHelper.onTeacherModification(oldTeacher, newTeacher);
-    await provider.createTeacher(newTeacher);
+    await Future.wait([
+      logsHelperBloc.adminTeacherLog(
+          admin, newTeacher, ObjectAction.edit, chosenCenter),
+      conversationHelper.onTeacherModification(oldTeacher, newTeacher),
+      provider.createTeacher(newTeacher),
+    ]);
   }
 
-  Future<void> createTeacher(
-    Teacher teacher,
-    StudyCenter chosenCenter,
-  ) async {
+  Future<void> createTeacher(Teacher teacher, StudyCenter chosenCenter) async {
     List<String> temp = List();
 
     for (String a in teacher.halaqatTeachingIn) {
@@ -122,9 +125,14 @@ class AdminTeacherBloc {
       teacher.centerState = {
         chosenCenter.id: 'approved',
       };
-      await conversationHelper.onTeacherCreation(teacher);
+
+      await Future.wait([
+        logsHelperBloc.adminTeacherLog(
+            admin, teacher, ObjectAction.add, chosenCenter),
+        conversationHelper.onTeacherCreation(teacher),
+        provider.createTeacher(teacher)
+      ]);
     }
-    await provider.createTeacher(teacher);
   }
 
   List<Teacher> getFilteredTeachersList(
@@ -148,15 +156,29 @@ class AdminTeacherBloc {
     switch (action) {
       case 'reApprove':
         teacher.centerState[chosenCenter.id] = 'approved';
+        await Future.wait([
+          logsHelperBloc.adminTeacherLog(
+              admin, teacher, ObjectAction.edit, chosenCenter),
+          provider.createTeacher(teacher),
+        ]);
         break;
       case 'archive':
         teacher.centerState[chosenCenter.id] = 'archived';
+        await Future.wait([
+          logsHelperBloc.adminTeacherLog(
+              admin, teacher, ObjectAction.edit, chosenCenter),
+          provider.createTeacher(teacher),
+        ]);
         break;
       case 'delete':
         teacher.centerState[chosenCenter.id] = 'deleted';
+        await Future.wait([
+          logsHelperBloc.adminTeacherLog(
+              admin, teacher, ObjectAction.delete, chosenCenter),
+          provider.createTeacher(teacher),
+        ]);
         break;
     }
-    await provider.createTeacher(teacher);
   }
 
   Future<String> getReportasCsv(

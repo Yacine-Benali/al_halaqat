@@ -2,6 +2,7 @@ import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqa_ti
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_provider.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_new_halaqa_screen.dart';
+import 'package:al_halaqat/app/logs_helper/logs_helper_bloc.dart';
 import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
@@ -32,12 +33,15 @@ class AdminHalaqatScreen extends StatefulWidget {
     Database database = Provider.of<Database>(context, listen: false);
     User user = Provider.of<User>(context, listen: false);
     Auth auth = Provider.of<Auth>(context, listen: false);
+    LogsHelperBloc logsHelperBloc =
+        Provider.of<LogsHelperBloc>(context, listen: false);
 
     AdminHalaqatProvider provider = AdminHalaqatProvider(database: database);
     AdminHalaqaBloc bloc = AdminHalaqaBloc(
       auth: auth,
       admin: user,
       provider: provider,
+      logsHelperBloc: logsHelperBloc,
     );
 
     return AdminHalaqatScreen._(

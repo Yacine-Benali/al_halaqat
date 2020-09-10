@@ -45,4 +45,6 @@ class APIPath {
 
   static String centerLogsCollection(String centerId) =>
       'centers/$centerId/logs';
+
+  static String adminLogsCollection() => 'adminLogs';
 }

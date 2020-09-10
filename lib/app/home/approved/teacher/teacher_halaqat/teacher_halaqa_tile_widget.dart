@@ -73,9 +73,9 @@ class _TeacherHalqaTileWidgetState extends State<TeacherHalqaTileWidget> {
               : await Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
                     builder: (context) => InstancesScreen.create(
-                      context: context,
-                      halaqa: widget.halaqa,
-                    ),
+                        context: context,
+                        halaqa: widget.halaqa,
+                        chosenCenter: widget.chosenCenter),
                     fullscreenDialog: true,
                   ),
                 ),

@@ -56,6 +56,8 @@ class _AdminNewTeacherScreenState extends State<AdminNewTeacherScreen> {
     User user = Provider.of<User>(context, listen: false);
     if (user is GlobalAdmin)
       hidePassword = false;
+    else if (widget.teacher == null)
+      hidePassword = false;
     else
       hidePassword = true;
 
@@ -68,7 +70,8 @@ class _AdminNewTeacherScreenState extends State<AdminNewTeacherScreen> {
         //   print(admin.centers);
         await pr.show();
         if (widget.teacher != null)
-          await widget.bloc.modifieTeacher(widget.teacher, teacher);
+          await widget.bloc
+              .modifieTeacher(widget.teacher, teacher, widget.chosenCenter);
         else
           await widget.bloc.createTeacher(teacher, widget.chosenCenter);
         await pr.hide();

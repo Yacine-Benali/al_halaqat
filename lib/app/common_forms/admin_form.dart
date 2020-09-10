@@ -191,7 +191,7 @@ class _NewAdminFormState extends State<AdminForm>
                     isPhoneNumber: false,
                     validator: (value) {
                       if (!usernameSubmitValidator.isValid(value)) {
-                        return 'خطأ';
+                        return 'إسم المستخدم يجب أن يكون بدون فراغ من 3 إلى 20 حرف';
                       }
                       return null;
                     },

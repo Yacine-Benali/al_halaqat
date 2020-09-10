@@ -79,10 +79,8 @@ class _AdminHalqaTileWidgetState extends State<AdminHalqaTileWidget> {
       if (didRequestSignOut == true) {
         try {
           await pr.show();
-          await widget.bloc.executeAction(
-            widget.halaqa,
-            action,
-          );
+          await widget.bloc
+              .executeAction(widget.halaqa, action, widget.chosenCenter);
           await pr.hide();
           PlatformAlertDialog(
             title: 'نجحت العملية',
@@ -161,6 +159,7 @@ class _AdminHalqaTileWidgetState extends State<AdminHalqaTileWidget> {
                     builder: (context) => InstancesScreen.create(
                       context: context,
                       halaqa: widget.halaqa,
+                      chosenCenter: widget.chosenCenter,
                     ),
                     fullscreenDialog: true,
                   ),

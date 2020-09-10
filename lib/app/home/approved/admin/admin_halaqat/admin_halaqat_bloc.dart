@@ -1,4 +1,5 @@
 import 'package:al_halaqat/app/home/approved/admin/admin_halaqat/admin_halaqat_provider.dart';
+import 'package:al_halaqat/app/logs_helper/logs_helper_bloc.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
@@ -13,12 +14,15 @@ class AdminHalaqaBloc {
     @required this.provider,
     @required this.admin,
     @required this.auth,
+    @required this.logsHelperBloc,
   });
 
   final AdminHalaqatProvider provider;
   final User admin;
   final Auth auth;
+  final LogsHelperBloc logsHelperBloc;
 
+  // ignore: missing_return
   Stream<UserHalaqa<Teacher>> fetchTeachers(
     List<StudyCenter> centersList,
   ) {
@@ -48,9 +52,18 @@ class AdminHalaqaBloc {
       };
       halaqa.centerId = chosenCenter.id;
       halaqa.state = 'approved';
+      return await Future.wait([
+        logsHelperBloc.adminHalaqaLog(
+            admin, halaqa, ObjectAction.add, chosenCenter),
+        provider.createHalaqa(halaqa)
+      ]);
+    } else {
+      return await Future.wait([
+        logsHelperBloc.adminHalaqaLog(
+            admin, halaqa, ObjectAction.edit, chosenCenter),
+        provider.createHalaqa(halaqa)
+      ]);
     }
-
-    await provider.createHalaqa(halaqa);
   }
 
   List<Halaqa> getFilteredHalaqatList(
@@ -71,19 +84,34 @@ class AdminHalaqaBloc {
   Future<void> executeAction(
     Halaqa halaqa,
     String action,
+    StudyCenter chosenCenter,
   ) async {
     switch (action) {
       case 'reApprove':
         halaqa.state = 'approved';
+        await Future.wait([
+          logsHelperBloc.adminHalaqaLog(
+              admin, halaqa, ObjectAction.edit, chosenCenter),
+          provider.createHalaqa(halaqa)
+        ]);
         break;
       case 'archive':
         halaqa.state = 'archived';
+        await Future.wait([
+          logsHelperBloc.adminHalaqaLog(
+              admin, halaqa, ObjectAction.edit, chosenCenter),
+          provider.createHalaqa(halaqa)
+        ]);
         break;
       case 'delete':
         halaqa.state = 'deleted';
+        await Future.wait([
+          logsHelperBloc.adminHalaqaLog(
+              admin, halaqa, ObjectAction.delete, chosenCenter),
+          provider.createHalaqa(halaqa)
+        ]);
         break;
     }
-    await provider.createHalaqa(halaqa);
   }
 
   Teacher getTeacherOfHalaqa(Halaqa halaqa, List<Teacher> teachersList) {

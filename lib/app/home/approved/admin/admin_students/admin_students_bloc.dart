@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:al_halaqat/app/conversation_helper/conversation_helper_bloc.dart';
+import 'package:al_halaqat/app/logs_helper/logs_helper_bloc.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/app/models/student.dart';
@@ -24,19 +25,19 @@ class AdminStudentsBloc {
     @required this.admin,
     @required this.auth,
     @required this.conversationHelper,
+    @required this.logsHelperBloc,
   });
 
   final AdminStudentsProvider provider;
   final User admin;
   final Auth auth;
   final ConversationHelpeBloc conversationHelper;
+  final LogsHelperBloc logsHelperBloc;
   List<Halaqa> halaqat;
   Future<Quran> fetchQuran() => provider.fetchQuran();
 
   // ignore: missing_return
-  Stream<UserHalaqa<Student>> fetchStudents(
-    List<StudyCenter> centersList,
-  ) {
+  Stream<UserHalaqa<Student>> fetchStudents(List<StudyCenter> centersList) {
     List<String> centerIds = centersList.map((e) => e.id).toList();
 
     if (centerIds.length <= 10) {
@@ -53,9 +54,7 @@ class AdminStudentsBloc {
   }
 
   List<Halaqa> getFilteredHalaqaList(
-    List<Halaqa> data,
-    StudyCenter chosenCenter,
-  ) {
+      List<Halaqa> data, StudyCenter chosenCenter) {
     List<Halaqa> filteredStudentsList = List();
 
     for (Halaqa halaqa in data) {
@@ -66,14 +65,20 @@ class AdminStudentsBloc {
     return filteredStudentsList;
   }
 
-  Future<void> modifieStudent(Student oldStudent, Student newStudent) async {
+  Future<void> modifieStudent(
+      Student oldStudent, Student newStudent, StudyCenter chosenCenter) async {
     List<String> temp = List();
     for (String a in newStudent.halaqatLearningIn) {
       if (a != null) temp.add(a);
     }
     newStudent.halaqatLearningIn = temp;
-    await conversationHelper.onStudentModification(oldStudent, newStudent);
-    await provider.createStudent(newStudent);
+
+    await Future.wait([
+      conversationHelper.onStudentModification(oldStudent, newStudent),
+      logsHelperBloc.adminStudentLog(
+          admin, newStudent, ObjectAction.edit, chosenCenter),
+      provider.createStudent(newStudent),
+    ]);
   }
 
   Future<void> createStudent(
@@ -101,10 +106,13 @@ class AdminStudentsBloc {
       student.id = provider.getUniqueId();
       student.state = 'approved';
       student.center = chosenCenter.id;
-      await conversationHelper.onStudentCreation(student);
+      await Future.wait([
+        conversationHelper.onStudentCreation(student),
+        logsHelperBloc.adminStudentLog(
+            admin, student, ObjectAction.add, chosenCenter),
+        provider.createStudent(student),
+      ]);
     }
-
-    await provider.createStudent(student);
   }
 
   List<Student> getFilteredStudentsList(
@@ -123,19 +131,34 @@ class AdminStudentsBloc {
     return filteredStudentsList;
   }
 
-  Future<void> executeAction(Student student, String action) async {
+  Future<void> executeAction(
+      Student student, String action, StudyCenter chosenCenter) async {
     switch (action) {
       case 'reApprove':
         student.state = 'approved';
+        await Future.wait([
+          logsHelperBloc.adminStudentLog(
+              admin, student, ObjectAction.edit, chosenCenter),
+          provider.createStudent(student),
+        ]);
         break;
       case 'archive':
         student.state = 'archived';
+        await Future.wait([
+          logsHelperBloc.adminStudentLog(
+              admin, student, ObjectAction.edit, chosenCenter),
+          provider.createStudent(student),
+        ]);
         break;
       case 'delete':
         student.state = 'deleted';
+        await Future.wait([
+          logsHelperBloc.adminStudentLog(
+              admin, student, ObjectAction.delete, chosenCenter),
+          provider.createStudent(student),
+        ]);
         break;
     }
-    await provider.createStudent(student);
   }
 
   Future<List<Student>> getStudentSearch(

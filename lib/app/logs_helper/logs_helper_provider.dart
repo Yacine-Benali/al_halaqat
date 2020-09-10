@@ -1,3 +1,4 @@
+import 'package:al_halaqat/app/models/admin_log.dart';
 import 'package:al_halaqat/app/models/teacher_log.dart';
 import 'package:al_halaqat/services/api_path.dart';
 import 'package:al_halaqat/services/database.dart';
@@ -12,5 +13,10 @@ class LogsHelperProvider {
       database.addDocument(
         path: APIPath.centerLogsCollection(centerId),
         data: teacherLog.toMap(),
+      );
+
+  Future<void> createAdminLog(AdminLog adminLog) => database.addDocument(
+        path: APIPath.adminLogsCollection(),
+        data: adminLog.toMap(),
       );
 }

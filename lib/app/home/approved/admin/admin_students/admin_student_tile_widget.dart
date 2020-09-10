@@ -82,7 +82,8 @@ class _AdminStudentTileWidgetState extends State<AdminStudentTileWidget> {
       if (didRequestSignOut == true) {
         try {
           await pr.show();
-          await widget.bloc.executeAction(widget.student, action);
+          await widget.bloc
+              .executeAction(widget.student, action, widget.chosenCenter);
           await pr.hide();
           PlatformAlertDialog(
             title: 'نجحت العملية',

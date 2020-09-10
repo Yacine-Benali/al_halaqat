@@ -54,6 +54,8 @@ class _AdminNewStudentScreenState extends State<AdminNewStudentScreen> {
     User user = Provider.of<User>(context, listen: false);
     if (user is GlobalAdmin)
       hidePassword = false;
+    else if (widget.student == null)
+      hidePassword = false;
     else
       hidePassword = true;
     super.initState();
@@ -65,7 +67,8 @@ class _AdminNewStudentScreenState extends State<AdminNewStudentScreen> {
         //   print(admin.centers);
         await pr.show();
         if (widget.student != null)
-          await widget.bloc.modifieStudent(widget.student, student);
+          await widget.bloc
+              .modifieStudent(widget.student, student, widget.chosenCenter);
         else
           await widget.bloc.createStudent(student, widget.chosenCenter);
 
