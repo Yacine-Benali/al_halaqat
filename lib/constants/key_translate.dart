@@ -315,6 +315,12 @@ class KeyTranslate {
     'maleTeacher': 'المعلم',
     'femaleTeacher': 'المعلمة',
     'halaqa': 'الحلقة',
-    'instance': 'الجلسة',
+    'instance': 'جلسة في الحلقة',
+  };
+
+  static const Map<String, String> logActions = {
+    'add': 'أضاف',
+    'edit': 'عدل',
+    'delete': 'حذف',
   };
 }

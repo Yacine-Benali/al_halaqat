@@ -69,6 +69,7 @@ class LogsHelperBloc {
     );
 
     TeacherLog teacherLog = TeacherLog(
+      id: '',
       createdAt: null,
       teacher: ConversationUser.fromUser(teacher),
       action: _getAction(action),
@@ -89,6 +90,7 @@ class LogsHelperBloc {
     );
 
     TeacherLog teacherLog = TeacherLog(
+      id: '',
       createdAt: null,
       teacher: ConversationUser.fromUser(teacher),
       action: _getAction(action),
@@ -109,6 +111,7 @@ class LogsHelperBloc {
     );
 
     TeacherLog teacherLog = TeacherLog(
+      id: '',
       createdAt: null,
       teacher: ConversationUser.fromUser(teacher),
       action: _getAction(action),

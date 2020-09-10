@@ -1,5 +1,6 @@
 import 'package:al_halaqat/app/home/approved/admin/admin_reports/admin_reports_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_reports/admin_reports_provider.dart';
+import 'package:al_halaqat/app/home/approved/admin/admin_reports/center_logs/center_logs_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_reports/center_numbers/center_numbers_screen.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_reports/t_attendance/t_attendance_screen.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/reports/s_attendance/s_attendance_screen.dart';
@@ -155,7 +156,16 @@ class _AdminReportsScreenState extends State<AdminReportsScreen> {
                     SizedBox(height: 10),
                     MenuButtonWidget(
                       text: 'السجلات',
-                      onPressed: () {},
+                      onPressed: () =>
+                          Navigator.of(context, rootNavigator: false).push(
+                        MaterialPageRoute(
+                          builder: (context) => CenterLogsScreen.create(
+                            context: context,
+                            chosenCenter: chosenCenter,
+                          ),
+                          fullscreenDialog: true,
+                        ),
+                      ),
                     ),
                   ],
                 ),
