@@ -1,8 +1,11 @@
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/intances_provider.dart';
+import 'package:al_halaqat/app/logs_helper/logs_helper_bloc.dart';
+import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/instance.dart';
 import 'package:al_halaqat/app/models/student_attendance.dart';
 import 'package:al_halaqat/app/models/students_attendance_summery.dart';
+import 'package:al_halaqat/app/models/teacher.dart';
 import 'package:al_halaqat/app/models/teacher_summery.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +16,13 @@ class InstancesBloc {
     @required this.provider,
     @required this.halaqa,
     @required this.user,
+    @required this.logsHelperBloc,
   });
 
   final InstancesProvider provider;
   final Halaqa halaqa;
   final User user;
+  final LogsHelperBloc logsHelperBloc;
 
   List<Instance> instancesList = [];
   List<Instance> emptyList = [];
@@ -81,8 +86,17 @@ class InstancesBloc {
         'id': user.id,
       };
     }
-
-    await provider.setInstance(instance);
+    if (user is Teacher) {
+      await Future.wait([
+        logsHelperBloc.teacherInstanceLog(user, instance, ObjectAction.add),
+        provider.setInstance(instance)
+      ]);
+    } else if (user is Admin) {
+      await Future.wait([
+        // logsHelperBloc.teacherInstanceLog(teacher, instance, action),
+        provider.setInstance(instance)
+      ]);
+    }
   }
 
   Future<void> createNewInstance() async {
@@ -104,18 +118,41 @@ class InstancesBloc {
       studentAttendanceList: List<StudentAttendance>(),
       studentIdsList: List<String>(),
     );
-
-    await provider.setInstance(instance);
+    if (user is Teacher) {
+      await Future.wait([
+        logsHelperBloc.teacherInstanceLog(user, instance, ObjectAction.add),
+        provider.setInstance(instance)
+      ]);
+    } else if (user is Admin) {
+      await Future.wait([
+        //logsHelperBloc.teacherInstanceLog(teacher, instance, action),
+        provider.setInstance(instance)
+      ]);
+    }
   }
 
   Future<void> deleteInstance(Instance deletedInstance) async {
+    //TODO delete all the evaluation in these instance
+
     List<Instance> temp = List();
     for (Instance existingInstance in instancesList) {
       if (existingInstance.id != deletedInstance.id) temp.add(existingInstance);
     }
     instancesList.clear();
     instancesList.addAll(temp);
-    await provider.deleteInstance(deletedInstance);
+    if (user is Teacher) {
+      await Future.wait([
+        logsHelperBloc.teacherInstanceLog(
+            user, deletedInstance, ObjectAction.delete),
+        provider.deleteInstance(deletedInstance)
+      ]);
+    } else if (user is Admin) {
+      await Future.wait([
+        // logsHelperBloc.teacherInstanceLog(teacher, instance, action),
+        provider.deleteInstance(deletedInstance)
+      ]);
+    }
+
     if (!instancessListController.isClosed) {
       instancessListController.sink.add(instancesList);
     }

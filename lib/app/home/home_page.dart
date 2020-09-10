@@ -1,5 +1,7 @@
 import 'package:al_halaqat/app/conversation_helper/conversation_helper_bloc.dart';
 import 'package:al_halaqat/app/home/base_sceen.dart';
+import 'package:al_halaqat/app/logs_helper/logs_helper_bloc.dart';
+import 'package:al_halaqat/app/logs_helper/logs_helper_provider.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/services/api_path.dart';
 import 'package:al_halaqat/services/database.dart';
@@ -18,9 +20,13 @@ class HomePage extends StatefulWidget {
       child: Consumer<Database>(builder: (_, Database database, __) {
         return Provider<ConversationHelpeBloc>(
           create: (_) => ConversationHelpeBloc(database: database),
-          child: HomePage._(
-            database: database,
-            uid: uid,
+          child: Provider<LogsHelperBloc>(
+            create: (_) => LogsHelperBloc(
+                provider: LogsHelperProvider(database: database)),
+            child: HomePage._(
+              database: database,
+              uid: uid,
+            ),
           ),
         );
       }),

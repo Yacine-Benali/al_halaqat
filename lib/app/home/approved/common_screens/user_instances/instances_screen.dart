@@ -1,6 +1,7 @@
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/instance_tile_widget.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/intances_bloc.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/intances_provider.dart';
+import 'package:al_halaqat/app/logs_helper/logs_helper_bloc.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/instance.dart';
 import 'package:al_halaqat/app/models/user.dart';
@@ -28,8 +29,14 @@ class InstancesScreen extends StatefulWidget {
     User user = Provider.of<User>(context, listen: false);
 
     InstancesProvider provider = InstancesProvider(database: database);
-    InstancesBloc bloc =
-        InstancesBloc(user: user, provider: provider, halaqa: halaqa);
+    LogsHelperBloc logsHelperBloc =
+        Provider.of<LogsHelperBloc>(context, listen: false);
+    InstancesBloc bloc = InstancesBloc(
+      user: user,
+      provider: provider,
+      halaqa: halaqa,
+      logsHelperBloc: logsHelperBloc,
+    );
 
     return InstancesScreen._(
       bloc: bloc,

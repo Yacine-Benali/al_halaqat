@@ -1,4 +1,5 @@
 import 'package:al_halaqat/app/conversation_helper/conversation_helper_bloc.dart';
+import 'package:al_halaqat/app/logs_helper/logs_helper_bloc.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/app/models/student.dart';
@@ -18,12 +19,14 @@ class TeacherStudentsBloc {
     @required this.teacher,
     @required this.auth,
     @required this.conversationHelper,
+    @required this.logsHelperBloc,
   });
 
   final TeacherStudentsProvider provider;
   final Teacher teacher;
   final Auth auth;
   final ConversationHelpeBloc conversationHelper;
+  final LogsHelperBloc logsHelperBloc;
 
   List<Halaqa> halaqat;
   Future<Quran> fetchQuran() => provider.fetchQuran();
@@ -69,8 +72,12 @@ class TeacherStudentsBloc {
       if (a != null) temp.add(a);
     }
     newStudent.halaqatLearningIn = temp;
-    await conversationHelper.onStudentModification(oldStudent, newStudent);
-    await provider.createStudent(newStudent);
+
+    await Future.wait([
+      conversationHelper.onStudentModification(oldStudent, newStudent),
+      logsHelperBloc.teacherStudentLog(teacher, newStudent, ObjectAction.edit),
+      provider.createStudent(newStudent)
+    ]);
   }
 
   Future<void> createStudent(
@@ -98,10 +105,12 @@ class TeacherStudentsBloc {
         'name': teacher.name,
         'id': teacher.id,
       };
-      await conversationHelper.onStudentCreation(student);
+      return await Future.wait([
+        logsHelperBloc.teacherStudentLog(teacher, student, ObjectAction.add),
+        conversationHelper.onStudentCreation(student),
+        provider.createStudent(student),
+      ]);
     }
-
-    await provider.createStudent(student);
   }
 
   List<Student> getFilteredStudentsList(
@@ -121,9 +130,7 @@ class TeacherStudentsBloc {
   }
 
   List<Halaqa> getFilteredHalaqaList(
-    List<Halaqa> data,
-    StudyCenter chosenCenter,
-  ) {
+      List<Halaqa> data, StudyCenter chosenCenter) {
     List<Halaqa> filteredStudentsList = List();
 
     for (Halaqa halaqa in data) {
@@ -138,21 +145,31 @@ class TeacherStudentsBloc {
     switch (action) {
       case 'reApprove':
         student.state = 'approved';
+        await Future.wait([
+          logsHelperBloc.teacherStudentLog(teacher, student, ObjectAction.edit),
+          provider.createStudent(student),
+        ]);
         break;
       case 'archive':
         student.state = 'archived';
+        await Future.wait([
+          logsHelperBloc.teacherStudentLog(teacher, student, ObjectAction.edit),
+          provider.createStudent(student),
+        ]);
         break;
       case 'delete':
         student.state = 'deleted';
+        await Future.wait([
+          logsHelperBloc.teacherStudentLog(
+              teacher, student, ObjectAction.delete),
+          provider.createStudent(student),
+        ]);
         break;
     }
-    await provider.createStudent(student);
   }
 
   Future<List<Student>> getStudentSearch(
-    List<Student> studentsList,
-    String search,
-  ) async {
+      List<Student> studentsList, String search) async {
     print("Resident search = $search");
     if (search == "empty") return [];
     if (search == "error") throw Error();

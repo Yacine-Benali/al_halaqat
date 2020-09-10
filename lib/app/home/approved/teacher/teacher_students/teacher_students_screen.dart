@@ -4,6 +4,7 @@ import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_ne
 import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_student_tile_widget.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_students_bloc.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_students_provider.dart';
+import 'package:al_halaqat/app/logs_helper/logs_helper_bloc.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/quran.dart';
 import 'package:al_halaqat/app/models/student.dart';
@@ -42,11 +43,14 @@ class TeacherStudentsScreen extends StatefulWidget {
         TeacherStudentsProvider(database: database);
     ConversationHelpeBloc conversationHelper =
         Provider.of<ConversationHelpeBloc>(context, listen: false);
+    LogsHelperBloc logsHelperBloc =
+        Provider.of<LogsHelperBloc>(context, listen: false);
     TeacherStudentsBloc bloc = TeacherStudentsBloc(
       provider: provider,
       teacher: teacher,
       auth: auth,
       conversationHelper: conversationHelper,
+      logsHelperBloc: logsHelperBloc,
     );
 
     return TeacherStudentsScreen._(
@@ -280,17 +284,19 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 20.0),
-                        child: Center(
-                          child: InkWell(
-                            onTap: () => searchForStudentDialog(),
-                            child: Icon(
-                              Icons.search,
-                            ),
-                          ),
-                        ),
-                      ),
+                      chosenCenter.canTeachersEditStudents
+                          ? Padding(
+                              padding: EdgeInsets.only(left: 20.0),
+                              child: Center(
+                                child: InkWell(
+                                  onTap: () => searchForStudentDialog(),
+                                  child: Icon(
+                                    Icons.search,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container(),
                     ],
                   ),
                   floatingActionButton: chosenCenter.canTeachersEditStudents

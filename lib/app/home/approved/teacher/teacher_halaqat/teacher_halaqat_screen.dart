@@ -2,6 +2,7 @@ import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_hal
 import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_halaqat_bloc.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_halaqat_provider.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_new_halaqa_screen.dart';
+import 'package:al_halaqat/app/logs_helper/logs_helper_bloc.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
@@ -29,6 +30,8 @@ class TeacherHalaqatScreen extends StatefulWidget {
     Database database = Provider.of<Database>(context, listen: false);
     User user = Provider.of<User>(context, listen: false);
     Auth auth = Provider.of<Auth>(context, listen: false);
+    LogsHelperBloc logsHelperBloc =
+        Provider.of<LogsHelperBloc>(context, listen: false);
 
     TeacherHalaqatProvider provider =
         TeacherHalaqatProvider(database: database);
@@ -36,6 +39,7 @@ class TeacherHalaqatScreen extends StatefulWidget {
       auth: auth,
       teacher: user,
       provider: provider,
+      logsHelperBloc: logsHelperBloc,
     );
 
     return TeacherHalaqatScreen._(

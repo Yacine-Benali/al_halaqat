@@ -308,4 +308,13 @@ class KeyTranslate {
     'delete': 'حذف',
     'note': 'ملاحظة',
   };
+
+  static const Map<String, String> logObjectNature = {
+    'maleStudent': 'الطالب',
+    'femaleStudent': 'الطالبة',
+    'maleTeacher': 'المعلم',
+    'femaleTeacher': 'المعلمة',
+    'halaqa': 'الحلقة',
+    'instance': 'الجلسة',
+  };
 }

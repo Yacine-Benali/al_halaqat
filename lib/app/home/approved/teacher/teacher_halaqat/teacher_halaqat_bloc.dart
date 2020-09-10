@@ -1,4 +1,5 @@
 import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_halaqat_provider.dart';
+import 'package:al_halaqat/app/logs_helper/logs_helper_bloc.dart';
 import 'package:al_halaqat/app/models/center_request.dart';
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
@@ -12,9 +13,11 @@ class TeacherHalaqaBloc {
     @required this.provider,
     @required this.teacher,
     @required this.auth,
+    @required this.logsHelperBloc,
   });
 
   final TeacherHalaqatProvider provider;
+  final LogsHelperBloc logsHelperBloc;
   final Teacher teacher;
   final Auth auth;
 
@@ -33,17 +36,13 @@ class TeacherHalaqaBloc {
         (List<List<Halaqa>> values) => values.expand((x) => x).toList());
   }
 
-  Future<void> editHalaqa(
-    Halaqa halaqa,
-    StudyCenter chosenCenter,
-  ) async {
-    await provider.editHalaqa(halaqa);
-  }
+  Future<void> editHalaqa(Halaqa halaqa, StudyCenter chosenCenter) async =>
+      await Future.wait([
+        logsHelperBloc.teacherHalaqaLog(teacher, halaqa, ObjectAction.edit),
+        provider.editHalaqa(halaqa)
+      ]);
 
-  Future<void> creatHalaqa(
-    Halaqa halaqa,
-    StudyCenter chosenCenter,
-  ) async {
+  Future<void> creatHalaqa(Halaqa halaqa, StudyCenter chosenCenter) async {
     halaqa.id = provider.getUniqueId();
     halaqa.createdBy = {
       'name': teacher.name,
@@ -56,7 +55,10 @@ class TeacherHalaqaBloc {
     if (chosenCenter.requestPermissionForHalaqaCreation == false) {
       halaqa.state = 'approved';
 
-      await provider.createHalaqa(halaqa, teacher);
+      return await Future.wait([
+        logsHelperBloc.teacherHalaqaLog(teacher, halaqa, ObjectAction.add),
+        provider.createHalaqa(halaqa, teacher)
+      ]);
     } else {
       halaqa.state = 'pending';
       CenterRequest centerRequest = CenterRequest(
@@ -69,7 +71,7 @@ class TeacherHalaqaBloc {
         halaqa: halaqa,
       );
 
-      await provider.createHalaqaRequest(
+      return await provider.createHalaqaRequest(
         halaqa,
         teacher,
         chosenCenter.id,
