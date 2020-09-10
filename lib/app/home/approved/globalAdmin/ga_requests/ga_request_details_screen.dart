@@ -1,10 +1,12 @@
 import 'package:al_halaqat/app/common_forms/admin_form.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_bloc.dart';
 import 'package:al_halaqat/app/models/global_admin_request.dart';
+import 'package:al_halaqat/common_widgets/firebase_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -55,12 +57,24 @@ class _GaRequestDetailsScreenState extends State<GaRequestDetailsScreen> {
         defaultActionText: 'حسنا',
       ).show(context);
       Navigator.of(context).pop();
-    } on PlatformException catch (e) {
+    } catch (e) {
       await pr.hide();
-      PlatformExceptionAlertDialog(
-        title: 'فشلت العملية',
-        exception: e,
-      ).show(context);
+      if (e is PlatformException) {
+        PlatformExceptionAlertDialog(
+          title: 'فشلت العملية',
+          exception: e,
+        ).show(context);
+      } else if (e is FirebaseException)
+        FirebaseExceptionAlertDialog(
+          title: 'فشلت العملية',
+          exception: e,
+        ).show(context);
+      else
+        PlatformAlertDialog(
+          title: 'فشلت العملية',
+          content: 'فشلت العملية',
+          defaultActionText: 'حسنا',
+        ).show(context);
     }
   }
 

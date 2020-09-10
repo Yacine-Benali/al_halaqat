@@ -21,9 +21,10 @@ class GaRequestsProvider {
         data,
         documentId,
       ),
-      queryBuilder: (query) =>
-          query.where('state', isEqualTo: requestsState).limit(limitNumber),
-      sort: (rhs, lhs) => lhs.createdAt.compareTo(rhs.createdAt),
+      queryBuilder: (query) => query
+          .where('state', isEqualTo: requestsState)
+          .orderBy('createdAt', descending: true)
+          .limit(limitNumber),
     );
   }
 
@@ -51,7 +52,7 @@ class GaRequestsProvider {
         {'centerState.${gaRequest.center.id}': gaRequest.state},
       );
       //
-    }, timeout: Duration(seconds: 10));
+    });
   }
 
   Future<void> updateJoinExistingRequestAccepted(
@@ -73,7 +74,7 @@ class GaRequestsProvider {
         'centerState.${gaRequest.center.id}': gaRequest.state,
         'centers': FieldValue.arrayUnion([gaRequest.centerId])
       });
-    }, timeout: Duration(seconds: 10));
+    });
   }
 
   Future<void> updateJoinExistingRequestRefused(
@@ -94,6 +95,6 @@ class GaRequestsProvider {
       tx.update(adminDocRef, {
         'centerState.${gaRequest.center.id}': FieldValue.delete(),
       });
-    }, timeout: Duration(seconds: 10));
+    });
   }
 }

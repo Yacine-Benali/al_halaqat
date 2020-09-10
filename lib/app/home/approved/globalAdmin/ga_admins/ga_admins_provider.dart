@@ -34,7 +34,7 @@ class GaAdminsProvider {
     final DocumentReference postRef = FirebaseFirestore.instance
         .doc('/globalConfiguration/globalConfiguration');
 
-    FirebaseFirestore.instance.runTransaction((Transaction tx) async {
+    await FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       if (user.readableId == null) {
         DocumentSnapshot postSnapshot = await tx.get(postRef);
         tx.update(postRef, <String, dynamic>{
