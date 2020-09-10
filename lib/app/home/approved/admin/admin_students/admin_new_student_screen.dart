@@ -5,9 +5,11 @@ import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
+import 'package:al_halaqat/common_widgets/firebase_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -80,12 +82,24 @@ class _AdminNewStudentScreenState extends State<AdminNewStudentScreen> {
           defaultActionText: 'حسنا',
         ).show(context);
         Navigator.of(context).pop();
-      } on PlatformException catch (e) {
+      } catch (e) {
         await pr.hide();
-        PlatformExceptionAlertDialog(
-          title: 'فشلت العملية',
-          exception: e,
-        ).show(context);
+        if (e is PlatformException) {
+          PlatformExceptionAlertDialog(
+            title: 'فشلت العملية',
+            exception: e,
+          ).show(context);
+        } else if (e is FirebaseException)
+          FirebaseExceptionAlertDialog(
+            title: 'فشلت العملية',
+            exception: e,
+          ).show(context);
+        else
+          PlatformAlertDialog(
+            title: 'فشلت العملية',
+            content: 'فشلت العملية',
+            defaultActionText: 'حسنا',
+          ).show(context);
       }
     }
   }

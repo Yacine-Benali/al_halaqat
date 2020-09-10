@@ -68,7 +68,9 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
       try {
         //   print(admin.centers);
         await pr.show();
-        await widget.bloc.updateProfile(modifiedAdmin);
+        widget.bloc.updateProfile(modifiedAdmin);
+        await Future.delayed(Duration(seconds: 1));
+
         await pr.hide();
 
         PlatformAlertDialog(

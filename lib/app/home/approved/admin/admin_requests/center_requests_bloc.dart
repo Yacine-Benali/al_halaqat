@@ -77,7 +77,7 @@ class CenterRequestsBloc {
           conversationHelper.onStudentAcceptance(requestUser);
       }
 
-      await provider.updateJoinRequest(
+      return await provider.updateJoinRequest(
         chosenStudyCenter.id,
         centerRequest,
         requestUser,
@@ -104,7 +104,7 @@ class CenterRequestsBloc {
     } else if (centerRequest.action == 'create-halaqa') {
       Halaqa halaqa = centerRequest.halaqa;
       halaqa.state = state;
-      await provider.updateNewHalaqaRequest(
+      return await provider.updateNewHalaqaRequest(
         centerRequest,
         halaqa,
         chosenStudyCenter.id,

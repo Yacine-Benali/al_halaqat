@@ -4,10 +4,12 @@ import 'package:al_halaqat/app/home/approved/common_screens/user_instances/insta
 import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher.dart';
+import 'package:al_halaqat/common_widgets/firebase_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -87,12 +89,24 @@ class _AdminHalqaTileWidgetState extends State<AdminHalqaTileWidget> {
             content: 'تمت العملية بنجاح',
             defaultActionText: 'حسنا',
           ).show(widget.scaffoldKey.currentContext);
-        } on PlatformException catch (e) {
+        } catch (e) {
           await pr.hide();
-          PlatformExceptionAlertDialog(
-            title: 'فشلت العملية',
-            exception: e,
-          ).show(widget.scaffoldKey.currentContext);
+          if (e is PlatformException) {
+            PlatformExceptionAlertDialog(
+              title: 'فشلت العملية',
+              exception: e,
+            ).show(widget.scaffoldKey.currentContext);
+          } else if (e is FirebaseException)
+            FirebaseExceptionAlertDialog(
+              title: 'فشلت العملية',
+              exception: e,
+            ).show(widget.scaffoldKey.currentContext);
+          else
+            PlatformAlertDialog(
+              title: 'فشلت العملية',
+              content: 'فشلت العملية',
+              defaultActionText: 'حسنا',
+            ).show(widget.scaffoldKey.currentContext);
         }
       }
     }

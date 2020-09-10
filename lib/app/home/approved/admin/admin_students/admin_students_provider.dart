@@ -25,7 +25,7 @@ class AdminStudentsProvider {
     final DocumentReference postRef = FirebaseFirestore.instance
         .doc('/globalConfiguration/globalConfiguration');
 
-    FirebaseFirestore.instance.runTransaction((Transaction tx) async {
+    await FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       if (student.readableId == null) {
         DocumentSnapshot postSnapshot = await tx.get(postRef);
         tx.update(postRef, <String, dynamic>{
@@ -39,7 +39,7 @@ class AdminStudentsProvider {
         FirebaseFirestore.instance.doc(APIPath.userDocument(student.id)),
         student.toMap(),
       );
-    }, timeout: Duration(seconds: 10));
+    });
   }
 
   Stream<List<Halaqa>> fetchHalaqat(List<String> centerIds) =>

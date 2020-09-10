@@ -34,7 +34,7 @@ class AdminHalaqatProvider {
   Future<void> createHalaqa(
     Halaqa halaqa,
   ) async {
-    FirebaseFirestore.instance.runTransaction((Transaction tx) async {
+    await FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       if (halaqa.readableId == null) {
         final DocumentReference postRef = FirebaseFirestore.instance
             .doc(APIPath.centerDocument(halaqa.centerId));

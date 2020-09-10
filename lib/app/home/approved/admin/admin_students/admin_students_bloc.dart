@@ -72,12 +72,11 @@ class AdminStudentsBloc {
       if (a != null) temp.add(a);
     }
     newStudent.halaqatLearningIn = temp;
-
+    await provider.createStudent(newStudent);
     await Future.wait([
       conversationHelper.onStudentModification(oldStudent, newStudent),
       logsHelperBloc.adminStudentLog(
           admin, newStudent, ObjectAction.edit, chosenCenter),
-      provider.createStudent(newStudent),
     ]);
   }
 
@@ -106,11 +105,11 @@ class AdminStudentsBloc {
       student.id = provider.getUniqueId();
       student.state = 'approved';
       student.center = chosenCenter.id;
+      await provider.createStudent(student);
       await Future.wait([
         conversationHelper.onStudentCreation(student),
         logsHelperBloc.adminStudentLog(
             admin, student, ObjectAction.add, chosenCenter),
-        provider.createStudent(student),
       ]);
     }
   }
@@ -136,27 +135,22 @@ class AdminStudentsBloc {
     switch (action) {
       case 'reApprove':
         student.state = 'approved';
-        await Future.wait([
-          logsHelperBloc.adminStudentLog(
-              admin, student, ObjectAction.edit, chosenCenter),
-          provider.createStudent(student),
-        ]);
+        await provider.createStudent(student);
+        await logsHelperBloc.adminStudentLog(
+            admin, student, ObjectAction.edit, chosenCenter);
+
         break;
       case 'archive':
         student.state = 'archived';
-        await Future.wait([
-          logsHelperBloc.adminStudentLog(
-              admin, student, ObjectAction.edit, chosenCenter),
-          provider.createStudent(student),
-        ]);
+        await provider.createStudent(student);
+        await logsHelperBloc.adminStudentLog(
+            admin, student, ObjectAction.edit, chosenCenter);
         break;
       case 'delete':
         student.state = 'deleted';
-        await Future.wait([
-          logsHelperBloc.adminStudentLog(
-              admin, student, ObjectAction.delete, chosenCenter),
-          provider.createStudent(student),
-        ]);
+        await provider.createStudent(student);
+        await logsHelperBloc.adminStudentLog(
+            admin, student, ObjectAction.delete, chosenCenter);
         break;
     }
   }

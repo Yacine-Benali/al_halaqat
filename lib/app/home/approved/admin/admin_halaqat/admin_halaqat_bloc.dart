@@ -44,27 +44,22 @@ class AdminHalaqaBloc {
     Halaqa halaqa,
     StudyCenter chosenCenter,
   ) async {
-    try {
-      if (halaqa.id == null) {
-        halaqa.id = provider.getUniqueId();
-        halaqa.createdBy = {
-          'name': admin.name,
-          'id': admin.id,
-        };
-        halaqa.centerId = chosenCenter.id;
-        halaqa.state = 'approved';
+    if (halaqa.id == null) {
+      halaqa.id = provider.getUniqueId();
+      halaqa.createdBy = {
+        'name': admin.name,
+        'id': admin.id,
+      };
+      halaqa.centerId = chosenCenter.id;
+      halaqa.state = 'approved';
 
-        await provider.createHalaqa(halaqa);
-        return logsHelperBloc.adminHalaqaLog(
-            admin, halaqa, ObjectAction.add, chosenCenter);
-      } else {
-        await provider.createHalaqa(halaqa);
-        return logsHelperBloc.adminHalaqaLog(
-            admin, halaqa, ObjectAction.add, chosenCenter);
-      }
-    } catch (e) {
-      print('bloc $e');
-      rethrow;
+      await provider.createHalaqa(halaqa);
+      await logsHelperBloc.adminHalaqaLog(
+          admin, halaqa, ObjectAction.add, chosenCenter);
+    } else {
+      await provider.createHalaqa(halaqa);
+      await logsHelperBloc.adminHalaqaLog(
+          admin, halaqa, ObjectAction.add, chosenCenter);
     }
   }
 
@@ -91,27 +86,21 @@ class AdminHalaqaBloc {
     switch (action) {
       case 'reApprove':
         halaqa.state = 'approved';
-        await Future.wait([
-          logsHelperBloc.adminHalaqaLog(
-              admin, halaqa, ObjectAction.edit, chosenCenter),
-          provider.createHalaqa(halaqa)
-        ]);
+        await provider.createHalaqa(halaqa);
+        await logsHelperBloc.adminHalaqaLog(
+            admin, halaqa, ObjectAction.edit, chosenCenter);
         break;
       case 'archive':
         halaqa.state = 'archived';
-        await Future.wait([
-          logsHelperBloc.adminHalaqaLog(
-              admin, halaqa, ObjectAction.edit, chosenCenter),
-          provider.createHalaqa(halaqa)
-        ]);
+        await provider.createHalaqa(halaqa);
+        await logsHelperBloc.adminHalaqaLog(
+            admin, halaqa, ObjectAction.edit, chosenCenter);
         break;
       case 'delete':
         halaqa.state = 'deleted';
-        await Future.wait([
-          logsHelperBloc.adminHalaqaLog(
-              admin, halaqa, ObjectAction.delete, chosenCenter),
-          provider.createHalaqa(halaqa)
-        ]);
+        await provider.createHalaqa(halaqa);
+        await logsHelperBloc.adminHalaqaLog(
+            admin, halaqa, ObjectAction.delete, chosenCenter);
         break;
     }
   }

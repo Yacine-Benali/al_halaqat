@@ -1,7 +1,6 @@
 import 'package:al_halaqat/app/home/approved/admin/admin_centers/admin_centers_bloc.dart';
 import 'package:al_halaqat/app/home/approved/admin/admin_centers/admin_new_center_screen.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/common_widgets/progress_dialog.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:flutter/material.dart';
 // import 'package:progress_dialog/progress_dialog.dart';
@@ -27,27 +26,6 @@ class AdminCenterTileWidget extends StatefulWidget {
 }
 
 class _AdminCenterTileWidgetState extends State<AdminCenterTileWidget> {
-  ProgressDialog pr;
-
-  @override
-  initState() {
-    pr = ProgressDialog(
-      widget.scaffoldKey.currentContext,
-      type: ProgressDialogType.Normal,
-      textDirection: TextDirection.ltr,
-      isDismissible: false,
-    );
-    pr.style(
-      message: 'جاري تحميل',
-      messageTextStyle: TextStyle(fontSize: 14),
-      progressWidget: Container(
-        padding: EdgeInsets.all(8.0),
-        child: CircularProgressIndicator(),
-      ),
-    );
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return ListTile(

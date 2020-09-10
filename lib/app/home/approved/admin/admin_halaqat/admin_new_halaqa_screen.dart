@@ -53,7 +53,6 @@ class _AdminNewHalaqaScreenState extends State<AdminNewHalaqaScreen> {
   void save() async {
     if (halaqaFormKey.currentState.validate()) {
       try {
-        //   print(admin.centers);
         await pr.show();
         await widget.bloc.createHalaqa(halaqa, widget.chosenCenter);
         await pr.hide();
@@ -65,7 +64,6 @@ class _AdminNewHalaqaScreenState extends State<AdminNewHalaqaScreen> {
         ).show(context);
         Navigator.of(context).pop();
       } catch (e) {
-        print('scren e $e');
         await pr.hide();
         if (e is PlatformException) {
           PlatformExceptionAlertDialog(

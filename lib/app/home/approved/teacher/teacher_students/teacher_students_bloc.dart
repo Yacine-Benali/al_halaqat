@@ -67,16 +67,15 @@ class TeacherStudentsBloc {
 
   Future<void> modifieStudent(Student oldStudent, Student newStudent) async {
     List<String> temp = List();
-    print('modfie called');
     for (String a in newStudent.halaqatLearningIn) {
       if (a != null) temp.add(a);
     }
     newStudent.halaqatLearningIn = temp;
 
+    await provider.createStudent(newStudent);
     await Future.wait([
       conversationHelper.onStudentModification(oldStudent, newStudent),
-      logsHelperBloc.teacherStudentLog(teacher, newStudent, ObjectAction.edit),
-      provider.createStudent(newStudent)
+      logsHelperBloc.teacherStudentLog(teacher, newStudent, ObjectAction.edit)
     ]);
   }
 
@@ -105,10 +104,10 @@ class TeacherStudentsBloc {
         'name': teacher.name,
         'id': teacher.id,
       };
+      await provider.createStudent(student);
       return await Future.wait([
         logsHelperBloc.teacherStudentLog(teacher, student, ObjectAction.add),
         conversationHelper.onStudentCreation(student),
-        provider.createStudent(student),
       ]);
     }
   }
@@ -145,25 +144,24 @@ class TeacherStudentsBloc {
     switch (action) {
       case 'reApprove':
         student.state = 'approved';
-        await Future.wait([
-          logsHelperBloc.teacherStudentLog(teacher, student, ObjectAction.edit),
-          provider.createStudent(student),
-        ]);
+        await provider.createStudent(student);
+        await logsHelperBloc.teacherStudentLog(
+            teacher, student, ObjectAction.edit);
+
         break;
       case 'archive':
         student.state = 'archived';
-        await Future.wait([
-          logsHelperBloc.teacherStudentLog(teacher, student, ObjectAction.edit),
-          provider.createStudent(student),
-        ]);
+        await logsHelperBloc.teacherStudentLog(
+            teacher, student, ObjectAction.edit);
+        await provider.createStudent(student);
+
         break;
       case 'delete':
         student.state = 'deleted';
-        await Future.wait([
-          logsHelperBloc.teacherStudentLog(
-              teacher, student, ObjectAction.delete),
-          provider.createStudent(student),
-        ]);
+        await logsHelperBloc.teacherStudentLog(
+            teacher, student, ObjectAction.delete);
+        await provider.createStudent(student);
+
         break;
     }
   }

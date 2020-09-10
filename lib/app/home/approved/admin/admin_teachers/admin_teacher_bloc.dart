@@ -91,11 +91,11 @@ class AdminTeacherBloc {
       if (a != null) temp.add(a);
     }
     newTeacher.halaqatTeachingIn = temp;
+    await provider.createTeacher(newTeacher);
     await Future.wait([
       logsHelperBloc.adminTeacherLog(
           admin, newTeacher, ObjectAction.edit, chosenCenter),
       conversationHelper.onTeacherModification(oldTeacher, newTeacher),
-      provider.createTeacher(newTeacher),
     ]);
   }
 
@@ -126,11 +126,11 @@ class AdminTeacherBloc {
         chosenCenter.id: 'approved',
       };
 
+      await provider.createTeacher(teacher);
       await Future.wait([
         logsHelperBloc.adminTeacherLog(
             admin, teacher, ObjectAction.add, chosenCenter),
-        conversationHelper.onTeacherCreation(teacher),
-        provider.createTeacher(teacher)
+        conversationHelper.onTeacherCreation(teacher)
       ]);
     }
   }
@@ -156,27 +156,24 @@ class AdminTeacherBloc {
     switch (action) {
       case 'reApprove':
         teacher.centerState[chosenCenter.id] = 'approved';
-        await Future.wait([
-          logsHelperBloc.adminTeacherLog(
-              admin, teacher, ObjectAction.edit, chosenCenter),
-          provider.createTeacher(teacher),
-        ]);
+        await provider.createTeacher(teacher);
+        await logsHelperBloc.adminTeacherLog(
+            admin, teacher, ObjectAction.edit, chosenCenter);
+
         break;
       case 'archive':
         teacher.centerState[chosenCenter.id] = 'archived';
-        await Future.wait([
-          logsHelperBloc.adminTeacherLog(
-              admin, teacher, ObjectAction.edit, chosenCenter),
-          provider.createTeacher(teacher),
-        ]);
+        await provider.createTeacher(teacher);
+        await logsHelperBloc.adminTeacherLog(
+            admin, teacher, ObjectAction.edit, chosenCenter);
+
         break;
       case 'delete':
         teacher.centerState[chosenCenter.id] = 'deleted';
-        await Future.wait([
-          logsHelperBloc.adminTeacherLog(
-              admin, teacher, ObjectAction.delete, chosenCenter),
-          provider.createTeacher(teacher),
-        ]);
+        await provider.createTeacher(teacher);
+        await logsHelperBloc.adminTeacherLog(
+            admin, teacher, ObjectAction.delete, chosenCenter);
+
         break;
     }
   }
