@@ -35,17 +35,17 @@ class GaRequestsProvider {
     await FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       // update the request
       final requestDocRef = FirebaseFirestore.instance
-          .document(APIPath.globalAdminRequestsDocument(gaRequest.id));
+          .doc(APIPath.globalAdminRequestsDocument(gaRequest.id));
       tx.update(requestDocRef, gaRequest.toMap());
 
       // update the center if the action is join-new
-      final centerDocRef = FirebaseFirestore.instance
-          .document(APIPath.centerDocument(center.id));
+      final centerDocRef =
+          FirebaseFirestore.instance.doc(APIPath.centerDocument(center.id));
       tx.update(centerDocRef, center.toMap());
 
       // update the admin
       final adminDocRef =
-          FirebaseFirestore.instance.document(APIPath.userDocument(admin.id));
+          FirebaseFirestore.instance.doc(APIPath.userDocument(admin.id));
       tx.update(
         adminDocRef,
         {'centerState.${gaRequest.center.id}': gaRequest.state},
@@ -61,13 +61,13 @@ class GaRequestsProvider {
     await FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       // update the request
       final requestDocRef = FirebaseFirestore.instance
-          .document(APIPath.globalAdminRequestsDocument(gaRequest.id));
+          .doc(APIPath.globalAdminRequestsDocument(gaRequest.id));
 
       tx.update(requestDocRef, gaRequest.toMap());
 
       // update the admin
       final adminDocRef =
-          FirebaseFirestore.instance.document(APIPath.userDocument(admin.id));
+          FirebaseFirestore.instance.doc(APIPath.userDocument(admin.id));
 
       tx.update(adminDocRef, {
         'centerState.${gaRequest.center.id}': gaRequest.state,
@@ -83,13 +83,13 @@ class GaRequestsProvider {
     await FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       // update the request
       final requestDocRef = FirebaseFirestore.instance
-          .document(APIPath.globalAdminRequestsDocument(gaRequest.id));
+          .doc(APIPath.globalAdminRequestsDocument(gaRequest.id));
 
       tx.update(requestDocRef, gaRequest.toMap());
 
       // update the admin
       final adminDocRef =
-          FirebaseFirestore.instance.document(APIPath.userDocument(admin.id));
+          FirebaseFirestore.instance.doc(APIPath.userDocument(admin.id));
 
       tx.update(adminDocRef, {
         'centerState.${gaRequest.center.id}': FieldValue.delete(),

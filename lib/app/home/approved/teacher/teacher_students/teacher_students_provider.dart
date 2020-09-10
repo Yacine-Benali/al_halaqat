@@ -34,7 +34,7 @@ class TeacherStudentsProvider {
             postSnapshot.data()['nextUserReadableId'].toString();
       }
       tx.set(
-        FirebaseFirestore.instance.document(APIPath.userDocument(student.id)),
+        FirebaseFirestore.instance.doc(APIPath.userDocument(student.id)),
         student.toMap(),
       );
     }, timeout: Duration(seconds: 10));

@@ -15,7 +15,7 @@ class FirestoreDatabase implements Database {
       {@required String path,
       @required Map<String, dynamic> data,
       @required bool merge}) async {
-    final dcumentReference = FirebaseFirestore.instance.document(path);
+    final dcumentReference = FirebaseFirestore.instance.doc(path);
     print('set $path: $data');
     await dcumentReference.set(data, SetOptions(merge: merge));
   }
@@ -83,8 +83,7 @@ class FirestoreDatabase implements Database {
     @required String path,
     @required T builder(Map<String, dynamic> data, String id),
   }) {
-    final DocumentReference reference =
-        FirebaseFirestore.instance.document(path);
+    final DocumentReference reference = FirebaseFirestore.instance.doc(path);
     final Stream<DocumentSnapshot> snapshots = reference.snapshots();
     return snapshots.map((snapshot) => builder(snapshot.data(), snapshot.id));
   }
@@ -94,8 +93,7 @@ class FirestoreDatabase implements Database {
     @required String path,
     @required T builder(Map<String, dynamic> data, String id),
   }) async {
-    final DocumentReference reference =
-        FirebaseFirestore.instance.document(path);
+    final DocumentReference reference = FirebaseFirestore.instance.doc(path);
     final DocumentSnapshot snapshot = await reference.get();
     return builder(snapshot.data(), snapshot.id);
   }
@@ -139,7 +137,7 @@ class FirestoreDatabase implements Database {
 
   @override
   Future<void> deleteDocument({String path}) async {
-    final reference = FirebaseFirestore.instance.document(path);
+    final reference = FirebaseFirestore.instance.doc(path);
     print('delete: $path');
     await reference.delete();
   }

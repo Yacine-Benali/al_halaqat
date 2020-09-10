@@ -27,12 +27,12 @@ class AdminGaRequestProvider {
   ) async {
     FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       await tx.set(
-        FirebaseFirestore.instance.document(APIPath.userDocument(admin.id)),
+        FirebaseFirestore.instance.doc(APIPath.userDocument(admin.id)),
         admin.toMap(),
       );
       await tx.set(
-        FirebaseFirestore.instance.document(
-            APIPath.globalAdminRequestsDocument(globalAdminRequest.id)),
+        FirebaseFirestore.instance
+            .doc(APIPath.globalAdminRequestsDocument(globalAdminRequest.id)),
         globalAdminRequest.toMap(),
       );
     }, timeout: Duration(seconds: 10));

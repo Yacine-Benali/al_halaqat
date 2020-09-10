@@ -75,7 +75,7 @@ class _NewUserScreenState extends State<JoinUsScreen> {
         admin.readableId = postSnapshot.data()['nextUserReadableId'].toString();
       }
       tx.set(
-        FirebaseFirestore.instance.document(APIPath.userDocument(admin.id)),
+        FirebaseFirestore.instance.doc(APIPath.userDocument(admin.id)),
         admin.toMap(),
       );
     });

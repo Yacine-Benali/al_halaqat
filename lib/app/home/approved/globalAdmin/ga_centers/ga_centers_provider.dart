@@ -42,7 +42,7 @@ class GaCentersProvider {
       }
 
       tx.set(
-        FirebaseFirestore.instance.document(APIPath.centerDocument(center.id)),
+        FirebaseFirestore.instance.doc(APIPath.centerDocument(center.id)),
         center.toMap(),
       );
     }, timeout: Duration(seconds: 10));
