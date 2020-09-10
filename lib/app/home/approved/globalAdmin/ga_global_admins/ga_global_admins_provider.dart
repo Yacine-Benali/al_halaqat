@@ -23,20 +23,20 @@ class GaGlobalAdminsProvider {
   Future<void> createGlobalAdmin(
     GlobalAdmin admin,
   ) async {
-    final DocumentReference postRef =
-        Firestore.instance.document('/globalConfiguration/globalConfiguration');
+    final DocumentReference postRef = FirebaseFirestore.instance
+        .doc('/globalConfiguration/globalConfiguration');
 
-    Firestore.instance.runTransaction((Transaction tx) async {
+    FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       if (admin.readableId == null) {
         DocumentSnapshot postSnapshot = await tx.get(postRef);
-        await tx.update(postRef, <String, dynamic>{
-          'nextUserReadableId': postSnapshot.data['nextUserReadableId'] + 1,
+        tx.update(postRef, <String, dynamic>{
+          'nextUserReadableId': postSnapshot.data()['nextUserReadableId'] + 1,
         });
-        admin.readableId = postSnapshot['nextUserReadableId'].toString();
+        admin.readableId = postSnapshot.data()['nextUserReadableId'].toString();
       }
 
-      await tx.set(
-        Firestore.instance.document(APIPath.userDocument(admin.id)),
+      tx.set(
+        FirebaseFirestore.instance.doc(APIPath.userDocument(admin.id)),
         admin.toMap(),
       );
     }, timeout: Duration(seconds: 10));

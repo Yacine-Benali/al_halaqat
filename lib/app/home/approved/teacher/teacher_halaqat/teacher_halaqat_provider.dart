@@ -35,27 +35,33 @@ class TeacherHalaqatProvider {
     Teacher teacher,
   ) async {
     final DocumentReference postRef =
-        Firestore.instance.document(APIPath.centerDocument(halaqa.centerId));
+        FirebaseFirestore.instance.doc(APIPath.centerDocument(halaqa.centerId));
 
-    Firestore.instance.runTransaction((Transaction tx) async {
-      if (halaqa.readableId == null) {
-        DocumentSnapshot postSnapshot = await tx.get(postRef);
-        await tx.update(postRef, <String, dynamic>{
-          'nextHalaqaReadableId': postSnapshot.data['nextHalaqaReadableId'] + 1,
-        });
-        halaqa.readableId = postSnapshot['readableId'].toString() +
-            postSnapshot['nextHalaqaReadableId'].toString();
-      }
+    try {
+      await FirebaseFirestore.instance.runTransaction((Transaction tx) async {
+        if (halaqa.readableId == null) {
+          DocumentSnapshot postSnapshot = await tx.get(postRef);
+          tx.update(postRef, <String, dynamic>{
+            'nextHalaqaReadableId':
+                postSnapshot.data()['nextHalaqaReadableId'] + 1,
+          });
+          halaqa.readableId = postSnapshot.data()['readableId'].toString() +
+              postSnapshot.data()['nextHalaqaReadableId'].toString();
+        }
 
-      await tx.set(
-        Firestore.instance.document(APIPath.halaqaDocument(halaqa.id)),
-        halaqa.toMap(),
-      );
-      await tx.set(
-        Firestore.instance.document(APIPath.userDocument(teacher.id)),
-        teacher.toMap(),
-      );
-    }, timeout: Duration(seconds: 10));
+        tx.set(
+          FirebaseFirestore.instance.doc(APIPath.halaqaDocument(halaqa.id)),
+          halaqa.toMap(),
+        );
+        tx.set(
+          FirebaseFirestore.instance.doc(APIPath.userDocument(teacher.id)),
+          teacher.toMap(),
+        );
+      }, timeout: Duration(seconds: 10));
+    } catch (e) {
+      print('fuck it $e');
+      rethrow;
+    }
   }
 
   Future<void> createHalaqaRequest(
@@ -65,28 +71,29 @@ class TeacherHalaqatProvider {
     CenterRequest centerRequest,
   ) async {
     final DocumentReference postRef =
-        Firestore.instance.document(APIPath.centerDocument(halaqa.centerId));
+        FirebaseFirestore.instance.doc(APIPath.centerDocument(halaqa.centerId));
 
-    Firestore.instance.runTransaction((Transaction tx) async {
+    FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       if (halaqa.readableId == null) {
         DocumentSnapshot postSnapshot = await tx.get(postRef);
-        await tx.update(postRef, <String, dynamic>{
-          'nextHalaqaReadableId': postSnapshot.data['nextHalaqaReadableId'] + 1,
+        tx.update(postRef, <String, dynamic>{
+          'nextHalaqaReadableId':
+              postSnapshot.data()['nextHalaqaReadableId'] + 1,
         });
-        halaqa.readableId = postSnapshot['readableId'].toString() +
-            postSnapshot['nextHalaqaReadableId'].toString();
+        halaqa.readableId = postSnapshot.data()['readableId'].toString() +
+            postSnapshot.data()['nextHalaqaReadableId'].toString();
       }
 
-      await tx.set(
-        Firestore.instance.document(APIPath.halaqaDocument(halaqa.id)),
+      tx.set(
+        FirebaseFirestore.instance.doc(APIPath.halaqaDocument(halaqa.id)),
         halaqa.toMap(),
       );
-      await tx.set(
-        Firestore.instance.document(APIPath.userDocument(teacher.id)),
+      tx.set(
+        FirebaseFirestore.instance.doc(APIPath.userDocument(teacher.id)),
         teacher.toMap(),
       );
-      await tx.set(
-        Firestore.instance.document(APIPath.centerRequestsDocument(
+      tx.set(
+        FirebaseFirestore.instance.doc(APIPath.centerRequestsDocument(
           centerId,
           centerRequest.id,
         )),

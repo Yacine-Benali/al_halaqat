@@ -77,12 +77,19 @@ class _TeacherNewHalaqaScreenState extends State<TeacherNewHalaqaScreen> {
           ).show(context);
         }
         Navigator.of(context).pop();
-      } on PlatformException catch (e) {
+      } catch (e) {
         await pr.hide();
-        PlatformExceptionAlertDialog(
-          title: 'فشلت العملية',
-          exception: e,
-        ).show(context);
+        if (e is PlatformException) {
+          PlatformExceptionAlertDialog(
+            title: 'فشلت العملية',
+            exception: e,
+          ).show(context);
+        } else
+          PlatformAlertDialog(
+            title: 'فشلت العملية',
+            content: 'فشلت العملية',
+            defaultActionText: 'حسنا',
+          );
       }
     }
   }

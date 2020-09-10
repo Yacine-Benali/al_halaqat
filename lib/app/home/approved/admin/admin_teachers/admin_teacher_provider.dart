@@ -26,20 +26,21 @@ class AdminTeachersProvider {
   Future<void> createTeacher(
     Teacher teacher,
   ) async {
-    final DocumentReference postRef =
-        Firestore.instance.document('/globalConfiguration/globalConfiguration');
+    final DocumentReference postRef = FirebaseFirestore.instance
+        .doc('/globalConfiguration/globalConfiguration');
 
-    Firestore.instance.runTransaction((Transaction tx) async {
+    FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       if (teacher.readableId == null) {
         DocumentSnapshot postSnapshot = await tx.get(postRef);
-        await tx.update(postRef, <String, dynamic>{
-          'nextUserReadableId': postSnapshot.data['nextUserReadableId'] + 1,
+        tx.update(postRef, <String, dynamic>{
+          'nextUserReadableId': postSnapshot.data()['nextUserReadableId'] + 1,
         });
-        teacher.readableId = postSnapshot['nextUserReadableId'].toString();
+        teacher.readableId =
+            postSnapshot.data()['nextUserReadableId'].toString();
       }
 
-      await tx.set(
-        Firestore.instance.document(APIPath.userDocument(teacher.id)),
+      tx.set(
+        FirebaseFirestore.instance.doc(APIPath.userDocument(teacher.id)),
         teacher.toMap(),
       );
     }, timeout: Duration(seconds: 10));

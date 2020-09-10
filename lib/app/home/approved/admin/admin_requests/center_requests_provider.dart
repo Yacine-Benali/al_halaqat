@@ -36,9 +36,9 @@ class CenterRequestsProvider {
     CenterRequest centerRequest,
     User user,
   ) async {
-    await Firestore.instance.runTransaction((Transaction tx) async {
+    await FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       // update the request
-      final requestDocRef = Firestore.instance
+      final requestDocRef = FirebaseFirestore.instance
           .document(APIPath.centerRequestsDocument(centerId, centerRequest.id));
 
       tx.update(requestDocRef, centerRequest.toMap());
@@ -46,7 +46,7 @@ class CenterRequestsProvider {
       // update the user if the action is join-new
       if (user != null) {
         final userDocRef =
-            Firestore.instance.document(APIPath.userDocument(user.id));
+            FirebaseFirestore.instance.document(APIPath.userDocument(user.id));
 
         if (user is Teacher || user is Admin)
           tx.update(userDocRef, {'centerState.$centerId': centerRequest.state});
@@ -61,15 +61,15 @@ class CenterRequestsProvider {
     CenterRequest centerRequest,
     User user,
   ) async {
-    await Firestore.instance.runTransaction((Transaction tx) async {
+    await FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       // update the request
-      final requestDocRef = Firestore.instance
+      final requestDocRef = FirebaseFirestore.instance
           .document(APIPath.centerRequestsDocument(centerId, centerRequest.id));
 
       tx.update(requestDocRef, centerRequest.toMap());
 
       final userDocRef =
-          Firestore.instance.document(APIPath.userDocument(user.id));
+          FirebaseFirestore.instance.document(APIPath.userDocument(user.id));
 
       tx.update(userDocRef, {
         'centerState.$centerId': centerRequest.state,
@@ -83,15 +83,15 @@ class CenterRequestsProvider {
     CenterRequest centerRequest,
     User user,
   ) async {
-    await Firestore.instance.runTransaction((Transaction tx) async {
+    await FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       // update the request
-      final requestDocRef = Firestore.instance
+      final requestDocRef = FirebaseFirestore.instance
           .document(APIPath.centerRequestsDocument(centerId, centerRequest.id));
 
       tx.update(requestDocRef, centerRequest.toMap());
 
       final userDocRef =
-          Firestore.instance.document(APIPath.userDocument(user.id));
+          FirebaseFirestore.instance.document(APIPath.userDocument(user.id));
 
       tx.update(userDocRef, {
         'centerState.$centerId': FieldValue.delete(),
@@ -104,16 +104,16 @@ class CenterRequestsProvider {
     Halaqa halaqa,
     String centerId,
   ) async {
-    await Firestore.instance.runTransaction((Transaction tx) async {
+    await FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       // update the request
-      final centerRequestDocRef = Firestore.instance
+      final centerRequestDocRef = FirebaseFirestore.instance
           .document(APIPath.centerRequestsDocument(centerId, centerRequest.id));
 
       tx.update(centerRequestDocRef, centerRequest.toMap());
 
       // update the user if the action is join-new
-      final halaqaDocRef =
-          Firestore.instance.document(APIPath.halaqaDocument(halaqa.id));
+      final halaqaDocRef = FirebaseFirestore.instance
+          .document(APIPath.halaqaDocument(halaqa.id));
 
       tx.update(halaqaDocRef, halaqa.toMap());
     }, timeout: Duration(seconds: 10));

@@ -52,7 +52,7 @@ class StudentHalaqaBloc {
       List<Object> snapshotsData = await snapshots;
 
       final temp = StudentProfile(
-        halaqaName: '', //TODO wtf
+        halaqaName: '',
         halaqaId: halaqaLearingIn,
         instancesList: snapshotsData[0],
         evaluationsList: snapshotsData[1],
@@ -70,7 +70,7 @@ class StudentHalaqaBloc {
       if (studentProfile.halaqaId == halaqa.id) return studentProfile;
     }
     return StudentProfile(
-      halaqaName: '', //TODO wtf
+      halaqaName: '',
       evaluationsList: [],
       halaqaId: null,
       instancesList: [],

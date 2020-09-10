@@ -55,10 +55,8 @@ class TeacherHalaqaBloc {
     if (chosenCenter.requestPermissionForHalaqaCreation == false) {
       halaqa.state = 'approved';
 
-      return await Future.wait([
-        logsHelperBloc.teacherHalaqaLog(teacher, halaqa, ObjectAction.add),
-        provider.createHalaqa(halaqa, teacher)
-      ]);
+      await provider.createHalaqa(halaqa, teacher);
+      return logsHelperBloc.teacherHalaqaLog(teacher, halaqa, ObjectAction.add);
     } else {
       halaqa.state = 'pending';
       CenterRequest centerRequest = CenterRequest(

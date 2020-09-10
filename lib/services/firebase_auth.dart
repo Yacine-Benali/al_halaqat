@@ -10,9 +10,9 @@ class FirebaseAuthService implements Auth {
 
   @override
   Future<List<String>> fetchSignInMethodsForEmail({String email}) =>
-      _firebaseAuth.fetchSignInMethodsForEmail(email: email);
+      _firebaseAuth.fetchSignInMethodsForEmail(email);
 
-  AuthUser _userFromFirebase(FirebaseUser user) {
+  AuthUser _userFromFirebase(User user) {
     if (user == null) {
       return null;
     }
@@ -34,8 +34,8 @@ class FirebaseAuthService implements Auth {
     String password,
   ) async {
     this.password = password;
-    final AuthResult authResult = await _firebaseAuth
-        .signInWithCredential(EmailAuthProvider.getCredential(
+    final UserCredential authResult =
+        await _firebaseAuth.signInWithCredential(EmailAuthProvider.credential(
       email: email,
       password: password,
     ));
@@ -47,7 +47,7 @@ class FirebaseAuthService implements Auth {
       String email, String password) async {
     this.password = password;
 
-    final AuthResult authResult = await _firebaseAuth
+    final UserCredential authResult = await _firebaseAuth
         .createUserWithEmailAndPassword(email: email, password: password);
     return _userFromFirebase(authResult.user);
   }
@@ -64,7 +64,7 @@ class FirebaseAuthService implements Auth {
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
       if (googleAuth.accessToken != null && googleAuth.idToken != null) {
-        final AuthResult authResult = await _firebaseAuth
+        final UserCredential authResult = await _firebaseAuth
             .signInWithCredential(GoogleAuthProvider.getCredential(
           idToken: googleAuth.idToken,
           accessToken: googleAuth.accessToken,
@@ -83,16 +83,14 @@ class FirebaseAuthService implements Auth {
 
   @override
   Future<AuthUser> signInWithFacebook() async {
-    // Create an instance of FacebookLogin
     final fb = FacebookLogin();
-    // Log in
     final result = await fb.logIn(permissions: []);
 
     if (result.status == FacebookLoginStatus.Success) {
       if (result.accessToken != null) {
-        final AuthResult authResult = await _firebaseAuth.signInWithCredential(
-          FacebookAuthProvider.getCredential(
-              accessToken: result.accessToken.token),
+        final UserCredential authResult =
+            await _firebaseAuth.signInWithCredential(
+          FacebookAuthProvider.credential(result.accessToken.token),
         );
         return _userFromFirebase(authResult.user);
       }
@@ -104,7 +102,7 @@ class FirebaseAuthService implements Auth {
 
   @override
   Future<AuthUser> currentUser() async {
-    final FirebaseUser user = await _firebaseAuth.currentUser();
+    final User user = _firebaseAuth.currentUser;
     return _userFromFirebase(user);
   }
 

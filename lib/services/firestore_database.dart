@@ -3,10 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class FirestoreDatabase implements Database {
-  Firestore instance = Firestore.instance;
+  FirebaseFirestore instance = FirebaseFirestore.instance;
   @override
   String getUniqueId() {
-    String _randomId = Firestore.instance.collection(' ').document().documentID;
+    String _randomId = FirebaseFirestore.instance.collection(' ').doc().id;
     return _randomId;
   }
 
@@ -15,9 +15,9 @@ class FirestoreDatabase implements Database {
       {@required String path,
       @required Map<String, dynamic> data,
       @required bool merge}) async {
-    final dcumentReference = Firestore.instance.document(path);
+    final dcumentReference = FirebaseFirestore.instance.document(path);
     print('set $path: $data');
-    await dcumentReference.setData(data, merge: merge);
+    await dcumentReference.set(data, SetOptions(merge: merge));
   }
 
   Future<void> addDocument({
@@ -25,7 +25,7 @@ class FirestoreDatabase implements Database {
     @required Map<String, dynamic> data,
   }) async {
     final CollectionReference collectionReference =
-        Firestore.instance.collection(path);
+        FirebaseFirestore.instance.collection(path);
     print('created ${collectionReference.path}: $data');
     await collectionReference.add(data);
   }
@@ -33,18 +33,18 @@ class FirestoreDatabase implements Database {
   @override
   Stream<List<T>> collectionStream<T>({
     @required String path,
-    @required T builder(Map<String, dynamic> data, String documentID),
+    @required T builder(Map<String, dynamic> data, String id),
     Query queryBuilder(Query query),
     int sort(T lhs, T rhs),
   }) {
-    Query query = Firestore.instance.collection(path);
+    Query query = FirebaseFirestore.instance.collection(path);
     if (queryBuilder != null) {
       query = queryBuilder(query);
     }
     final Stream<QuerySnapshot> snapshots = query.snapshots();
     return snapshots.map((snapshot) {
-      final List<T> result = snapshot.documents
-          .map((snapshot) => builder(snapshot.data, snapshot.documentID))
+      final List<T> result = snapshot.docs
+          .map((snapshot) => builder(snapshot.data(), snapshot.id))
           .toList();
 
       if (sort != null) {
@@ -57,18 +57,18 @@ class FirestoreDatabase implements Database {
   @override
   Future<List<T>> fetchCollection<T>({
     @required String path,
-    @required T builder(Map<String, dynamic> data, String documentID),
+    @required T builder(Map<String, dynamic> data, String id),
     Query queryBuilder(Query query),
     int sort(T lhs, T rhs),
   }) async {
-    Query query = Firestore.instance.collection(path);
+    Query query = FirebaseFirestore.instance.collection(path);
     if (queryBuilder != null) {
       query = queryBuilder(query);
     }
-    final QuerySnapshot snapshot = await query.getDocuments();
+    final QuerySnapshot snapshot = await query.get();
 
-    final List<T> result = snapshot.documents
-        .map((snapshot) => builder(snapshot.data, snapshot.documentID))
+    final List<T> result = snapshot.docs
+        .map((snapshot) => builder(snapshot.data(), snapshot.id))
         .toList();
 
     if (sort != null) {
@@ -81,64 +81,65 @@ class FirestoreDatabase implements Database {
   @override
   Stream<T> documentStream<T>({
     @required String path,
-    @required T builder(Map<String, dynamic> data, String documentID),
+    @required T builder(Map<String, dynamic> data, String id),
   }) {
-    final DocumentReference reference = Firestore.instance.document(path);
+    final DocumentReference reference =
+        FirebaseFirestore.instance.document(path);
     final Stream<DocumentSnapshot> snapshots = reference.snapshots();
-    return snapshots
-        .map((snapshot) => builder(snapshot.data, snapshot.documentID));
+    return snapshots.map((snapshot) => builder(snapshot.data(), snapshot.id));
   }
 
   @override
   Future<T> fetchDocument<T>({
     @required String path,
-    @required T builder(Map<String, dynamic> data, String documentID),
+    @required T builder(Map<String, dynamic> data, String id),
   }) async {
-    final DocumentReference reference = Firestore.instance.document(path);
+    final DocumentReference reference =
+        FirebaseFirestore.instance.document(path);
     final DocumentSnapshot snapshot = await reference.get();
-    return builder(snapshot.data, snapshot.documentID);
+    return builder(snapshot.data(), snapshot.id);
   }
 
   @override
   Future<T> fetchQueryDocument<T>({
     @required String path,
-    @required T builder(Map<String, dynamic> data, String documentID),
+    @required T builder(Map<String, dynamic> data, String id),
     @required Query queryBuilder(Query query),
   }) async {
-    Query query = Firestore.instance.collection(path);
+    Query query = FirebaseFirestore.instance.collection(path);
     if (queryBuilder != null) {
       query = queryBuilder(query);
     }
     final QuerySnapshot snapshot = await query.limit(1).getDocuments();
-    if (snapshot.documents.isEmpty) {
+    if (snapshot.docs.isEmpty) {
       return null;
     } else
-      return builder(snapshot.documents?.elementAt(0)?.data,
-          snapshot.documents.elementAt(0).documentID);
+      return builder(
+          snapshot.docs?.elementAt(0)?.data(), snapshot.docs.elementAt(0).id);
   }
 
   @override
   Stream<T> queryDocument<T>({
     @required String path,
-    @required T builder(Map<String, dynamic> data, String documentID),
+    @required T builder(Map<String, dynamic> data, String id),
     @required Query queryBuilder(Query query),
   }) {
-    Query query = Firestore.instance.collection(path);
+    Query query = FirebaseFirestore.instance.collection(path);
     if (queryBuilder != null) {
       query = queryBuilder(query);
     }
     final Stream<QuerySnapshot> snapshots = query.limit(1).snapshots();
     return snapshots.map(
       (snapshot) => builder(
-        snapshot?.documents?.first?.data,
-        snapshot?.documents?.first?.documentID,
+        snapshot?.docs?.first?.data(),
+        snapshot?.docs?.first?.id,
       ),
     );
   }
 
   @override
   Future<void> deleteDocument({String path}) async {
-    final reference = Firestore.instance.document(path);
+    final reference = FirebaseFirestore.instance.document(path);
     print('delete: $path');
     await reference.delete();
   }

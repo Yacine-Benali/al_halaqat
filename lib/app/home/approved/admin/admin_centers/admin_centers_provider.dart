@@ -30,21 +30,23 @@ class AdminCentersProvider {
   Future<void> createCenter(
     StudyCenter center,
   ) async {
-    final DocumentReference postRef =
-        Firestore.instance.document('/globalConfiguration/globalConfiguration');
+    final DocumentReference postRef = FirebaseFirestore.instance
+        .doc('/globalConfiguration/globalConfiguration');
 
-    await Firestore.instance.runTransaction((Transaction tx) async {
+    await FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       if (center.readableId == null) {
         DocumentSnapshot postSnapshot = await tx.get(postRef);
 
-        await tx.update(postRef, <String, dynamic>{
-          'nextCenterReadableId': postSnapshot.data['nextCenterReadableId'] + 1,
+        tx.update(postRef, <String, dynamic>{
+          'nextCenterReadableId':
+              postSnapshot.data()['nextCenterReadableId'] + 1,
         });
-        center.readableId = postSnapshot['nextCenterReadableId'].toString();
+        center.readableId =
+            postSnapshot.data()['nextCenterReadableId'].toString();
       }
 
-      await tx.set(
-        Firestore.instance.document(APIPath.centerDocument(center.id)),
+      tx.set(
+        FirebaseFirestore.instance.doc(APIPath.centerDocument(center.id)),
         center.toMap(),
       );
     }, timeout: Duration(seconds: 10));

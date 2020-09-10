@@ -24,6 +24,9 @@ dependencies:
   intl: ^0.16.1
   flutter_localizations:
     sdk: flutter
+  #firebase
+  firebase_auth: ^0.18.0+1
+  cloud_firestore: ^0.14.0+2
   #bloc
   provider: ^4.0.1
   rxdart: ^0.23.1
@@ -38,10 +41,7 @@ dependencies:
   auto_size_text: ^2.1.0
   flutter_staggered_grid_view: ^0.3.0
   fluttertoast: ^7.0.4
-  date_range_picker: ^1.0.5 
-  #firebase
-  firebase_auth: ^0.15.3
-  cloud_firestore: ^0.13.6
+  date_range_picker: ^1.0.5  
   #third party signin
   google_sign_in: ^4.5.1 
   flutter_login_facebook: ^0.2.1

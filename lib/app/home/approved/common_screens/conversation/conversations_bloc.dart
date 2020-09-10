@@ -15,7 +15,6 @@ class ConversationsBloc {
   final ConversationsProvider provider;
   final User user;
 
-  //TODO omptimize this
   Stream<List<Conversation>> getConversationStream() {
     if (user is Teacher || user is Admin)
       return provider.getTeacherConversationStream(user.id);

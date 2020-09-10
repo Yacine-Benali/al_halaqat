@@ -34,20 +34,21 @@ class AdminHalaqatProvider {
   Future<void> createHalaqa(
     Halaqa halaqa,
   ) async {
-    Firestore.instance.runTransaction((Transaction tx) async {
+    FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       if (halaqa.readableId == null) {
-        final DocumentReference postRef = Firestore.instance
+        final DocumentReference postRef = FirebaseFirestore.instance
             .document(APIPath.centerDocument(halaqa.centerId));
         DocumentSnapshot postSnapshot = await tx.get(postRef);
         await tx.update(postRef, <String, dynamic>{
-          'nextHalaqaReadableId': postSnapshot.data['nextHalaqaReadableId'] + 1,
+          'nextHalaqaReadableId':
+              postSnapshot.data()['nextHalaqaReadableId'] + 1,
         });
-        halaqa.readableId = postSnapshot['readableId'].toString() +
-            postSnapshot['nextHalaqaReadableId'].toString();
+        halaqa.readableId = postSnapshot.data()['readableId'].toString() +
+            postSnapshot.data()['nextHalaqaReadableId'].toString();
       }
 
       await tx.set(
-        Firestore.instance.document(APIPath.halaqaDocument(halaqa.id)),
+        FirebaseFirestore.instance.document(APIPath.halaqaDocument(halaqa.id)),
         halaqa.toMap(),
       );
     }, timeout: Duration(seconds: 10));

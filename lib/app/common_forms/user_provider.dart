@@ -48,24 +48,24 @@ class UserProvider {
     CenterRequest centerRequest,
     String centerRequestCenterId,
   ) async {
-    final DocumentReference postRef =
-        Firestore.instance.document('/globalConfiguration/globalConfiguration');
-    Firestore.instance.runTransaction((Transaction tx) async {
+    final DocumentReference postRef = FirebaseFirestore.instance
+        .doc('/globalConfiguration/globalConfiguration');
+    FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       if (user.readableId == null) {
         DocumentSnapshot postSnapshot = await tx.get(postRef);
-        await tx.update(postRef, <String, dynamic>{
-          'nextUserReadableId': postSnapshot.data['nextUserReadableId'] + 1
+        tx.update(postRef, <String, dynamic>{
+          'nextUserReadableId': postSnapshot.data()['nextUserReadableId'] + 1
         });
-        user.readableId = postSnapshot['nextUserReadableId'].toString();
+        user.readableId = postSnapshot.data()['nextUserReadableId'].toString();
       }
 
-      await tx.set(
-        Firestore.instance.document(APIPath.userDocument(uid)),
+      tx.set(
+        FirebaseFirestore.instance.doc(APIPath.userDocument(uid)),
         user.toMap(),
       );
       if (centerRequest != null && centerRequestCenterId != null) {
-        await tx.set(
-          Firestore.instance.document(
+        tx.set(
+          FirebaseFirestore.instance.doc(
             APIPath.centerRequestsDocument(
               centerRequestCenterId,
               centerRequest.id,
@@ -83,43 +83,46 @@ class UserProvider {
     GlobalAdminRequest globalAdminRequest,
     StudyCenter center,
   ) async {
-    final DocumentReference postRef =
-        Firestore.instance.document('/globalConfiguration/globalConfiguration');
+    final DocumentReference postRef = FirebaseFirestore.instance
+        .doc('/globalConfiguration/globalConfiguration');
 
-    Firestore.instance.runTransaction((Transaction tx) async {
+    FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       if (user.readableId == null && center?.readableId == null) {
         DocumentSnapshot postSnapshot = await tx.get(postRef);
 
         if (center == null) {
-          await tx.update(postRef, <String, dynamic>{
-            'nextUserReadableId': postSnapshot.data['nextUserReadableId'] + 1,
+          tx.update(postRef, <String, dynamic>{
+            'nextUserReadableId': postSnapshot.data()['nextUserReadableId'] + 1,
           });
-          user.readableId = postSnapshot['nextUserReadableId'].toString();
+          user.readableId =
+              postSnapshot.data()['nextUserReadableId'].toString();
         } else {
-          await tx.update(postRef, <String, dynamic>{
-            'nextUserReadableId': postSnapshot.data['nextUserReadableId'] + 1,
+          tx.update(postRef, <String, dynamic>{
+            'nextUserReadableId': postSnapshot.data()['nextUserReadableId'] + 1,
             'nextCenterReadableId':
-                postSnapshot.data['nextCenterReadableId'] + 1
+                postSnapshot.data()['nextCenterReadableId'] + 1
           });
-          user.readableId = postSnapshot['nextUserReadableId'].toString();
-          center.readableId = postSnapshot['nextCenterReadableId'].toString();
+          user.readableId =
+              postSnapshot.data()['nextUserReadableId'].toString();
+          center.readableId =
+              postSnapshot.data()['nextCenterReadableId'].toString();
         }
       }
-      await tx.set(
-        Firestore.instance.document(APIPath.userDocument(uid)),
+      tx.set(
+        FirebaseFirestore.instance.doc(APIPath.userDocument(uid)),
         user.toMap(),
       );
 
       if (globalAdminRequest != null) {
-        await tx.set(
-          Firestore.instance.document(
-              APIPath.globalAdminRequestsDocument(globalAdminRequest.id)),
+        tx.set(
+          FirebaseFirestore.instance
+              .doc(APIPath.globalAdminRequestsDocument(globalAdminRequest.id)),
           globalAdminRequest.toMap(),
         );
       }
       if (center != null) {
-        await tx.set(
-          Firestore.instance.document(APIPath.centerDocument(center.id)),
+        tx.set(
+          FirebaseFirestore.instance.doc(APIPath.centerDocument(center.id)),
           center.toMap(),
         );
       }

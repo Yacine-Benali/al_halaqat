@@ -26,13 +26,13 @@ class TeacherCenterRequestProvider {
     CenterRequest centerRequest,
     String centerId,
   ) async {
-    Firestore.instance.runTransaction((Transaction tx) async {
+    FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       await tx.set(
-        Firestore.instance.document(APIPath.userDocument(teacher.id)),
+        FirebaseFirestore.instance.document(APIPath.userDocument(teacher.id)),
         teacher.toMap(),
       );
       await tx.set(
-        Firestore.instance.document(
+        FirebaseFirestore.instance.document(
             APIPath.centerRequestsDocument(centerId, centerRequest.id)),
         centerRequest.toMap(),
       );
