@@ -10,6 +10,7 @@ import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
 import 'ga_requests/ga_requests_screen.dart';
 
 class GlobalAdminHomePage extends StatelessWidget {
@@ -53,6 +54,20 @@ class GlobalAdminHomePage extends StatelessWidget {
           ),
         ),
         actions: [
+          PopupMenuButton<String>(
+            itemBuilder: (BuildContext context) => [
+              PopupMenuItem<String>(
+                value: "حول التطبيق",
+                child: Text("حول التطبيق"),
+              ),
+            ],
+            onSelected: (value) => PlatformAlertDialog(
+              content:
+                  'هذا البرنامج صدقة عن روح المرحومة وفاء خليل صديق نرجو منكم لها الدعاء',
+              defaultActionText: 'حسنا',
+              title: 'حول التطبيق',
+            ).show(context),
+          ),
           Padding(
             padding: EdgeInsets.only(left: 20.0),
             child: InkWell(
