@@ -108,7 +108,7 @@ class FirestoreDatabase implements Database {
     if (queryBuilder != null) {
       query = queryBuilder(query);
     }
-    final QuerySnapshot snapshot = await query.limit(1).getDocuments();
+    final QuerySnapshot snapshot = await query.limit(1).get();
     if (snapshot.docs.isEmpty) {
       return null;
     } else

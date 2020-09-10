@@ -27,11 +27,11 @@ class TeacherCenterRequestProvider {
     String centerId,
   ) async {
     FirebaseFirestore.instance.runTransaction((Transaction tx) async {
-      await tx.set(
+      tx.set(
         FirebaseFirestore.instance.doc(APIPath.userDocument(teacher.id)),
         teacher.toMap(),
       );
-      await tx.set(
+      tx.set(
         FirebaseFirestore.instance
             .doc(APIPath.centerRequestsDocument(centerId, centerRequest.id)),
         centerRequest.toMap(),

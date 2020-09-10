@@ -25,7 +25,7 @@ class FirebaseAuthService implements Auth {
 
   @override
   Stream<AuthUser> get onAuthStateChanged {
-    return _firebaseAuth.onAuthStateChanged.map(_userFromFirebase);
+    return _firebaseAuth.authStateChanges().map(_userFromFirebase);
   }
 
   @override
@@ -65,7 +65,7 @@ class FirebaseAuthService implements Auth {
           await googleUser.authentication;
       if (googleAuth.accessToken != null && googleAuth.idToken != null) {
         final UserCredential authResult = await _firebaseAuth
-            .signInWithCredential(GoogleAuthProvider.getCredential(
+            .signInWithCredential(GoogleAuthProvider.credential(
           idToken: googleAuth.idToken,
           accessToken: googleAuth.accessToken,
         ));
@@ -82,6 +82,7 @@ class FirebaseAuthService implements Auth {
   }
 
   @override
+  // ignore: missing_return
   Future<AuthUser> signInWithFacebook() async {
     final fb = FacebookLogin();
     final result = await fb.logIn(permissions: []);

@@ -259,6 +259,7 @@ class _SearchBarState<T> extends State<SearchBar<T>>
   Widget _error;
   final _searchQueryController = TextEditingController();
   Timer _debounce;
+  // ignore: unused_field
   bool _animate = false;
   List<T> _list = [];
   SearchBarController searchBarController;

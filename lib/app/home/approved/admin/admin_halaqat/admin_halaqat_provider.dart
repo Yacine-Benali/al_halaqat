@@ -39,7 +39,7 @@ class AdminHalaqatProvider {
         final DocumentReference postRef = FirebaseFirestore.instance
             .doc(APIPath.centerDocument(halaqa.centerId));
         DocumentSnapshot postSnapshot = await tx.get(postRef);
-        await tx.update(postRef, <String, dynamic>{
+        tx.update(postRef, <String, dynamic>{
           'nextHalaqaReadableId':
               postSnapshot.data()['nextHalaqaReadableId'] + 1,
         });
@@ -47,7 +47,7 @@ class AdminHalaqatProvider {
             postSnapshot.data()['nextHalaqaReadableId'].toString();
       }
 
-      await tx.set(
+      tx.set(
         FirebaseFirestore.instance.doc(APIPath.halaqaDocument(halaqa.id)),
         halaqa.toMap(),
       );
