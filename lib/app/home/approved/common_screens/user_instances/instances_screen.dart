@@ -21,13 +21,16 @@ class InstancesScreen extends StatefulWidget {
   const InstancesScreen._({
     Key key,
     @required this.bloc,
+    @required this.halaqatList,
   }) : super(key: key);
 
   final InstancesBloc bloc;
+  final List<Halaqa> halaqatList;
   static Widget create({
     @required BuildContext context,
     @required Halaqa halaqa,
     @required StudyCenter chosenCenter,
+    @required List<Halaqa> halaqatList,
   }) {
     Database database = Provider.of<Database>(context, listen: false);
     User user = Provider.of<User>(context, listen: false);
@@ -45,6 +48,7 @@ class InstancesScreen extends StatefulWidget {
 
     return InstancesScreen._(
       bloc: bloc,
+      halaqatList: halaqatList,
     );
   }
 
@@ -192,6 +196,8 @@ class _InstancesScreenState extends State<InstancesScreen> {
                       instance: instances[index],
                       scaffoldKey: _scaffoldKey,
                       index: index,
+                      halaqatList: widget.halaqatList,
+                      chosenCenter: bloc.chosenCenter,
                     );
                   }
                 },

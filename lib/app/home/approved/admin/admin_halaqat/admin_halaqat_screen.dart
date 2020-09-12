@@ -202,6 +202,7 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
           scaffoldKey: _scaffoldKey,
           chosenHalaqaState: chosenHalaqaState,
           chosenCenter: chosenCenter,
+          halaqatList: halaqatList,
         );
       },
     );

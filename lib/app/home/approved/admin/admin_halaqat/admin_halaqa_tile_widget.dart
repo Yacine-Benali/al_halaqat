@@ -22,6 +22,7 @@ class AdminHalqaTileWidget extends StatefulWidget {
     @required this.scaffoldKey,
     @required this.chosenCenter,
     @required this.teacher,
+    @required this.halaqatList,
   }) : super(key: key);
 
   final Halaqa halaqa;
@@ -30,6 +31,7 @@ class AdminHalqaTileWidget extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   final StudyCenter chosenCenter;
   final Teacher teacher;
+  final List<Halaqa> halaqatList;
 
   @override
   _AdminHalqaTileWidgetState createState() => _AdminHalqaTileWidgetState();
@@ -174,6 +176,7 @@ class _AdminHalqaTileWidgetState extends State<AdminHalqaTileWidget> {
                       context: context,
                       halaqa: widget.halaqa,
                       chosenCenter: widget.chosenCenter,
+                      halaqatList: widget.halaqatList,
                     ),
                     fullscreenDialog: true,
                   ),

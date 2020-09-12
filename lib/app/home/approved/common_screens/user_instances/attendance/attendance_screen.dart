@@ -1,10 +1,14 @@
+import 'package:al_halaqat/app/home/approved/common_screens/student_profile/student_profile_screen.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/attendance/attendance_bloc.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/attendance/attendance_provider.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/evaluation/evaluation_screen.dart';
 import 'package:al_halaqat/app/models/admin.dart';
+import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/instance.dart';
 import 'package:al_halaqat/app/models/quran.dart';
+import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/student_attendance.dart';
+import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/teacher_summery.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
@@ -25,12 +29,18 @@ class AttendanceScreen extends StatefulWidget {
   const AttendanceScreen._({
     Key key,
     @required this.bloc,
+    @required this.halaqatList,
+    @required this.chosenCenter,
   }) : super(key: key);
 
   final AttendanceBloc bloc;
+  final List<Halaqa> halaqatList;
+  final StudyCenter chosenCenter;
   static Widget create({
     @required BuildContext context,
     @required Instance instance,
+    @required List<Halaqa> halaqatList,
+    @required StudyCenter chosenCenter,
   }) {
     Database database = Provider.of<Database>(context, listen: false);
     User user = Provider.of<User>(context, listen: false);
@@ -44,6 +54,8 @@ class AttendanceScreen extends StatefulWidget {
 
     return AttendanceScreen._(
       bloc: bloc,
+      halaqatList: halaqatList,
+      chosenCenter: chosenCenter,
     );
   }
 
@@ -53,22 +65,23 @@ class AttendanceScreen extends StatefulWidget {
 
 class _AttendanceScreenState extends State<AttendanceScreen> {
   AttendanceBloc get bloc => widget.bloc;
-//
+  //
   Future<Instance> instanceFuture;
   Future<Quran> quranFuture;
   Instance instance;
   Quran quran;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   List<String> attendanceState;
-
+  bool studentRoaming;
   ProgressDialog pr;
   //
 
   @override
   void initState() {
-    // instancesStream = bloc.instancesStream;
-    // isLoadingNextInstances = false;
-    // bloc.fetchFirstInstances();
+    if (bloc.user is Admin)
+      studentRoaming = true;
+    else
+      studentRoaming = widget.chosenCenter.studentRoaming;
     instanceFuture = bloc.fetchInstance();
     quranFuture = bloc.fetchQuran();
     attendanceState = KeyTranslate.attendanceState.keys.toList();
@@ -229,6 +242,22 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     return TableRow(children: cells);
   }
 
+  Future<void> openStudentProfile(String studentId) async {
+    Student student = bloc.getStudentFromId(studentId);
+    await Navigator.of(context, rootNavigator: false).push(
+      MaterialPageRoute(
+        builder: (context) => StudentProfileScreen.create(
+          context: context,
+          halaqatList: widget.halaqatList,
+          student: student,
+          quran: quran,
+          studentRoaming: studentRoaming,
+        ),
+        fullscreenDialog: true,
+      ),
+    );
+  }
+
   List<TableRow> buildRowList() {
     List<TableRow> tableRowList = List();
 
@@ -310,10 +339,13 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
       TableRow tableRow = TableRow(children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Container(
-            alignment: Alignment.center,
-            child: Text(
-              studentAttendance.name,
+          child: InkWell(
+            onTap: () => openStudentProfile(studentAttendance.id),
+            child: Container(
+              alignment: Alignment.center,
+              child: Text(
+                studentAttendance.name,
+              ),
             ),
           ),
         ),

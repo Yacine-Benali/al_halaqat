@@ -172,6 +172,7 @@ class _TeacherHalaqatScreenState extends State<TeacherHalaqatScreen> {
           halaqa: halaqatList[index - 1],
           chosenCenter: chosenCenter,
           bloc: bloc,
+          halaqatList: halaqatList,
         );
       },
     );

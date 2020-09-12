@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/attendance/attendance_screen.dart';
 import 'package:al_halaqat/app/home/approved/common_screens/user_instances/intances_bloc.dart';
+import 'package:al_halaqat/app/models/halaqa.dart';
 import 'package:al_halaqat/app/models/instance.dart';
+import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/progress_dialog.dart';
@@ -18,12 +20,16 @@ class InstanceTileWidget extends StatefulWidget {
     @required this.instance,
     @required this.scaffoldKey,
     @required this.index,
+    @required this.halaqatList,
+    @required this.chosenCenter,
   }) : super(key: key);
 
   final Instance instance;
   final InstancesBloc bloc;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final int index;
+  final List<Halaqa> halaqatList;
+  final StudyCenter chosenCenter;
 
   @override
   _InstanceTileWidgetState createState() => _InstanceTileWidgetState();
@@ -196,6 +202,8 @@ class _InstanceTileWidgetState extends State<InstanceTileWidget> {
           builder: (context) => AttendanceScreen.create(
             context: context,
             instance: widget.instance,
+            halaqatList: widget.halaqatList,
+            chosenCenter: widget.chosenCenter,
           ),
           fullscreenDialog: true,
         ),

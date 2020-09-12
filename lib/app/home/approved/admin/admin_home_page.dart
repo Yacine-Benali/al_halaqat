@@ -120,6 +120,21 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     title: 'حول التطبيق',
                   ).show(context),
                 ),
+                FutureBuilder(
+                  future: FirebaseFirestore.instance.waitForPendingWrites(),
+                  builder: (_, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done)
+                      return Container();
+                    else
+                      return Padding(
+                        padding: EdgeInsets.only(left: 20.0),
+                        child: Icon(
+                          Icons.cloud_upload,
+                          size: 26.0,
+                        ),
+                      );
+                  },
+                ),
                 Padding(
                   padding: EdgeInsets.only(left: 20.0),
                   child: InkWell(
@@ -173,10 +188,12 @@ class _AdminHomePageState extends State<AdminHomePage> {
             path: APIPath.centersCollection(),
             builder: (data, documentId) =>
                 StudyCenter.fromMap(data, documentId),
-            queryBuilder: (query) => query.where(
-              FieldPath.documentId,
-              whereIn: centerIds,
-            ),
+            queryBuilder: (query) => query
+                .where(
+                  FieldPath.documentId,
+                  whereIn: centerIds,
+                )
+                .where('state', isEqualTo: 'approved'),
           ),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -185,7 +202,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 return _buildContent(items);
               } else {
                 return EmptyContent(
-                  title: 'title',
+                  title: 'لا يوجد أي مركز مفعل',
                   message: 'message',
                 );
               }
@@ -222,18 +239,19 @@ class _AdminHomePageState extends State<AdminHomePage> {
               SizedBox(height: 50.0),
               SizedBox(height: 10),
               MenuButtonWidget(
-                text: 'إدارة الحلقات',
-                onPressed: () =>
-                    Navigator.of(context, rootNavigator: false).push(
-                  MaterialPageRoute(
-                    builder: (context) => AdminHalaqatScreen.create(
-                      context: context,
-                      centers: items,
-                    ),
-                    fullscreenDialog: true,
-                  ),
-                ),
-              ),
+                  text: 'إدارة الحلقات',
+                  onPressed: () async {
+                    await Navigator.of(context, rootNavigator: false).push(
+                      MaterialPageRoute(
+                        builder: (context) => AdminHalaqatScreen.create(
+                          context: context,
+                          centers: items,
+                        ),
+                        fullscreenDialog: true,
+                      ),
+                    );
+                    setState(() {});
+                  }),
               SizedBox(height: 10),
               MenuButtonWidget(
                 text: 'إدارة المعلمين',
@@ -281,17 +299,18 @@ class _AdminHomePageState extends State<AdminHomePage> {
               ],
               if (!widget.isGlobalAdmin) ...[
                 MenuButtonWidget(
-                  text: 'المحادثات',
-                  onPressed: () =>
-                      Navigator.of(context, rootNavigator: false).push(
-                    MaterialPageRoute(
-                      builder: (context) => ConversationScreen.create(
-                        context: context,
-                      ),
-                      fullscreenDialog: true,
-                    ),
-                  ),
-                ),
+                    text: 'المحادثات',
+                    onPressed: () async {
+                      await Navigator.of(context, rootNavigator: false).push(
+                        MaterialPageRoute(
+                          builder: (context) => ConversationScreen.create(
+                            context: context,
+                          ),
+                          fullscreenDialog: true,
+                        ),
+                      );
+                      setState(() {});
+                    }),
                 SizedBox(height: 10),
               ],
               MenuButtonWidget(

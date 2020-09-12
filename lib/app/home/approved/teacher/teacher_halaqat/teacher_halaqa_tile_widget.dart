@@ -12,11 +12,13 @@ class TeacherHalqaTileWidget extends StatefulWidget {
     @required this.halaqa,
     @required this.bloc,
     @required this.chosenCenter,
+    @required this.halaqatList,
   }) : super(key: key);
 
   final Halaqa halaqa;
   final TeacherHalaqaBloc bloc;
   final StudyCenter chosenCenter;
+  final List<Halaqa> halaqatList;
 
   @override
   _TeacherHalqaTileWidgetState createState() => _TeacherHalqaTileWidgetState();
@@ -73,9 +75,11 @@ class _TeacherHalqaTileWidgetState extends State<TeacherHalqaTileWidget> {
               : await Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
                     builder: (context) => InstancesScreen.create(
-                        context: context,
-                        halaqa: widget.halaqa,
-                        chosenCenter: widget.chosenCenter),
+                      context: context,
+                      halaqa: widget.halaqa,
+                      chosenCenter: widget.chosenCenter,
+                      halaqatList: widget.halaqatList,
+                    ),
                     fullscreenDialog: true,
                   ),
                 ),

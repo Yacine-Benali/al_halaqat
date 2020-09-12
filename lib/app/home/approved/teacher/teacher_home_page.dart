@@ -99,6 +99,21 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
               title: 'حول التطبيق',
             ).show(context),
           ),
+          FutureBuilder(
+            future: FirebaseFirestore.instance.waitForPendingWrites(),
+            builder: (_, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done)
+                return Container();
+              else
+                return Padding(
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: Icon(
+                    Icons.cloud_upload,
+                    size: 26.0,
+                  ),
+                );
+            },
+          ),
           Padding(
             padding: EdgeInsets.only(left: 20.0),
             child: InkWell(
@@ -138,10 +153,12 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
             path: APIPath.centersCollection(),
             builder: (data, documentId) =>
                 StudyCenter.fromMap(data, documentId),
-            queryBuilder: (query) => query.where(
-              FieldPath.documentId,
-              whereIn: getApprovedCenterIds(teacher),
-            ),
+            queryBuilder: (query) => query
+                .where(
+                  FieldPath.documentId,
+                  whereIn: getApprovedCenterIds(teacher),
+                )
+                .where('state', isEqualTo: 'approved'),
           ),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -150,8 +167,8 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
                 return _buildContent(items, teacher);
               } else {
                 return EmptyContent(
-                  title: 'title',
-                  message: 'message',
+                  title: 'لا يوجد أي مركز مفعل',
+                  message: '',
                 );
               }
             } else if (snapshot.hasError) {
@@ -187,18 +204,19 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
               SizedBox(height: 50.0),
               SizedBox(height: 10),
               MenuButtonWidget(
-                text: 'إدارة الحلقات',
-                onPressed: () =>
-                    Navigator.of(context, rootNavigator: false).push(
-                  MaterialPageRoute(
-                    builder: (context) => TeacherHalaqatScreen.create(
-                      context: context,
-                      centers: items,
-                    ),
-                    fullscreenDialog: true,
-                  ),
-                ),
-              ),
+                  text: 'إدارة الحلقات',
+                  onPressed: () async {
+                    await Navigator.of(context, rootNavigator: false).push(
+                      MaterialPageRoute(
+                        builder: (context) => TeacherHalaqatScreen.create(
+                          context: context,
+                          centers: items,
+                        ),
+                        fullscreenDialog: true,
+                      ),
+                    );
+                    setState(() {});
+                  }),
               SizedBox(height: 10),
               MenuButtonWidget(
                 text: ' إدارة الطلاب',
@@ -215,22 +233,23 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
               ),
               SizedBox(height: 10),
               MenuButtonWidget(
-                text: 'المحادثات',
-                onPressed: () =>
-                    Navigator.of(context, rootNavigator: false).push(
-                  MaterialPageRoute(
-                    builder: (context) => ConversationScreen.create(
-                      context: context,
-                    ),
-                    fullscreenDialog: true,
-                  ),
-                ),
-              ),
+                  text: 'المحادثات',
+                  onPressed: () async {
+                    await Navigator.of(context, rootNavigator: false).push(
+                      MaterialPageRoute(
+                        builder: (context) => ConversationScreen.create(
+                          context: context,
+                        ),
+                        fullscreenDialog: true,
+                      ),
+                    );
+                    setState(() {});
+                  }),
               SizedBox(height: 10),
               MenuButtonWidget(
                 text: 'تقارير',
-                onPressed: () =>
-                    Navigator.of(context, rootNavigator: false).push(
+                onPressed: () async =>
+                    await Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
                     builder: (context) => TeacherReportsScreen.create(
                       context: context,

@@ -18,6 +18,7 @@ class AttendanceBloc {
   final AttendanceProvider provider;
   final Instance instance;
   final User user;
+  List<Student> gStudentsList;
 
   Future<Quran> fetchQuran() async => await provider.fetchQuran();
   List<String> getColumnTitle() {
@@ -45,6 +46,7 @@ class AttendanceBloc {
 
       List<Student> studentsList =
           await provider.fetchHalaqaStudents(instance.halaqaId);
+      this.gStudentsList = studentsList;
 
       // setting teacher info
       try {
@@ -122,5 +124,11 @@ class AttendanceBloc {
     instance.studentIdsList = studentsIds;
     instance.studentAttendanceSummery = summery;
     await provider.setInstance(instance);
+  }
+
+  Student getStudentFromId(String studentId) {
+    Student student =
+        gStudentsList.firstWhere((element) => element.id == studentId);
+    return student;
   }
 }

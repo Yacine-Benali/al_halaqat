@@ -16,8 +16,9 @@ class AttendanceProvider {
       database.fetchCollection(
         path: APIPath.usersCollection(),
         builder: (data, documentId) => Student.fromMap(data, documentId),
-        queryBuilder: (query) =>
-            query.where('halaqatLearningIn', arrayContains: halaqaId),
+        queryBuilder: (query) => query
+            .where('halaqatLearningIn', arrayContains: halaqaId)
+            .where('state', isEqualTo: 'approved'),
       );
 
   Future<Teacher> fetchHalaqaTeacher(
