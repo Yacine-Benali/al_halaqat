@@ -267,6 +267,7 @@ class KeyTranslate {
     'approved': 'نشطة',
     'archived': 'مؤرشفة',
     'deleted': 'محدوفة',
+    'pending': 'قيد الانتظار',
   };
 
   static const Map<String, String> requestsStateList = {
@@ -291,6 +292,7 @@ class KeyTranslate {
     'approved': 'نشط',
     'archived': 'مؤرشف',
     'deleted': 'محذوف',
+    'pending': 'قيد الانتظار',
   };
   static const Map<String, String> createUserAuthType = {
     'usernameAndPassword': 'إسم المتستخدم',

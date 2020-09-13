@@ -1,4 +1,6 @@
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/admin_logs/admin_logs_screen.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_centers_reports/ga_centers_report_screen.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_halaqat_reports/ga_halaqat_report_screen.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +28,30 @@ class _GaReportsScreenState extends State<GaReportsScreen> {
                   MaterialPageRoute(
                     builder: (context) =>
                         AdminLogsScreen.create(context: context),
+                    fullscreenDialog: true,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10.0),
+              MenuButtonWidget(
+                text: 'المراكز',
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: false).push(
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        GaCentersReportScreen.create(context: context),
+                    fullscreenDialog: true,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10.0),
+              MenuButtonWidget(
+                text: 'حلقات',
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: false).push(
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        GaHalaqaReportScreen.create(context: context),
                     fullscreenDialog: true,
                   ),
                 ),

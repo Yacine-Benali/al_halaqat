@@ -10,9 +10,7 @@ class AdminTeachersProvider {
 
   final Database database;
 
-  Stream<List<Teacher>> fetchTeachers(
-    List<String> centerIds,
-  ) {
+  Stream<List<Teacher>> fetchTeachers(List<String> centerIds) {
     return database.collectionStream(
       path: APIPath.usersCollection(),
       builder: (data, documentId) => Teacher.fromMap(data, documentId),
@@ -23,9 +21,7 @@ class AdminTeachersProvider {
     );
   }
 
-  Future<void> createTeacher(
-    Teacher teacher,
-  ) async {
+  Future<void> createTeacher(Teacher teacher) async {
     final DocumentReference postRef = FirebaseFirestore.instance
         .doc('/globalConfiguration/globalConfiguration');
 

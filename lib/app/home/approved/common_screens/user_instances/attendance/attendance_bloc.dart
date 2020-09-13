@@ -40,7 +40,6 @@ class AttendanceBloc {
 
     Instance newInstance = getNewInstance();
     if (temp) {
-      print(instance.halaqaId);
       Teacher halaqaTeacher =
           await provider.fetchHalaqaTeacher(instance.halaqaId);
 
