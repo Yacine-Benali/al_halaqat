@@ -1,4 +1,5 @@
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/admin_logs/admin_logs_screen.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admin_report_screen.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_centers_reports/ga_centers_report_screen.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_halaqat_reports/ga_halaqat_report_screen.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
@@ -52,6 +53,18 @@ class _GaReportsScreenState extends State<GaReportsScreen> {
                   MaterialPageRoute(
                     builder: (context) =>
                         GaHalaqaReportScreen.create(context: context),
+                    fullscreenDialog: true,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10.0),
+              MenuButtonWidget(
+                text: 'المشرفون',
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: false).push(
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        GaAdminReportScreen.create(context: context),
                     fullscreenDialog: true,
                   ),
                 ),

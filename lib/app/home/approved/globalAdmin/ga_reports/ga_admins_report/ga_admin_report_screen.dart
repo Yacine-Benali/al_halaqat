@@ -1,7 +1,7 @@
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_halaqat_reports/ga_halaqa_report_row.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_halaqat_reports/ga_halaqat_report_bloc.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_halaqat_reports/ga_halaqat_report_card.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_halaqat_reports/ga_halaqat_report_provider.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admin_report_bloc.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admin_report_card.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admin_report_provider.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admin_report_row.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_report_dialog.dart';
@@ -12,20 +12,19 @@ import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
-class GaHalaqaReportScreen extends StatefulWidget {
-  GaHalaqaReportScreen._({Key key, this.bloc}) : super(key: key);
+class GaAdminReportScreen extends StatefulWidget {
+  GaAdminReportScreen._({Key key, this.bloc}) : super(key: key);
 
-  final GaCHalaqatReportBloc bloc;
+  final GaAdminReportBloc bloc;
 
   static Widget create({
     @required BuildContext context,
   }) {
     Database database = Provider.of<Database>(context, listen: false);
 
-    GaHalaqatReportProvider provider =
-        GaHalaqatReportProvider(database: database);
-    GaCHalaqatReportBloc bloc = GaCHalaqatReportBloc(provider: provider);
-    return GaHalaqaReportScreen._(
+    GaAdminReportProvider provider = GaAdminReportProvider(database: database);
+    GaAdminReportBloc bloc = GaAdminReportBloc(provider: provider);
+    return GaAdminReportScreen._(
       bloc: bloc,
     );
   }
@@ -34,15 +33,15 @@ class GaHalaqaReportScreen extends StatefulWidget {
   _GaCentersReportScreenState createState() => _GaCentersReportScreenState();
 }
 
-class _GaCentersReportScreenState extends State<GaHalaqaReportScreen> {
-  GaCHalaqatReportBloc get bloc => widget.bloc;
+class _GaCentersReportScreenState extends State<GaAdminReportScreen> {
+  GaAdminReportBloc get bloc => widget.bloc;
   ProgressDialog pr;
-  Future<List<GaHalaqaReportRow>> rowListFuture;
-  List<GaHalaqaReportRow> rowList;
+  Future<List<GaAdminReportRow>> rowListFuture;
+  List<GaAdminReportRow> rowList;
 
   @override
   void initState() {
-    rowListFuture = bloc.getHalaqatReport();
+    rowListFuture = bloc.getAdminReport();
     pr = ProgressDialog(
       context,
       type: ProgressDialogType.Normal,
@@ -107,13 +106,13 @@ class _GaCentersReportScreenState extends State<GaHalaqaReportScreen> {
           ),
         ],
       ),
-      body: FutureBuilder<List<GaHalaqaReportRow>>(
+      body: FutureBuilder<List<GaAdminReportRow>>(
         future: rowListFuture,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             rowList = snapshot.data;
             if (rowList.isNotEmpty) {
-              return GaHalaqatReportCard(
+              return GaAdminReportCard(
                 rowList: rowList,
                 columnTitleList: bloc.getColumnTitle(),
               );

@@ -293,6 +293,7 @@ class KeyTranslate {
     'archived': 'مؤرشف',
     'deleted': 'محذوف',
     'pending': 'قيد الانتظار',
+    'pendingWithCenter': 'قيد الانتظار',
   };
   static const Map<String, String> createUserAuthType = {
     'usernameAndPassword': 'إسم المتستخدم',
