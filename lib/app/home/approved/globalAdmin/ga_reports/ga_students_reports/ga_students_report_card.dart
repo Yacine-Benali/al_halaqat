@@ -1,6 +1,5 @@
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_students_reports/ga_student_report_row.dart';
 import 'package:al_halaqat/common_widgets/format.dart';
-import 'package:al_halaqat/common_widgets/size_config.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -177,9 +176,9 @@ class GaStudentsReportCard extends StatelessWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Container(
-          width: SizeConfig.screenWidth * 3,
           child: Card(
             child: Table(
+              defaultColumnWidth: FixedColumnWidth(125),
               defaultVerticalAlignment: TableCellVerticalAlignment.middle,
               border: TableBorder(
                 horizontalInside:

@@ -1,6 +1,5 @@
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admin_report_row.dart';
 import 'package:al_halaqat/common_widgets/format.dart';
-import 'package:al_halaqat/common_widgets/size_config.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -167,10 +166,10 @@ class GaAdminReportCard extends StatelessWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Container(
-          width: SizeConfig.screenWidth * 3,
           child: Card(
             child: Table(
               defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              defaultColumnWidth: FixedColumnWidth(125),
               border: TableBorder(
                 horizontalInside:
                     BorderSide(width: 1.0, color: Colors.grey[350]),
