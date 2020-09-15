@@ -14,6 +14,7 @@ import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:al_halaqat/constants/strings.dart';
 import 'package:al_halaqat/services/api_path.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:al_halaqat/services/database.dart';
@@ -62,7 +63,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
       await auth.signOut();
     } on PlatformException catch (e) {
       await PlatformExceptionAlertDialog(
-        title: 'Strings.logoutFailed',
+        title: Strings.logoutFailed,
         exception: e,
       ).show(context);
     }
@@ -202,8 +203,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 return _buildContent(items);
               } else {
                 return EmptyContent(
-                  title: 'لا يوجد أي مركز مفعل',
-                  message: 'message',
+                  title: Strings.yourCenterisArchived,
+                  message: '',
                 );
               }
             } else if (snapshot.hasError) {

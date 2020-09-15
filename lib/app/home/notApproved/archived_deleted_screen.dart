@@ -3,6 +3,7 @@ import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:al_halaqat/constants/strings.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,7 +30,7 @@ class _ArchivedDeletedEmptyScreenState
       await auth.signOut();
     } on PlatformException catch (e) {
       await PlatformExceptionAlertDialog(
-        title: 'Strings.logoutFailed',
+        title: Strings.logoutFailed,
         exception: e,
       ).show(context);
     }
@@ -53,8 +54,8 @@ class _ArchivedDeletedEmptyScreenState
     title = '';
     subtitle = '';
     if (widget.user is Admin) {
-      title = 'you dont have any active centers';
-      subtitle = 'contact global admin at email@domaine.com';
+      // title = 'you dont have any active centers';
+      // subtitle = 'contact global admin at email@domaine.com';
     }
     super.initState();
   }
@@ -76,9 +77,12 @@ class _ArchivedDeletedEmptyScreenState
           ),
         ),
       ),
-      body: EmptyContent(
-        title: title,
-        message: subtitle,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: EmptyContent(
+          title: Strings.youAreArchived,
+          message: Strings.contactUs,
+        ),
       ),
     );
   }

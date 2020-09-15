@@ -1,4 +1,10 @@
 class Strings {
+  //
+  static const String yourCenterisArchived = 'المركز الخاص بك تم تعطيله';
+  static const String youAreArchived = 'لقد تم تعطيل الحساب الخاص بك ';
+  static const String contactUs =
+      'إتصل بالأدمن على هذا البريد: ' + 'Alhalaqatt@gmail.com';
+
   // Generic strings
   static const String ok = 'حسنا';
   static const String cancel = 'إلغاء';

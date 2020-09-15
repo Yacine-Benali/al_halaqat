@@ -5,10 +5,14 @@ import 'package:al_halaqat/app/home/approved/student/student_summery/student_sum
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
+import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:al_halaqat/constants/strings.dart';
+import 'package:al_halaqat/services/api_path.dart';
 import 'package:al_halaqat/services/auth.dart';
+import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -22,10 +26,13 @@ class StudentHomePage extends StatefulWidget {
 
 class _StudentHomePageState extends State<StudentHomePage> {
   Stream<List<StudyCenter>> studyCentersStream;
+  Database database;
+  Student student;
 
   @override
   initState() {
-    Student student = Provider.of<User>(context, listen: false);
+    student = Provider.of<User>(context, listen: false);
+    database = Provider.of<Database>(context, listen: false);
 
     super.initState();
   }
@@ -36,7 +43,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
       await auth.signOut();
     } on PlatformException catch (e) {
       await PlatformExceptionAlertDialog(
-        title: 'Strings.logoutFailed',
+        title: Strings.logoutFailed,
         exception: e,
       ).show(context);
     }
@@ -101,7 +108,32 @@ class _StudentHomePageState extends State<StudentHomePage> {
           ),
         ],
       ),
-      body: _buildContent(),
+      body: StreamBuilder<StudyCenter>(
+          stream: database.documentStream(
+            path: APIPath.centerDocument(student.center),
+            builder: (data, documentId) =>
+                StudyCenter.fromMap(data, documentId),
+          ),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final StudyCenter item = snapshot.data;
+
+              if (item.state == 'approved') {
+                return _buildContent();
+              } else {
+                return EmptyContent(
+                  title: Strings.yourCenterisArchived,
+                  message: '',
+                );
+              }
+            } else if (snapshot.hasError) {
+              return EmptyContent(
+                title: 'Something went wrong',
+                message: 'Can\'t load items right now',
+              );
+            }
+            return Center(child: CircularProgressIndicator());
+          }),
     );
   }
 

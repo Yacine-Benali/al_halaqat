@@ -1,8 +1,8 @@
 import 'package:al_halaqat/app/home/approved/admin/admin_home_page.dart';
-import 'package:al_halaqat/app/home/approved/archived_deleted_screen.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/global_admin_home_page.dart';
 import 'package:al_halaqat/app/home/approved/student/student_home_page.dart';
 import 'package:al_halaqat/app/home/approved/teacher/teacher_home_page.dart';
+import 'package:al_halaqat/app/home/notApproved/archived_deleted_screen.dart';
 import 'package:al_halaqat/app/home/notApproved/join_us_screen.dart';
 import 'package:al_halaqat/app/home/notApproved/pending_screen.dart';
 import 'package:al_halaqat/app/models/admin.dart';
@@ -70,6 +70,8 @@ class BaseScreen extends StatelessWidget {
           return PendingScreen();
         } else if (user.state == 'approved') {
           return StudentHomePage();
+        } else {
+          return ArchivedDeletedEmptyScreen(user: user);
         }
       }
     } else if (snapshot.hasError) {

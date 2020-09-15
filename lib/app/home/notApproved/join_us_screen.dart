@@ -3,6 +3,7 @@ import 'package:al_halaqat/app/models/global_admin.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:al_halaqat/constants/strings.dart';
 import 'package:al_halaqat/services/api_path.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,7 +23,7 @@ class _NewUserScreenState extends State<JoinUsScreen> {
       await auth.signOut();
     } on PlatformException catch (e) {
       await PlatformExceptionAlertDialog(
-        title: 'Strings.logoutFailed',
+        title: Strings.logoutFailed,
         exception: e,
       ).show(context);
     }

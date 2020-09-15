@@ -6,6 +6,7 @@ import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:al_halaqat/constants/strings.dart';
 import 'package:al_halaqat/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,7 +24,7 @@ class _PendingScreenState extends State<PendingScreen> {
       await auth.signOut();
     } on PlatformException catch (e) {
       await PlatformExceptionAlertDialog(
-        title: 'Strings.logoutFailed',
+        title: Strings.logoutFailed,
         exception: e,
       ).show(context);
     }
