@@ -16,25 +16,29 @@ class GaCentersReportProvider {
         builder: (data, documentId) => StudyCenter.fromMap(data, documentId),
       );
 
-  Future<List<Student>> fetchCenterStudents(String centerId) =>
+  Future<List<Student>> fetchCenterStudents(String centerId, String state) =>
       database.fetchCollection(
         path: APIPath.usersCollection(),
         builder: (data, documentId) => Student.fromMap(data, documentId),
-        queryBuilder: (query) => query.where('center', isEqualTo: centerId),
+        queryBuilder: (query) => query
+            .where('center', isEqualTo: centerId)
+            .where('state', isEqualTo: state),
       );
 
-  Future<List<Teacher>> fetchCenterTeachers(String centerId) =>
+  Future<List<Teacher>> fetchCenterTeachers(String centerId, String state) =>
       database.fetchCollection(
         path: APIPath.usersCollection(),
         builder: (data, documentId) => Teacher.fromMap(data, documentId),
         queryBuilder: (query) =>
-            query.where('centers', arrayContains: centerId),
+            query.where('centerState.$centerId', isEqualTo: centerId),
       );
 
-  Future<List<Halaqa>> fetchCenterHalaqat(String centerId) =>
+  Future<List<Halaqa>> fetchCenterHalaqat(String centerId, String state) =>
       database.fetchCollection(
         path: APIPath.halaqatCollection(),
         builder: (data, documentId) => Halaqa.fromMap(data),
-        queryBuilder: (query) => query.where('centerId', isEqualTo: centerId),
+        queryBuilder: (query) => query
+            .where('centerId', isEqualTo: centerId)
+            .where('state', isEqualTo: state),
       );
 }

@@ -2,6 +2,7 @@ import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/admin_logs/a
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admin_report_screen.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_centers_reports/ga_centers_report_screen.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_halaqat_reports/ga_halaqat_report_screen.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_students_reports/ga_admin_report_screen.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,7 @@ class GaReportsScreen extends StatefulWidget {
 }
 
 class _GaReportsScreenState extends State<GaReportsScreen> {
+  //TODO make all the cards width fixed
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,6 +67,18 @@ class _GaReportsScreenState extends State<GaReportsScreen> {
                   MaterialPageRoute(
                     builder: (context) =>
                         GaAdminReportScreen.create(context: context),
+                    fullscreenDialog: true,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10.0),
+              MenuButtonWidget(
+                text: 'الطلاب',
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: false).push(
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        GaStudentReportScreen.create(context: context),
                     fullscreenDialog: true,
                   ),
                 ),

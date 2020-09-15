@@ -24,17 +24,29 @@ class GaCentersReportBloc {
 
     List<StudyCenter> centersList = await provider.fetchCenters();
     for (StudyCenter center in centersList) {
-      List<Student> studentsList =
-          await provider.fetchCenterStudents(center.id);
-      List<Halaqa> halaqatList = await provider.fetchCenterHalaqat(center.id);
-      List<Teacher> teachersList =
-          await provider.fetchCenterTeachers(center.id);
+      List<Student> approvedStudentsList =
+          await provider.fetchCenterStudents(center.id, 'approved');
+      List<Student> archivedStudentsList =
+          await provider.fetchCenterStudents(center.id, 'archived');
+      List<Halaqa> approvedHalaqatList =
+          await provider.fetchCenterHalaqat(center.id, 'approved');
+      List<Halaqa> archivedHalaqatList =
+          await provider.fetchCenterHalaqat(center.id, 'archived');
+
+      List<Teacher> approvedTeachersList =
+          await provider.fetchCenterTeachers(center.id, 'approved');
+
+      List<Teacher> archivedTeachersList =
+          await provider.fetchCenterTeachers(center.id, 'archived');
 
       GaCenterReportRow row = GaCenterReportRow(
         center: center,
-        numberOfStudents: studentsList.length ?? 0,
-        numberOfTeachers: teachersList.length ?? 0,
-        numberOfHalaqat: halaqatList.length ?? 0,
+        numberOfApprovedStudents: approvedStudentsList.length ?? 0,
+        numberOfArchivedStudents: archivedStudentsList.length ?? 0,
+        numberOfApprovedTeachers: approvedTeachersList.length ?? 0,
+        numberOfArchivedTeachers: archivedTeachersList.length ?? 0,
+        numberOfApprovedHalaqat: approvedHalaqatList.length ?? 0,
+        numberOfArchivedHalaqat: archivedHalaqatList.length ?? 0,
       );
       list.add(row);
     }
@@ -50,9 +62,12 @@ class GaCentersReportBloc {
       'رقم الهاتف',
       'تاريخ الإنشاء',
       'بواسطة',
-      'عدد الطلاب',
-      'عدد المعلمين',
-      'عدد الحلقات',
+      'عدد الطلاب النشطاء',
+      'عدد الطلاب المؤرشفين',
+      'عدد المعلمين النشطاء',
+      'عدد المعلمين المؤرشفين',
+      'عدد الحلقات النشطة',
+      'عدد الحلقات المؤرشفة',
       'الحالة'
     ]);
 
@@ -86,9 +101,13 @@ class GaCentersReportBloc {
       fuckingRow
           .add(Format.date(row.center.createdAt.toDate() ?? DateTime.now()));
       fuckingRow.add(row.center.createdBy['name']);
-      fuckingRow.add(row.numberOfStudents.toString());
-      fuckingRow.add(row.numberOfTeachers.toString());
-      fuckingRow.add(row.numberOfHalaqat.toString());
+      fuckingRow.add(row.numberOfApprovedStudents.toString());
+      fuckingRow.add(row.numberOfArchivedStudents.toString());
+      fuckingRow.add(row.numberOfApprovedTeachers.toString());
+      fuckingRow.add(row.numberOfArchivedTeachers.toString());
+      fuckingRow.add(row.numberOfApprovedHalaqat.toString());
+      fuckingRow.add(row.numberOfArchivedHalaqat.toString());
+
       fuckingRow.add(KeyTranslate.userStateList[row.center.state]);
       centesSheet.appendRow(fuckingRow);
     }

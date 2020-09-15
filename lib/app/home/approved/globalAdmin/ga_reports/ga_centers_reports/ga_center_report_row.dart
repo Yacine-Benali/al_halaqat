@@ -4,13 +4,19 @@ import 'package:flutter/foundation.dart';
 class GaCenterReportRow {
   GaCenterReportRow({
     @required this.center,
-    @required this.numberOfStudents,
-    @required this.numberOfTeachers,
-    @required this.numberOfHalaqat,
+    @required this.numberOfApprovedStudents,
+    @required this.numberOfApprovedTeachers,
+    @required this.numberOfApprovedHalaqat,
+    @required this.numberOfArchivedStudents,
+    @required this.numberOfArchivedTeachers,
+    @required this.numberOfArchivedHalaqat,
   });
 
   final StudyCenter center;
-  final int numberOfStudents;
-  final int numberOfTeachers;
-  final int numberOfHalaqat;
+  final int numberOfApprovedStudents;
+  final int numberOfApprovedTeachers;
+  final int numberOfApprovedHalaqat;
+  final int numberOfArchivedStudents;
+  final int numberOfArchivedTeachers;
+  final int numberOfArchivedHalaqat;
 }
