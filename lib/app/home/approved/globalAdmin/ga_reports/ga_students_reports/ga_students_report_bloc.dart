@@ -47,6 +47,7 @@ class GaStudentsReportBloc {
     List<String> columnTitleList = List();
     columnTitleList.addAll([
       'المركز',
+      'الحالة',
       'رقم المستخدم',
       'الاسم',
       'سنة الميلاد',
@@ -78,6 +79,8 @@ class GaStudentsReportBloc {
     for (GaStudentReportRow row in rowList) {
       List<String> fuckingRow = List();
       fuckingRow.add(row.center?.name ?? '');
+      fuckingRow.add(KeyTranslate.userStateList[row.student.state]);
+
       fuckingRow.add(row.student.readableId);
       fuckingRow.add(row.student.name);
       fuckingRow.add(row.student.dateOfBirth.toString());

@@ -54,6 +54,15 @@ class GaStudentsReportCard extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Container(
             alignment: Alignment.centerRight,
+            child: AutoSizeText(
+              KeyTranslate.userStateList[row.student.state],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
             child: AutoSizeText(row.student.readableId),
           ),
