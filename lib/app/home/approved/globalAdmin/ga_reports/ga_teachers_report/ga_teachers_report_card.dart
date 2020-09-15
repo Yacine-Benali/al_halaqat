@@ -1,18 +1,18 @@
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_students_reports/ga_student_report_row.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_teachers_report/ga_teacher_report_row.dart';
 import 'package:al_halaqat/common_widgets/format.dart';
 import 'package:al_halaqat/common_widgets/size_config.dart';
 import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-class GaStudentReportCard extends StatelessWidget {
-  const GaStudentReportCard({
+class GaTeachersReportCard extends StatelessWidget {
+  const GaTeachersReportCard({
     Key key,
     @required this.rowList,
     @required this.columnTitleList,
   }) : super(key: key);
 
-  final List<GaStudentReportRow> rowList;
+  final List<GaTeacherReportRow> rowList;
   final List<String> columnTitleList;
 
   TableRow buildColumnBlock() {
@@ -39,14 +39,14 @@ class GaStudentReportCard extends StatelessWidget {
   List<TableRow> buildRowList() {
     List<TableRow> tableRowList = List();
 
-    for (GaStudentReportRow row in rowList) {
+    for (GaTeacherReportRow row in rowList) {
       TableRow tableRow = TableRow(children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
             alignment: Alignment.centerRight,
             child: AutoSizeText(
-              row.center.name,
+              row.center?.name ?? '',
             ),
           ),
         ),
@@ -55,7 +55,7 @@ class GaStudentReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.student.readableId),
+            child: AutoSizeText(row.teacher.readableId),
           ),
         ),
         Padding(
@@ -63,23 +63,22 @@ class GaStudentReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.student.name),
+            child: AutoSizeText(row.teacher.name),
           ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+              alignment: Alignment.centerRight,
+              height: kMinInteractiveDimension,
+              child: AutoSizeText(row.teacher.dateOfBirth.toString())),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.student.dateOfBirth.toString()),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            alignment: Alignment.centerRight,
-            height: kMinInteractiveDimension,
-            child: AutoSizeText(row.student.gender),
+            child: AutoSizeText(row.teacher.gender),
           ),
         ),
         Padding(
@@ -88,7 +87,7 @@ class GaStudentReportCard extends StatelessWidget {
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
             child: AutoSizeText(
-                KeyTranslate.isoCountryToArabic[row.student.nationality]),
+                KeyTranslate.isoCountryToArabic[row.teacher.nationality]),
           ),
         ),
         Padding(
@@ -96,7 +95,7 @@ class GaStudentReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.student.address),
+            child: AutoSizeText(row.teacher.address),
           ),
         ),
         Padding(
@@ -104,7 +103,7 @@ class GaStudentReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.student.phoneNumber),
+            child: AutoSizeText(row.teacher.phoneNumber),
           ),
         ),
         Padding(
@@ -112,7 +111,7 @@ class GaStudentReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.student.parentPhoneNumber),
+            child: AutoSizeText(row.teacher.educationalLevel),
           ),
         ),
         Padding(
@@ -120,7 +119,7 @@ class GaStudentReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.student.educationalLevel),
+            child: AutoSizeText(row.teacher.etablissement),
           ),
         ),
         Padding(
@@ -128,7 +127,7 @@ class GaStudentReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.student.etablissement),
+            child: AutoSizeText(row.teacher.note),
           ),
         ),
         Padding(
@@ -136,7 +135,7 @@ class GaStudentReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.student.note),
+            child: AutoSizeText(Format.date(row.teacher.createdAt.toDate())),
           ),
         ),
         Padding(
@@ -144,15 +143,7 @@ class GaStudentReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(Format.date(row.student.createdAt.toDate())),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            alignment: Alignment.centerRight,
-            height: kMinInteractiveDimension,
-            child: AutoSizeText(row.student.createdBy['name']),
+            child: AutoSizeText(row.teacher.createdBy['name']),
           ),
         ),
       ]);

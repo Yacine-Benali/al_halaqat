@@ -4,8 +4,8 @@ import 'package:al_halaqat/services/api_path.dart';
 import 'package:al_halaqat/services/database.dart';
 import 'package:flutter/foundation.dart';
 
-class GaStudentReportProvider {
-  GaStudentReportProvider({@required this.database});
+class GaStudentsReportProvider {
+  GaStudentsReportProvider({@required this.database});
 
   final Database database;
 

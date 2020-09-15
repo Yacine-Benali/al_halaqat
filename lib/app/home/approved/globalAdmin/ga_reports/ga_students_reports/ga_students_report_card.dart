@@ -5,8 +5,8 @@ import 'package:al_halaqat/constants/key_translate.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-class GaStudentReportCard extends StatelessWidget {
-  const GaStudentReportCard({
+class GaStudentsReportCard extends StatelessWidget {
+  const GaStudentsReportCard({
     Key key,
     @required this.rowList,
     @required this.columnTitleList,
@@ -46,7 +46,7 @@ class GaStudentReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             child: AutoSizeText(
-              row.center.name,
+              row.center?.name ?? '',
             ),
           ),
         ),

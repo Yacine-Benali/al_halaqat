@@ -1,7 +1,7 @@
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_students_reports/ga_student_report_bloc.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_students_reports/ga_student_report_card.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_students_reports/ga_student_report_provider.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_students_reports/ga_student_report_row.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_students_reports/ga_students_report_bloc.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_students_reports/ga_students_report_card.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_students_reports/ga_students_report_provider.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_report_dialog.dart';
@@ -12,20 +12,20 @@ import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
-class GaStudentReportScreen extends StatefulWidget {
-  GaStudentReportScreen._({Key key, this.bloc}) : super(key: key);
+class GaStudentsReportScreen extends StatefulWidget {
+  GaStudentsReportScreen._({Key key, this.bloc}) : super(key: key);
 
-  final GaStudentReportBloc bloc;
+  final GaStudentsReportBloc bloc;
 
   static Widget create({
     @required BuildContext context,
   }) {
     Database database = Provider.of<Database>(context, listen: false);
 
-    GaStudentReportProvider provider =
-        GaStudentReportProvider(database: database);
-    GaStudentReportBloc bloc = GaStudentReportBloc(provider: provider);
-    return GaStudentReportScreen._(
+    GaStudentsReportProvider provider =
+        GaStudentsReportProvider(database: database);
+    GaStudentsReportBloc bloc = GaStudentsReportBloc(provider: provider);
+    return GaStudentsReportScreen._(
       bloc: bloc,
     );
   }
@@ -34,8 +34,8 @@ class GaStudentReportScreen extends StatefulWidget {
   _GaCentersReportScreenState createState() => _GaCentersReportScreenState();
 }
 
-class _GaCentersReportScreenState extends State<GaStudentReportScreen> {
-  GaStudentReportBloc get bloc => widget.bloc;
+class _GaCentersReportScreenState extends State<GaStudentsReportScreen> {
+  GaStudentsReportBloc get bloc => widget.bloc;
   ProgressDialog pr;
   Future<List<GaStudentReportRow>> rowListFuture;
   List<GaStudentReportRow> rowList;
@@ -113,7 +113,7 @@ class _GaCentersReportScreenState extends State<GaStudentReportScreen> {
           if (snapshot.hasData) {
             rowList = snapshot.data;
             if (rowList.isNotEmpty) {
-              return GaStudentReportCard(
+              return GaStudentsReportCard(
                 rowList: rowList,
                 columnTitleList: bloc.getColumnTitle(),
               );

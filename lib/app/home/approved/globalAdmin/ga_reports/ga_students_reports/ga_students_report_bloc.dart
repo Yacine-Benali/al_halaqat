@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_students_reports/ga_student_report_provider.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_students_reports/ga_student_report_row.dart';
+import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_students_reports/ga_students_report_provider.dart';
 import 'package:al_halaqat/app/models/student.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/common_widgets/format.dart';
@@ -10,12 +10,12 @@ import 'package:al_halaqat/services/storage.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/foundation.dart';
 
-class GaStudentReportBloc {
-  GaStudentReportBloc({
+class GaStudentsReportBloc {
+  GaStudentsReportBloc({
     @required this.provider,
   });
 
-  final GaStudentReportProvider provider;
+  final GaStudentsReportProvider provider;
 
   Future<List<GaStudentReportRow>> getStudentReport() async {
     List<Student> studentsList = await provider.fetchStudents();
@@ -77,7 +77,7 @@ class GaStudentReportBloc {
     centesSheet.appendRow(getColumnTitle());
     for (GaStudentReportRow row in rowList) {
       List<String> fuckingRow = List();
-      fuckingRow.add(row.center.name);
+      fuckingRow.add(row.center?.name ?? '');
       fuckingRow.add(row.student.readableId);
       fuckingRow.add(row.student.name);
       fuckingRow.add(row.student.dateOfBirth.toString());
