@@ -33,10 +33,10 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
     password = widget.hidePassword ? '******' : widget.existingPassword;
     if (password == null) {
       password = createPassword();
+      widget.onPasswordCreated(password);
     }
     _controller = TextEditingController(text: password);
 
-    widget.onPasswordCreated(password);
     super.initState();
   }
 

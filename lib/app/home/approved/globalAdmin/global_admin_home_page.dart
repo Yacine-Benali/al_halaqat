@@ -4,6 +4,7 @@ import 'package:al_halaqat/app/home/approved/globalAdmin/ga_global_admins/ga_glo
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_profile/ga_profile_screen.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_reports_screen.dart';
 import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_screen.dart';
+import 'package:al_halaqat/common_widgets/logo.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
@@ -97,16 +98,8 @@ class GlobalAdminHomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 SizedBox(height: 32.0),
-                Container(
-                    height: 100,
-                    width: 100,
-                    color: Colors.grey[300],
-                    child: Center(
-                        child: Text(
-                      'logo',
-                      style: TextStyle(fontSize: 40),
-                    ))),
-                SizedBox(height: 50.0),
+                Logo(),
+                SizedBox(height: 30.0),
                 SizedBox(height: 10),
                 MenuButtonWidget(
                   text: 'إداراة المدراء عاميين',

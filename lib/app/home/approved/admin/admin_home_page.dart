@@ -11,6 +11,7 @@ import 'package:al_halaqat/app/models/admin.dart';
 import 'package:al_halaqat/app/models/study_center.dart';
 import 'package:al_halaqat/app/models/user.dart';
 import 'package:al_halaqat/common_widgets/empty_content.dart';
+import 'package:al_halaqat/common_widgets/logo.dart';
 import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
 import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
@@ -228,15 +229,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: 32.0),
-              Container(
-                  height: 100,
-                  width: 100,
-                  color: Colors.grey[300],
-                  child: Center(
-                      child: Text(
-                    'logo',
-                    style: TextStyle(fontSize: 40),
-                  ))),
+              Logo(),
               SizedBox(height: 50.0),
               SizedBox(height: 10),
               MenuButtonWidget(
