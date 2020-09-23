@@ -1,4 +1,4 @@
-import 'package:al_halaqat/common_widgets/empty_content.dart';
+import 'package:alhalaqat/common_widgets/empty_content.dart';
 import 'package:flutter/material.dart';
 
 typedef ItemWidgetBuilder<T> = Widget Function(BuildContext context, T item);

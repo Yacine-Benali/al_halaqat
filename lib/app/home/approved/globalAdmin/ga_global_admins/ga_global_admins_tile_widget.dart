@@ -1,8 +1,8 @@
-import 'package:al_halaqat/app/models/global_admin.dart';
-import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
-import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
-import 'package:al_halaqat/common_widgets/progress_dialog.dart';
-import 'package:al_halaqat/constants/key_translate.dart';
+import 'package:alhalaqat/app/models/global_admin.dart';
+import 'package:alhalaqat/common_widgets/platform_alert_dialog.dart';
+import 'package:alhalaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:alhalaqat/common_widgets/progress_dialog.dart';
+import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

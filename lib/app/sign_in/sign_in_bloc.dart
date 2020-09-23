@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:al_halaqat/services/auth.dart';
+import 'package:alhalaqat/services/auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 

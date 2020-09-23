@@ -1,10 +1,10 @@
-import 'package:al_halaqat/app/home/approved/student/student_summery/student_report_card_summery_screen.dart';
-import 'package:al_halaqat/app/home/approved/student/student_summery/student_summery_bloc.dart';
-import 'package:al_halaqat/app/home/approved/student/student_summery/student_summery_provider.dart';
-import 'package:al_halaqat/app/models/report_card.dart';
-import 'package:al_halaqat/app/models/user.dart';
-import 'package:al_halaqat/common_widgets/empty_content.dart';
-import 'package:al_halaqat/services/database.dart';
+import 'package:alhalaqat/app/home/approved/student/student_summery/student_report_card_summery_screen.dart';
+import 'package:alhalaqat/app/home/approved/student/student_summery/student_summery_bloc.dart';
+import 'package:alhalaqat/app/home/approved/student/student_summery/student_summery_provider.dart';
+import 'package:alhalaqat/app/models/report_card.dart';
+import 'package:alhalaqat/app/models/user.dart';
+import 'package:alhalaqat/common_widgets/empty_content.dart';
+import 'package:alhalaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

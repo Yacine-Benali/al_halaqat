@@ -1,13 +1,13 @@
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_bloc.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_provider.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_tile_widget.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_new_admin_screen.dart';
-import 'package:al_halaqat/app/models/admin.dart';
-import 'package:al_halaqat/app/models/user.dart';
-import 'package:al_halaqat/common_widgets/empty_content.dart';
-import 'package:al_halaqat/constants/key_translate.dart';
-import 'package:al_halaqat/services/auth.dart';
-import 'package:al_halaqat/services/database.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_bloc.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_provider.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_tile_widget.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_admins/ga_new_admin_screen.dart';
+import 'package:alhalaqat/app/models/admin.dart';
+import 'package:alhalaqat/app/models/user.dart';
+import 'package:alhalaqat/common_widgets/empty_content.dart';
+import 'package:alhalaqat/constants/key_translate.dart';
+import 'package:alhalaqat/services/auth.dart';
+import 'package:alhalaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,11 +1,11 @@
-import 'package:al_halaqat/app/conversation_helper/conversation_helper_bloc.dart';
-import 'package:al_halaqat/app/home/approved/admin/admin_requests/center_requests_provider.dart';
-import 'package:al_halaqat/app/models/center_request.dart';
-import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/models/student.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/app/models/teacher.dart';
-import 'package:al_halaqat/app/models/user.dart';
+import 'package:alhalaqat/app/conversation_helper/conversation_helper_bloc.dart';
+import 'package:alhalaqat/app/home/approved/admin/admin_requests/center_requests_provider.dart';
+import 'package:alhalaqat/app/models/center_request.dart';
+import 'package:alhalaqat/app/models/halaqa.dart';
+import 'package:alhalaqat/app/models/student.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/models/teacher.dart';
+import 'package:alhalaqat/app/models/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 

@@ -1,5 +1,5 @@
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_reports/ga_halaqat_reports/ga_halaqa_report_row.dart';
-import 'package:al_halaqat/constants/key_translate.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_halaqat_reports/ga_halaqa_report_row.dart';
+import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 

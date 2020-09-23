@@ -1,9 +1,9 @@
-import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_student_tile_widget.dart';
-import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_students_bloc.dart';
-import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/models/quran.dart';
-import 'package:al_halaqat/app/models/student.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/home/approved/teacher/teacher_students/teacher_student_tile_widget.dart';
+import 'package:alhalaqat/app/home/approved/teacher/teacher_students/teacher_students_bloc.dart';
+import 'package:alhalaqat/app/models/halaqa.dart';
+import 'package:alhalaqat/app/models/quran.dart';
+import 'package:alhalaqat/app/models/student.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:flutter/material.dart';
 
 class FuckYouScreen extends StatefulWidget {

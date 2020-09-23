@@ -1,9 +1,9 @@
-import 'package:al_halaqat/app/common_forms/global_admin_form.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_global_admins/ga_global_admins_bloc.dart';
-import 'package:al_halaqat/app/models/global_admin.dart';
-import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
-import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
-import 'package:al_halaqat/common_widgets/progress_dialog.dart';
+import 'package:alhalaqat/app/common_forms/global_admin_form.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_global_admins/ga_global_admins_bloc.dart';
+import 'package:alhalaqat/app/models/global_admin.dart';
+import 'package:alhalaqat/common_widgets/platform_alert_dialog.dart';
+import 'package:alhalaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:alhalaqat/common_widgets/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

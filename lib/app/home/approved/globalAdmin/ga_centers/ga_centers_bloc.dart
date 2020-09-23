@@ -1,7 +1,7 @@
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_provider.dart';
-import 'package:al_halaqat/app/models/admin.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/app/models/user.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_provider.dart';
+import 'package:alhalaqat/app/models/admin.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/models/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 

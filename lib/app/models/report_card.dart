@@ -1,4 +1,4 @@
-import 'package:al_halaqat/app/models/report_card_summery.dart';
+import 'package:alhalaqat/app/models/report_card_summery.dart';
 import 'package:flutter/foundation.dart';
 
 class ReportCard {

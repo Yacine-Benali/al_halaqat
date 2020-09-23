@@ -1,5 +1,5 @@
-import 'package:al_halaqat/app/models/admin.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/models/admin.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 

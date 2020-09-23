@@ -1,8 +1,8 @@
-import 'package:al_halaqat/app/models/center_request.dart';
-import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/models/teacher.dart';
-import 'package:al_halaqat/services/api_path.dart';
-import 'package:al_halaqat/services/database.dart';
+import 'package:alhalaqat/app/models/center_request.dart';
+import 'package:alhalaqat/app/models/halaqa.dart';
+import 'package:alhalaqat/app/models/teacher.dart';
+import 'package:alhalaqat/services/api_path.dart';
+import 'package:alhalaqat/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 

@@ -1,5 +1,5 @@
-import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
-import 'package:al_halaqat/common_widgets/platform_widget.dart';
+import 'package:alhalaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:alhalaqat/common_widgets/platform_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

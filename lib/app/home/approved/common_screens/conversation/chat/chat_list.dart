@@ -1,7 +1,7 @@
-import 'package:al_halaqat/app/home/approved/common_screens/conversation/chat/chat_bloc.dart';
-import 'package:al_halaqat/app/home/approved/common_screens/conversation/chat/message_tile.dart';
-import 'package:al_halaqat/app/models/message.dart';
-import 'package:al_halaqat/common_widgets/empty_content.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/conversation/chat/chat_bloc.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/conversation/chat/message_tile.dart';
+import 'package:alhalaqat/app/models/message.dart';
+import 'package:alhalaqat/common_widgets/empty_content.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

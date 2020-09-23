@@ -1,11 +1,11 @@
-import 'package:al_halaqat/app/home/approved/common_screens/reports/s_attendance/s_attendance_screen.dart';
-import 'package:al_halaqat/app/home/approved/common_screens/reports/s_learning/s_learning_screen.dart';
-import 'package:al_halaqat/app/home/approved/teacher/teacher_reports/teacher_reports_bloc.dart';
-import 'package:al_halaqat/app/home/approved/teacher/teacher_reports/teacher_reports_provider.dart';
-import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/common_widgets/empty_content.dart';
-import 'package:al_halaqat/common_widgets/menu_button_widget.dart';
-import 'package:al_halaqat/services/database.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/reports/s_attendance/s_attendance_screen.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/reports/s_learning/s_learning_screen.dart';
+import 'package:alhalaqat/app/home/approved/teacher/teacher_reports/teacher_reports_bloc.dart';
+import 'package:alhalaqat/app/home/approved/teacher/teacher_reports/teacher_reports_provider.dart';
+import 'package:alhalaqat/app/models/halaqa.dart';
+import 'package:alhalaqat/common_widgets/empty_content.dart';
+import 'package:alhalaqat/common_widgets/menu_button_widget.dart';
+import 'package:alhalaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

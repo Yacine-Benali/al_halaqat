@@ -1,6 +1,6 @@
-import 'package:al_halaqat/app/common_forms/center_form.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/common_widgets/progress_dialog.dart';
+import 'package:alhalaqat/app/common_forms/center_form.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/common_widgets/progress_dialog.dart';
 import 'package:flutter/material.dart';
 
 @immutable

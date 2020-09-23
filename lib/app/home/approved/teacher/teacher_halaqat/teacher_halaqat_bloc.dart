@@ -1,10 +1,10 @@
-import 'package:al_halaqat/app/home/approved/teacher/teacher_halaqat/teacher_halaqat_provider.dart';
-import 'package:al_halaqat/app/logs_helper/logs_helper_bloc.dart';
-import 'package:al_halaqat/app/models/center_request.dart';
-import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/app/models/teacher.dart';
-import 'package:al_halaqat/services/auth.dart';
+import 'package:alhalaqat/app/home/approved/teacher/teacher_halaqat/teacher_halaqat_provider.dart';
+import 'package:alhalaqat/app/logs_helper/logs_helper_bloc.dart';
+import 'package:alhalaqat/app/models/center_request.dart';
+import 'package:alhalaqat/app/models/halaqa.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/models/teacher.dart';
+import 'package:alhalaqat/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 

@@ -1,7 +1,7 @@
-import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/models/user_attendance_summery.dart';
-import 'package:al_halaqat/common_widgets/size_config.dart';
-import 'package:al_halaqat/constants/key_translate.dart';
+import 'package:alhalaqat/app/models/halaqa.dart';
+import 'package:alhalaqat/app/models/user_attendance_summery.dart';
+import 'package:alhalaqat/common_widgets/size_config.dart';
+import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 

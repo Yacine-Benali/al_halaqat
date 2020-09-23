@@ -1,4 +1,4 @@
-import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
+import 'package:alhalaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 

@@ -1,5 +1,5 @@
-import 'package:al_halaqat/app/models/message.dart';
-import 'package:al_halaqat/common_widgets/size_config.dart';
+import 'package:alhalaqat/app/models/message.dart';
+import 'package:alhalaqat/common_widgets/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

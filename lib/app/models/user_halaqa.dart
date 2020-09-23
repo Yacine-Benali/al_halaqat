@@ -1,4 +1,4 @@
-import 'package:al_halaqat/app/models/halaqa.dart';
+import 'package:alhalaqat/app/models/halaqa.dart';
 import 'package:flutter/foundation.dart';
 
 class UserHalaqa<T> {

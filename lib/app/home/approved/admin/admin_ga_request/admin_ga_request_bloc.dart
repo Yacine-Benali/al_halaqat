@@ -1,7 +1,7 @@
-import 'package:al_halaqat/app/home/approved/admin/admin_ga_request/admin_ga_request_provider.dart';
-import 'package:al_halaqat/app/models/admin.dart';
-import 'package:al_halaqat/app/models/global_admin_request.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/home/approved/admin/admin_ga_request/admin_ga_request_provider.dart';
+import 'package:alhalaqat/app/models/admin.dart';
+import 'package:alhalaqat/app/models/global_admin_request.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

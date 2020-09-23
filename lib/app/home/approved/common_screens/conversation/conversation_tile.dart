@@ -1,7 +1,7 @@
-import 'package:al_halaqat/app/home/approved/common_screens/conversation/chat/chat_screen.dart';
-import 'package:al_halaqat/app/models/conversation.dart';
-import 'package:al_halaqat/app/models/conversation_user.dart';
-import 'package:al_halaqat/common_widgets/size_config.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/conversation/chat/chat_screen.dart';
+import 'package:alhalaqat/app/models/conversation.dart';
+import 'package:alhalaqat/app/models/conversation_user.dart';
+import 'package:alhalaqat/common_widgets/size_config.dart';
 import 'package:flutter/material.dart';
 
 class ConversationTile extends StatelessWidget {

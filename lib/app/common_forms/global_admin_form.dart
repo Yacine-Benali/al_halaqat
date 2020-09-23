@@ -1,10 +1,10 @@
-import 'package:al_halaqat/app/models/global_admin.dart';
-import 'package:al_halaqat/app/sign_in/validator.dart';
-import 'package:al_halaqat/common_widgets/country_picker.dart';
-import 'package:al_halaqat/common_widgets/date_picker.dart';
-import 'package:al_halaqat/common_widgets/drop_down_form_field2.dart';
-import 'package:al_halaqat/common_widgets/password_text_field.dart';
-import 'package:al_halaqat/common_widgets/text_form_field2.dart';
+import 'package:alhalaqat/app/models/global_admin.dart';
+import 'package:alhalaqat/app/sign_in/validator.dart';
+import 'package:alhalaqat/common_widgets/country_picker.dart';
+import 'package:alhalaqat/common_widgets/date_picker.dart';
+import 'package:alhalaqat/common_widgets/drop_down_form_field2.dart';
+import 'package:alhalaqat/common_widgets/password_text_field.dart';
+import 'package:alhalaqat/common_widgets/text_form_field2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

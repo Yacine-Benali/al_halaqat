@@ -1,5 +1,5 @@
-import 'package:al_halaqat/app/models/conversation_user.dart';
-import 'package:al_halaqat/app/models/message.dart';
+import 'package:alhalaqat/app/models/conversation_user.dart';
+import 'package:alhalaqat/app/models/message.dart';
 import 'package:meta/meta.dart';
 
 class Conversation {

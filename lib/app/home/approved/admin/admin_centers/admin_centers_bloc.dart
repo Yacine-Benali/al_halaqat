@@ -1,6 +1,6 @@
-import 'package:al_halaqat/app/home/approved/admin/admin_centers/admin_centers_provider.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/app/models/user.dart';
+import 'package:alhalaqat/app/home/approved/admin/admin_centers/admin_centers_provider.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/models/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 

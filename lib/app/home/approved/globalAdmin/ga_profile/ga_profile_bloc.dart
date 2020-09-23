@@ -1,5 +1,5 @@
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_profile/ga_profile_provider.dart';
-import 'package:al_halaqat/app/models/global_admin.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_profile/ga_profile_provider.dart';
+import 'package:alhalaqat/app/models/global_admin.dart';
 import 'package:flutter/material.dart';
 
 class GaProfileBloc {

@@ -1,4 +1,4 @@
-import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:flutter/foundation.dart';
 
 class GaCenterReportRow {

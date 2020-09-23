@@ -1,7 +1,7 @@
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_request_details_screen.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_bloc.dart';
-import 'package:al_halaqat/app/models/global_admin_request.dart';
-import 'package:al_halaqat/constants/key_translate.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_requests/ga_request_details_screen.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_bloc.dart';
+import 'package:alhalaqat/app/models/global_admin_request.dart';
+import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

@@ -1,6 +1,6 @@
-import 'package:al_halaqat/app/models/report_card.dart';
-import 'package:al_halaqat/app/models/report_card_summery.dart';
-import 'package:al_halaqat/common_widgets/size_config.dart';
+import 'package:alhalaqat/app/models/report_card.dart';
+import 'package:alhalaqat/app/models/report_card_summery.dart';
+import 'package:alhalaqat/common_widgets/size_config.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 

@@ -1,9 +1,9 @@
-import 'package:al_halaqat/app/home/approved/common_screens/conversation/chat/chat_provider.dart';
-import 'package:al_halaqat/app/models/admin.dart';
-import 'package:al_halaqat/app/models/conversation.dart';
-import 'package:al_halaqat/app/models/message.dart';
-import 'package:al_halaqat/app/models/teacher.dart';
-import 'package:al_halaqat/app/models/user.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/conversation/chat/chat_provider.dart';
+import 'package:alhalaqat/app/models/admin.dart';
+import 'package:alhalaqat/app/models/conversation.dart';
+import 'package:alhalaqat/app/models/message.dart';
+import 'package:alhalaqat/app/models/teacher.dart';
+import 'package:alhalaqat/app/models/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 

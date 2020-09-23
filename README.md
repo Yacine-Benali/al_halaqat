@@ -1,4 +1,4 @@
-# al_halaqat
+# alhalaqat
 
 A new Flutter project.
 

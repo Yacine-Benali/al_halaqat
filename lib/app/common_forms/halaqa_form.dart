@@ -1,6 +1,6 @@
-import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/sign_in/validator.dart';
-import 'package:al_halaqat/common_widgets/text_form_field2.dart';
+import 'package:alhalaqat/app/models/halaqa.dart';
+import 'package:alhalaqat/app/sign_in/validator.dart';
+import 'package:alhalaqat/common_widgets/text_form_field2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

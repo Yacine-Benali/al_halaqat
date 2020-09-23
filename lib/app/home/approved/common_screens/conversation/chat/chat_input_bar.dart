@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:al_halaqat/app/home/approved/common_screens/conversation/chat/chat_bloc.dart';
-import 'package:al_halaqat/app/models/message.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/conversation/chat/chat_bloc.dart';
+import 'package:alhalaqat/app/models/message.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';

@@ -1,5 +1,5 @@
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/common_widgets/center_state_tile.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/common_widgets/center_state_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 

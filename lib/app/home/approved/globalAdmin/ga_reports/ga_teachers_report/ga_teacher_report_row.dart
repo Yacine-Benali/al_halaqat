@@ -1,5 +1,5 @@
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/app/models/teacher.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/models/teacher.dart';
 import 'package:flutter/foundation.dart';
 
 class GaTeacherReportRow {

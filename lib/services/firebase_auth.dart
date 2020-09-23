@@ -1,4 +1,4 @@
-import 'package:al_halaqat/services/auth.dart';
+import 'package:alhalaqat/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';

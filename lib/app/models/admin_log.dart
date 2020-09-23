@@ -1,6 +1,6 @@
-import 'package:al_halaqat/app/models/conversation_user.dart';
-import 'package:al_halaqat/app/models/log_object.dart';
-import 'package:al_halaqat/app/models/mini_center.dart';
+import 'package:alhalaqat/app/models/conversation_user.dart';
+import 'package:alhalaqat/app/models/log_object.dart';
+import 'package:alhalaqat/app/models/mini_center.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 

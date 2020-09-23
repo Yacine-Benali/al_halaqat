@@ -1,6 +1,6 @@
-import 'package:al_halaqat/app/models/admin.dart';
-import 'package:al_halaqat/app/models/global_admin.dart';
-import 'package:al_halaqat/app/models/teacher.dart';
+import 'package:alhalaqat/app/models/admin.dart';
+import 'package:alhalaqat/app/models/global_admin.dart';
+import 'package:alhalaqat/app/models/teacher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'student.dart';

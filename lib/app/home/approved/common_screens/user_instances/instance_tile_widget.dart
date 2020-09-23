@@ -1,14 +1,14 @@
 import 'dart:math';
 
-import 'package:al_halaqat/app/home/approved/common_screens/user_instances/attendance/attendance_screen.dart';
-import 'package:al_halaqat/app/home/approved/common_screens/user_instances/intances_bloc.dart';
-import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/models/instance.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
-import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
-import 'package:al_halaqat/common_widgets/progress_dialog.dart';
-import 'package:al_halaqat/constants/key_translate.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/user_instances/attendance/attendance_screen.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/user_instances/intances_bloc.dart';
+import 'package:alhalaqat/app/models/halaqa.dart';
+import 'package:alhalaqat/app/models/instance.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/common_widgets/platform_alert_dialog.dart';
+import 'package:alhalaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:alhalaqat/common_widgets/progress_dialog.dart';
+import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' as intl;

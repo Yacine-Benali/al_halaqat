@@ -1,11 +1,11 @@
-import 'package:al_halaqat/app/conversation_helper/conversation_helper_provider.dart';
-import 'package:al_halaqat/app/models/admin.dart';
-import 'package:al_halaqat/app/models/conversation.dart';
-import 'package:al_halaqat/app/models/conversation_user.dart';
-import 'package:al_halaqat/app/models/message.dart';
-import 'package:al_halaqat/app/models/student.dart';
-import 'package:al_halaqat/app/models/teacher.dart';
-import 'package:al_halaqat/services/database.dart';
+import 'package:alhalaqat/app/conversation_helper/conversation_helper_provider.dart';
+import 'package:alhalaqat/app/models/admin.dart';
+import 'package:alhalaqat/app/models/conversation.dart';
+import 'package:alhalaqat/app/models/conversation_user.dart';
+import 'package:alhalaqat/app/models/message.dart';
+import 'package:alhalaqat/app/models/student.dart';
+import 'package:alhalaqat/app/models/teacher.dart';
+import 'package:alhalaqat/services/database.dart';
 
 class ConversationHelpeBloc {
   ConversationHelpeBloc({this.database});

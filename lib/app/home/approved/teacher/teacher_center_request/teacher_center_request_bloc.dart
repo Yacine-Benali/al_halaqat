@@ -1,7 +1,7 @@
-import 'package:al_halaqat/app/home/approved/teacher/teacher_center_request/teacher_center_request_provider.dart';
-import 'package:al_halaqat/app/models/center_request.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/app/models/teacher.dart';
+import 'package:alhalaqat/app/home/approved/teacher/teacher_center_request/teacher_center_request_provider.dart';
+import 'package:alhalaqat/app/models/center_request.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/models/teacher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

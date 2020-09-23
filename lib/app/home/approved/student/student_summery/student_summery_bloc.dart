@@ -1,13 +1,13 @@
 import 'dart:math';
 
-import 'package:al_halaqat/app/home/approved/student/student_summery/student_summery_provider.dart';
-import 'package:al_halaqat/app/models/evaluation.dart';
-import 'package:al_halaqat/app/models/instance.dart';
-import 'package:al_halaqat/app/models/quran.dart';
-import 'package:al_halaqat/app/models/report_card.dart';
-import 'package:al_halaqat/app/models/report_card_summery.dart';
-import 'package:al_halaqat/app/models/student.dart';
-import 'package:al_halaqat/app/models/student_profile.dart';
+import 'package:alhalaqat/app/home/approved/student/student_summery/student_summery_provider.dart';
+import 'package:alhalaqat/app/models/evaluation.dart';
+import 'package:alhalaqat/app/models/instance.dart';
+import 'package:alhalaqat/app/models/quran.dart';
+import 'package:alhalaqat/app/models/report_card.dart';
+import 'package:alhalaqat/app/models/report_card_summery.dart';
+import 'package:alhalaqat/app/models/student.dart';
+import 'package:alhalaqat/app/models/student_profile.dart';
 import 'package:flutter/material.dart';
 
 class StudentSummeryBloc {

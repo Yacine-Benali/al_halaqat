@@ -1,14 +1,14 @@
-import 'package:al_halaqat/app/home/approved/common_screens/user_instances/intances_provider.dart';
-import 'package:al_halaqat/app/logs_helper/logs_helper_bloc.dart';
-import 'package:al_halaqat/app/models/admin.dart';
-import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/models/instance.dart';
-import 'package:al_halaqat/app/models/student_attendance.dart';
-import 'package:al_halaqat/app/models/students_attendance_summery.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/app/models/teacher.dart';
-import 'package:al_halaqat/app/models/teacher_summery.dart';
-import 'package:al_halaqat/app/models/user.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/user_instances/intances_provider.dart';
+import 'package:alhalaqat/app/logs_helper/logs_helper_bloc.dart';
+import 'package:alhalaqat/app/models/admin.dart';
+import 'package:alhalaqat/app/models/halaqa.dart';
+import 'package:alhalaqat/app/models/instance.dart';
+import 'package:alhalaqat/app/models/student_attendance.dart';
+import 'package:alhalaqat/app/models/students_attendance_summery.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/models/teacher.dart';
+import 'package:alhalaqat/app/models/teacher_summery.dart';
+import 'package:alhalaqat/app/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 

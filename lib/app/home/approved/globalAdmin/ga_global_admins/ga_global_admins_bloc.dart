@@ -1,7 +1,7 @@
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_global_admins/ga_global_admins_provider.dart';
-import 'package:al_halaqat/app/models/global_admin.dart';
-import 'package:al_halaqat/app/models/user.dart';
-import 'package:al_halaqat/services/auth.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_global_admins/ga_global_admins_provider.dart';
+import 'package:alhalaqat/app/models/global_admin.dart';
+import 'package:alhalaqat/app/models/user.dart';
+import 'package:alhalaqat/services/auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';

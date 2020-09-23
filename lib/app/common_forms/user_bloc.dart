@@ -1,12 +1,12 @@
-import 'package:al_halaqat/app/common_forms/user_info_screen.dart';
-import 'package:al_halaqat/app/common_forms/user_provider.dart';
-import 'package:al_halaqat/app/models/admin.dart';
-import 'package:al_halaqat/app/models/center_request.dart';
-import 'package:al_halaqat/app/models/global_admin_request.dart';
-import 'package:al_halaqat/app/models/student.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/app/models/teacher.dart';
-import 'package:al_halaqat/services/auth.dart';
+import 'package:alhalaqat/app/common_forms/user_info_screen.dart';
+import 'package:alhalaqat/app/common_forms/user_provider.dart';
+import 'package:alhalaqat/app/models/admin.dart';
+import 'package:alhalaqat/app/models/center_request.dart';
+import 'package:alhalaqat/app/models/global_admin_request.dart';
+import 'package:alhalaqat/app/models/student.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/models/teacher.dart';
+import 'package:alhalaqat/services/auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 

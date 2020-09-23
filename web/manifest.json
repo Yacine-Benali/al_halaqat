@@ -1,6 +1,6 @@
 {
-    "name": "al_halaqat",
-    "short_name": "al_halaqat",
+    "name": "alhalaqat",
+    "short_name": "alhalaqat",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

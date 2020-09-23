@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:al_halaqat/app/home/approved/common_screens/reports/s_learning/s_learning_provider.dart';
-import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/models/report_card.dart';
-import 'package:al_halaqat/services/storage.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/reports/s_learning/s_learning_provider.dart';
+import 'package:alhalaqat/app/models/halaqa.dart';
+import 'package:alhalaqat/app/models/report_card.dart';
+import 'package:alhalaqat/services/storage.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/foundation.dart';
 

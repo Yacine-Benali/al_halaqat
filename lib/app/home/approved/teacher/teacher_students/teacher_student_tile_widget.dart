@@ -1,12 +1,12 @@
-import 'package:al_halaqat/app/home/approved/common_screens/student_profile/student_profile_screen.dart';
-import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_new_student_screen.dart';
-import 'package:al_halaqat/app/home/approved/teacher/teacher_students/teacher_students_bloc.dart';
-import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/models/quran.dart';
-import 'package:al_halaqat/app/models/student.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/common_widgets/progress_dialog.dart';
-import 'package:al_halaqat/constants/key_translate.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/student_profile/student_profile_screen.dart';
+import 'package:alhalaqat/app/home/approved/teacher/teacher_students/teacher_new_student_screen.dart';
+import 'package:alhalaqat/app/home/approved/teacher/teacher_students/teacher_students_bloc.dart';
+import 'package:alhalaqat/app/models/halaqa.dart';
+import 'package:alhalaqat/app/models/quran.dart';
+import 'package:alhalaqat/app/models/student.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/common_widgets/progress_dialog.dart';
+import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:flutter/material.dart';
 
 class TeacherStudentTileWidget extends StatefulWidget {

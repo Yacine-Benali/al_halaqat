@@ -1,7 +1,7 @@
-import 'package:al_halaqat/app/home/approved/student/student_halaqa_information/student_halaqa_info_screen.dart';
-import 'package:al_halaqat/app/home/approved/student/student_halaqat/student_halaqat_bloc.dart';
-import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/models/student_profile.dart';
+import 'package:alhalaqat/app/home/approved/student/student_halaqa_information/student_halaqa_info_screen.dart';
+import 'package:alhalaqat/app/home/approved/student/student_halaqat/student_halaqat_bloc.dart';
+import 'package:alhalaqat/app/models/halaqa.dart';
+import 'package:alhalaqat/app/models/student_profile.dart';
 import 'package:flutter/material.dart';
 
 class StudentHalaqaTileWidget extends StatefulWidget {

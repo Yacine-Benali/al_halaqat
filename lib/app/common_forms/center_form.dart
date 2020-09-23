@@ -1,6 +1,6 @@
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/common_widgets/country_picker.dart';
-import 'package:al_halaqat/common_widgets/text_form_field2.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/common_widgets/country_picker.dart';
+import 'package:alhalaqat/common_widgets/text_form_field2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

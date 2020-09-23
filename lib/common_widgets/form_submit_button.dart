@@ -1,4 +1,4 @@
-import 'package:al_halaqat/common_widgets/custom_raised_button.dart';
+import 'package:alhalaqat/common_widgets/custom_raised_button.dart';
 import 'package:flutter/material.dart';
 
 class FormSubmitButton extends CustomRaisedButton {

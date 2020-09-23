@@ -1,9 +1,9 @@
-import 'package:al_halaqat/app/home/approved/common_screens/student_profile/student_profile_bloc.dart';
-import 'package:al_halaqat/app/models/instance.dart';
-import 'package:al_halaqat/app/models/student_attendance.dart';
-import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
-import 'package:al_halaqat/common_widgets/size_config.dart';
-import 'package:al_halaqat/constants/key_translate.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/student_profile/student_profile_bloc.dart';
+import 'package:alhalaqat/app/models/instance.dart';
+import 'package:alhalaqat/app/models/student_attendance.dart';
+import 'package:alhalaqat/common_widgets/platform_alert_dialog.dart';
+import 'package:alhalaqat/common_widgets/size_config.dart';
+import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 

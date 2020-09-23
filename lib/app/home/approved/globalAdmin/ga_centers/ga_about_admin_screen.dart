@@ -1,9 +1,9 @@
-import 'package:al_halaqat/app/common_forms/admin_form.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_bloc.dart';
-import 'package:al_halaqat/app/models/admin.dart';
-import 'package:al_halaqat/app/models/global_admin.dart';
-import 'package:al_halaqat/app/models/user.dart';
-import 'package:al_halaqat/common_widgets/empty_content.dart';
+import 'package:alhalaqat/app/common_forms/admin_form.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_bloc.dart';
+import 'package:alhalaqat/app/models/admin.dart';
+import 'package:alhalaqat/app/models/global_admin.dart';
+import 'package:alhalaqat/app/models/user.dart';
+import 'package:alhalaqat/common_widgets/empty_content.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

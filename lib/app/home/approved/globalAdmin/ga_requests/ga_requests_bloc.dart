@@ -1,8 +1,8 @@
-import 'package:al_halaqat/app/conversation_helper/conversation_helper_bloc.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_provider.dart';
-import 'package:al_halaqat/app/models/admin.dart';
-import 'package:al_halaqat/app/models/global_admin_request.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/conversation_helper/conversation_helper_bloc.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_provider.dart';
+import 'package:alhalaqat/app/models/admin.dart';
+import 'package:alhalaqat/app/models/global_admin_request.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 

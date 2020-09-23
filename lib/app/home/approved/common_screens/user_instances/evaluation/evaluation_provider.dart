@@ -1,7 +1,7 @@
-import 'package:al_halaqat/app/models/evaluation.dart';
-import 'package:al_halaqat/app/models/report_card.dart';
-import 'package:al_halaqat/services/api_path.dart';
-import 'package:al_halaqat/services/database.dart';
+import 'package:alhalaqat/app/models/evaluation.dart';
+import 'package:alhalaqat/app/models/report_card.dart';
+import 'package:alhalaqat/services/api_path.dart';
+import 'package:alhalaqat/services/database.dart';
 import 'package:flutter/foundation.dart';
 
 class EvaluationProvider {

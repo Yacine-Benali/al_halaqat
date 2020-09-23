@@ -1,6 +1,6 @@
-import 'package:al_halaqat/app/models/evaluation.dart';
-import 'package:al_halaqat/app/models/instance.dart';
-import 'package:al_halaqat/app/models/report_card.dart';
+import 'package:alhalaqat/app/models/evaluation.dart';
+import 'package:alhalaqat/app/models/instance.dart';
+import 'package:alhalaqat/app/models/report_card.dart';
 import 'package:flutter/foundation.dart';
 
 class StudentProfile {

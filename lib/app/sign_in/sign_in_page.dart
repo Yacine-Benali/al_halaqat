@@ -1,10 +1,10 @@
-import 'package:al_halaqat/app/sign_in/email_password/email_password_sign_in_page.dart';
-import 'package:al_halaqat/app/sign_in/sign_in_bloc.dart';
-import 'package:al_halaqat/app/sign_in/social_sign_in_button.dart';
-import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
-import 'package:al_halaqat/constants/keys.dart';
-import 'package:al_halaqat/constants/strings.dart';
-import 'package:al_halaqat/services/auth.dart';
+import 'package:alhalaqat/app/sign_in/email_password/email_password_sign_in_page.dart';
+import 'package:alhalaqat/app/sign_in/sign_in_bloc.dart';
+import 'package:alhalaqat/app/sign_in/social_sign_in_button.dart';
+import 'package:alhalaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:alhalaqat/constants/keys.dart';
+import 'package:alhalaqat/constants/strings.dart';
+import 'package:alhalaqat/services/auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

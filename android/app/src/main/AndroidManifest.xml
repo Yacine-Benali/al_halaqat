@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.benalitechnologies.al_halaqat">
+    package="com.benalitechnologies.alhalaqat">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -10,7 +10,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="al_halaqat"
+        android:label="الحلقات"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"

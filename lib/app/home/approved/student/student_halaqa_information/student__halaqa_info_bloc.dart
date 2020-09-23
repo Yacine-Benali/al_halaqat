@@ -1,10 +1,10 @@
 import 'dart:math';
 
-import 'package:al_halaqat/app/models/evaluation_helper.dart';
-import 'package:al_halaqat/app/models/instance.dart';
-import 'package:al_halaqat/app/models/student.dart';
-import 'package:al_halaqat/app/models/student_attendance.dart';
-import 'package:al_halaqat/constants/key_translate.dart';
+import 'package:alhalaqat/app/models/evaluation_helper.dart';
+import 'package:alhalaqat/app/models/instance.dart';
+import 'package:alhalaqat/app/models/student.dart';
+import 'package:alhalaqat/app/models/student_attendance.dart';
+import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart' as intl2;
 

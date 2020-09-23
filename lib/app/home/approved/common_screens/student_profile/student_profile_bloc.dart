@@ -1,17 +1,17 @@
 import 'dart:math';
 
-import 'package:al_halaqat/app/home/approved/common_screens/student_profile/student_profile_provider.dart';
-import 'package:al_halaqat/app/models/evaluation.dart';
-import 'package:al_halaqat/app/models/evaluation_helper.dart';
-import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/models/instance.dart';
-import 'package:al_halaqat/app/models/quran.dart';
-import 'package:al_halaqat/app/models/report_card.dart';
-import 'package:al_halaqat/app/models/report_card_summery.dart';
-import 'package:al_halaqat/app/models/student.dart';
-import 'package:al_halaqat/app/models/student_attendance.dart';
-import 'package:al_halaqat/app/models/student_profile.dart';
-import 'package:al_halaqat/constants/key_translate.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/student_profile/student_profile_provider.dart';
+import 'package:alhalaqat/app/models/evaluation.dart';
+import 'package:alhalaqat/app/models/evaluation_helper.dart';
+import 'package:alhalaqat/app/models/halaqa.dart';
+import 'package:alhalaqat/app/models/instance.dart';
+import 'package:alhalaqat/app/models/quran.dart';
+import 'package:alhalaqat/app/models/report_card.dart';
+import 'package:alhalaqat/app/models/report_card_summery.dart';
+import 'package:alhalaqat/app/models/student.dart';
+import 'package:alhalaqat/app/models/student_attendance.dart';
+import 'package:alhalaqat/app/models/student_profile.dart';
+import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl2;
 

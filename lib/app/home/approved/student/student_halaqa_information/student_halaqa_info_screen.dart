@@ -1,9 +1,9 @@
-import 'package:al_halaqat/app/home/approved/student/student_halaqa_information/student__halaqa_info_bloc.dart';
-import 'package:al_halaqat/app/home/approved/student/student_halaqa_information/student_halaqa_attendance_screen.dart';
-import 'package:al_halaqat/app/home/approved/student/student_halaqa_information/student_halaqa_evaluations_screen.dart';
-import 'package:al_halaqat/app/models/student_profile.dart';
-import 'package:al_halaqat/app/models/user.dart';
-import 'package:al_halaqat/common_widgets/empty_content.dart';
+import 'package:alhalaqat/app/home/approved/student/student_halaqa_information/student__halaqa_info_bloc.dart';
+import 'package:alhalaqat/app/home/approved/student/student_halaqa_information/student_halaqa_attendance_screen.dart';
+import 'package:alhalaqat/app/home/approved/student/student_halaqa_information/student_halaqa_evaluations_screen.dart';
+import 'package:alhalaqat/app/models/student_profile.dart';
+import 'package:alhalaqat/app/models/user.dart';
+import 'package:alhalaqat/common_widgets/empty_content.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

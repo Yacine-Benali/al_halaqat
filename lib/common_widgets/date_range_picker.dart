@@ -1,4 +1,4 @@
-import 'package:al_halaqat/common_widgets/format.dart';
+import 'package:alhalaqat/common_widgets/format.dart';
 import 'package:date_range_picker/date_range_picker.dart'
     as DateRangePickerPopUp;
 import 'package:flutter/material.dart';

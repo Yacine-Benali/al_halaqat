@@ -1,6 +1,6 @@
-import 'package:al_halaqat/app/models/teacher_log.dart';
-import 'package:al_halaqat/common_widgets/format.dart';
-import 'package:al_halaqat/constants/key_translate.dart';
+import 'package:alhalaqat/app/models/teacher_log.dart';
+import 'package:alhalaqat/common_widgets/format.dart';
+import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:flutter/material.dart';
 
 class CenterLogTile extends StatelessWidget {

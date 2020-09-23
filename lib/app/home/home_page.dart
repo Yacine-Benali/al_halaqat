@@ -1,11 +1,11 @@
-import 'package:al_halaqat/app/conversation_helper/conversation_helper_bloc.dart';
-import 'package:al_halaqat/app/home/base_sceen.dart';
-import 'package:al_halaqat/app/logs_helper/logs_helper_bloc.dart';
-import 'package:al_halaqat/app/logs_helper/logs_helper_provider.dart';
-import 'package:al_halaqat/app/models/user.dart';
-import 'package:al_halaqat/services/api_path.dart';
-import 'package:al_halaqat/services/database.dart';
-import 'package:al_halaqat/services/firestore_database.dart';
+import 'package:alhalaqat/app/conversation_helper/conversation_helper_bloc.dart';
+import 'package:alhalaqat/app/home/base_sceen.dart';
+import 'package:alhalaqat/app/logs_helper/logs_helper_bloc.dart';
+import 'package:alhalaqat/app/logs_helper/logs_helper_provider.dart';
+import 'package:alhalaqat/app/models/user.dart';
+import 'package:alhalaqat/services/api_path.dart';
+import 'package:alhalaqat/services/database.dart';
+import 'package:alhalaqat/services/firestore_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,4 +1,4 @@
-name: al_halaqat
+name: alhalaqat
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -48,6 +48,7 @@ dependencies:
   flutter_login_facebook: ^0.2.1
   # dead
   flutter_launcher_icons: ^0.8.0
+  rename: ^1.2.0
 
 flutter_icons:
   android: "launcher_icon"

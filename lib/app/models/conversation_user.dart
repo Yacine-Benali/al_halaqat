@@ -1,4 +1,4 @@
-import 'package:al_halaqat/app/models/user.dart';
+import 'package:alhalaqat/app/models/user.dart';
 import 'package:flutter/foundation.dart';
 
 class ConversationUser {

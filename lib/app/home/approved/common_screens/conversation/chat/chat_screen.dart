@@ -1,10 +1,10 @@
-import 'package:al_halaqat/app/home/approved/common_screens/conversation/chat/chat_bloc.dart';
-import 'package:al_halaqat/app/home/approved/common_screens/conversation/chat/chat_input_bar.dart';
-import 'package:al_halaqat/app/home/approved/common_screens/conversation/chat/chat_list.dart';
-import 'package:al_halaqat/app/home/approved/common_screens/conversation/chat/chat_provider.dart';
-import 'package:al_halaqat/app/models/conversation.dart';
-import 'package:al_halaqat/app/models/user.dart';
-import 'package:al_halaqat/services/database.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/conversation/chat/chat_bloc.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/conversation/chat/chat_input_bar.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/conversation/chat/chat_list.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/conversation/chat/chat_provider.dart';
+import 'package:alhalaqat/app/models/conversation.dart';
+import 'package:alhalaqat/app/models/user.dart';
+import 'package:alhalaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

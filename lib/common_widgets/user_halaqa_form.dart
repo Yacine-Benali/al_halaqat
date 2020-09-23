@@ -1,5 +1,5 @@
-import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/common_widgets/user_halaqa_tile.dart';
+import 'package:alhalaqat/app/models/halaqa.dart';
+import 'package:alhalaqat/common_widgets/user_halaqa_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 

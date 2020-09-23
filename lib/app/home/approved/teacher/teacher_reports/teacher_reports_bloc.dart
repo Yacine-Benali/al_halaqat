@@ -1,5 +1,5 @@
-import 'package:al_halaqat/app/home/approved/teacher/teacher_reports/teacher_reports_provider.dart';
-import 'package:al_halaqat/app/models/halaqa.dart';
+import 'package:alhalaqat/app/home/approved/teacher/teacher_reports/teacher_reports_provider.dart';
+import 'package:alhalaqat/app/models/halaqa.dart';
 import 'package:flutter/foundation.dart';
 
 class TeacherReportsBloc {

@@ -1,4 +1,4 @@
-import 'package:al_halaqat/common_widgets/password_generator.dart';
+import 'package:alhalaqat/common_widgets/password_generator.dart';
 import 'package:flutter/material.dart';
 
 class PasswordTextField extends StatefulWidget {

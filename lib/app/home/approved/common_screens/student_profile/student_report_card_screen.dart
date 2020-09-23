@@ -1,9 +1,9 @@
-import 'package:al_halaqat/app/home/approved/common_screens/student_profile/student_profile_bloc.dart';
-import 'package:al_halaqat/app/models/report_card.dart';
-import 'package:al_halaqat/app/models/report_card_summery.dart';
-import 'package:al_halaqat/app/models/student_profile.dart';
-import 'package:al_halaqat/common_widgets/empty_content.dart';
-import 'package:al_halaqat/common_widgets/size_config.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/student_profile/student_profile_bloc.dart';
+import 'package:alhalaqat/app/models/report_card.dart';
+import 'package:alhalaqat/app/models/report_card_summery.dart';
+import 'package:alhalaqat/app/models/student_profile.dart';
+import 'package:alhalaqat/common_widgets/empty_content.dart';
+import 'package:alhalaqat/common_widgets/size_config.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 

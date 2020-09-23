@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:al_halaqat/app/home/approved/common_screens/reports/s_attendance/s_attendance_provider.dart';
-import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/models/instance.dart';
-import 'package:al_halaqat/app/models/student_attendance.dart';
-import 'package:al_halaqat/app/models/user_attendance_summery.dart';
-import 'package:al_halaqat/common_widgets/format.dart';
-import 'package:al_halaqat/constants/key_translate.dart';
-import 'package:al_halaqat/services/storage.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/reports/s_attendance/s_attendance_provider.dart';
+import 'package:alhalaqat/app/models/halaqa.dart';
+import 'package:alhalaqat/app/models/instance.dart';
+import 'package:alhalaqat/app/models/student_attendance.dart';
+import 'package:alhalaqat/app/models/user_attendance_summery.dart';
+import 'package:alhalaqat/common_widgets/format.dart';
+import 'package:alhalaqat/constants/key_translate.dart';
+import 'package:alhalaqat/services/storage.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/foundation.dart';
 

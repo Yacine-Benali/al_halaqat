@@ -1,7 +1,7 @@
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_bloc.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_admins/ga_new_admin_screen.dart';
-import 'package:al_halaqat/app/models/admin.dart';
-import 'package:al_halaqat/constants/key_translate.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_bloc.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_admins/ga_new_admin_screen.dart';
+import 'package:alhalaqat/app/models/admin.dart';
+import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:flutter/material.dart';
 
 class GaAdminsTileWidget extends StatefulWidget {

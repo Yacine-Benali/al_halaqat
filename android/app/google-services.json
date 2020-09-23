@@ -8,12 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:975934860489:android:f5194d0ab3df8124db3118",
+        "mobilesdk_app_id": "1:975934860489:android:938ad267b8c921c1db3118",
         "android_client_info": {
-          "package_name": "com.benalitechnologies.al_halaqat"
+          "package_name": "com.benalitechnologies.alhalaqat"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "975934860489-l5sm19mrifpkf034mvk3g0iu51bufe8g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.benalitechnologies.alhalaqat",
+            "certificate_hash": "91f6380d0373368c01db73cbde960cef186adec5"
+          }
+        },
         {
           "client_id": "975934860489-c5di3thivlle9cioiuj4epoi2g56chfb.apps.googleusercontent.com",
           "client_type": 3

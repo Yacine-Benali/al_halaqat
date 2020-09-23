@@ -1,10 +1,10 @@
-import 'package:al_halaqat/app/common_forms/center_form.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_bloc.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/common_widgets/firebase_exception_alert_dialog.dart';
-import 'package:al_halaqat/common_widgets/platform_alert_dialog.dart';
-import 'package:al_halaqat/common_widgets/platform_exception_alert_dialog.dart';
-import 'package:al_halaqat/common_widgets/progress_dialog.dart';
+import 'package:alhalaqat/app/common_forms/center_form.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_bloc.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/common_widgets/firebase_exception_alert_dialog.dart';
+import 'package:alhalaqat/common_widgets/platform_alert_dialog.dart';
+import 'package:alhalaqat/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:alhalaqat/common_widgets/progress_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

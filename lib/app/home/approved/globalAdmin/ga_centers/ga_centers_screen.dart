@@ -1,12 +1,12 @@
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_bloc.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_provider.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_tile_widget.dart';
-import 'package:al_halaqat/app/home/approved/globalAdmin/ga_centers/ga_new_center_screen.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/app/models/user.dart';
-import 'package:al_halaqat/common_widgets/empty_content.dart';
-import 'package:al_halaqat/constants/key_translate.dart';
-import 'package:al_halaqat/services/database.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_bloc.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_provider.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_tile_widget.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_centers/ga_new_center_screen.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/models/user.dart';
+import 'package:alhalaqat/common_widgets/empty_content.dart';
+import 'package:alhalaqat/constants/key_translate.dart';
+import 'package:alhalaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

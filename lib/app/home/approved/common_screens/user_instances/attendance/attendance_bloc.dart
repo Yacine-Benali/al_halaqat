@@ -1,12 +1,12 @@
-import 'package:al_halaqat/app/home/approved/common_screens/user_instances/attendance/attendance_provider.dart';
-import 'package:al_halaqat/app/models/instance.dart';
-import 'package:al_halaqat/app/models/quran.dart';
-import 'package:al_halaqat/app/models/student.dart';
-import 'package:al_halaqat/app/models/student_attendance.dart';
-import 'package:al_halaqat/app/models/students_attendance_summery.dart';
-import 'package:al_halaqat/app/models/teacher.dart';
-import 'package:al_halaqat/app/models/user.dart';
-import 'package:al_halaqat/constants/key_translate.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/user_instances/attendance/attendance_provider.dart';
+import 'package:alhalaqat/app/models/instance.dart';
+import 'package:alhalaqat/app/models/quran.dart';
+import 'package:alhalaqat/app/models/student.dart';
+import 'package:alhalaqat/app/models/student_attendance.dart';
+import 'package:alhalaqat/app/models/students_attendance_summery.dart';
+import 'package:alhalaqat/app/models/teacher.dart';
+import 'package:alhalaqat/app/models/user.dart';
+import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:flutter/foundation.dart';
 
 class AttendanceBloc {

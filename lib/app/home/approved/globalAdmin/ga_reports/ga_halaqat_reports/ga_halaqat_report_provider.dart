@@ -1,9 +1,9 @@
-import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/models/student.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/app/models/teacher.dart';
-import 'package:al_halaqat/services/api_path.dart';
-import 'package:al_halaqat/services/database.dart';
+import 'package:alhalaqat/app/models/halaqa.dart';
+import 'package:alhalaqat/app/models/student.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/models/teacher.dart';
+import 'package:alhalaqat/services/api_path.dart';
+import 'package:alhalaqat/services/database.dart';
 import 'package:flutter/foundation.dart';
 
 class GaHalaqatReportProvider {

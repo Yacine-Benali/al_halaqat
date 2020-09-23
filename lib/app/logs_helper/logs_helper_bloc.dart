@@ -1,16 +1,16 @@
-import 'package:al_halaqat/app/logs_helper/logs_helper_provider.dart';
-import 'package:al_halaqat/app/models/admin.dart';
-import 'package:al_halaqat/app/models/admin_log.dart';
-import 'package:al_halaqat/app/models/conversation_user.dart';
-import 'package:al_halaqat/app/models/halaqa.dart';
-import 'package:al_halaqat/app/models/instance.dart';
-import 'package:al_halaqat/app/models/log_object.dart';
-import 'package:al_halaqat/app/models/mini_center.dart';
-import 'package:al_halaqat/app/models/student.dart';
-import 'package:al_halaqat/app/models/study_center.dart';
-import 'package:al_halaqat/app/models/teacher.dart';
-import 'package:al_halaqat/app/models/teacher_log.dart';
-import 'package:al_halaqat/app/models/user.dart';
+import 'package:alhalaqat/app/logs_helper/logs_helper_provider.dart';
+import 'package:alhalaqat/app/models/admin.dart';
+import 'package:alhalaqat/app/models/admin_log.dart';
+import 'package:alhalaqat/app/models/conversation_user.dart';
+import 'package:alhalaqat/app/models/halaqa.dart';
+import 'package:alhalaqat/app/models/instance.dart';
+import 'package:alhalaqat/app/models/log_object.dart';
+import 'package:alhalaqat/app/models/mini_center.dart';
+import 'package:alhalaqat/app/models/student.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/models/teacher.dart';
+import 'package:alhalaqat/app/models/teacher_log.dart';
+import 'package:alhalaqat/app/models/user.dart';
 
 enum ObjectAction { add, edit, delete }
 enum Nature {

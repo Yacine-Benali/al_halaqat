@@ -1,6 +1,6 @@
-import 'package:al_halaqat/app/home/home_page.dart';
-import 'package:al_halaqat/app/sign_in/sign_in_page.dart';
-import 'package:al_halaqat/services/auth.dart';
+import 'package:alhalaqat/app/home/home_page.dart';
+import 'package:alhalaqat/app/sign_in/sign_in_page.dart';
+import 'package:alhalaqat/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
