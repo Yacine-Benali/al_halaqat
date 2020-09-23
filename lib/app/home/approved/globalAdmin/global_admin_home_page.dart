@@ -100,7 +100,6 @@ class GlobalAdminHomePage extends StatelessWidget {
                 SizedBox(height: 32.0),
                 Logo(),
                 SizedBox(height: 30.0),
-                SizedBox(height: 10),
                 MenuButtonWidget(
                   text: 'إداراة المدراء عاميين',
                   onPressed: () =>

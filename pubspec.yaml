@@ -46,6 +46,13 @@ dependencies:
   #third party signin
   google_sign_in: ^4.5.1 
   flutter_login_facebook: ^0.2.1
+  # dead
+  flutter_launcher_icons: ^0.8.0
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo.png"
 
   flutter:
     sdk: flutter
@@ -83,6 +90,7 @@ flutter:
     - assets/go-logo.png
     - assets/user.png
     - assets/logo.png
+    - assets/app-logo.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

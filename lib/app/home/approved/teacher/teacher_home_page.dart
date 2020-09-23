@@ -196,8 +196,7 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
             children: <Widget>[
               SizedBox(height: 32.0),
               Logo(),
-              SizedBox(height: 50.0),
-              SizedBox(height: 10),
+              SizedBox(height: 30.0),
               MenuButtonWidget(
                   text: 'إدارة الحلقات',
                   onPressed: () async {
