@@ -96,7 +96,7 @@ class _TeacherHomePageState extends State<TeacherReportsScreen> {
               );
             } else {
               return EmptyContent(
-                title: 'empty',
+                title: '',
                 message: 'mesemptysage',
               );
             }

@@ -172,7 +172,7 @@ class _AdminReportsScreenState extends State<AdminReportsScreen> {
               );
             } else {
               return EmptyContent(
-                title: 'empty',
+                title: '',
                 message: 'mesemptysage',
               );
             }

@@ -184,8 +184,8 @@ class _CenterLogsState extends State<CenterLogsScreen> {
               );
             } else {
               return EmptyContent(
-                title: 'empty',
-                message: 'empty',
+                title: '',
+                message: '',
               );
             }
           } else if (snapshot.hasError) {

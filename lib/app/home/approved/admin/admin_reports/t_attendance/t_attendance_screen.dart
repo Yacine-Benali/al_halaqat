@@ -193,8 +193,8 @@ class _TAttendanceScreenState extends State<TAttendanceScreen> {
                         );
                       } else {
                         return EmptyContent(
-                          title: 'empty',
-                          message: 'empty',
+                          title: '',
+                          message: '',
                         );
                       }
                     } else if (snapshot.hasError) {

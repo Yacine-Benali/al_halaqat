@@ -63,8 +63,8 @@ class _StudentHalaqaInfoScreenState extends State<StudentHalaqaInfoScreen> {
     List<Widget> tabBarList = List(titles.length);
     for (int i = 0; i < titles.length; i++) {
       tabBarList[i] = EmptyContent(
-        title: 'empty',
-        message: 'empty',
+        title: '',
+        message: '',
       );
     }
     return tabBarList;

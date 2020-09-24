@@ -119,8 +119,8 @@ class _GaCentersReportScreenState extends State<GaHalaqaReportScreen> {
               );
             } else {
               return EmptyContent(
-                title: 'empty',
-                message: 'empty',
+                title: '',
+                message: '',
               );
             }
           } else if (snapshot.hasError) {

@@ -181,8 +181,8 @@ class _CenterLogsState extends State<AdminLogsScreen> {
               );
             } else {
               return EmptyContent(
-                title: 'empty',
-                message: 'empty',
+                title: '',
+                message: '',
               );
             }
           } else if (snapshot.hasError) {

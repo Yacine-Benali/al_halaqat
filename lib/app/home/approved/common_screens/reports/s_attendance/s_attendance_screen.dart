@@ -190,8 +190,8 @@ class _SAttendanceScreenState extends State<SAttendanceScreen> {
                         );
                       } else {
                         return EmptyContent(
-                          title: 'empty',
-                          message: 'empty',
+                          title: '',
+                          message: '',
                         );
                       }
                     } else if (snapshot.hasError) {

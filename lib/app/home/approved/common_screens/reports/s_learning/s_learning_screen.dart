@@ -157,8 +157,8 @@ class _SLearningScreenState extends State<SLearningScreen> {
                         );
                       } else {
                         return EmptyContent(
-                          title: 'empty',
-                          message: 'empty',
+                          title: '',
+                          message: '',
                         );
                       }
                     } else if (snapshot.hasError) {
