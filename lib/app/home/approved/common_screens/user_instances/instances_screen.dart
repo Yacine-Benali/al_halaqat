@@ -125,9 +125,10 @@ class _InstancesScreenState extends State<InstancesScreen> {
 
         PlatformAlertDialog(
           title: 'تم إنشاء جلسة ',
-          content: 'يرجى إذخال المعلومات',
+          content: 'يرجى إدخال المعلومات',
           defaultActionText: 'حسنا',
         ).show(context);
+        Navigator.of(context).pop();
       } catch (e) {
         await pr.hide();
         if (e is PlatformException) {
@@ -207,9 +208,8 @@ class _InstancesScreenState extends State<InstancesScreen> {
               );
             } else {
               return EmptyContent(
-                title: 'welcom to the messages screen',
-                message:
-                    'here you can send and recieve message from the teachers',
+                title: '',
+                message: 'لا يوجد جلسات بعد، لإضافة جلسة إضغط على إشارة +',
               );
             }
           } else if (snapshot.hasError) {

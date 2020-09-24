@@ -83,7 +83,7 @@ class GaCHalaqatReportBloc {
       fuckingRow.add(row.teacher?.name ?? '');
       fuckingRow.add(row.numberOfStudents.toString());
       fuckingRow.add(row.center.name);
-      fuckingRow.add(KeyTranslate.centersStateList[row.halaqa.state]);
+      fuckingRow.add(KeyTranslate.reportsState[row.halaqa.state]);
       fuckingRow.add(row.halaqa.createdBy['name'] ?? '');
       centesSheet.appendRow(fuckingRow);
     }

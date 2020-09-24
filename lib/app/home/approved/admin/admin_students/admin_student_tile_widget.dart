@@ -76,7 +76,7 @@ class _AdminStudentTileWidgetState extends State<AdminStudentTileWidget> {
       );
     } else {
       final bool didRequestSignOut = await PlatformAlertDialog(
-        title: KeyTranslate.centersActionsList[action],
+        title: KeyTranslate.actionsList[action],
         content: 'هل أنت متأكد ؟',
         cancelActionText: 'إلغاء',
         defaultActionText: 'حسنا',
@@ -134,7 +134,7 @@ class _AdminStudentTileWidgetState extends State<AdminStudentTileWidget> {
         (i) {
           return PopupMenuItem<String>(
             value: actions[i],
-            child: Text(KeyTranslate.centersActionsList[actions[i]]),
+            child: Text(KeyTranslate.actionsList[actions[i]]),
           );
         },
       ),

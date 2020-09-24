@@ -83,9 +83,9 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
   @override
   void initState() {
     if (bloc.admin is Admin) {
-      studentStateList = KeyTranslate.adminCentersStateList.keys.toList();
+      studentStateList = KeyTranslate.adminStudentState.keys.toList();
     } else {
-      studentStateList = KeyTranslate.centersStateList.keys.toList();
+      studentStateList = KeyTranslate.gaStudentState.keys.toList();
     }
     studentsStream = bloc.fetchStudents(widget.centers);
     quranFuture = bloc.fetchQuran();
@@ -199,7 +199,7 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(KeyTranslate.usersStateList[value]),
+                    child: Text(KeyTranslate.gaStudentState[value]),
                   );
                 }).toList(),
               ),
@@ -283,7 +283,7 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
       searchBarPadding: EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 5),
       headerPadding: EdgeInsets.only(left: 0, right: 0),
       listPadding: EdgeInsets.only(left: 0, right: 0),
-      hintText: "إبحث بالإسم أو الرقم التعريفي",
+      hintText: "إبحث بالاسم  أو الرقم التعريفي",
       hintStyle: TextStyle(
         color: Colors.black54,
       ),

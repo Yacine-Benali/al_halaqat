@@ -116,7 +116,7 @@ class _TeacherCenterRequestScreenState
             Form(
               key: formKey,
               child: TextFormField2(
-                title: 'إدخل الرقم التعريفي للمركز',
+                title: 'أدخل الرقم التعريفي للمركز',
                 hintText: 'الرقم التعريفي للمركز',
                 errorText: 'خطأ',
                 maxLength: 20,

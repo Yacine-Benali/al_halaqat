@@ -70,7 +70,7 @@ class GaAdminReportCard extends StatelessWidget {
           child: Container(
               alignment: Alignment.centerRight,
               height: kMinInteractiveDimension,
-              child: AutoSizeText(KeyTranslate.userStateList[row.state] ?? '')),
+              child: AutoSizeText(KeyTranslate.reportsState[row.state] ?? '')),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),

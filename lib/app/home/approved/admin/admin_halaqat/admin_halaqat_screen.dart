@@ -67,9 +67,9 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
   @override
   void initState() {
     if (bloc.admin is Admin) {
-      halaqatStateList = KeyTranslate.adminCentersStateList.keys.toList();
+      halaqatStateList = KeyTranslate.adminHalaqatState.keys.toList();
     } else {
-      halaqatStateList = KeyTranslate.centersStateList.keys.toList();
+      halaqatStateList = KeyTranslate.gaHalaqatState.keys.toList();
     }
     chosenCenter = widget.centers[0];
     chosenHalaqaState = halaqatStateList[0];
@@ -132,7 +132,7 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(KeyTranslate.usersStateList[value]),
+                    child: Text(KeyTranslate.gaHalaqatState[value]),
                   );
                 }).toList(),
               ),

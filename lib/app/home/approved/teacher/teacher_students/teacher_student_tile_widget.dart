@@ -84,7 +84,7 @@ class _AdminStudentTileWidgetState extends State<TeacherStudentTileWidget> {
         (i) {
           return PopupMenuItem<String>(
             value: actions[i],
-            child: Text(KeyTranslate.centersActionsList[actions[i]]),
+            child: Text(KeyTranslate.actionsList[actions[i]]),
           );
         },
       ),

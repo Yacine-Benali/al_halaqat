@@ -19,7 +19,7 @@ class Strings {
   static const String signInWithEmailPassword =
       'تسجيل الدخول باستخدام البريد الإلكتروني وكلمة المرور';
   static const String signInWithUsernmaePassword =
-      'تسجيل الدخول باسم المستخدم وكلمة المرور';
+      'تسجيل الدخول بحساب المستخدم  وكلمة المرور';
   static const String signInWithFacebook = 'Sign in with Facebook';
   static const String signInWithGoogle = 'Sign in with Google';
   static const String goAnonymous = 'Go anonymous';
@@ -30,7 +30,7 @@ class Strings {
   static const String forgotPassword = 'إنشاء نسيت كلمة المرور';
   static const String forgotPasswordQuestion = 'هل نسيت كلمة المرور؟';
   static const String createAnAccount = 'انشئ حساب';
-  static const String needAnAccount = 'تحتاج الى حساب؟ قم بإنشاء حساب';
+  static const String needAnAccount = 'ليس لديك حساب؟ قم بإنشاء حساب';
   static const String haveAnAccount = 'هل لديك حساب؟ قم بتسجيل الدخول';
   static const String signInFailed = 'فشل تسجيل الدخول';
   static const String registrationFailed = 'فشل في التسجيل';
@@ -42,16 +42,16 @@ class Strings {
       'تحقق من بريدك الإلكتروني لإعادة تعيين كلمة المرور الخاصة بك';
   static const String emailLabel = 'البريد الإلكتروني';
   static const String emailHint = 'test@test.com';
-  static const String usernameLabel = 'اسم المستخدم';
+  static const String usernameLabel = 'حساب المستخدم ';
   static const String usernameHint = 'mohammed.ahmed';
   static const String password8CharactersLabel = 'كلمة المرور (أكثر من 6 أحرف)';
   static const String passwordLabel = 'كلمه السر';
   static const String invalidEmailErrorText = 'البريد الإلكتروني خاطئ';
   static const String invalidEmailEmpty =
       'لا يمكن أن يكون البريد الإلكتروني فارغًا';
-  static const String invalidUsernameErrorText = 'إسم المستخدم خاطئ';
+  static const String invalidUsernameErrorText = 'اسم المستخدم خاطئ';
   static const String invalidUsernameEmpty =
-      'لا يمكن أن يكون اسم المستخدم فارغًا';
+      'لا يمكن أن يكون حساب المستخدم  فارغًا';
   static const String invalidPasswordTooShort = 'كلمة المرور قصيرة جدا';
   static const String invalidPasswordEmpty =
       'لا يمكن أن تكون كلمة المرور فارغة';

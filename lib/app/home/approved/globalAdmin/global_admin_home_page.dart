@@ -4,6 +4,7 @@ import 'package:alhalaqat/app/home/approved/globalAdmin/ga_global_admins/ga_glob
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_profile/ga_profile_screen.dart';
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_reports_screen.dart';
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_screen.dart';
+import 'package:alhalaqat/common_widgets/home_screen_popup.dart';
 import 'package:alhalaqat/common_widgets/logo.dart';
 import 'package:alhalaqat/common_widgets/menu_button_widget.dart';
 import 'package:alhalaqat/common_widgets/platform_alert_dialog.dart';
@@ -57,20 +58,7 @@ class GlobalAdminHomePage extends StatelessWidget {
           ),
         ),
         actions: [
-          PopupMenuButton<String>(
-            itemBuilder: (BuildContext context) => [
-              PopupMenuItem<String>(
-                value: "حول التطبيق",
-                child: Text("حول التطبيق"),
-              ),
-            ],
-            onSelected: (value) => PlatformAlertDialog(
-              content:
-                  'هذا البرنامج صدقة عن روح المرحومة وفاء خليل صديق نرجو منكم لها الدعاء',
-              defaultActionText: 'حسنا',
-              title: 'حول التطبيق',
-            ).show(context),
-          ),
+          HomeScreenPopUp(),
           Padding(
             padding: EdgeInsets.only(left: 20.0),
             child: InkWell(
@@ -101,7 +89,7 @@ class GlobalAdminHomePage extends StatelessWidget {
                 Logo(),
                 SizedBox(height: 30.0),
                 MenuButtonWidget(
-                  text: 'إداراة المدراء عاميين',
+                  text: 'إدارة المدراء',
                   onPressed: () =>
                       Navigator.of(context, rootNavigator: false).push(
                     MaterialPageRoute(
@@ -113,7 +101,7 @@ class GlobalAdminHomePage extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 MenuButtonWidget(
-                  text: 'إدارة المدراء',
+                  text: 'إدارة المشرفين',
                   onPressed: () =>
                       Navigator.of(context, rootNavigator: false).push(
                     MaterialPageRoute(
@@ -125,7 +113,7 @@ class GlobalAdminHomePage extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 MenuButtonWidget(
-                  text: ' المراكز',
+                  text: 'إدارة المراكز',
                   onPressed: () =>
                       Navigator.of(context, rootNavigator: false).push(
                     MaterialPageRoute(
@@ -137,7 +125,7 @@ class GlobalAdminHomePage extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 MenuButtonWidget(
-                  text: 'تقارير',
+                  text: 'التقارير ',
                   onPressed: () =>
                       Navigator.of(context, rootNavigator: false).push(
                     MaterialPageRoute(
@@ -148,7 +136,7 @@ class GlobalAdminHomePage extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 MenuButtonWidget(
-                  text: 'الدعوات',
+                  text: 'الطلبات ',
                   onPressed: () =>
                       Navigator.of(context, rootNavigator: false).push(
                     MaterialPageRoute(

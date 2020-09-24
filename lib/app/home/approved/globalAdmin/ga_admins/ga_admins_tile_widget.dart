@@ -46,8 +46,7 @@ class _GaAdminsTileWidgetState extends State<GaAdminsTileWidget> {
         (i) {
           return PopupMenuItem<String>(
             value: actions[i],
-            child:
-                Text(KeyTranslate.centersActionsList[actions[i]] ?? actions[i]),
+            child: Text(KeyTranslate.actionsList[actions[i]] ?? actions[i]),
           );
         },
       ),

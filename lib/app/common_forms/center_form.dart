@@ -106,9 +106,9 @@ class _CenterFormState extends State<CenterForm> {
           children: <Widget>[
             TextFormField2(
               isEnabled: widget.isEnabled,
-              title: 'إسم المركز',
+              title: 'اسم المركز',
               initialValue: name,
-              hintText: 'إدخل إسم المركز',
+              hintText: 'أدخل اسم المركز',
               errorText: 'خطأ',
               maxLength: 30,
               inputFormatter: FilteringTextInputFormatter.deny(''),
@@ -119,7 +119,7 @@ class _CenterFormState extends State<CenterForm> {
                 isEnabled: false,
                 title: 'رقم التعريفي',
                 initialValue: readableId,
-                hintText: 'إدخل إسم المركز',
+                hintText: 'أدخل اسم المركز',
                 errorText: 'خطأ',
                 maxLength: 30,
                 inputFormatter: FilteringTextInputFormatter.deny(''),
@@ -139,7 +139,7 @@ class _CenterFormState extends State<CenterForm> {
               isEnabled: widget.isEnabled,
               title: 'مدينة',
               initialValue: city,
-              hintText: ' إدخل مدينة المركز',
+              hintText: ' أدخل مدينة المركز',
               errorText: 'خطأ',
               maxLength: 30,
               inputFormatter: FilteringTextInputFormatter.deny(''),
@@ -149,7 +149,7 @@ class _CenterFormState extends State<CenterForm> {
               isEnabled: widget.isEnabled,
               title: 'العنوان',
               initialValue: street,
-              hintText: 'إدخل عنوان المركز',
+              hintText: 'أدخل عنوان المركز',
               errorText: 'خطأ',
               maxLength: 30,
               inputFormatter: FilteringTextInputFormatter.deny(''),
@@ -159,7 +159,7 @@ class _CenterFormState extends State<CenterForm> {
               isEnabled: widget.isEnabled,
               title: 'رقم هاتف مركز',
               initialValue: phoneNumber,
-              hintText: 'إدخل رقم هاتف مركز',
+              hintText: 'أدخل رقم هاتف مركز',
               errorText: 'خطأ',
               maxLength: 10,
               inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
@@ -168,7 +168,7 @@ class _CenterFormState extends State<CenterForm> {
             ),
             if (widget.showCenterOptions) ...[
               ListTile(
-                title: Text('تمكين الرسائل'),
+                title: Text('تفعيل المراسلات بين المستخدمين'),
                 trailing: Switch(
                   value: isMessagingEnabled,
                   onChanged: (value) {
@@ -179,7 +179,7 @@ class _CenterFormState extends State<CenterForm> {
                 ),
               ),
               ListTile(
-                title: Text('يمكن للمعلمين إضافة تعديل الطلاب'),
+                title: Text('يمكن للمعلمين إضافة وتعديل الطلاب'),
                 trailing: Switch(
                   value: canTeachersEditStudents,
                   onChanged: (value) {
@@ -190,7 +190,7 @@ class _CenterFormState extends State<CenterForm> {
                 ),
               ),
               ListTile(
-                title: Text('طلب الموافقة على إنشاء حلقة'),
+                title: Text('إنشاء حلقة بحاجة لموافقة المشرف'),
                 trailing: Switch(
                   value: requestPermissionForHalaqaCreation,
                   onChanged: (value) {

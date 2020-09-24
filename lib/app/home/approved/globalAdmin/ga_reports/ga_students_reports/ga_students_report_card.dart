@@ -54,7 +54,7 @@ class GaStudentsReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             child: AutoSizeText(
-              KeyTranslate.userStateList[row.student.state],
+              KeyTranslate.reportsState[row.student.state],
             ),
           ),
         ),

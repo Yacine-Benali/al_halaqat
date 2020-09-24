@@ -75,7 +75,7 @@ class _AdminHalqaTileWidgetState extends State<AdminHalqaTileWidget> {
       );
     } else {
       final bool didRequestSignOut = await PlatformAlertDialog(
-        title: KeyTranslate.centersActionsList[action],
+        title: KeyTranslate.gaHalaqatState[action],
         content: 'هل أنت متأكد ؟',
         cancelActionText: 'إلغاء',
         defaultActionText: 'حسنا',
@@ -133,7 +133,7 @@ class _AdminHalqaTileWidgetState extends State<AdminHalqaTileWidget> {
         (i) {
           return PopupMenuItem<String>(
             value: actions[i],
-            child: Text(KeyTranslate.centersActionsList[actions[i]]),
+            child: Text(KeyTranslate.gaHalaqatState[actions[i]]),
           );
         },
       ),

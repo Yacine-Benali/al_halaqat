@@ -66,7 +66,7 @@ class _AttendanceScreenState extends State<EvaluationScreen> {
       isDismissible: false,
     );
     pr.style(
-      message: 'جاري تحميل',
+      message: 'جاري الرفع',
       messageTextStyle: TextStyle(fontSize: 14),
       progressWidget: Container(
         padding: EdgeInsets.all(8.0),

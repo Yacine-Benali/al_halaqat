@@ -85,9 +85,9 @@ class _NewStudentFormState extends State<StudentForm>
   @override
   void initState() {
     centerFormTitle =
-        widget.isEnabled ? 'إدخل معلومات المركز' : 'معلومات المركز';
+        widget.isEnabled ? 'أدخل معلومات المركز' : 'معلومات المركز';
     adminFormTitle =
-        widget.isEnabled ? 'إدخل معلوماتك الشخصية' : 'معلومات الطالب';
+        widget.isEnabled ? 'أدخل معلوماتك الشخصية' : 'معلومات الطالب';
     id = student?.id;
     name = student?.name;
     dateOfBirth = student?.dateOfBirth ?? 1950;
@@ -174,9 +174,9 @@ class _NewStudentFormState extends State<StudentForm>
                     isEnabled: widget.isEnabled,
                     title: 'إسم المتستخدم',
                     initialValue: usernameInitValue,
-                    hintText: 'إدخل إسم المتستخدم',
+                    hintText: 'أدخل إسم المتستخدم',
                     errorText:
-                        'إسم المستخدم يجب أن يكون بدون فراغ من 3 إلى 20 حرف',
+                        'اسم المستخدم يجب أن يكون بدون فراغ من 3 إلى 20 حرف',
                     maxLength: 30,
                     inputFormatter: FilteringTextInputFormatter.deny(''),
                     onChanged: (value) {
@@ -186,7 +186,7 @@ class _NewStudentFormState extends State<StudentForm>
                     isPhoneNumber: false,
                     validator: (value) {
                       if (!usernameSubmitValidator.isValid(value)) {
-                        return 'إسم المستخدم يجب أن يكون بدون فراغ من 3 إلى 20 حرف';
+                        return 'اسم المستخدم يجب أن يكون بدون فراغ من 3 إلى 20 حرف';
                       }
                       return null;
                     },
@@ -224,9 +224,9 @@ class _NewStudentFormState extends State<StudentForm>
                 ],
                 TextFormField2(
                   isEnabled: widget.isEnabled,
-                  title: 'الإسم',
+                  title: 'الاسم',
                   initialValue: name,
-                  hintText: 'إدخل إسمك',
+                  hintText: 'أدخل اسمك',
                   errorText: 'خطأ',
                   maxLength: 30,
                   inputFormatter: FilteringTextInputFormatter.deny(''),
@@ -261,7 +261,7 @@ class _NewStudentFormState extends State<StudentForm>
                   isEnabled: widget.isEnabled,
                   title: 'العنوان',
                   initialValue: address,
-                  hintText: 'إدخل عنوانك',
+                  hintText: 'أدخل عنوانك',
                   errorText: 'خطأ',
                   maxLength: 30,
                   inputFormatter: FilteringTextInputFormatter.deny(''),
@@ -271,7 +271,7 @@ class _NewStudentFormState extends State<StudentForm>
                   isEnabled: widget.isEnabled,
                   title: 'رقم الهاتف',
                   initialValue: phoneNumber,
-                  hintText: 'إدخل رقم هاتفك',
+                  hintText: 'أدخل رقم هاتفك',
                   errorText: 'خطأ',
                   maxLength: 10,
                   inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
@@ -282,7 +282,7 @@ class _NewStudentFormState extends State<StudentForm>
                   isEnabled: widget.isEnabled,
                   title: 'رقم هاتف ولي الأمر',
                   initialValue: parentPhoneNumber,
-                  hintText: 'إدخل رقم هاتف ولي الأمر',
+                  hintText: 'أدخل رقم هاتف ولي الأمر',
                   errorText: 'خطأ',
                   maxLength: 10,
                   inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
@@ -291,7 +291,7 @@ class _NewStudentFormState extends State<StudentForm>
                 ),
                 DropdownButtonFormField2(
                   isEnabled: widget.isEnabled,
-                  title: 'مستوى تعليمي',
+                  title: 'المستوى  تعليمي',
                   possibleValues: [
                     'سنة أولى',
                     'سنة الثانية',
@@ -318,7 +318,7 @@ class _NewStudentFormState extends State<StudentForm>
                   isEnabled: widget.isEnabled,
                   title: 'مدرسة / الجامعة',
                   initialValue: etablissement,
-                  hintText: 'إدخل إسم المؤسسة',
+                  hintText: 'أدخل اسم المؤسسة',
                   errorText: 'خطأ',
                   maxLength: 10,
                   inputFormatter: FilteringTextInputFormatter.deny(''),
@@ -329,7 +329,7 @@ class _NewStudentFormState extends State<StudentForm>
                     isEnabled: widget.isEnabled,
                     title: 'رقم التعريفي للمركز',
                     //initialValue: centers[0],
-                    hintText: 'إدخل رقم التعريفي للمركز',
+                    hintText: 'أدخل رقم التعريفي للمركز',
                     errorText: 'خطأ',
                     maxLength: 20,
                     inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
@@ -341,8 +341,9 @@ class _NewStudentFormState extends State<StudentForm>
                   isEnabled: widget.isEnabled,
                   title: 'ملاحظة',
                   initialValue: note,
-                  hintText: 'إدخل ملاحظة',
+                  hintText: 'أدخل ملاحظة',
                   errorText: 'خطأ',
+                  validator: (value) => null,
                   maxLength: 100,
                   inputFormatter: FilteringTextInputFormatter.deny(''),
                   isPhoneNumber: false,

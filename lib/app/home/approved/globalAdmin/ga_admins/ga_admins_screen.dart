@@ -48,7 +48,7 @@ class _GaAdminsScreenState extends State<GaAdminsScreen> {
   List<Admin> adminsList;
   bool isLoading;
   //
-  List<String> adminsStateList = KeyTranslate.usersStateList.keys.toList();
+  List<String> adminsStateList = KeyTranslate.gaAdminsState.keys.toList();
   String chosenAdminsState;
 
   @override
@@ -125,7 +125,7 @@ class _GaAdminsScreenState extends State<GaAdminsScreen> {
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(KeyTranslate.usersStateList[value]),
+                    child: Text(KeyTranslate.gaAdminsState[value]),
                   );
                 }).toList(),
               ),
@@ -157,8 +157,8 @@ class _GaAdminsScreenState extends State<GaAdminsScreen> {
               return _buildList();
             } else {
               return EmptyContent(
-                title: 'لا يوجد أي مشرفون',
-                message: 'لا يوجد أي مشرفون في هذه الحالة',
+                title: 'لا يوجد أي مشرفين',
+                message: 'لا يوجد أي مشرفين في هذه الحالة',
               );
             }
           } else if (snapshot.hasError) {

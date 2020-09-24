@@ -97,7 +97,7 @@ class _RequestsScreenState extends State<GaRequestsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('الدعوات'),
+        title: Text('الطلبات '),
         centerTitle: true,
         actions: [
           Padding(

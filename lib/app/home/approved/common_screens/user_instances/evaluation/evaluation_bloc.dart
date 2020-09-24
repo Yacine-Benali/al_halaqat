@@ -39,7 +39,7 @@ class EvaluationBloc {
 
   List<String> getColumnTitle() {
     return [
-      'الحصة',
+      'التاريخ',
       'الحفظ',
       'التقييم',
       'المراجعة',
@@ -49,7 +49,6 @@ class EvaluationBloc {
 
   List<String> getPossibleMarks() {
     return [
-      '0',
       '1',
       '2',
       '3',

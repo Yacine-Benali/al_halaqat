@@ -18,7 +18,7 @@ class _GaReportsScreenState extends State<GaReportsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Center(child: Text('تقارير')),
+          title: Center(child: Text('التقارير ')),
         ),
         body: Padding(
           padding: EdgeInsets.all(16.0),
@@ -62,7 +62,7 @@ class _GaReportsScreenState extends State<GaReportsScreen> {
               ),
               SizedBox(height: 10.0),
               MenuButtonWidget(
-                text: 'المشرفون',
+                text: 'المشرفين',
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(

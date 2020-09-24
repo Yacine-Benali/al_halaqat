@@ -23,7 +23,7 @@ class AttendanceBloc {
   Future<Quran> fetchQuran() async => await provider.fetchQuran();
   List<String> getColumnTitle() {
     List<String> columnTitleList = List();
-    columnTitleList.add('إسم');
+    columnTitleList.add('الاسم');
     columnTitleList.addAll(KeyTranslate.attendanceState.values);
     columnTitleList.addAll([
       'ملاحظة',

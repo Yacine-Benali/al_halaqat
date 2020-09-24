@@ -152,7 +152,7 @@ class GaCentersReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(KeyTranslate.userStateList[row.center.state]),
+            child: AutoSizeText(KeyTranslate.reportsState[row.center.state]),
           ),
         ),
       ]);

@@ -6,6 +6,7 @@ import 'package:alhalaqat/app/models/student.dart';
 import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:alhalaqat/app/models/user.dart';
 import 'package:alhalaqat/common_widgets/empty_content.dart';
+import 'package:alhalaqat/common_widgets/home_screen_popup.dart';
 import 'package:alhalaqat/common_widgets/logo.dart';
 import 'package:alhalaqat/common_widgets/menu_button_widget.dart';
 import 'package:alhalaqat/common_widgets/platform_alert_dialog.dart';
@@ -78,20 +79,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
           ),
         ),
         actions: [
-          PopupMenuButton<String>(
-            itemBuilder: (BuildContext context) => [
-              PopupMenuItem<String>(
-                value: "حول التطبيق",
-                child: Text("حول التطبيق"),
-              ),
-            ],
-            onSelected: (value) => PlatformAlertDialog(
-              content:
-                  'هذا البرنامج صدقة عن روح المرحومة وفاء خليل صديق نرجو منكم لها الدعاء',
-              defaultActionText: 'حسنا',
-              title: 'حول التطبيق',
-            ).show(context),
-          ),
+          HomeScreenPopUp(),
           Padding(
             padding: EdgeInsets.only(left: 20.0),
             child: InkWell(

@@ -85,8 +85,7 @@ class GaHalaqatReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child:
-                AutoSizeText(KeyTranslate.centersStateList[row.halaqa.state]),
+            child: AutoSizeText(KeyTranslate.reportsState[row.halaqa.state]),
           ),
         ),
         Padding(

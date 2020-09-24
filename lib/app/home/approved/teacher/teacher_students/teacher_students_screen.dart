@@ -168,7 +168,7 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
       builder: (context) => AlertDialog(
         title: Center(
           child: Text(
-            'إدخل إسم أو الرقم التعريفي :',
+            'أدخل إسم أو الرقم التعريفي :',
           ),
         ),
         content: StatefulBuilder(builder: (context, StateSetter setState) {
@@ -353,7 +353,7 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
       searchBarPadding: EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 5),
       headerPadding: EdgeInsets.only(left: 0, right: 0),
       listPadding: EdgeInsets.only(left: 0, right: 0),
-      hintText: "إبحث بالإسم أو الرقم التعريفي",
+      hintText: "إبحث بالاسم  أو الرقم التعريفي",
       hintStyle: TextStyle(
         color: Colors.black54,
       ),

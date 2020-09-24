@@ -143,7 +143,7 @@ class SignInPage extends StatelessWidget {
             SizedBox(height: 8),
             SignInButton(
               key: emailPasswordButtonKey,
-              text: 'تسجيل الدخول بإسم المستخدم',
+              text: 'تسجيل الدخول باسم المستخدم',
               onPressed:
                   isLoading ? null : () => _signInWithEmailAndPassword(context),
               textColor: Colors.white,
@@ -152,7 +152,7 @@ class SignInPage extends StatelessWidget {
             SizedBox(height: 8),
             // SignInButton(
             //   key: emailLinkButtonKey,
-            //   text: 'تسجيل الدخول بإسم المستخدم',
+            //   text: 'تسجيل الدخول باسم المستخدم',
             //   onPressed: isLoading
             //       ? null
             //       : () => _signInWithUsernameAndPassword(context),

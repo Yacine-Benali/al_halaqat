@@ -58,7 +58,7 @@ class GaTeachersReportBloc {
       'الجنسية',
       'العنوان',
       'رقم الهاتف',
-      'المستوى التعليمي',
+      'الالمستوى  التعليمي',
       'المدرسة/الجامعة',
       'ملاحظات',
       'تاريخ إنشاء الحساب',
@@ -81,7 +81,7 @@ class GaTeachersReportBloc {
     for (GaTeacherReportRow row in rowList) {
       List<String> fuckingRow = List();
       fuckingRow.add(row.center?.name ?? '');
-      fuckingRow.add(KeyTranslate.userStateList[row.state]);
+      fuckingRow.add(KeyTranslate.reportsState[row.state]);
       fuckingRow.add(row.teacher.readableId);
       fuckingRow.add(row.teacher.name);
       fuckingRow.add(row.teacher.dateOfBirth.toString());

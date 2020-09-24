@@ -58,7 +58,7 @@ class GaAdminReportBloc {
       'الجنسية',
       'العنوان',
       'رقم الهاتف',
-      'المستوى التعليمي',
+      'الالمستوى  التعليمي',
       'المدرسة/الجامعة',
       'ملاحظات',
       'تاريخ إنشاء الحساب',
@@ -70,7 +70,7 @@ class GaAdminReportBloc {
 
   Future<String> getReportasCsv(List<GaAdminReportRow> rowList) async {
     var excel = Excel.createExcel();
-    Sheet centesSheet = excel['المشرفون'];
+    Sheet centesSheet = excel['المشرفين'];
     excel.delete('Sheet1');
 
     // add stamp
@@ -83,7 +83,7 @@ class GaAdminReportBloc {
       fuckingRow.add(row.admin.readableId);
       fuckingRow.add(row.admin.name);
       fuckingRow.add(row.center?.name ?? '');
-      fuckingRow.add(KeyTranslate.userStateList[row.state] ?? '');
+      fuckingRow.add(KeyTranslate.reportsState[row.state] ?? '');
       fuckingRow.add(row.admin.dateOfBirth.toString());
       fuckingRow.add(row.admin.gender);
       fuckingRow.add(KeyTranslate.isoCountryToArabic[row.admin.nationality]);

@@ -108,7 +108,7 @@ class GaCentersReportBloc {
       fuckingRow.add(row.numberOfApprovedHalaqat.toString());
       fuckingRow.add(row.numberOfArchivedHalaqat.toString());
 
-      fuckingRow.add(KeyTranslate.userStateList[row.center.state]);
+      fuckingRow.add(KeyTranslate.reportsState[row.center.state]);
       centesSheet.appendRow(fuckingRow);
     }
     Storage storage = Storage();

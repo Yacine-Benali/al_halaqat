@@ -50,7 +50,7 @@ class _TeacherHomePageState extends State<TeacherReportsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('تقارير')),
+        title: Center(child: Text('التقارير ')),
       ),
       body: FutureBuilder(
         future: halaqatFuture,

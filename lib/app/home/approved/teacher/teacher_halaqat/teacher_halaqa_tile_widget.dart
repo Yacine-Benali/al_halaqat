@@ -48,7 +48,7 @@ class _TeacherHalqaTileWidgetState extends State<TeacherHalqaTileWidget> {
         (i) {
           return PopupMenuItem<String>(
             value: actions[i],
-            child: Text(KeyTranslate.centersActionsList[actions[i]]),
+            child: Text(KeyTranslate.actionsList[actions[i]]),
           );
         },
       ),

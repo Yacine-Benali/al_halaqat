@@ -91,7 +91,7 @@ class _GaCentersTileWidgetState extends State<GaCentersTileWidget> {
       );
     } else {
       final bool didRequestSignOut = await PlatformAlertDialog(
-        title: KeyTranslate.centersActionsList[action],
+        title: KeyTranslate.actionsList[action],
         content: 'هل أنت متأكد ؟',
         cancelActionText: 'إلغاء',
         defaultActionText: 'حسنا',
@@ -150,8 +150,7 @@ class _GaCentersTileWidgetState extends State<GaCentersTileWidget> {
         (i) {
           return PopupMenuItem<String>(
             value: actions[i],
-            child:
-                Text(KeyTranslate.centersActionsList[actions[i]] ?? actions[i]),
+            child: Text(KeyTranslate.actionsList[actions[i]] ?? actions[i]),
           );
         },
       ),

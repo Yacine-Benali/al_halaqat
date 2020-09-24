@@ -143,7 +143,7 @@ class _CenterStateTileState extends State<CenterStateTile> {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: AutoSizeText(
-                    KeyTranslate.userStateList[value],
+                    KeyTranslate.gaAdminsState[value],
                     minFontSize: 16,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

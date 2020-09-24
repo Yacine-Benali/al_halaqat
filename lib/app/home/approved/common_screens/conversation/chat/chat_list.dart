@@ -88,9 +88,9 @@ class _ChatListState extends State<ChatList> {
               );
             } else {
               return EmptyContent(
-                title: 'welcom to the messages screen',
+                title: 'مرحبا بك في الرسائل',
                 message:
-                    'here you can send and recieve message from the teachers',
+                    'هنا يمكنك إرسال واستقبال الرسائل من المعلمين والمديرين',
               );
             }
           } else if (snapshot.hasError) {

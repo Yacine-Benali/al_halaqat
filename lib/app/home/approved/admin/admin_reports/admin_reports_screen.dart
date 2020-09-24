@@ -57,7 +57,7 @@ class _AdminReportsScreenState extends State<AdminReportsScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('تقارير'),
+        title: Text('التقارير'),
         actions: [
           Padding(
             padding: EdgeInsets.only(left: 20.0),

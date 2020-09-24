@@ -34,7 +34,7 @@ class GaCentersScreen extends StatefulWidget {
 class _GaCentersScreenState extends State<GaCentersScreen> {
   GaCentersBloc get bloc => widget.bloc;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<String> centersStateList = KeyTranslate.centersStateList.keys.toList();
+  List<String> centersStateList = KeyTranslate.gaCenterState.keys.toList();
   String chosenCentersState;
   Stream<List<StudyCenter>> centersListStream;
   List<StudyCenter> centersList;
@@ -73,7 +73,7 @@ class _GaCentersScreenState extends State<GaCentersScreen> {
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(KeyTranslate.centersStateList[value]),
+                    child: Text(KeyTranslate.gaCenterState[value]),
                   );
                 }).toList(),
               ),
