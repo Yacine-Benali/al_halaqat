@@ -148,7 +148,7 @@ class _CenterLogsState extends State<AdminLogsScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('الجلسات'),
+        title: Text('السجلات'),
         centerTitle: true,
         actions: [
           IconButton(
