@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:alhalaqat/app/sign_in/email_password/email_password_sign_in_model.dart';
 import 'package:alhalaqat/common_widgets/firebase_exception_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/form_submit_button.dart';
@@ -50,7 +52,7 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   EmailPasswordSignInModel get model => widget.model;
-
+  TextStyle style;
   @override
   void dispose() {
     _node.dispose();
@@ -170,7 +172,27 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
           SizedBox(height: 8.0),
           FlatButton(
             key: Key('secondary-button'),
-            child: Text(model.secondaryButtonText),
+            child: model.formType == EmailPasswordSignInFormType.signIn
+                ? RichText(
+                    text: TextSpan(
+                      text: "ليس لديك حساب؟",
+                      style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'قم بإنشاء حساب',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.indigo,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : Text(Strings.haveAnAccount),
             onPressed: model.isLoading
                 ? null
                 : () => _updateFormType(model.secondaryActionFormType),
@@ -182,6 +204,8 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    style = DefaultTextStyle.of(context).style;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 2.0,
