@@ -115,7 +115,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
         content: 'تم حفظ البيانات',
         defaultActionText: 'حسنا',
       ).show(context);
-      Navigator.of(context);
+      Navigator.of(context).pop();
     } catch (e) {
       await pr.hide();
       if (e is PlatformException) {
