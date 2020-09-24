@@ -136,7 +136,7 @@ class _TAttendanceScreenState extends State<TAttendanceScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              title: Text('نسبية المؤية'),
+              title: Text('النسبة المئوية'),
               trailing: Switch(
                 value: showPercentages,
                 onChanged: (value) {

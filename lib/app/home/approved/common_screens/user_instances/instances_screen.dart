@@ -123,12 +123,11 @@ class _InstancesScreenState extends State<InstancesScreen> {
         await Future.delayed(Duration(seconds: 1));
         await pr.hide();
 
-        PlatformAlertDialog(
+        await PlatformAlertDialog(
           title: 'تم إنشاء جلسة ',
           content: 'يرجى إدخال المعلومات',
           defaultActionText: 'حسنا',
         ).show(context);
-        Navigator.of(context).pop();
       } catch (e) {
         await pr.hide();
         if (e is PlatformException) {

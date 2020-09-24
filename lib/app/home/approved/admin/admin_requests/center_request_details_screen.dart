@@ -180,10 +180,10 @@ class _GaRequestDetailsScreenState extends State<CenterRequestDetailsScreen> {
                 children: [
                   TextFormField2(
                     isEnabled: false,
-                    title: 'إسم المتستخدم',
+                    title: 'اسم  المستخدم',
                     initialValue: widget.centerRequest.user.username
                         .replaceAll('@al-halaqat.firebaseapp.com', ''),
-                    hintText: 'أدخل إسم المتستخدم',
+                    hintText: 'أدخل اسم  المستخدم',
                     errorText: 'خطأ',
                     maxLength: 30,
                     inputFormatter: FilteringTextInputFormatter.deny(''),
@@ -195,7 +195,7 @@ class _GaRequestDetailsScreenState extends State<CenterRequestDetailsScreen> {
                   ),
                   TextFormField2(
                     isEnabled: false,
-                    title: 'الإسم',
+                    title: 'الاسم',
                     initialValue: widget.centerRequest.user.name,
                     hintText: 'أدخل اسمك',
                     errorText: 'خطأ',
@@ -205,9 +205,9 @@ class _GaRequestDetailsScreenState extends State<CenterRequestDetailsScreen> {
                   ),
                   TextFormField2(
                     isEnabled: false,
-                    title: 'إسم الحلقة',
+                    title: 'اسم الحلقة',
                     initialValue: widget.centerRequest.halaqa.name,
-                    hintText: 'أدخل إسم الحلقة',
+                    hintText: 'أدخل اسم الحلقة',
                     errorText: 'خطأ',
                     maxLength: 30,
                     inputFormatter: FilteringTextInputFormatter.deny(''),

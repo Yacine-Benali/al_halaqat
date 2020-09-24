@@ -27,7 +27,7 @@ class _StudentReportCardSummeryScreenState
     reportCard = widget.reportCard;
     studentReportCardTitle = [
       'السورة',
-      'النسبة المؤية',
+      'النسبة المئوية',
     ];
 
     super.initState();

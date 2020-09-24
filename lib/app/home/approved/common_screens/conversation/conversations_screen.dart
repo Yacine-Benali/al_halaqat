@@ -76,8 +76,8 @@ class _TeachersSceenState extends State<ConversationScreen> {
                 return _buildList(items);
               } else {
                 return EmptyContent(
-                  title: 'title',
-                  message: 'message',
+                  title: 'هنا يمكنك إرسال واستقبال الرسائل',
+                  message: '',
                 );
               }
             } else if (snapshot.hasError) {

@@ -79,9 +79,9 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
   @override
   void initState() {
     if (bloc.admin is Admin) {
-      teachersStateList = KeyTranslate.adminStudentState.keys.toList();
+      teachersStateList = KeyTranslate.adminTeachersState.keys.toList();
     } else {
-      teachersStateList = KeyTranslate.gaStudentState.keys.toList();
+      teachersStateList = KeyTranslate.gaTeachersState.keys.toList();
     }
     teachersListStream = bloc.fetchTeachers(widget.centers);
     chosenCenter = widget.centers[0];
@@ -195,7 +195,7 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(KeyTranslate.gaStudentState[value]),
+                    child: Text(KeyTranslate.gaTeachersState[value]),
                   );
                 }).toList(),
               ),

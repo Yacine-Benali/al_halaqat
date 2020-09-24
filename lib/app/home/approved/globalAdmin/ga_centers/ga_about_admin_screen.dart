@@ -47,18 +47,25 @@ class _GaAboutAdminScreenState extends State<GaAboutAdminScreen> {
               future: widget.bloc.getAdminById(widget.createdById),
               builder: (BuildContext context, AsyncSnapshot<Admin> snapshot) {
                 if (snapshot.hasData) {
-                  return AdminForm(
-                    adminFormKey: adminFormKey,
-                    admin: snapshot.data,
-                    onSavedAdmin: (t) {},
-                    onSavedCenter: (t) {},
-                    center: null,
-                    isEnabled: false,
-                    includeCenterForm: false,
-                    includeCenterIdInput: false,
-                    includeUsernameAndPassword: true,
-                    includeCenterState: false,
-                  );
+                  Admin admin = snapshot.data;
+                  if (admin != null)
+                    return AdminForm(
+                      adminFormKey: adminFormKey,
+                      admin: admin,
+                      onSavedAdmin: (t) {},
+                      onSavedCenter: (t) {},
+                      center: null,
+                      isEnabled: false,
+                      includeCenterForm: false,
+                      includeCenterIdInput: false,
+                      includeUsernameAndPassword: true,
+                      includeCenterState: false,
+                    );
+                  else
+                    EmptyContent(
+                      title: 'لا يوجد مشرف لهذا المركز',
+                      message: '',
+                    );
                 } else if (snapshot.hasError) {
                   return EmptyContent(
                     title: 'Something went wrong',

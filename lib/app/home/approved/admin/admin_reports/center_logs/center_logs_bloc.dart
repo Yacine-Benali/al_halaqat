@@ -75,9 +75,9 @@ class CenterLogsBloc {
     List<String> row = List();
     row.addAll([
       'الوقت',
-      'إسم المعلم',
+      'اسم المعلم',
       'الفعل',
-      'إسم المفعول به',
+      'اسم المفعول به',
     ]);
     sheetObject.insertRowIterables(row, 0);
 

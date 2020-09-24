@@ -121,7 +121,7 @@ class _CenterNumbersScreenState extends State<CenterNumbersScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ListTile(
-                title: Text('show archived'),
+                title: Text('أظهر المؤرشف '),
                 trailing: Switch(
                   value: showArchived,
                   onChanged: (value) {

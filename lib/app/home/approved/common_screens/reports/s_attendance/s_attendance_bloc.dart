@@ -145,7 +145,7 @@ class SAttendanceBloc {
 
   List<String> getColumnTitle() {
     List<String> columnTitleList = List();
-    columnTitleList.add('إسم');
+    columnTitleList.add('الاسم');
     columnTitleList.addAll(KeyTranslate.attendanceState.values);
 
     return columnTitleList;

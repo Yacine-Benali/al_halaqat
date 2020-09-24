@@ -83,9 +83,9 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
   @override
   void initState() {
     if (bloc.admin is Admin) {
-      studentStateList = KeyTranslate.adminStudentState.keys.toList();
+      studentStateList = KeyTranslate.adminStudentsState.keys.toList();
     } else {
-      studentStateList = KeyTranslate.gaStudentState.keys.toList();
+      studentStateList = KeyTranslate.gaStudentsState.keys.toList();
     }
     studentsStream = bloc.fetchStudents(widget.centers);
     quranFuture = bloc.fetchQuran();
@@ -199,7 +199,7 @@ class _AdminsStudentsScreenState extends State<AdminsStudentsScreen> {
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(KeyTranslate.gaStudentState[value]),
+                    child: Text(KeyTranslate.gaStudentsState[value]),
                   );
                 }).toList(),
               ),

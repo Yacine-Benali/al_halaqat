@@ -62,13 +62,13 @@ class _NewEvaluationScreenState extends State<NewEvaluationScreen> {
     memorizedFromAya = 1;
     memorizedToSoura = bloc.getSouratList().first;
     memorizedToAya = 1;
-    memorizedMark = 0;
+    memorizedMark = 1;
     //
     rehearsedFromSoura = bloc.getSouratList().first;
     rehearsedFromAya = 1;
     rehearsedToSoura = bloc.getSouratList().first;
     rehearsedToAya = 1;
-    rehearsedMark = 0;
+    rehearsedMark = 1;
     super.initState();
   }
 

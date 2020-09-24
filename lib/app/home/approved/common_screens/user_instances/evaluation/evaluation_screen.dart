@@ -140,8 +140,11 @@ class _AttendanceScreenState extends State<EvaluationScreen> {
           alignment: Alignment.center,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
+            child: AutoSizeText(
               bloc.format2(evaluation.memorized),
+              maxLines: 2,
+              minFontSize: 3,
+              wrapWords: true,
             ),
           ),
         ),
@@ -161,8 +164,11 @@ class _AttendanceScreenState extends State<EvaluationScreen> {
           alignment: Alignment.center,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
+            child: AutoSizeText(
               bloc.format2(evaluation.rehearsed),
+              maxLines: 2,
+              minFontSize: 3,
+              wrapWords: true,
             ),
           ),
         ),

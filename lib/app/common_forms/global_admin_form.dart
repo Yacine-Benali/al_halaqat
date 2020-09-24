@@ -117,9 +117,9 @@ class _NewGlobalAdminFormState extends State<GlobalAdminForm>
               children: <Widget>[
                 TextFormField2(
                   isEnabled: widget.isEnabled,
-                  title: 'إسم المتستخدم',
+                  title: 'اسم  المستخدم',
                   initialValue: usernameInitValue,
-                  hintText: 'أدخل إسم المتستخدم',
+                  hintText: 'أدخل اسم  المستخدم',
                   errorText: 'خطأ',
                   maxLength: 30,
                   inputFormatter: usernameInputFormatter,

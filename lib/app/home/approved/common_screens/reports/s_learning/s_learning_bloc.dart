@@ -23,8 +23,8 @@ class SLearningBloc {
 
   List<String> getColumnTitle() {
     List<String> columnTitleList = List();
-    columnTitleList.add('إسم');
-    columnTitleList.add('النسبة المؤية');
+    columnTitleList.add('الاسم');
+    columnTitleList.add('النسبة المئوية');
 
     return columnTitleList;
   }

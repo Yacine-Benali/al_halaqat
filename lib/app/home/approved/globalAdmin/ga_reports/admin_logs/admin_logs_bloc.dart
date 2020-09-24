@@ -70,9 +70,9 @@ class AdminLogsBloc {
     row.addAll([
       'الوقت',
       'المركز',
-      'إسم المعلم',
+      'اسم المعلم',
       'الفعل',
-      'إسم المفعول به',
+      'اسم المفعول به',
     ]);
     sheetObject.insertRowIterables(row, 0);
 

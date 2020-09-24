@@ -162,9 +162,9 @@ class _NewStudentFormState extends State<TeacherForm>
                     !isGmailOrFacebook()) ...[
                   TextFormField2(
                     isEnabled: widget.isEnabled,
-                    title: 'إسم المتستخدم',
+                    title: 'اسم  المستخدم',
                     initialValue: usernameInitValue,
-                    hintText: 'أدخل إسم المتستخدم',
+                    hintText: 'أدخل اسم  المستخدم',
                     errorText:
                         'اسم المستخدم يجب أن يكون بدون فراغ من 3 إلى 20 حرف',
                     maxLength: 30,

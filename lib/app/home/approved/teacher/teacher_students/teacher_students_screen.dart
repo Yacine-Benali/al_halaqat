@@ -110,7 +110,7 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
           title: 'فشلت العملية',
           exception: PlatformException(
             code: 'NO_USER_FOUND',
-            message: 'لايوجد طالب بهذا الرقم أو الإسم',
+            message: 'لايوجد طالب بهذا الرقم أو الاسم',
           ),
         ).show(context);
       }
@@ -152,7 +152,7 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
         title: 'فشلت العملية',
         exception: PlatformException(
           code: 'NO_USER_FOUND',
-          message: 'لايوجد طالب بهذا الرقم أو الإسم',
+          message: 'لايوجد طالب بهذا الرقم أو الاسم',
         ),
       ).show(context);
     }
@@ -168,7 +168,7 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
       builder: (context) => AlertDialog(
         title: Center(
           child: Text(
-            'أدخل إسم أو الرقم التعريفي :',
+            'أدخل اسم أو الرقم التعريفي :',
           ),
         ),
         content: StatefulBuilder(builder: (context, StateSetter setState) {

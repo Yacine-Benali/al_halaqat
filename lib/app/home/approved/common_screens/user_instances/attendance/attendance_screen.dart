@@ -110,11 +110,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
       await Future.delayed(Duration(seconds: 1));
       await pr.hide();
 
-      PlatformAlertDialog(
+      await PlatformAlertDialog(
         title: 'نجح الحفظ',
         content: 'تم حفظ البيانات',
         defaultActionText: 'حسنا',
       ).show(context);
+      Navigator.of(context);
     } catch (e) {
       await pr.hide();
       if (e is PlatformException) {
@@ -321,8 +322,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
             alignment: Alignment.center,
             height: kMinInteractiveDimension,
-            child: RaisedButton(
-              child: Text(''),
+            child: FlatButton(
+              child: Icon(
+                Icons.message,
+                color: Colors.grey,
+              ),
               onPressed: () => _teacherNoteWidget(instance.teacherSummery),
             ),
           ),
@@ -397,8 +401,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
           alignment: Alignment.center,
           height: kMinInteractiveDimension,
-          child: RaisedButton(
-            child: Text(''),
+          child: FlatButton(
+            child: Icon(
+              Icons.message,
+              color: Colors.grey,
+            ),
             onPressed: () => _studentNoteWidget(studentAttendance),
           ),
         ),
@@ -406,8 +413,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
           alignment: Alignment.center,
           height: kMinInteractiveDimension,
-          child: RaisedButton(
-            child: Text(''),
+          child: FlatButton(
+            child: Icon(
+              Icons.book,
+              color: Colors.grey,
+            ),
             onPressed: () => Navigator.of(context, rootNavigator: false).push(
               MaterialPageRoute(
                 builder: (context) => EvaluationScreen.create(

@@ -47,7 +47,7 @@ class StudentProfileBloc {
   List<String> getReportCardTitles() {
     return [
       'السورة',
-      'النسبة المؤية',
+      'النسبة المئوية',
     ];
   }
 

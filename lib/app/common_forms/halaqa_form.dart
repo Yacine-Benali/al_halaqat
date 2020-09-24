@@ -86,9 +86,9 @@ class _NewHalaqaFormState extends State<HalaqaForm>
               children: <Widget>[
                 TextFormField2(
                   isEnabled: widget.isEnabled,
-                  title: 'إسم الحلقة',
+                  title: 'اسم الحلقة',
                   initialValue: name,
-                  hintText: 'أدخل إسم الحلقة',
+                  hintText: 'أدخل اسم الحلقة',
                   errorText: 'خطأ',
                   maxLength: 30,
                   inputFormatter: FilteringTextInputFormatter.deny(''),

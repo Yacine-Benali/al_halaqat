@@ -27,7 +27,7 @@ class FirebaseExceptionAlertDialog extends PlatformAlertDialog {
 
     ///   • `ERROR_INVALID_EMAIL` - If the [email] address is malformed.
     'ERROR_WRONG_PASSWORD': 'The password is invalid',
-    'ERROR_DUPLICATE_NAME': 'إسم المركز موجود يرجى إختيار إسم آخر',
+    'ERROR_DUPLICATE_NAME': 'اسم المركز موجود يرجى إختيار اسم آخر',
     'ERROR_USED_USERNAME': 'حساب المستخدم  مستخدم من قبل',
 
     ///   • `ERROR_USER_NOT_FOUND` - If there is no user corresponding to the given [email] address, or if the user has been deleted.

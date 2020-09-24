@@ -254,12 +254,12 @@ class KeyTranslate {
   static const Map<String, String> gaHalaqatState = {
     'approved': 'نشطة',
     'archived': 'مؤرشفة',
+    'deleted': 'محذوفة',
   };
 
   static const Map<String, String> adminHalaqatState = {
     'approved': 'نشطة',
     'archived': 'مؤرشفة',
-    'deleted': 'محذوفة',
   };
 
   static const Map<String, String> teacherStudentState = {
@@ -280,6 +280,7 @@ class KeyTranslate {
     'approved': 'نشط',
     'archived': 'مؤرشف',
     'deleted': 'محذوف',
+    'empty': 'بدون حالة',
   };
 
   static const Map<String, String> gaCenterState = {
@@ -294,27 +295,27 @@ class KeyTranslate {
     'deleted': 'محذوفين ',
   };
 
-  static const Map<String, String> gaStudentState = {
+  static const Map<String, String> gaStudentsState = {
     'approved': 'نشطاء',
     'archived': 'مؤرشفين ',
     'deleted': 'محذوفين ',
   };
 
-  static const Map<String, String> adminStudentState = {
+  static const Map<String, String> adminStudentsState = {
     'approved': 'نشطاء',
     'archived': 'مؤرشفين ',
     'deleted': 'محذوفين ',
   };
-  // static const Map<String, String> adminCentersStateList = {
-  //   'approved': 'نشطة',
-  //   'archived': 'مؤرشفة',
-  // };
-  // static const Map<String, String> centersStateList = {
-  //   'approved': 'نشطة',
-  //   'archived': 'مؤرشفة',
-  //   'deleted': 'محذوفة',
-  //   'pending': 'قيد الانتظار',
-  // };
+
+  static const Map<String, String> adminTeachersState = {
+    'approved': 'نشطاء',
+    'archived': 'مؤرشفين ',
+  };
+  static const Map<String, String> gaTeachersState = {
+    'approved': 'نشطاء',
+    'archived': 'مؤرشفين ',
+    'deleted': 'محذوفين ',
+  };
 
   static const Map<String, String> requestsStateList = {
     'pending': 'معلقة',
@@ -332,7 +333,7 @@ class KeyTranslate {
   };
 
   static const Map<String, String> createUserAuthType = {
-    'usernameAndPassword': 'إسم المتستخدم',
+    'usernameAndPassword': 'اسم  المستخدم',
     'emailAndPassword': 'إيمايل',
   };
 
