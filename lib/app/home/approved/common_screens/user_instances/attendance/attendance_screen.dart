@@ -228,12 +228,15 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     for (String columnTitle in columnTitleList) {
       TableCell cell = TableCell(
         child: Container(
-          padding: EdgeInsets.all(8),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: AutoSizeText(
-              '$columnTitle',
-              wrapWords: false,
+          padding: EdgeInsets.all(0),
+          child: RotatedBox(
+            quarterTurns: 3,
+            child: Align(
+              alignment: Alignment.center,
+              child: AutoSizeText(
+                '$columnTitle',
+                wrapWords: false,
+              ),
             ),
           ),
         ),
@@ -342,13 +345,16 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
         in instance.studentAttendanceList) {
       TableRow tableRow = TableRow(children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(0.0),
           child: InkWell(
             onTap: () => openStudentProfile(studentAttendance.id),
             child: Container(
               alignment: Alignment.center,
-              child: Text(
+              child: AutoSizeText(
                 studentAttendance.name,
+                maxLines: 3,
+                minFontSize: 8,
+                softWrap: true,
               ),
             ),
           ),
@@ -474,6 +480,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                       child: Table(
                         defaultVerticalAlignment:
                             TableCellVerticalAlignment.middle,
+                        columnWidths: {
+                          0: FlexColumnWidth(2.0),
+                          // 1: FlexColumnWidth(4.0),
+                          // 2: FlexColumnWidth(3.0),
+                        },
                         border: TableBorder(
                           horizontalInside:
                               BorderSide(width: 1.0, color: Colors.grey[350]),

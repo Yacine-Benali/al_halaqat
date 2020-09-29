@@ -9,6 +9,7 @@ import 'package:alhalaqat/common_widgets/drop_down_form_field2.dart';
 import 'package:alhalaqat/common_widgets/password_text_field.dart';
 import 'package:alhalaqat/common_widgets/text_form_field2.dart';
 import 'package:alhalaqat/common_widgets/user_halaqa_form.dart';
+import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -95,7 +96,10 @@ class _NewStudentFormState extends State<StudentForm>
     nationality = student?.nationality ?? 'LB';
     address = student?.address;
     phoneNumber = student?.phoneNumber;
-    educationalLevel = student?.educationalLevel ?? 'سنة أولى';
+    educationalLevel =
+        KeyTranslate.educationalLevel.contains(student?.educationalLevel)
+            ? student?.educationalLevel
+            : 'جامعي';
     etablissement = student?.etablissement;
     note = student?.note;
     readableId = student?.readableId;
@@ -292,25 +296,7 @@ class _NewStudentFormState extends State<StudentForm>
                 DropdownButtonFormField2(
                   isEnabled: widget.isEnabled,
                   title: 'المستوى  تعليمي',
-                  possibleValues: [
-                    'سنة أولى',
-                    'سنة الثانية',
-                    'سنة الثالثة',
-                    'سنة الرابعة',
-                    'سنة الخامسة',
-                    'سنة السادسة',
-                    'سنة السابعة',
-                    'سنة الثامنة',
-                    'سنة التاسعة',
-                    'سنة العاشرة',
-                    'سنة الإحدى عاشر',
-                    'سنة الإثنا عشر',
-                    'جامعي',
-                    'ماجستير',
-                    'دكتوراة',
-                    'مهني',
-                    'أخرى',
-                  ],
+                  possibleValues: KeyTranslate.educationalLevel,
                   value: educationalLevel,
                   onSaved: (value) => educationalLevel = value,
                 ),

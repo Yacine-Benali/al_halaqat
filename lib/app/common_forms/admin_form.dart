@@ -94,7 +94,10 @@ class _NewAdminFormState extends State<AdminForm>
     nationality = admin?.nationality ?? 'LB';
     address = admin?.address;
     phoneNumber = admin?.phoneNumber;
-    educationalLevel = admin?.educationalLevel ?? 'جامعي';
+    educationalLevel =
+        KeyTranslate.educationalLevel.contains(admin?.educationalLevel)
+            ? admin?.educationalLevel
+            : 'جامعي';
     etablissement = admin?.etablissement;
     note = admin?.note;
     readableId = admin?.readableId;
@@ -289,25 +292,7 @@ class _NewAdminFormState extends State<AdminForm>
                 DropdownButtonFormField2(
                   isEnabled: widget.isEnabled,
                   title: 'المستوى  تعليمي',
-                  possibleValues: [
-                    'الصف أولى',
-                    'الصف الثانية',
-                    'الصف الثالثة',
-                    'الصف الرابعة',
-                    'الصف الخامسة',
-                    'الصف السادسة',
-                    'الصف السابعة',
-                    'الصف الثامنة',
-                    'الصف التاسعة',
-                    'الصف العاشرة',
-                    'الصف الإحدى عاشر',
-                    'الصف الإثنا عشر',
-                    'جامعي',
-                    'ماجستير',
-                    'دكتوراة',
-                    'مهني',
-                    'أخرى',
-                  ],
+                  possibleValues: KeyTranslate.educationalLevel,
                   value: educationalLevel,
                   onSaved: (value) => educationalLevel = value,
                 ),
