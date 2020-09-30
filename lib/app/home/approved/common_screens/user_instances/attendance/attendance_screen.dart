@@ -228,7 +228,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     for (String columnTitle in columnTitleList) {
       TableCell cell = TableCell(
         child: Container(
-          padding: EdgeInsets.all(0),
           child: RotatedBox(
             quarterTurns: 3,
             child: Align(
@@ -268,13 +267,10 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     if (bloc.user is Admin) {
       tableRowList.add(TableRow(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              alignment: Alignment.center,
-              child: Text(
-                instance.teacherSummery.name,
-              ),
+          Container(
+            alignment: Alignment.center,
+            child: Text(
+              instance.teacherSummery.name,
             ),
           ),
           Container(
