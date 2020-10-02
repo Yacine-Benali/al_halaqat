@@ -23,6 +23,10 @@ class SignInBloc {
     return await _signIn(auth.signInWithGoogle);
   }
 
+  Future<void> signInWithApple() async {
+    return await _signIn(auth.signInWithApple);
+  }
+
   Future<void> signInWithFacebook() async {
     return await _signIn(auth.signInWithFacebook);
   }

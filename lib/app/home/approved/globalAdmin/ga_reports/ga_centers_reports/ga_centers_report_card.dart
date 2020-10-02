@@ -33,7 +33,7 @@ class GaCentersReportCard extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerRight,
             child: AutoSizeText(
-              '$columnTitle',
+              '$columnTitle' ?? '',
               wrapWords: false,
             ),
           ),
@@ -54,7 +54,7 @@ class GaCentersReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             child: AutoSizeText(
-              row.center.readableId,
+              row.center.readableId ?? '',
             ),
           ),
         ),
@@ -63,7 +63,7 @@ class GaCentersReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.center.name),
+            child: AutoSizeText(row.center.name) ?? '',
           ),
         ),
         Padding(
@@ -71,7 +71,7 @@ class GaCentersReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(getAddress(row.center)),
+            child: AutoSizeText(getAddress(row.center) ?? ''),
           ),
         ),
         Padding(
@@ -79,7 +79,7 @@ class GaCentersReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.center.phoneNumber),
+            child: AutoSizeText(row.center.phoneNumber ?? ''),
           ),
         ),
         Padding(
@@ -96,7 +96,7 @@ class GaCentersReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.center.createdBy['name']),
+            child: AutoSizeText(row.center.createdBy['name'] ?? ''),
           ),
         ),
         Padding(
@@ -104,7 +104,7 @@ class GaCentersReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.numberOfApprovedStudents.toString()),
+            child: AutoSizeText(row.numberOfApprovedStudents.toString() ?? ''),
           ),
         ),
         Padding(
@@ -112,7 +112,7 @@ class GaCentersReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.numberOfArchivedStudents.toString()),
+            child: AutoSizeText(row.numberOfArchivedStudents.toString() ?? ''),
           ),
         ),
         Padding(
@@ -120,7 +120,7 @@ class GaCentersReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.numberOfApprovedTeachers.toString()),
+            child: AutoSizeText(row.numberOfApprovedTeachers.toString() ?? ''),
           ),
         ),
         Padding(
@@ -128,7 +128,7 @@ class GaCentersReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.numberOfArchivedTeachers.toString()),
+            child: AutoSizeText(row.numberOfArchivedTeachers.toString() ?? ''),
           ),
         ),
         Padding(
@@ -136,7 +136,7 @@ class GaCentersReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.numberOfApprovedHalaqat.toString()),
+            child: AutoSizeText(row.numberOfApprovedHalaqat.toString() ?? ''),
           ),
         ),
         Padding(
@@ -144,7 +144,7 @@ class GaCentersReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.numberOfArchivedHalaqat.toString()),
+            child: AutoSizeText(row.numberOfArchivedHalaqat.toString() ?? ''),
           ),
         ),
         Padding(
@@ -152,7 +152,8 @@ class GaCentersReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(KeyTranslate.reportsState[row.center.state]),
+            child:
+                AutoSizeText(KeyTranslate.reportsState[row.center.state] ?? ''),
           ),
         ),
       ]);

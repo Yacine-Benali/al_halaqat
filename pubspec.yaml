@@ -46,6 +46,7 @@ dependencies:
   date_range_picker: ^1.0.5  
   #third party signin
   google_sign_in: ^4.5.1 
+  apple_sign_in: ^0.1.0
   flutter_login_facebook: ^0.2.1
   # dead
   flutter_launcher_icons: ^0.8.0

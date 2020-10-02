@@ -107,7 +107,7 @@ class _SLearningScreenState extends State<SLearningScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('d'),
+        title: Text(''),
         centerTitle: true,
         actions: [
           IconButton(

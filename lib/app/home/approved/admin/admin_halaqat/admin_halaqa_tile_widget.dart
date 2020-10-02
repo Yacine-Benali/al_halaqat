@@ -133,7 +133,7 @@ class _AdminHalqaTileWidgetState extends State<AdminHalqaTileWidget> {
         (i) {
           return PopupMenuItem<String>(
             value: actions[i],
-            child: Text(KeyTranslate.gaHalaqatState[actions[i]]),
+            child: Text(KeyTranslate.actionsList[actions[i]]),
           );
         },
       ),

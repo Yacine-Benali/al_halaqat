@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:apple_sign_in/scope.dart';
 import 'package:meta/meta.dart';
 
 @immutable
@@ -25,5 +26,6 @@ abstract class Auth {
   Future<void> signOut();
   Future<List<String>> fetchSignInMethodsForEmail({String email});
   Stream<AuthUser> get onAuthStateChanged;
+  Future<AuthUser> signInWithApple({List<Scope> scopes = const []});
   void dispose();
 }

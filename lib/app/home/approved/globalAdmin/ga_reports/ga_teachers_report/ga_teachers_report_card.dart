@@ -24,7 +24,7 @@ class GaTeachersReportCard extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerRight,
             child: AutoSizeText(
-              '$columnTitle',
+              '$columnTitle' ?? '',
               wrapWords: false,
             ),
           ),
@@ -54,7 +54,7 @@ class GaTeachersReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             child: AutoSizeText(
-              KeyTranslate.reportsState[row.state],
+              KeyTranslate.reportsState[row.state] ?? '',
             ),
           ),
         ),
@@ -119,7 +119,7 @@ class GaTeachersReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.teacher.educationalLevel),
+            child: AutoSizeText(row.teacher.educationalLevel ?? ''),
           ),
         ),
         Padding(
@@ -127,7 +127,7 @@ class GaTeachersReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.teacher.etablissement),
+            child: AutoSizeText(row.teacher.etablissement ?? ''),
           ),
         ),
         Padding(
@@ -135,7 +135,7 @@ class GaTeachersReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.teacher.note),
+            child: AutoSizeText(row.teacher.note ?? ''),
           ),
         ),
         Padding(
@@ -143,7 +143,8 @@ class GaTeachersReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(Format.date(row.teacher.createdAt.toDate())),
+            child:
+                AutoSizeText(Format.date(row.teacher.createdAt.toDate()) ?? ''),
           ),
         ),
         Padding(
@@ -151,7 +152,7 @@ class GaTeachersReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.teacher.createdBy['name']),
+            child: AutoSizeText(row.teacher.createdBy['name'] ?? ''),
           ),
         ),
       ]);

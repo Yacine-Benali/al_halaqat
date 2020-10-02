@@ -4,7 +4,9 @@ import 'package:alhalaqat/app/sign_in/social_sign_in_button.dart';
 import 'package:alhalaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:alhalaqat/constants/keys.dart';
 import 'package:alhalaqat/constants/strings.dart';
+import 'package:alhalaqat/services/apple_sign_in_available.dart';
 import 'package:alhalaqat/services/auth.dart';
+import 'package:apple_sign_in/apple_sign_in_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -81,6 +83,16 @@ class SignInPage extends StatelessWidget {
     );
   }
 
+  Future<void> _signInWithApple(BuildContext context) async {
+    try {
+      await manager.signInWithApple();
+    } on PlatformException catch (e) {
+      if (e.code != 'ERROR_ABORTED_BY_USER') {
+        _showSignInError(context, e);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,6 +122,7 @@ class SignInPage extends StatelessWidget {
   }
 
   Widget _buildSignIn(BuildContext context) {
+    final appleSignInAvailable = Provider.of<AppleSignInAvailable>(context);
     // Make content scrollable so that it fits on small screens
     return SingleChildScrollView(
       child: Container(
@@ -124,6 +137,14 @@ class SignInPage extends StatelessWidget {
               child: _buildHeader(),
             ),
             SizedBox(height: 32.0),
+            if (appleSignInAvailable.isAvailable) ...[
+              AppleSignInButton(
+                style: ButtonStyle.black,
+                type: ButtonType.signIn,
+                onPressed: isLoading ? null : () => _signInWithApple(context),
+              ),
+              SizedBox(height: 8),
+            ],
             SocialSignInButton(
               key: googleButtonKey,
               assetName: 'assets/go-logo.png',
