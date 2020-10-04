@@ -118,7 +118,7 @@ class _NewUserScreenState extends State<JoinUsScreen> {
             children: <Widget>[
               SizedBox(height: 100.0),
               MenuButtonWidget(
-                text: 'إنظم كمشرف لمركز موجود',
+                text: 'إنضم كمشرف لمركز موجود',
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
@@ -146,7 +146,7 @@ class _NewUserScreenState extends State<JoinUsScreen> {
               ),
               SizedBox(height: 10.0),
               MenuButtonWidget(
-                text: 'إنظم كمعلم',
+                text: 'إنضم كمعلم',
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
@@ -160,7 +160,7 @@ class _NewUserScreenState extends State<JoinUsScreen> {
               ),
               SizedBox(height: 10.0),
               MenuButtonWidget(
-                text: 'إنظم كطالب',
+                text: 'إنضم كطالب',
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
