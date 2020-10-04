@@ -5,6 +5,7 @@ import 'package:alhalaqat/common_widgets/date_picker.dart';
 import 'package:alhalaqat/common_widgets/drop_down_form_field2.dart';
 import 'package:alhalaqat/common_widgets/password_text_field.dart';
 import 'package:alhalaqat/common_widgets/text_form_field2.dart';
+import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -59,7 +60,10 @@ class _NewGlobalAdminFormState extends State<GlobalAdminForm>
     nationality = widget.globalAdmin?.nationality ?? 'LB';
     address = widget.globalAdmin?.address;
     phoneNumber = widget.globalAdmin?.phoneNumber;
-    educationalLevel = widget.globalAdmin?.educationalLevel ?? 'سنة أولى';
+    educationalLevel = educationalLevel = KeyTranslate.educationalLevel
+            .contains(widget.globalAdmin?.educationalLevel)
+        ? widget.globalAdmin?.educationalLevel
+        : 'جامعي';
     etablissement = widget.globalAdmin?.etablissement;
     note = widget.globalAdmin?.note;
     readableId = widget.globalAdmin?.readableId;
@@ -206,28 +210,7 @@ class _NewGlobalAdminFormState extends State<GlobalAdminForm>
                 DropdownButtonFormField2(
                     isEnabled: widget.isEnabled,
                     title: 'المستوى  تعليمي',
-                    possibleValues: [
-                      'سنة أولى',
-                      'سنة الثانية',
-                      'سنة الثالثة',
-                      'سنة الرابعة',
-                      'سنة الخامسة',
-                      'سنة السادسة',
-                      'سنة السابعة',
-                      'سنة الثامنة',
-                      'سنة التاسعة',
-                      'سنة العاشرة',
-                      'سنة الإحدى عاشر',
-                      'سنة الإثنا عشر',
-                      'سنة أولى جامعة',
-                      'سنة ثانية جامعة',
-                      'سنة ثالثة جامعة',
-                      'سنة رابعة جامعة',
-                      'ماجستير',
-                      'دكتوراة',
-                      'مهني',
-                      'أخرى',
-                    ],
+                    possibleValues: KeyTranslate.educationalLevel,
                     value: educationalLevel,
                     onSaved: (value) {
                       educationalLevel = value;
