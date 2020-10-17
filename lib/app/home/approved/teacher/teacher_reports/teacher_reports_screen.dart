@@ -97,7 +97,7 @@ class _TeacherHomePageState extends State<TeacherReportsScreen> {
             } else {
               return EmptyContent(
                 title: '',
-                message: 'mesemptysage',
+                message: '',
               );
             }
           } else if (snapshot.hasError) {

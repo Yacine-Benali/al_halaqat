@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+
 import 'user.dart';
 
 class GlobalAdmin extends User {
@@ -59,7 +60,9 @@ class GlobalAdmin extends User {
     String username = data['username'];
     String password = data['password'];
     Timestamp createdAt = data['createdAt'];
+
     Map<String, String> createdBy = Map<String, String>.from(data['createdBy']);
+
     //
     String state = data['state'];
 

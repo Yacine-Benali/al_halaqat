@@ -57,6 +57,7 @@ class GaGlobalAdminsBloc {
       if (globalAdmin.id == gaAdmin.id) {
         break;
       }
+      print(gaAminStatet);
       switch (chosenAdminsState) {
         case 'approved':
           {

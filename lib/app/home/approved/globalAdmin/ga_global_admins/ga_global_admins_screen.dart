@@ -154,6 +154,8 @@ class _GaGlobalAdminsScreenState extends State<GaGlobalAdminsScreen> {
           if (snapshot.hasData) {
             globalAdminsList = bloc.getFilteredGlobalAdminsList(
                 snapshot.data, chosenAdminsState);
+            print(globalAdminsList.length);
+
             if (globalAdminsList.isNotEmpty) {
               return _buildList();
             } else {

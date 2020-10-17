@@ -4,12 +4,16 @@ import 'package:alhalaqat/services/auth.dart';
 import 'package:alhalaqat/services/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final appleSignInAvailable = await AppleSignInAvailable.check();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  //TODO for ios force portrait mode by
+  // https://stackoverflow.com/questions/49418332/flutter-how-to-prevent-device-orientation-changes-and-force-portrait
   await Firebase.initializeApp();
   runApp(MyApp(appleSignInAvailable: appleSignInAvailable));
 }
