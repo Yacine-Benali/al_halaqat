@@ -19,6 +19,7 @@ class EmailPasswordSignInModel
 
   String email;
   String password;
+  String confirmPassword;
   EmailPasswordSignInFormType formType;
   bool isLoading;
   bool submitted;
@@ -57,11 +58,13 @@ class EmailPasswordSignInModel
   void updateEmail(String email) => updateWith(email: email);
 
   void updatePassword(String password) => updateWith(password: password);
-
+  void updateConfirmPassword(String confirmPassword) =>
+      updateWith(confirmPassword: confirmPassword);
   void updateFormType(EmailPasswordSignInFormType formType) {
     updateWith(
       email: '',
       password: '',
+      confirmPassword: '',
       formType: formType,
       isLoading: false,
       submitted: false,
@@ -71,12 +74,14 @@ class EmailPasswordSignInModel
   void updateWith({
     String email,
     String password,
+    String confirmPassword,
     EmailPasswordSignInFormType formType,
     bool isLoading,
     bool submitted,
   }) {
     this.email = email ?? this.email;
     this.password = password ?? this.password;
+    this.confirmPassword = confirmPassword ?? this.confirmPassword;
     this.formType = formType ?? this.formType;
     this.isLoading = isLoading ?? this.isLoading;
     this.submitted = submitted ?? this.submitted;
@@ -86,6 +91,13 @@ class EmailPasswordSignInModel
   String get passwordLabelText {
     if (formType == EmailPasswordSignInFormType.register) {
       return Strings.password8CharactersLabel;
+    }
+    return Strings.passwordLabel;
+  }
+
+  String get confirmPasswordLabelText {
+    if (formType == EmailPasswordSignInFormType.register) {
+      return Strings.confirmPasswordLabel;
     }
     return Strings.passwordLabel;
   }
@@ -133,12 +145,21 @@ class EmailPasswordSignInModel
   }
 
   bool get canSubmitEmail {
-    return usernameSubmitValidator.isValid(email);
+    return <EmailPasswordSignInFormType, bool>{
+      EmailPasswordSignInFormType.register:
+          usernameSubmitValidator.isValid(email) && password == confirmPassword,
+      EmailPasswordSignInFormType.signIn:
+          usernameSubmitValidator.isValid(email),
+      EmailPasswordSignInFormType.forgotPassword:
+          usernameSubmitValidator.isValid(email),
+    }[formType];
+    //return usernameSubmitValidator.isValid(email);
   }
 
   bool get canSubmitPassword {
     if (formType == EmailPasswordSignInFormType.register) {
-      return passwordRegisterSubmitValidator.isValid(password);
+      return passwordRegisterSubmitValidator.isValid(password) &&
+          password == confirmPassword;
     }
     return passwordSignInSubmitValidator.isValid(password);
   }
@@ -160,6 +181,15 @@ class EmailPasswordSignInModel
   }
 
   String get passwordErrorText {
+    final bool showErrorText = submitted && !canSubmitPassword;
+    final String errorText = password.isEmpty
+        ? Strings.invalidPasswordEmpty
+        : Strings.invalidPasswordTooShort;
+    return showErrorText ? errorText : null;
+  }
+
+  String get confirmPasswordErrorText {
+    //TODO implement this part and re-check the whole thing
     final bool showErrorText = submitted && !canSubmitPassword;
     final String errorText = password.isEmpty
         ? Strings.invalidPasswordEmpty

@@ -149,6 +149,24 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
     );
   }
 
+  Widget _buildConfirmPasswordField() {
+    return TextField(
+      key: Key('password'),
+      controller: _passwordController,
+      decoration: InputDecoration(
+        labelText: model.confirmPasswordLabelText,
+        errorText: model.passwordErrorText,
+        enabled: !model.isLoading,
+      ),
+      obscureText: true,
+      autocorrect: false,
+      textInputAction: TextInputAction.done,
+      keyboardAppearance: Brightness.light,
+      onChanged: model.updatePassword,
+      onEditingComplete: _passwordEditingComplete,
+    );
+  }
+
   Widget _buildContent() {
     return FocusScope(
       node: _node,
@@ -161,6 +179,11 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
               EmailPasswordSignInFormType.forgotPassword) ...<Widget>[
             SizedBox(height: 8.0),
             _buildPasswordField(),
+          ],
+          if (model.formType ==
+              EmailPasswordSignInFormType.register) ...<Widget>[
+            SizedBox(height: 8.0),
+            _buildConfirmPasswordField(),
           ],
           SizedBox(height: 8.0),
           FormSubmitButton(

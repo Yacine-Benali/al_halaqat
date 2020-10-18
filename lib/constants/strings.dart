@@ -45,6 +45,7 @@ class Strings {
   static const String usernameLabel = 'حساب المستخدم ';
   static const String usernameHint = 'mohammed.ahmed';
   static const String password8CharactersLabel = 'كلمة المرور (أكثر من 6 أحرف)';
+  static const String confirmPasswordLabel = 'كلمة المرور (أكثر من 6 أحرف)';
   static const String passwordLabel = 'كلمه السر';
   static const String invalidEmailErrorText = 'البريد الإلكتروني خاطئ';
   static const String invalidEmailEmpty =

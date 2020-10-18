@@ -209,7 +209,7 @@ class _NewGlobalAdminFormState extends State<GlobalAdminForm>
                 ),
                 DropdownButtonFormField2(
                     isEnabled: widget.isEnabled,
-                    title: 'المستوى  تعليمي',
+                    title: 'المستوى التعليمي',
                     possibleValues: KeyTranslate.educationalLevel,
                     value: educationalLevel,
                     onSaved: (value) {
