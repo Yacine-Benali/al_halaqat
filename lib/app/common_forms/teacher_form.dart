@@ -14,6 +14,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+//! bug changing username to existing username app does not check for existing user
 class TeacherForm extends StatefulWidget {
   const TeacherForm({
     Key key,

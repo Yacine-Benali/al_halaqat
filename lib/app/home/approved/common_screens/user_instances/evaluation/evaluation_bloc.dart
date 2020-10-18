@@ -9,6 +9,7 @@ import 'package:alhalaqat/app/models/report_card.dart';
 import 'package:alhalaqat/app/models/report_card_summery.dart';
 import 'package:alhalaqat/app/models/user.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' as intl2;
 
 class EvaluationBloc {
@@ -71,6 +72,46 @@ class EvaluationBloc {
 
   Stream<List<Evaluation>> fetchEvaluations() =>
       provider.fetchEvaluations(studentId, instance.halaqaId);
+
+  void validateEvaluation(Evaluation evaluation) {
+    bool shouldThrow = false;
+    List<String> sourateList = getSouratList();
+    int memorizedFromSoura =
+        sourateList.indexOf(evaluation.memorized.fromSoura);
+    int memorizedFromAya = evaluation.memorized.fromAya;
+    int memorizedToSoura = sourateList.indexOf(evaluation.memorized.toSoura);
+    int memorizedToAya = evaluation.memorized.toAya;
+    //
+    if (memorizedFromSoura > memorizedToSoura) {
+      // throw
+      shouldThrow = true;
+    } else if (memorizedFromSoura == memorizedToSoura) {
+      if (memorizedFromAya > memorizedToAya) {
+        //throw
+        shouldThrow = true;
+      }
+    }
+    int rehearsedFromSoura =
+        sourateList.indexOf(evaluation.rehearsed.fromSoura);
+    int rehearsedFromAya = evaluation.rehearsed.fromAya;
+    int rehearsedToSoura = sourateList.indexOf(evaluation.rehearsed.toSoura);
+    int rehearsedToAya = evaluation.rehearsed.toAya;
+
+    if (rehearsedFromSoura > rehearsedToSoura) {
+      // throw
+      shouldThrow = true;
+    } else if (rehearsedFromSoura == rehearsedToSoura) {
+      if (rehearsedFromAya > rehearsedToAya) {
+        //throw
+        shouldThrow = true;
+      }
+    }
+    if (shouldThrow)
+      throw PlatformException(
+        code: 'INVALID_EVALUATION',
+        message: 'the entered evaluation is invalid',
+      );
+  }
 
   Future<void> setEvaluation(
     Evaluation evaluation,

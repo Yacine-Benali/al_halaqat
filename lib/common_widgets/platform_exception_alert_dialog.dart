@@ -29,6 +29,7 @@ class PlatformExceptionAlertDialog extends PlatformAlertDialog {
     'ERROR_WRONG_PASSWORD': 'The password is invalid',
     'ERROR_DUPLICATE_NAME': 'اسم المركز موجود يرجى إختيار اسم آخر',
     'ERROR_USED_USERNAME': 'حساب المستخدم  مستخدم من قبل',
+    'INVALID_EVALUATION': 'تقييم غير صالح',
 
     ///   • `ERROR_USER_NOT_FOUND` - If there is no user corresponding to the given [email] address, or if the user has been deleted.
     ///   • `ERROR_USER_DISABLED` - If the user has been disabled (for example, in the Firebase console)

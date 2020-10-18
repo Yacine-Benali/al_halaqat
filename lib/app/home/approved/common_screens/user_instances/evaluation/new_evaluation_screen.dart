@@ -96,8 +96,10 @@ class _NewEvaluationScreenState extends State<NewEvaluationScreen> {
       memorized: memorized,
       rehearsed: rehearsed,
     );
+
     try {
       await pr.show();
+      bloc.validateEvaluation(evaluation);
       widget.bloc.setEvaluation(evaluation, widget.evaluationsList);
       await Future.delayed(Duration(seconds: 1));
       await pr.hide();
