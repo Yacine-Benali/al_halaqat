@@ -3,12 +3,12 @@ import 'package:alhalaqat/app/models/halaqa.dart';
 import 'package:alhalaqat/app/models/student.dart';
 import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:alhalaqat/app/sign_in/validator.dart';
+import 'package:alhalaqat/common_packages/multiselect_formfield/multiselect_formfield.dart';
 import 'package:alhalaqat/common_widgets/country_picker.dart';
 import 'package:alhalaqat/common_widgets/date_picker.dart';
 import 'package:alhalaqat/common_widgets/drop_down_form_field2.dart';
 import 'package:alhalaqat/common_widgets/password_text_field.dart';
 import 'package:alhalaqat/common_widgets/text_form_field2.dart';
-import 'package:alhalaqat/common_widgets/user_halaqa_form.dart';
 import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -336,17 +336,44 @@ class _NewStudentFormState extends State<StudentForm>
                   onChanged: (value) => note = value,
                 ),
                 if (widget.showUserHalaqa) ...[
-                  UserHalaqaForm(
-                    isEnabled: widget.isEnabled,
-                    isRemovable: widget.isRemovable,
-                    title: 'حلقات',
-                    halaqatList: widget.halaqatList,
-                    onSaved: (List<String> value) {
-                      halaqatLearningIn = value;
-                      _save();
-                    },
-                    currentHalaqatIdsList: halaqatLearningIn,
-                  )
+                  // UserHalaqaForm(
+                  //   isEnabled: widget.isEnabled,
+                  //   isRemovable: widget.isRemovable,
+                  //   title: 'حلقات',
+                  //   halaqatList: widget.halaqatList,
+                  //   onSaved: (List<String> value) {
+                  //     halaqatLearningIn = value;
+                  //     _save();
+                  //   },
+                  //   currentHalaqatIdsList: halaqatLearningIn,
+                  // ),
+                  IgnorePointer(
+                    ignoring: !widget.isEnabled,
+                    child: MultiSelectFormField(
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey,
+                          width: widget.isEnabled ? 2.5 : 1.2,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      initialValue: halaqatLearningIn,
+                      fillColor: Colors.transparent,
+                      autovalidate: false,
+                      titleText: 'حلقات يعلم فيها',
+                      validator: (value) => null,
+                      dataSource: buildMap(widget.halaqatList),
+                      textField: 'display',
+                      valueField: 'value',
+                      okButtonLabel: 'حسنا',
+                      cancelButtonLabel: 'إلغاء',
+                      hintText: 'انقر هنا للاختيار الحلقات',
+                      onSaved: (values) {
+                        halaqatLearningIn = List<String>.from(values);
+                        _save();
+                      },
+                    ),
+                  ),
                 ],
               ],
             ),
@@ -354,5 +381,19 @@ class _NewStudentFormState extends State<StudentForm>
         ),
       ),
     );
+  }
+
+  //TODO this exist both in teacher and student form need abstraction
+  List<Map<String, String>> buildMap(List<Halaqa> halaqatList) {
+    List<Map<String, String>> subjectDataSource = List();
+    for (Halaqa halaqa in halaqatList) {
+      subjectDataSource.add(
+        {
+          "display": halaqa.name,
+          "value": halaqa.id,
+        },
+      );
+    }
+    return subjectDataSource;
   }
 }
