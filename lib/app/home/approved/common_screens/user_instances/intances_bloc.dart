@@ -47,6 +47,9 @@ class InstancesBloc {
             for (Instance existingInstance in instancesList) {
               if (existingInstance.id == newInstance.id) {
                 isFound = true;
+                existingInstance.studentAttendanceList =
+                    newInstance.studentAttendanceList;
+
                 existingInstance.studentAttendanceSummery =
                     newInstance.studentAttendanceSummery;
               }
