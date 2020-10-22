@@ -3,7 +3,7 @@ import 'package:alhalaqat/constants/strings.dart';
 import 'package:alhalaqat/services/auth.dart';
 import 'package:flutter/foundation.dart';
 
-enum EmailPasswordSignInFormType { signIn, register, forgotPassword }
+enum EmailPasswordSignInFormType { signIn, register }
 
 class EmailPasswordSignInModel
     with UsernameAndPasswordValidators, ChangeNotifier {
@@ -25,6 +25,7 @@ class EmailPasswordSignInModel
   bool submitted;
 
   Future<void> submit() async {
+    print('submitting...');
     try {
       updateWith(submitted: true);
       if (!canSubmit) {
@@ -40,9 +41,6 @@ class EmailPasswordSignInModel
           break;
         case EmailPasswordSignInFormType.register:
           await auth.createUserWithEmailAndPassword(email2, password);
-          break;
-        case EmailPasswordSignInFormType.forgotPassword:
-          updateWith(isLoading: false);
           break;
       }
     } catch (e) {
@@ -60,6 +58,7 @@ class EmailPasswordSignInModel
   void updatePassword(String password) => updateWith(password: password);
   void updateConfirmPassword(String confirmPassword) =>
       updateWith(confirmPassword: confirmPassword);
+
   void updateFormType(EmailPasswordSignInFormType formType) {
     updateWith(
       email: '',
@@ -107,7 +106,6 @@ class EmailPasswordSignInModel
     return <EmailPasswordSignInFormType, String>{
       EmailPasswordSignInFormType.register: Strings.createAnAccount,
       EmailPasswordSignInFormType.signIn: Strings.signIn,
-      EmailPasswordSignInFormType.forgotPassword: Strings.sendResetLink,
     }[formType];
   }
 
@@ -115,7 +113,6 @@ class EmailPasswordSignInModel
     return <EmailPasswordSignInFormType, String>{
       EmailPasswordSignInFormType.register: Strings.haveAnAccount,
       EmailPasswordSignInFormType.signIn: Strings.needAnAccount,
-      EmailPasswordSignInFormType.forgotPassword: Strings.backToSignIn,
     }[formType];
   }
 
@@ -123,8 +120,6 @@ class EmailPasswordSignInModel
     return <EmailPasswordSignInFormType, EmailPasswordSignInFormType>{
       EmailPasswordSignInFormType.register: EmailPasswordSignInFormType.signIn,
       EmailPasswordSignInFormType.signIn: EmailPasswordSignInFormType.register,
-      EmailPasswordSignInFormType.forgotPassword:
-          EmailPasswordSignInFormType.signIn,
     }[formType];
   }
 
@@ -132,7 +127,6 @@ class EmailPasswordSignInModel
     return <EmailPasswordSignInFormType, String>{
       EmailPasswordSignInFormType.register: Strings.registrationFailed,
       EmailPasswordSignInFormType.signIn: Strings.signInFailed,
-      EmailPasswordSignInFormType.forgotPassword: Strings.passwordResetFailed,
     }[formType];
   }
 
@@ -140,35 +134,36 @@ class EmailPasswordSignInModel
     return <EmailPasswordSignInFormType, String>{
       EmailPasswordSignInFormType.register: Strings.register,
       EmailPasswordSignInFormType.signIn: Strings.signIn,
-      EmailPasswordSignInFormType.forgotPassword: Strings.forgotPassword,
     }[formType];
   }
 
   bool get canSubmitEmail {
     return <EmailPasswordSignInFormType, bool>{
       EmailPasswordSignInFormType.register:
-          usernameSubmitValidator.isValid(email) && password == confirmPassword,
-      EmailPasswordSignInFormType.signIn:
           usernameSubmitValidator.isValid(email),
-      EmailPasswordSignInFormType.forgotPassword:
+      EmailPasswordSignInFormType.signIn:
           usernameSubmitValidator.isValid(email),
     }[formType];
     //return usernameSubmitValidator.isValid(email);
   }
 
   bool get canSubmitPassword {
-    if (formType == EmailPasswordSignInFormType.register) {
-      return passwordRegisterSubmitValidator.isValid(password) &&
-          password == confirmPassword;
-    }
-    return passwordSignInSubmitValidator.isValid(password);
+    return passwordRegisterSubmitValidator.isValid(password);
+  }
+
+  bool get canSubmitConfirmPassword {
+    return password == confirmPassword;
   }
 
   bool get canSubmit {
-    final bool canSubmitFields =
-        formType == EmailPasswordSignInFormType.forgotPassword
-            ? canSubmitEmail
-            : canSubmitEmail && canSubmitPassword;
+    bool canSubmitFields;
+    if (formType == EmailPasswordSignInFormType.register) {
+      canSubmitFields =
+          canSubmitEmail && canSubmitPassword && canSubmitConfirmPassword;
+    } else {
+      canSubmitFields = canSubmitEmail && canSubmitPassword;
+    }
+
     return canSubmitFields && !isLoading;
   }
 
@@ -185,16 +180,20 @@ class EmailPasswordSignInModel
     final String errorText = password.isEmpty
         ? Strings.invalidPasswordEmpty
         : Strings.invalidPasswordTooShort;
+
     return showErrorText ? errorText : null;
   }
 
   String get confirmPasswordErrorText {
-    //TODO implement this part and re-check the whole thing
-    final bool showErrorText = submitted && !canSubmitPassword;
-    final String errorText = password.isEmpty
-        ? Strings.invalidPasswordEmpty
-        : Strings.invalidPasswordTooShort;
-    return showErrorText ? errorText : null;
+    if (submitted &&
+        !passwordRegisterSubmitValidator.isValid(confirmPassword)) {
+      return confirmPassword.isEmpty
+          ? Strings.invalidPasswordEmpty
+          : Strings.invalidPasswordTooShort;
+    } else if (submitted && !canSubmitConfirmPassword) {
+      return Strings.unidenticalPasswords;
+    } else
+      return null;
   }
 
   @override

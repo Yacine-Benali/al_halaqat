@@ -106,9 +106,15 @@ class _NewStudentFormState extends State<TeacherForm>
     centers = teacher?.centers ?? List<String>(1);
     //
     isTeacher = teacher?.isTeacher;
+
     halaqatTeachingIn = teacher?.halaqatTeachingIn ?? List<String>();
+    print(halaqatTeachingIn);
+    print(buildMap(widget.halaqatList));
+    halaqatTeachingIn = sanitizeHalaqatTeachingIn(halaqatTeachingIn);
+    print(halaqatTeachingIn);
     //
     usernameInitValue = username?.replaceAll('@al-halaqat.firebaseapp.com', '');
+
     _save();
     super.initState();
   }
@@ -349,6 +355,15 @@ class _NewStudentFormState extends State<TeacherForm>
         ),
       ),
     );
+  }
+
+  List<String> sanitizeHalaqatTeachingIn(List<String> halaqatTeachingIn2) {
+    List<String> allHalaqatIds = widget.halaqatList.map((e) => e.id).toList();
+    List<String> cleanHalaqatTeachingIn = List<String>();
+    halaqatTeachingIn2.forEach((e) {
+      if (allHalaqatIds.contains(e)) cleanHalaqatTeachingIn.add(e);
+    });
+    return cleanHalaqatTeachingIn;
   }
 
   List<Map<String, String>> buildMap(List<Halaqa> halaqatList) {

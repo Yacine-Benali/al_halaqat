@@ -383,6 +383,8 @@ class _NewStudentFormState extends State<StudentForm>
     );
   }
 
+  void sanitize(List<String> halaqatLearning) {}
+
   //TODO this exist both in teacher and student form need abstraction
   List<Map<String, String>> buildMap(List<Halaqa> halaqatList) {
     List<Map<String, String>> subjectDataSource = List();

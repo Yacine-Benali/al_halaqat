@@ -50,14 +50,17 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
   final FocusScopeNode _node = FocusScopeNode();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
+  final TextEditingController _passwordConfirmController =
+      TextEditingController();
   EmailPasswordSignInModel get model => widget.model;
   TextStyle style;
+
   @override
   void dispose() {
     _node.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _passwordConfirmController.dispose();
     super.dispose();
   }
 
@@ -90,16 +93,18 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
   }
 
   void _emailEditingComplete() {
-    if (model.canSubmitEmail) {
+    _node.nextFocus();
+  }
+
+  void _passwordEditingComplete() {
+    if (model.formType == EmailPasswordSignInFormType.signIn) {
+      _submit();
+    } else {
       _node.nextFocus();
     }
   }
 
-  void _passwordEditingComplete() {
-    if (!model.canSubmitEmail) {
-      _node.previousFocus();
-      return;
-    }
+  void _passwordConfirmEditingComplete() {
     _submit();
   }
 
@@ -107,6 +112,7 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
     model.updateFormType(formType);
     _emailController.clear();
     _passwordController.clear();
+    _passwordConfirmController.clear();
   }
 
   Widget _buildEmailField() {
@@ -142,7 +148,9 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
       ),
       obscureText: true,
       autocorrect: false,
-      textInputAction: TextInputAction.done,
+      textInputAction: model.formType == EmailPasswordSignInFormType.signIn
+          ? TextInputAction.done
+          : TextInputAction.next,
       keyboardAppearance: Brightness.light,
       onChanged: model.updatePassword,
       onEditingComplete: _passwordEditingComplete,
@@ -151,19 +159,19 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
 
   Widget _buildConfirmPasswordField() {
     return TextField(
-      key: Key('password'),
-      controller: _passwordController,
+      key: Key('confirmPassword'),
+      controller: _passwordConfirmController,
       decoration: InputDecoration(
         labelText: model.confirmPasswordLabelText,
-        errorText: model.passwordErrorText,
+        errorText: model.confirmPasswordErrorText,
         enabled: !model.isLoading,
       ),
       obscureText: true,
       autocorrect: false,
       textInputAction: TextInputAction.done,
       keyboardAppearance: Brightness.light,
-      onChanged: model.updatePassword,
-      onEditingComplete: _passwordEditingComplete,
+      onChanged: model.updateConfirmPassword,
+      onEditingComplete: _passwordConfirmEditingComplete,
     );
   }
 
@@ -175,11 +183,8 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
         children: <Widget>[
           SizedBox(height: 8.0),
           _buildEmailField(),
-          if (model.formType !=
-              EmailPasswordSignInFormType.forgotPassword) ...<Widget>[
-            SizedBox(height: 8.0),
-            _buildPasswordField(),
-          ],
+          SizedBox(height: 8.0),
+          _buildPasswordField(),
           if (model.formType ==
               EmailPasswordSignInFormType.register) ...<Widget>[
             SizedBox(height: 8.0),

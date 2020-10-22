@@ -28,7 +28,7 @@ class PlatformExceptionAlertDialog extends PlatformAlertDialog {
     ///   • `ERROR_INVALID_EMAIL` - If the [email] address is malformed.
     'ERROR_WRONG_PASSWORD': 'The password is invalid',
     'ERROR_DUPLICATE_NAME': 'اسم المركز موجود يرجى إختيار اسم آخر',
-    'ERROR_USED_USERNAME': 'حساب المستخدم  مستخدم من قبل',
+    'ERROR_USED_USERNAME': 'إسم المتسخدم  مستخدم من قبل',
     'INVALID_EVALUATION': 'خطأ! يرجى إدخال التقييم مرتباً',
 
     ///   • `ERROR_USER_NOT_FOUND` - If there is no user corresponding to the given [email] address, or if the user has been deleted.
