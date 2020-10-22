@@ -7,6 +7,7 @@ exports.onHalaqaUpdated = functions.firestore
     .onUpdate(async (change, context) => {
         const halaqaId = context.params.halaqaId;
         const halaqaDocAfter = change.after.data();
+        //todo when halaqa is delete free teachers and students from it duh
         try {
             const batch = db.batch();
             const instancesList = await db.collection('instances').where('halaqaId', '==', halaqaId).get();

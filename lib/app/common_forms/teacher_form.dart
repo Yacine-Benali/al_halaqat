@@ -108,10 +108,8 @@ class _NewStudentFormState extends State<TeacherForm>
     isTeacher = teacher?.isTeacher;
 
     halaqatTeachingIn = teacher?.halaqatTeachingIn ?? List<String>();
-    print(halaqatTeachingIn);
-    print(buildMap(widget.halaqatList));
+
     halaqatTeachingIn = sanitizeHalaqatTeachingIn(halaqatTeachingIn);
-    print(halaqatTeachingIn);
     //
     usernameInitValue = username?.replaceAll('@al-halaqat.firebaseapp.com', '');
 

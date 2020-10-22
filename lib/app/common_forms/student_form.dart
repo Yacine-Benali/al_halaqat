@@ -115,6 +115,7 @@ class _NewStudentFormState extends State<StudentForm>
     parentPhoneNumber = student?.parentPhoneNumber;
     //
     usernameInitValue = username?.replaceAll('@al-halaqat.firebaseapp.com', '');
+    halaqatLearningIn = sanitizeHalaqatLearningIn(halaqatLearningIn);
 
     _save();
 
@@ -383,7 +384,18 @@ class _NewStudentFormState extends State<StudentForm>
     );
   }
 
-  void sanitize(List<String> halaqatLearning) {}
+  List<String> sanitizeHalaqatLearningIn(List<String> halaqatLearningIn2) {
+    if (widget.halaqatList?.isNotEmpty ?? false) {
+      List<String> allHalaqatIds = widget.halaqatList.map((e) => e.id).toList();
+
+      List<String> cleanHalaqatLearningIn = List<String>();
+      halaqatLearningIn2.forEach((e) {
+        if (allHalaqatIds.contains(e)) cleanHalaqatLearningIn.add(e);
+      });
+      return cleanHalaqatLearningIn;
+    }
+    return List<String>();
+  }
 
   //TODO this exist both in teacher and student form need abstraction
   List<Map<String, String>> buildMap(List<Halaqa> halaqatList) {
