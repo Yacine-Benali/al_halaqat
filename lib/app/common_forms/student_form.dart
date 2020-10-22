@@ -337,17 +337,6 @@ class _NewStudentFormState extends State<StudentForm>
                   onChanged: (value) => note = value,
                 ),
                 if (widget.showUserHalaqa) ...[
-                  // UserHalaqaForm(
-                  //   isEnabled: widget.isEnabled,
-                  //   isRemovable: widget.isRemovable,
-                  //   title: 'حلقات',
-                  //   halaqatList: widget.halaqatList,
-                  //   onSaved: (List<String> value) {
-                  //     halaqatLearningIn = value;
-                  //     _save();
-                  //   },
-                  //   currentHalaqatIdsList: halaqatLearningIn,
-                  // ),
                   IgnorePointer(
                     ignoring: !widget.isEnabled,
                     child: MultiSelectFormField(
@@ -361,7 +350,7 @@ class _NewStudentFormState extends State<StudentForm>
                       initialValue: halaqatLearningIn,
                       fillColor: Colors.transparent,
                       autovalidate: false,
-                      titleText: 'حلقات يعلم فيها',
+                      titleText: 'حلقات ',
                       validator: (value) => null,
                       dataSource: buildMap(widget.halaqatList),
                       textField: 'display',

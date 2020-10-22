@@ -47,7 +47,6 @@ class EvaluationScreen extends StatefulWidget {
 
 class _AttendanceScreenState extends State<EvaluationScreen> {
   EvaluationBloc get bloc => widget.bloc;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   //
   ProgressDialog pr;
   Stream<List<Evaluation>> evaluationsListFuture;
