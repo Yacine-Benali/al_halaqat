@@ -6,7 +6,7 @@ import 'package:alhalaqat/app/models/halaqa.dart';
 import 'package:alhalaqat/app/models/student.dart';
 import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:alhalaqat/app/models/teacher.dart';
-import 'package:alhalaqat/services/storage.dart';
+import 'package:alhalaqat/services/local_storage_service.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/foundation.dart';
 
@@ -88,7 +88,7 @@ class CenterNumbersBloc {
     );
     sheetObject.appendRow(row);
 
-    Storage storage = Storage();
+    LocalStorageService storage = LocalStorageService();
     String name = getFileName();
     File file = await storage.getLocalFile(name);
     await excel.encode().then((onValue) {

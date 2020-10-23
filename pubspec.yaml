@@ -29,6 +29,7 @@ dependencies:
   firebase_core: ^0.5.0
   firebase_auth: ^0.18.0+1
   cloud_firestore: ^0.14.0+2
+  firebase_messaging: ^7.0.0
   #bloc
   provider: ^4.0.1
   rxdart: ^0.23.1
@@ -38,12 +39,14 @@ dependencies:
   open_file: ^3.0.1
   excel: ^1.1.5
   share: ^0.6.5
+  shared_preferences: ^0.5.12+2
   #ui
   country_pickers: ^1.3.0
   auto_size_text: ^2.1.0
   flutter_staggered_grid_view: ^0.3.0
   fluttertoast: ^7.0.4
   date_range_picker: ^1.0.5  
+  flutter_local_notifications: ^3.0.0
   #third party signin
   google_sign_in: ^4.5.1 
   apple_sign_in: ^0.1.0

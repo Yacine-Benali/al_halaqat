@@ -35,7 +35,7 @@ class EvaluationBloc {
   String format2(EvaluationHelper eval) {
     String one = eval.fromSoura + '(${eval.fromAya})';
     String two = eval.toSoura + '(${eval.toAya})';
-    return one + ' ' + two;
+    return one + '--' + two;
   }
 
   List<String> getColumnTitle() {

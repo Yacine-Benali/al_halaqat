@@ -7,7 +7,7 @@ import 'package:alhalaqat/app/models/student_attendance.dart';
 import 'package:alhalaqat/app/models/user_attendance_summery.dart';
 import 'package:alhalaqat/common_widgets/format.dart';
 import 'package:alhalaqat/constants/key_translate.dart';
-import 'package:alhalaqat/services/storage.dart';
+import 'package:alhalaqat/services/local_storage_service.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/foundation.dart';
 
@@ -173,7 +173,7 @@ class SAttendanceBloc {
       row.add(list[i].absentWithExecuse.toString());
       sheetObject.appendRow(row);
     }
-    Storage storage = Storage();
+    LocalStorageService storage = LocalStorageService();
     String name = getFileName(first, last);
     File file = await storage.getLocalFile(name);
     await excel.encode().then((onValue) {

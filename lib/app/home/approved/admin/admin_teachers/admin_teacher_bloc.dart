@@ -11,7 +11,7 @@ import 'package:alhalaqat/app/models/user_halaqa.dart';
 import 'package:alhalaqat/common_widgets/format.dart';
 import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:alhalaqat/services/auth.dart';
-import 'package:alhalaqat/services/storage.dart';
+import 'package:alhalaqat/services/local_storage_service.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -251,7 +251,7 @@ class AdminTeacherBloc {
         teacherHalaqaSheet.appendRow(teacherHalaqaRow);
       }
     }
-    Storage storage = Storage();
+    LocalStorageService storage = LocalStorageService();
     String name = 'teacher-reports-${center.name}-$chosenState.xlsx';
     File file = await storage.getLocalFile(name);
     await excel.encode().then((onValue) {

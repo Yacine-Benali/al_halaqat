@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:alhalaqat/app/home/approved/common_screens/reports/s_learning/s_learning_provider.dart';
 import 'package:alhalaqat/app/models/halaqa.dart';
 import 'package:alhalaqat/app/models/report_card.dart';
-import 'package:alhalaqat/services/storage.dart';
+import 'package:alhalaqat/services/local_storage_service.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/foundation.dart';
 
@@ -45,7 +45,7 @@ class SLearningBloc {
 
       sheetObject.appendRow(row);
     }
-    Storage storage = Storage();
+    LocalStorageService storage = LocalStorageService();
     String name = halaqa.name + '.xlsx';
     File file = await storage.getLocalFile(name);
     await excel.encode().then((onValue) {

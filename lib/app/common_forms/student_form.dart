@@ -373,6 +373,7 @@ class _NewStudentFormState extends State<StudentForm>
     );
   }
 
+  //TODO this exist both in teacher and student form need abstractions
   List<String> sanitizeHalaqatLearningIn(List<String> halaqatLearningIn2) {
     if (widget.halaqatList?.isNotEmpty ?? false) {
       List<String> allHalaqatIds = widget.halaqatList.map((e) => e.id).toList();
@@ -386,7 +387,6 @@ class _NewStudentFormState extends State<StudentForm>
     return List<String>();
   }
 
-  //TODO this exist both in teacher and student form need abstraction
   List<Map<String, String>> buildMap(List<Halaqa> halaqatList) {
     List<Map<String, String>> subjectDataSource = List();
     for (Halaqa halaqa in halaqatList) {

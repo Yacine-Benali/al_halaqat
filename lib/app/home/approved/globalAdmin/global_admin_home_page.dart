@@ -4,6 +4,7 @@ import 'package:alhalaqat/app/home/approved/globalAdmin/ga_global_admins/ga_glob
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_profile/ga_profile_screen.dart';
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_reports_screen.dart';
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_requests/ga_requests_screen.dart';
+import 'package:alhalaqat/app/models/user.dart';
 import 'package:alhalaqat/common_widgets/home_screen_popup.dart';
 import 'package:alhalaqat/common_widgets/logo.dart';
 import 'package:alhalaqat/common_widgets/menu_button_widget.dart';
@@ -11,13 +12,29 @@ import 'package:alhalaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:alhalaqat/constants/strings.dart';
 import 'package:alhalaqat/services/auth.dart';
+import 'package:alhalaqat/services/database.dart';
+import 'package:alhalaqat/services/firebase_messaging_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'ga_requests/ga_requests_screen.dart';
 
-class GlobalAdminHomePage extends StatelessWidget {
+class GlobalAdminHomePage extends StatefulWidget {
+  @override
+  _GlobalAdminHomePageState createState() => _GlobalAdminHomePageState();
+}
+
+class _GlobalAdminHomePageState extends State<GlobalAdminHomePage> {
+  @override
+  void initState() {
+    final User user = Provider.of<User>(context, listen: false);
+    final Database database = Provider.of<Database>(context, listen: false);
+    FirebaseMessagingService messagingService = FirebaseMessagingService();
+    messagingService.configFirebaseNotification(user.id, database);
+    super.initState();
+  }
+
   Future<void> _signOut(BuildContext context) async {
     try {
       final Auth auth = Provider.of<Auth>(context, listen: false);

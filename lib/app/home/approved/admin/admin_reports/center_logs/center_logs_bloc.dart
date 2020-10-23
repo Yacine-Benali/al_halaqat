@@ -6,7 +6,7 @@ import 'package:alhalaqat/app/models/teacher_log.dart';
 import 'package:alhalaqat/app/models/user.dart';
 import 'package:alhalaqat/common_widgets/format.dart';
 import 'package:alhalaqat/constants/key_translate.dart';
-import 'package:alhalaqat/services/storage.dart';
+import 'package:alhalaqat/services/local_storage_service.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
@@ -93,7 +93,7 @@ class CenterLogsBloc {
       sheetObject.appendRow(row);
     }
 
-    Storage storage = Storage();
+    LocalStorageService storage = LocalStorageService();
     String name = getFileName();
     File file = await storage.getLocalFile(name);
     await excel.encode().then((onValue) {

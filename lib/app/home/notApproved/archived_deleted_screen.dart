@@ -50,12 +50,10 @@ class _ArchivedDeletedEmptyScreenState
 
   @override
   void initState() {
-    //TODO add contact us email
-    title = '';
-    subtitle = '';
+    title = Strings.youAreArchived;
+    subtitle = Strings.contactUs;
     if (widget.user is Admin) {
-      // title = 'you dont have any active centers';
-      // subtitle = 'contact global admin at email@domaine.com';
+      title = 'ليس لديك أي مركز مفعل';
     }
     super.initState();
   }

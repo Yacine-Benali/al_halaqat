@@ -38,7 +38,7 @@ class StudentSummeryBloc {
       List<Object> snapshotsData = await snapshots;
 
       final temp = StudentProfile(
-        halaqaName: '', //TODO wtf
+        halaqaName: '', //? wtf
         halaqaId: halaqaLearingIn,
         instancesList: snapshotsData[0],
         evaluationsList: snapshotsData[1],
