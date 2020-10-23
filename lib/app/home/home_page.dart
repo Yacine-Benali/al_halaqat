@@ -48,6 +48,7 @@ class _BaseScreenState extends State<HomePage> {
       path: APIPath.userDocument(widget.uid),
       builder: (data, documentId) => User.fromMap(data, documentId),
     );
+
     super.initState();
   }
 

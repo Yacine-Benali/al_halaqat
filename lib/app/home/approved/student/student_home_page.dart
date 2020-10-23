@@ -15,7 +15,6 @@ import 'package:alhalaqat/constants/strings.dart';
 import 'package:alhalaqat/services/api_path.dart';
 import 'package:alhalaqat/services/auth.dart';
 import 'package:alhalaqat/services/database.dart';
-import 'package:alhalaqat/services/firebase_messaging_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -36,9 +35,6 @@ class _StudentHomePageState extends State<StudentHomePage> {
   initState() {
     student = Provider.of<User>(context, listen: false);
     database = Provider.of<Database>(context, listen: false);
-    final User user = Provider.of<User>(context, listen: false);
-    FirebaseMessagingService messagingService = FirebaseMessagingService();
-    messagingService.configFirebaseNotification(user.id, database);
 
     super.initState();
   }

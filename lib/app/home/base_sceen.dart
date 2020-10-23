@@ -12,10 +12,28 @@ import 'package:alhalaqat/app/models/teacher.dart';
 import 'package:alhalaqat/app/models/user.dart';
 import 'package:alhalaqat/common_widgets/empty_content.dart';
 import 'package:alhalaqat/common_widgets/size_config.dart';
+import 'package:alhalaqat/services/auth.dart';
+import 'package:alhalaqat/services/database.dart';
+import 'package:alhalaqat/services/firebase_messaging_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class BaseScreen extends StatelessWidget {
+class BaseScreen extends StatefulWidget {
+  @override
+  _BaseScreenState createState() => _BaseScreenState();
+}
+
+class _BaseScreenState extends State<BaseScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    final Database database = Provider.of<Database>(context, listen: false);
+    final AuthUser user = Provider.of<AuthUser>(context, listen: false);
+    FirebaseMessagingService messagingService = FirebaseMessagingService();
+    messagingService.configFirebaseNotification(user.uid, database);
+  }
+
   bool isThereAnApprovedCenter(Map<String, String> centerState) {
     List<String> states = centerState.values.toList();
     bool isThereAnActive = false;

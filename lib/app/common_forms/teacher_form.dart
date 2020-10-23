@@ -356,12 +356,16 @@ class _NewStudentFormState extends State<TeacherForm>
   }
 
   List<String> sanitizeHalaqatTeachingIn(List<String> halaqatTeachingIn2) {
-    List<String> allHalaqatIds = widget.halaqatList.map((e) => e.id).toList();
-    List<String> cleanHalaqatTeachingIn = List<String>();
-    halaqatTeachingIn2.forEach((e) {
-      if (allHalaqatIds.contains(e)) cleanHalaqatTeachingIn.add(e);
-    });
-    return cleanHalaqatTeachingIn;
+    if (widget.halaqatList?.isNotEmpty ?? false) {
+      List<String> allHalaqatIds = widget.halaqatList.map((e) => e.id).toList();
+
+      List<String> cleanHalaqatLearningIn = List<String>();
+      halaqatTeachingIn2.forEach((e) {
+        if (allHalaqatIds.contains(e)) cleanHalaqatLearningIn.add(e);
+      });
+      return cleanHalaqatLearningIn;
+    }
+    return List<String>();
   }
 
   List<Map<String, String>> buildMap(List<Halaqa> halaqatList) {

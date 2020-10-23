@@ -12,8 +12,6 @@ import 'package:alhalaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:alhalaqat/constants/strings.dart';
 import 'package:alhalaqat/services/auth.dart';
-import 'package:alhalaqat/services/database.dart';
-import 'package:alhalaqat/services/firebase_messaging_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -29,9 +27,7 @@ class _GlobalAdminHomePageState extends State<GlobalAdminHomePage> {
   @override
   void initState() {
     final User user = Provider.of<User>(context, listen: false);
-    final Database database = Provider.of<Database>(context, listen: false);
-    FirebaseMessagingService messagingService = FirebaseMessagingService();
-    messagingService.configFirebaseNotification(user.id, database);
+
     super.initState();
   }
 
