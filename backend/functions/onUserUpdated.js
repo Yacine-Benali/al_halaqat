@@ -38,6 +38,26 @@ exports.onUserUpdated = functions.firestore
             }
             //! lets the shitty code begins 
             const isStudent = userDocAfter['isStudent'];
+            if (isStudent && userDocAfter.state == 'deleted') {
+                console.log('student deleted');
+                const admins = await db.collection('users').where('centers', 'array-contains', userDocAfter.center).
+                where('isAdmin', '==', true).get();
+
+                if (admins.docs.length > 0) {
+                    admins.forEach(async (adminDoc) => {
+                        if (adminDoc.data().pushToken != null) {
+                            const payload = {
+                                notification: {
+                                    title: `تم حذف حساب ”${userDocAfter.name}“`,
+                                    body: ' ',
+                                },
+                                token: adminDoc.data().pushToken,
+                            }
+                            await admin.messaging().send(payload);
+                        }
+                    });
+                }
+            }
             if (isStudent == true && userDocBefore.name != userDocAfter.name) {
                 // student name changed
                 const batch = db.batch();
@@ -104,7 +124,6 @@ exports.onUserUpdated = functions.firestore
 
             const userDoc = change.after.data();
             const createdById = userDoc.createdBy.id;
-            console.log(`uid: ${userId} createdBy ${createdById}`);
             username = userDoc.username;
             password = userDoc.password;
             const isGloabalAdmin = userDoc['isGlobalAdmin'];
