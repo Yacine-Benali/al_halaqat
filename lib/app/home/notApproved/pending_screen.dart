@@ -74,7 +74,7 @@ class _PendingScreenState extends State<PendingScreen> {
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            title: Text('fill info'),
+            title: Text(''),
             actions: <Widget>[
               Padding(
                 padding: EdgeInsets.only(left: 20.0),

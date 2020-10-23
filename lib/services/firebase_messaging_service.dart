@@ -82,8 +82,8 @@ class FirebaseMessagingService {
       SharedPreferences perfs = await SharedPreferences.getInstance();
       LocalStorageService storageService = LocalStorageService(perfs: perfs);
       String oldToken = storageService.getValue('pushToken');
-
-      if (oldToken != newToken) {
+      //oldToken != newToken
+      if (true) {
         print('newtoken updating...');
         database.setData(
           path: APIPath.userDocument(uid),

@@ -10,6 +10,7 @@ const onCenterJoinRequestCreated = require('./onCenterJoinRequestCreated');
 const onRequestApproved = require('./onRequestApproved');
 const onInstanceCreated = require('./onInstanceCreated');
 const onMessageCreated = require('./onMessageCreated');
+const onAdminRequestCreated = require('./onAdminRequestCreated');
 
 
 //admin
@@ -21,5 +22,6 @@ exports.onCenterJoinRequestCreated = onCenterJoinRequestCreated.onCenterJoinRequ
 exports.onRequestApproved = onRequestApproved.onRequestApproved;
 exports.onInstanceCreated = onInstanceCreated.onInstanceCreated;
 exports.onMessageCreated = onMessageCreated.onMessageCreated;
+exports.onAdminRequestCreated = onAdminRequestCreated.onAdminRequestCreated;
 
 

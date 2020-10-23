@@ -16,29 +16,6 @@ exports.onUserUpdated = functions.firestore
 
         if (change.before.exists && !change.after.exists) {
             //delete
-            // const userDoc = change.after.data();
-            // const userId = context.params.userId;
-            // const isGloabalAdmin = userDoc['isGlobalAdmin'];
-            // const isAdmin = userDoc['isAdmin'];
-            // const isTeacher = userDoc['isTeacher'];
-            // const isStudent = userDoc['isStudent'];
-
-            // const claims = {};
-            // if (isGloabalAdmin == true) {
-            //     claims['role'] = 'GlobalAdmin';
-
-            // } else if (isAdmin == true) {
-            //     claims['role'] = 'Admin';
-
-
-            // } else if (isTeacher == true) {
-            //     claims['role'] = 'teacher';
-
-            // } else if (isStudent == true) {
-            //     claims['role'] = 'student';
-            // }
-
-            // return admin.auth().setCustomUserClaims(userId, claims);
         } else if (change.before.exists && change.after.exists) {
             //update
             const userDocBefore = change.before.data();
@@ -124,7 +101,10 @@ exports.onUserUpdated = functions.firestore
 
         } else if (!change.before.exists && change.after.exists) {
             //create
+
             const userDoc = change.after.data();
+            const createdById = userDoc.createdBy.id;
+            console.log(`uid: ${userId} createdBy ${createdById}`);
             username = userDoc.username;
             password = userDoc.password;
             const isGloabalAdmin = userDoc['isGlobalAdmin'];
@@ -142,9 +122,43 @@ exports.onUserUpdated = functions.firestore
 
             } else if (isTeacher == true) {
                 claims['role'] = 'teacher';
+                centerId2 = userDoc.centers[0];
+                const admins = await db.collection('users').where('centers', 'array-contains',
+                    centerId2).where('isAdmin', '==', true).get();
+
+                if (admins.docs.length > 0) {
+                    admins.forEach(async (adminDoc) => {
+                        if (adminDoc.data().pushToken != null) {
+                            const payload = {
+                                notification: {
+                                    title: `تم إنشاء حساب جديد باسم ”${userDoc.name}“`,
+                                    body: ' ',
+                                },
+                                token: adminDoc.data().pushToken,
+                            }
+                            await admin.messaging().send(payload);
+                        }
+                    });
+                }
 
             } else if (isStudent == true) {
                 claims['role'] = 'student';
+                const admins = await db.collection('users').where('centers', 'array-contains', userDoc.center).where('isAdmin', '==', true).get();
+
+                if (admins.docs.length > 0) {
+                    admins.forEach(async (adminDoc) => {
+                        if (adminDoc.data().pushToken != null) {
+                            const payload = {
+                                notification: {
+                                    title: `تم إنشاء حساب جديد باسم ”${userDoc.name}“`,
+                                    body: ' ',
+                                },
+                                token: adminDoc.data().pushToken,
+                            }
+                            await admin.messaging().send(payload);
+                        }
+                    });
+                }
             }
             await auth.createUser(
                 {
