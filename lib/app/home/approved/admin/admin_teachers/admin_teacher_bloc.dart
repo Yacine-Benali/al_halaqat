@@ -87,6 +87,14 @@ class AdminTeacherBloc {
     StudyCenter chosenCenter,
   ) async {
     List<String> temp = List();
+    if (oldTeacher.username != newTeacher.username) {
+      List<String> testList =
+          await auth.fetchSignInMethodsForEmail(email: newTeacher.username);
+      if (testList.contains('password'))
+        throw PlatformException(
+          code: 'ERROR_USED_USERNAME',
+        );
+    }
     for (String a in newTeacher.halaqatTeachingIn) {
       if (a != null) temp.add(a);
     }

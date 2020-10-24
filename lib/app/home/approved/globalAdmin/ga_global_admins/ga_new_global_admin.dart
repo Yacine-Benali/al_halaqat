@@ -50,7 +50,7 @@ class _GaNewGlobalAdminScreenState extends State<GaNewGlobalAdminScreen> {
       try {
         //   print(admin.centers);
         await pr.show();
-        await widget.bloc.setGlobalAdmin(globalAdmin);
+        await widget.bloc.setGlobalAdmin(widget.globalAdmin, globalAdmin);
         await pr.hide();
 
         PlatformAlertDialog(

@@ -104,25 +104,37 @@ class GaGlobalAdminsBloc {
     await provider.createGlobalAdmin(globalAdmin);
   }
 
-  Future<void> setGlobalAdmin(GlobalAdmin globalAdmin) async {
-    if (globalAdmin.id == null) {
-      globalAdmin.id = provider.getUniqueId();
+  Future<void> setGlobalAdmin(
+      GlobalAdmin oldGlobalAdmin, GlobalAdmin newGlobalAdmin) async {
+    if (oldGlobalAdmin != null) {
+      if (oldGlobalAdmin.username != newGlobalAdmin.username) {
+        List<String> testList = await auth.fetchSignInMethodsForEmail(
+            email: newGlobalAdmin.username);
+        if (testList.contains('password'))
+          throw PlatformException(
+            code: 'ERROR_USED_USERNAME',
+          );
+      }
     }
-    if (globalAdmin.createdBy.isEmpty) {
-      globalAdmin.createdBy = {
+    if (newGlobalAdmin.id == null) {
+      newGlobalAdmin.id = provider.getUniqueId();
+    }
+    if (newGlobalAdmin.createdBy.isEmpty) {
+      newGlobalAdmin.createdBy = {
         'name': gaAdmin.name,
         'id': gaAdmin.id,
       };
+      //TODO POST LAUNCH note 2 bug 6 here too
       List<String> testList =
-          await auth.fetchSignInMethodsForEmail(email: globalAdmin.username);
+          await auth.fetchSignInMethodsForEmail(email: newGlobalAdmin.username);
       if (testList.contains('password'))
         throw PlatformException(
           code: 'ERROR_USED_USERNAME',
         );
     }
-    if (globalAdmin.state == null) {
-      globalAdmin.state = 'approved';
+    if (newGlobalAdmin.state == null) {
+      newGlobalAdmin.state = 'approved';
     }
-    await provider.createGlobalAdmin(globalAdmin);
+    await provider.createGlobalAdmin(newGlobalAdmin);
   }
 }

@@ -67,6 +67,14 @@ class AdminStudentsBloc {
 
   Future<void> modifieStudent(
       Student oldStudent, Student newStudent, StudyCenter chosenCenter) async {
+    if (oldStudent.username != newStudent.username) {
+      List<String> testList =
+          await auth.fetchSignInMethodsForEmail(email: newStudent.username);
+      if (testList.contains('password'))
+        throw PlatformException(
+          code: 'ERROR_USED_USERNAME',
+        );
+    }
     List<String> temp = List();
     for (String a in newStudent.halaqatLearningIn) {
       if (a != null) temp.add(a);

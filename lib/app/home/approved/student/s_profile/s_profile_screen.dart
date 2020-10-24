@@ -6,6 +6,7 @@ import 'package:alhalaqat/app/models/user.dart';
 import 'package:alhalaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/progress_dialog.dart';
+import 'package:alhalaqat/services/auth.dart';
 import 'package:alhalaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,11 +24,14 @@ class SProfileScreen extends StatefulWidget {
 
   static Widget create({@required BuildContext context}) {
     Database database = Provider.of<Database>(context, listen: false);
+    Auth auth = Provider.of<Auth>(context, listen: false);
+
     User user = Provider.of<User>(context, listen: false);
 
     SProfileProvider provider = SProfileProvider(database: database);
     SProfileBloc bloc = SProfileBloc(
       provider: provider,
+      auth: auth,
     );
     return SProfileScreen._(
       bloc: bloc,
@@ -67,7 +71,7 @@ class _SProfileScreenState extends State<SProfileScreen> {
       try {
         //   print(admin.centers);
         await pr.show();
-        await widget.bloc.updateProfile(modifiedStudent);
+        await widget.bloc.updateProfile(widget.user, modifiedStudent);
         await pr.hide();
 
         PlatformAlertDialog(

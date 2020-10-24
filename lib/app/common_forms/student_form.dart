@@ -94,14 +94,14 @@ class _NewStudentFormState extends State<StudentForm>
     dateOfBirth = student?.dateOfBirth ?? 1950;
     gender = student?.gender ?? 'ذكر';
     nationality = student?.nationality ?? 'LB';
-    address = student?.address;
-    phoneNumber = student?.phoneNumber;
+    address = student?.address ?? ' ';
+    phoneNumber = student?.phoneNumber ?? ' ';
     educationalLevel =
         KeyTranslate.educationalLevel.contains(student?.educationalLevel)
             ? student?.educationalLevel
             : 'جامعي';
-    etablissement = student?.etablissement;
-    note = student?.note;
+    etablissement = student?.etablissement ?? ' ';
+    note = student?.note ?? ' ';
     readableId = student?.readableId;
     username = student?.username;
     password = student?.password;
@@ -112,7 +112,7 @@ class _NewStudentFormState extends State<StudentForm>
     center = student?.center;
     halaqatLearningIn = student?.halaqatLearningIn ?? List<String>();
     isStudent = student?.isStudent;
-    parentPhoneNumber = student?.parentPhoneNumber;
+    parentPhoneNumber = student?.parentPhoneNumber ?? ' ';
     //
     usernameInitValue = username?.replaceAll('@al-halaqat.firebaseapp.com', '');
     halaqatLearningIn = sanitizeHalaqatLearningIn(halaqatLearningIn);
@@ -271,6 +271,7 @@ class _NewStudentFormState extends State<StudentForm>
                   maxLength: 30,
                   inputFormatter: FilteringTextInputFormatter.deny(''),
                   onChanged: (value) => address = value,
+                  validator: (value) => null,
                 ),
                 TextFormField2(
                   isEnabled: widget.isEnabled,
@@ -282,6 +283,7 @@ class _NewStudentFormState extends State<StudentForm>
                   inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
                   onChanged: (value) => phoneNumber = value,
                   isPhoneNumber: true,
+                  validator: (value) => null,
                 ),
                 TextFormField2(
                   isEnabled: widget.isEnabled,
@@ -293,6 +295,7 @@ class _NewStudentFormState extends State<StudentForm>
                   inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
                   onChanged: (value) => parentPhoneNumber = value,
                   isPhoneNumber: true,
+                  validator: (value) => null,
                 ),
                 DropdownButtonFormField2(
                   isEnabled: widget.isEnabled,
@@ -310,6 +313,7 @@ class _NewStudentFormState extends State<StudentForm>
                   maxLength: 10,
                   inputFormatter: FilteringTextInputFormatter.deny(''),
                   onChanged: (value) => etablissement = value,
+                  validator: (value) => null,
                 ),
                 if (widget.includeCenterIdInput) ...[
                   TextFormField2(

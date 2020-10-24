@@ -7,6 +7,7 @@ import 'package:alhalaqat/app/models/user.dart';
 import 'package:alhalaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/progress_dialog.dart';
+import 'package:alhalaqat/services/auth.dart';
 import 'package:alhalaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,10 +26,12 @@ class AdminProfileScreen extends StatefulWidget {
   static Widget create({@required BuildContext context}) {
     Database database = Provider.of<Database>(context, listen: false);
     User user = Provider.of<User>(context, listen: false);
+    Auth auth = Provider.of<Auth>(context, listen: false);
 
     AdminProfileProvider provider = AdminProfileProvider(database: database);
     AdminProfileBloc bloc = AdminProfileBloc(
       provider: provider,
+      auth: auth,
     );
     return AdminProfileScreen._(
       bloc: bloc,
@@ -68,7 +71,7 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
       try {
         //   print(admin.centers);
         await pr.show();
-        widget.bloc.updateProfile(modifiedAdmin);
+        widget.bloc.updateProfile(widget.user, modifiedAdmin);
         await Future.delayed(Duration(seconds: 1));
 
         await pr.hide();

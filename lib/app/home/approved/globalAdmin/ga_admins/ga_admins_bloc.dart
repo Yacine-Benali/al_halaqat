@@ -102,28 +102,38 @@ class GaAdminsBloc {
     await adminsListStreamController.close();
   }
 
-  Future<void> setAdmin(Admin admin) async {
+  Future<void> setAdmin(Admin oldAdmin, Admin newAdmin) async {
     // await auth.createUserWithEmailAndPassword(admin.username, admin.password);
+    if (oldAdmin != null) {
+      if (oldAdmin.username != newAdmin.username) {
+        List<String> testList =
+            await auth.fetchSignInMethodsForEmail(email: newAdmin.username);
+        if (testList.contains('password'))
+          throw PlatformException(
+            code: 'ERROR_USED_USERNAME',
+          );
+      }
+    }
 
-    if (admin.createdBy.isEmpty) {
-      admin.createdBy = {
+    if (newAdmin.createdBy.isEmpty) {
+      newAdmin.createdBy = {
         'name': gaAdmin.name,
         'id': gaAdmin.id,
       };
       List<String> testList =
-          await auth.fetchSignInMethodsForEmail(email: admin.username);
+          await auth.fetchSignInMethodsForEmail(email: newAdmin.username);
       if (testList.contains('password'))
         throw PlatformException(
           code: 'ERROR_USED_USERNAME',
         );
     }
-    if (admin.centers.isEmpty && admin.centerState.isEmpty) {
-      admin.centers.add('empty');
-      admin.centerState['empty'] = 'empty';
+    if (newAdmin.centers.isEmpty && newAdmin.centerState.isEmpty) {
+      newAdmin.centers.add('empty');
+      newAdmin.centerState['empty'] = 'empty';
     }
-    if (admin.id == null) {
-      admin.id = provider.getUniqueId();
+    if (newAdmin.id == null) {
+      newAdmin.id = provider.getUniqueId();
     }
-    await provider.createAdmin(admin);
+    await provider.createAdmin(newAdmin);
   }
 }

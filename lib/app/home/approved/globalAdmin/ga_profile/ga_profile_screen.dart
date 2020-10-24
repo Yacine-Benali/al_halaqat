@@ -7,6 +7,7 @@ import 'package:alhalaqat/common_widgets/firebase_exception_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/progress_dialog.dart';
+import 'package:alhalaqat/services/auth.dart';
 import 'package:alhalaqat/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -26,10 +27,11 @@ class GaProfileScreen extends StatefulWidget {
   static Widget create({@required BuildContext context}) {
     Database database = Provider.of<Database>(context, listen: false);
     User user = Provider.of<User>(context, listen: false);
-
+    Auth auth = Provider.of<Auth>(context, listen: false);
     GaProfileProvider provider = GaProfileProvider(database: database);
     GaProfileBloc bloc = GaProfileBloc(
       provider: provider,
+      auth: auth,
     );
     return GaProfileScreen._(
       bloc: bloc,
@@ -69,7 +71,7 @@ class _GaProfileScreenState extends State<GaProfileScreen> {
       try {
         //   print(admin.centers);
         await pr.show();
-        widget.bloc.updateProfile(modifiedGlobalAdmin);
+        widget.bloc.updateProfile(widget.globalAdmin, modifiedGlobalAdmin);
         await Future.delayed(Duration(seconds: 1));
         await pr.hide();
 

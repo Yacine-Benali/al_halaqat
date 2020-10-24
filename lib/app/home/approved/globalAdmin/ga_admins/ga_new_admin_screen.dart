@@ -61,7 +61,7 @@ class _GaNewAdminScreenState extends State<GaNewAdminScreen> {
       try {
         //   print(admin.centers);
         await pr.show();
-        await widget.bloc.setAdmin(admin);
+        await widget.bloc.setAdmin(widget.admin, admin);
         await pr.hide();
 
         PlatformAlertDialog(
