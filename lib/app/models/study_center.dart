@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
-//TODO implement enable messaging option
 class StudyCenter {
   StudyCenter({
     @required this.id,

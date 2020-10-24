@@ -124,7 +124,6 @@ class GaGlobalAdminsBloc {
         'name': gaAdmin.name,
         'id': gaAdmin.id,
       };
-      //TODO POST LAUNCH note 2 bug 6 here too
       List<String> testList =
           await auth.fetchSignInMethodsForEmail(email: newGlobalAdmin.username);
       if (testList.contains('password'))

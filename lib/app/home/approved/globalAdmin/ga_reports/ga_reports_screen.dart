@@ -13,7 +13,6 @@ class GaReportsScreen extends StatefulWidget {
 }
 
 class _GaReportsScreenState extends State<GaReportsScreen> {
-  //TODO make all the cards width fixed
   @override
   Widget build(BuildContext context) {
     return Scaffold(

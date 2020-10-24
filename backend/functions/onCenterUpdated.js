@@ -8,11 +8,12 @@ exports.onCenterUpdated = functions.firestore
         const centerId = context.params.centerId;
         const centerDocAfter = change.after.data();
         const isEnabled = centerDocAfter.isMessagingEnabled;
+
         try {
             const batch = db.batch();
-            const instancesList = await db.collection('conversations').where('centerId', '==', centerId).get();
+            const conversationsList = await db.collection('conversations').where('centerId', '==', centerId).get();
             // created conversations
-            instancesList.forEach((instanceDoc) => {
+            conversationsList.forEach((instanceDoc) => {
                 batch.update(instanceDoc.ref, { 'isEnabled': isEnabled });
             });
 

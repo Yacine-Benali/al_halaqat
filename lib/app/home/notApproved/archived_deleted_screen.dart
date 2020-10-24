@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-//TODO style this screen
 class ArchivedDeletedEmptyScreen extends StatefulWidget {
   const ArchivedDeletedEmptyScreen({Key key, @required this.user})
       : super(key: key);

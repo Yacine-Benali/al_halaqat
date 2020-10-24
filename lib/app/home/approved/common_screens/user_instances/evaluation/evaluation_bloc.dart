@@ -187,7 +187,7 @@ class EvaluationBloc {
               );
               summeryList.add(lastTemp);
             } else {
-              //TODO throw exception
+              //?
             }
           }
         } else {

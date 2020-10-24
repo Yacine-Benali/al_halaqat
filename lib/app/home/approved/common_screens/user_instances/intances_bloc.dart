@@ -142,7 +142,7 @@ class InstancesBloc {
   }
 
   Future<void> deleteInstance(Instance deletedInstance) async {
-    //TODO delete all the evaluation in these instance
+    //TODO @high delete all the evaluation in these instance
 
     List<Instance> temp = List();
     for (Instance existingInstance in instancesList) {
