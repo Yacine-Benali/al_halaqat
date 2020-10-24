@@ -154,7 +154,6 @@ class _GaGlobalAdminsScreenState extends State<GaGlobalAdminsScreen> {
           if (snapshot.hasData) {
             globalAdminsList = bloc.getFilteredGlobalAdminsList(
                 snapshot.data, chosenAdminsState);
-            print(globalAdminsList.length);
 
             if (globalAdminsList.isNotEmpty) {
               return _buildList();
@@ -183,7 +182,7 @@ class _GaGlobalAdminsScreenState extends State<GaGlobalAdminsScreen> {
       separatorBuilder: (context, index) => Divider(height: 0.5),
       itemBuilder: (context, index) {
         if (index == globalAdminsList.length) {
-          return _buildProgressIndicator();
+          return SizedBox(height: 75, child: _buildProgressIndicator());
         }
 
         return GaGlobalAdminsTileWidget(

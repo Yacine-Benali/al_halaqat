@@ -189,7 +189,10 @@ class _InstancesScreenState extends State<InstancesScreen> {
                 itemBuilder: (context, index) {
                   if (index == instances.length) {
                     // oups u have reached the top of messages list
-                    return _buildProgressIndicator();
+                    return SizedBox(
+                      height: 75,
+                      child: _buildProgressIndicator(),
+                    );
                   } else {
                     return InstanceTileWidget(
                       bloc: bloc,

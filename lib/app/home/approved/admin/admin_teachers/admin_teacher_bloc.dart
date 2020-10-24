@@ -141,7 +141,6 @@ class AdminTeacherBloc {
     String chosenTeacherState,
   ) {
     List<Teacher> filteredTeacherList = List();
-
     for (Teacher teacher in data) {
       if (teacher.centers.contains(chosenCenter.id) &&
           teacher.centerState[chosenCenter.id] == chosenTeacherState) {

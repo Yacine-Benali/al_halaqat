@@ -186,23 +186,26 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
 
   Widget _buildList(List<Halaqa> halaqatList, List<Teacher> teachersLis) {
     return ListView.separated(
-      itemCount: halaqatList.length + 2,
+      itemCount: halaqatList.length,
       separatorBuilder: (context, index) => Divider(height: 0.5),
       itemBuilder: (context, index) {
-        if (index == 0 || index == halaqatList.length + 1) {
-          return Container();
-        }
-        Halaqa halaqa = halaqatList[index - 1];
+        Halaqa halaqa = halaqatList[index];
         Teacher teacher = bloc.getTeacherOfHalaqa(halaqa, teachersLis);
-
-        return AdminHalqaTileWidget(
-          teacher: teacher,
-          bloc: bloc,
-          halaqa: halaqa,
-          scaffoldKey: _scaffoldKey,
-          chosenHalaqaState: chosenHalaqaState,
-          chosenCenter: chosenCenter,
-          halaqatList: halaqatList,
+        return Column(
+          children: [
+            AdminHalqaTileWidget(
+              teacher: teacher,
+              bloc: bloc,
+              halaqa: halaqa,
+              scaffoldKey: _scaffoldKey,
+              chosenHalaqaState: chosenHalaqaState,
+              chosenCenter: chosenCenter,
+              halaqatList: halaqatList,
+            ),
+            if (index == halaqatList.length - 1) ...[
+              SizedBox(height: 75),
+            ],
+          ],
         );
       },
     );

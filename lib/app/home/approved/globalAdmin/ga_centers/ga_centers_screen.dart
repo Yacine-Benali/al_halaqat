@@ -124,17 +124,21 @@ class _GaCentersScreenState extends State<GaCentersScreen> {
 
   Widget _buildList() {
     return ListView.separated(
-      itemCount: centersList.length + 2,
+      itemCount: centersList.length,
       separatorBuilder: (context, index) => Divider(height: 0.5),
       itemBuilder: (context, index) {
-        if (index == 0 || index == centersList.length + 1) {
-          return Container();
-        }
-        return GaCentersTileWidget(
-          centersList: centersList,
-          scaffoldKey: _scaffoldKey,
-          bloc: bloc,
-          center: centersList[index - 1],
+        return Column(
+          children: [
+            GaCentersTileWidget(
+              centersList: centersList,
+              scaffoldKey: _scaffoldKey,
+              bloc: bloc,
+              center: centersList[index],
+            ),
+            if (index == centersList.length - 1) ...[
+              SizedBox(height: 75),
+            ],
+          ],
         );
       },
     );

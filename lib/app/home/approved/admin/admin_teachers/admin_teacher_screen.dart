@@ -216,6 +216,7 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             teacherHalaqaList = snapshot.data;
+
             List<Teacher> teachersList = bloc.getFilteredTeachersList(
               snapshot.data.usersList,
               chosenCenter,
@@ -267,16 +268,13 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
   ) {
     if (teachersList.isNotEmpty) {
       return ListView.separated(
-        itemCount: teachersList.length + 2,
+        itemCount: teachersList.length,
         separatorBuilder: (context, index) => Divider(height: 0.5),
         itemBuilder: (context, index) {
-          if (index == 0 || index == teachersList.length + 1) {
-            return Container();
-          }
           List<Halaqa> currentHalaqaList = List();
           currentHalaqaList.addAll(availableHalaqatList);
 
-          Teacher teacher = teachersList[index - 1];
+          Teacher teacher = teachersList[index];
           if (teacher.halaqatTeachingIn.isNotEmpty) {
             for (String currentHalaqaId in teacher.halaqatTeachingIn) {
               for (Halaqa halaqa in halaqatList) {
@@ -284,13 +282,20 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
               }
             }
           }
-          return AdminTeacherTileWidget(
-            halaqatList: currentHalaqaList,
-            teacher: teacher,
-            chosenTeacherState: chosenTeacherState,
-            bloc: bloc,
-            scaffoldKey: _scaffoldKey,
-            chosenCenter: chosenCenter,
+          return Column(
+            children: [
+              AdminTeacherTileWidget(
+                halaqatList: currentHalaqaList,
+                teacher: teacher,
+                chosenTeacherState: chosenTeacherState,
+                bloc: bloc,
+                scaffoldKey: _scaffoldKey,
+                chosenCenter: chosenCenter,
+              ),
+              if (index == teachersList.length - 1) ...[
+                SizedBox(height: 75),
+              ],
+            ],
           );
         },
       );

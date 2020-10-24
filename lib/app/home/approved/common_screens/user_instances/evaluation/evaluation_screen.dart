@@ -115,6 +115,9 @@ class _AttendanceScreenState extends State<EvaluationScreen> {
                           ),
                         ),
                         Divider(height: 1),
+                        if (index == evaluationsList.length - 1) ...[
+                          SizedBox(height: 75),
+                        ],
                       ],
                     ),
                   ),

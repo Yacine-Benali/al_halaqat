@@ -180,7 +180,10 @@ class _GaAdminsScreenState extends State<GaAdminsScreen> {
       separatorBuilder: (context, index) => Divider(height: 0.5),
       itemBuilder: (context, index) {
         if (index == adminsList.length) {
-          return _buildProgressIndicator();
+          return SizedBox(
+            height: 75,
+            child: _buildProgressIndicator(),
+          );
         }
 
         return GaAdminsTileWidget(
