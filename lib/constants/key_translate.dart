@@ -369,6 +369,7 @@ class KeyTranslate {
   };
 
   static const Map<String, String> logObjectNature = {
+    '': '',
     'maleStudent': 'الطالب',
     'femaleStudent': 'الطالبة',
     'maleTeacher': 'المعلم',
@@ -381,5 +382,6 @@ class KeyTranslate {
     'add': 'أضاف',
     'edit': 'عدل',
     'delete': 'حذف',
+    'join-existing': 'يود الإنضمام'
   };
 }
