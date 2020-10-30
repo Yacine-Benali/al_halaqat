@@ -145,15 +145,15 @@ class _InstancesScreenState extends State<InstancesScreen> {
       } else {
         print('user selected date $instanceDate');
       }
-      TimeOfDay instanceTime =
-          await _selectTime(context, TimeOfDay.fromDateTime(DateTime.now()));
+      // TimeOfDay instanceTime =
+      //     await _selectTime(context, TimeOfDay.fromDateTime(DateTime.now()));
 
-      if (instanceTime == null) {
-        print('user canceled time ');
-        return;
-      } else {
-        print('user selected time $instanceTime');
-      }
+      // if (instanceTime == null) {
+      //   print('user canceled time ');
+      //   return;
+      // } else {
+      //   print('user selected time $instanceTime');
+      // }
       try {
         await pr.show();
         bloc.createNewInstance(instanceDate);
