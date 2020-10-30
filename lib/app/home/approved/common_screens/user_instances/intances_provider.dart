@@ -19,6 +19,17 @@ class InstancesProvider {
             .limit(10),
       );
 
+  Stream<List<Instance>> fetchAllInstances(
+    String halaqaId,
+  ) =>
+      database.collectionStream(
+        path: APIPath.instancesCollection(),
+        builder: (data, documentId) => Instance.fromMap(data, documentId),
+        queryBuilder: (query) => query
+            .where('halaqaId', isEqualTo: halaqaId)
+            .orderBy('createdAt', descending: true),
+      );
+
   Future<List<Instance>> fetchMoreInstances(
     String halaqaId,
     Instance instance,

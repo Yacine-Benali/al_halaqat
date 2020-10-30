@@ -71,8 +71,9 @@ class _InstancesScreenState extends State<InstancesScreen> {
   @override
   void initState() {
     instancesStream = bloc.instancesStream;
-    isLoadingNextInstances = false;
     bloc.fetchFirstInstances();
+    //instancesStream = bloc.fetchAllInstance();
+    isLoadingNextInstances = false;
 
     pr = ProgressDialog(
       context,
@@ -109,17 +110,53 @@ class _InstancesScreenState extends State<InstancesScreen> {
     super.initState();
   }
 
-  void createInstance() async {
+  Future<DateTime> _selectDate(
+      BuildContext context, DateTime currentDate) async {
+    final pickedDate = await showDatePicker(
+      context: context,
+      initialDate: currentDate,
+      firstDate: DateTime(2019, 1),
+      lastDate: DateTime(2100),
+    );
+    return pickedDate;
+  }
+
+  Future<TimeOfDay> _selectTime(
+      BuildContext context, TimeOfDay cuurentTime) async {
+    final pickedTime =
+        await showTimePicker(context: context, initialTime: cuurentTime);
+    return pickedTime;
+  }
+
+  void createInstance(BuildContext context) async {
     final bool didRequestSignOut = await PlatformAlertDialog(
       title: 'هل تريد إنشاء جلسة الآن',
       content: 'هل أنت متأكد ؟',
       cancelActionText: 'إلغاء',
       defaultActionText: 'حسنا',
     ).show(context);
+
     if (didRequestSignOut == true) {
+      // get the date
+      DateTime instanceDate = await _selectDate(context, DateTime.now());
+      if (instanceDate == null) {
+        print('user canceled date');
+        return;
+      } else {
+        print('user selected date $instanceDate');
+      }
+      TimeOfDay instanceTime =
+          await _selectTime(context, TimeOfDay.fromDateTime(DateTime.now()));
+
+      if (instanceTime == null) {
+        print('user canceled time ');
+        return;
+      } else {
+        print('user selected time $instanceTime');
+      }
       try {
         await pr.show();
-        bloc.createNewInstance();
+        bloc.createNewInstance(instanceDate);
         await Future.delayed(Duration(seconds: 1));
         await pr.hide();
 
@@ -174,7 +211,7 @@ class _InstancesScreenState extends State<InstancesScreen> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => createInstance(),
+        onPressed: () => createInstance(context),
         tooltip: 'add',
         child: Icon(Icons.add),
       ),

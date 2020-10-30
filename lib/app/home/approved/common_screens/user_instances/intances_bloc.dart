@@ -9,6 +9,7 @@ import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:alhalaqat/app/models/teacher.dart';
 import 'package:alhalaqat/app/models/teacher_summery.dart';
 import 'package:alhalaqat/app/models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -33,6 +34,9 @@ class InstancesBloc {
       BehaviorSubject<List<Instance>>();
 
   Stream<List<Instance>> get instancesStream => instancessListController.stream;
+
+  // Stream<List<Instance>> fetchAllInstance() =>
+  //     provider.fetchAllInstances(halaqa.id);
 
   void fetchFirstInstances() {
     Stream<List<Instance>> latestInstancesStream =
@@ -107,13 +111,13 @@ class InstancesBloc {
       provider.setInstance(instance);
   }
 
-  Future<void> createNewInstance() async {
+  Future<void> createNewInstance(DateTime instanceDate) async {
     Instance instance = Instance(
       id: provider.getUniqueId(),
       halaqaName: this.halaqa.name,
       halaqaId: this.halaqa.id,
       centerId: this.halaqa.centerId,
-      createdAt: null,
+      createdAt: Timestamp.fromDate(instanceDate),
       note: null,
       createdBy: {
         'name': user.name,
