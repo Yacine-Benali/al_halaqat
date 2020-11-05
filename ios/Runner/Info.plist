@@ -27,7 +27,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.975934860489-d7v82kuo3euehocmnaoappua3mub70of</string>
+				<string>com.googleusercontent.apps.975934860489-jr1eubku4se0thdrgep7ks8700heo2ks</string>
 				<string>fb572399560112124</string>
 			</array>
 		</dict>
@@ -78,6 +78,11 @@
 	<string>this needs this permission to detect motion</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>this needs this permission to recognize your voice</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
