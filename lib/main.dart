@@ -14,8 +14,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final appleSignInAvailable = await AppleSignInAvailable.check();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  //TODO @high for ios force portrait mode by
-  // https://stackoverflow.com/questions/49418332/flutter-how-to-prevent-device-orientation-changes-and-force-portrait
   await Firebase.initializeApp();
   runApp(MyApp(appleSignInAvailable: appleSignInAvailable));
 }
