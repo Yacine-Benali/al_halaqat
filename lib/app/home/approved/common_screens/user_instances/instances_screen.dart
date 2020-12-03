@@ -210,7 +210,7 @@ class _InstancesScreenState extends State<InstancesScreen> {
     );
   }
 
-  void sorry(BuildContext context) async {
+  void teacherDirectAdd(BuildContext context) async {
     User teacher = Provider.of<User>(context, listen: false);
     Database database = Provider.of<Database>(context, listen: false);
     Auth auth = Provider.of<Auth>(context, listen: false);
@@ -258,31 +258,31 @@ class _InstancesScreenState extends State<InstancesScreen> {
             Padding(
               padding: EdgeInsets.only(left: 20.0),
               child: InkWell(
-                onTap: () => sorry(context),
+                onTap: () => teacherDirectAdd(context),
                 child: Icon(
                   Icons.add,
                   size: 26.0,
                 ),
               ),
             ),
-          ],
-          Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: InkWell(
-              onTap: () => Navigator.of(context, rootNavigator: false).push(
-                MaterialPageRoute(
-                  builder: (context) => TeacherStudentsScreen.create(
-                    context: context,
-                    centers: [bloc.chosenCenter],
+            Padding(
+              padding: EdgeInsets.only(left: 20.0),
+              child: InkWell(
+                onTap: () => Navigator.of(context, rootNavigator: false).push(
+                  MaterialPageRoute(
+                    builder: (context) => TeacherStudentsScreen.create(
+                      context: context,
+                      centers: [bloc.chosenCenter],
+                    ),
                   ),
                 ),
-              ),
-              child: Icon(
-                Icons.school,
-                size: 26.0,
+                child: Icon(
+                  Icons.school,
+                  size: 26.0,
+                ),
               ),
             ),
-          ),
+          ],
         ],
       ),
       floatingActionButton: FloatingActionButton(
