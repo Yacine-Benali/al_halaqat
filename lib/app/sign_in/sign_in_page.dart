@@ -6,7 +6,8 @@ import 'package:alhalaqat/constants/keys.dart';
 import 'package:alhalaqat/constants/strings.dart';
 import 'package:alhalaqat/services/apple_sign_in_available.dart';
 import 'package:alhalaqat/services/auth.dart';
-import 'package:apple_sign_in/apple_sign_in_button.dart';
+import 'package:apple_sign_in/apple_sign_in_button.dart'
+    as apple_sign_in_button;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -138,9 +139,9 @@ class SignInPage extends StatelessWidget {
             ),
             SizedBox(height: 32.0),
             if (appleSignInAvailable.isAvailable) ...[
-              AppleSignInButton(
-                style: ButtonStyle.black,
-                type: ButtonType.signIn,
+              apple_sign_in_button.AppleSignInButton(
+                style: apple_sign_in_button.ButtonStyle.black,
+                type: apple_sign_in_button.ButtonType.signIn,
                 onPressed: isLoading ? null : () => _signInWithApple(context),
               ),
               SizedBox(height: 8),

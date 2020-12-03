@@ -84,7 +84,6 @@ class FirebaseMessagingService {
       String oldToken = storageService.getValue('pushToken');
       //oldToken != newToken
       if (true) {
-        print('newtoken updating...');
         database.setData(
           path: APIPath.userDocument(uid),
           data: {'pushToken': newToken},

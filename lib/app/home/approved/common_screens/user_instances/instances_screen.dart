@@ -1,21 +1,29 @@
+import 'package:alhalaqat/app/conversation_helper/conversation_helper_bloc.dart';
 import 'package:alhalaqat/app/home/approved/common_screens/user_instances/instance_tile_widget.dart';
 import 'package:alhalaqat/app/home/approved/common_screens/user_instances/intances_bloc.dart';
 import 'package:alhalaqat/app/home/approved/common_screens/user_instances/intances_provider.dart';
+import 'package:alhalaqat/app/home/approved/teacher/teacher_students/teacher_students_bloc.dart';
+import 'package:alhalaqat/app/home/approved/teacher/teacher_students/teacher_students_provider.dart';
+import 'package:alhalaqat/app/home/approved/teacher/teacher_students/teacher_students_screen.dart';
 import 'package:alhalaqat/app/logs_helper/logs_helper_bloc.dart';
 import 'package:alhalaqat/app/models/halaqa.dart';
 import 'package:alhalaqat/app/models/instance.dart';
 import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/models/teacher.dart';
 import 'package:alhalaqat/app/models/user.dart';
 import 'package:alhalaqat/common_widgets/empty_content.dart';
 import 'package:alhalaqat/common_widgets/firebase_exception_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/progress_dialog.dart';
+import 'package:alhalaqat/services/auth.dart';
 import 'package:alhalaqat/services/database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
+import 'new_student_screen.dart';
 
 class InstancesScreen extends StatefulWidget {
   const InstancesScreen._({
@@ -202,6 +210,42 @@ class _InstancesScreenState extends State<InstancesScreen> {
     );
   }
 
+  void sorry(BuildContext context) async {
+    User teacher = Provider.of<User>(context, listen: false);
+    Database database = Provider.of<Database>(context, listen: false);
+    Auth auth = Provider.of<Auth>(context, listen: false);
+
+    TeacherStudentsProvider provider =
+        TeacherStudentsProvider(database: database);
+
+    ConversationHelpeBloc conversationHelper =
+        Provider.of<ConversationHelpeBloc>(context, listen: false);
+    LogsHelperBloc logsHelperBloc =
+        Provider.of<LogsHelperBloc>(context, listen: false);
+
+    TeacherStudentsBloc bloc2 = TeacherStudentsBloc(
+      provider: provider,
+      teacher: teacher,
+      auth: auth,
+      conversationHelper: conversationHelper,
+      logsHelperBloc: logsHelperBloc,
+    );
+
+    await Navigator.of(context, rootNavigator: false).push(
+      MaterialPageRoute(
+        builder: (context) => NewStudentScreen(
+          bloc: bloc2,
+          chosenCenter: bloc.chosenCenter,
+          halaqatList: [bloc.halaqa],
+          isRemovable: null,
+          preset: bloc.halaqa.id,
+          student: null,
+        ),
+        fullscreenDialog: true,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -209,6 +253,37 @@ class _InstancesScreenState extends State<InstancesScreen> {
       appBar: AppBar(
         title: Text('الجلسات'),
         centerTitle: true,
+        actions: [
+          if (bloc.user is Teacher) ...[
+            Padding(
+              padding: EdgeInsets.only(left: 20.0),
+              child: InkWell(
+                onTap: () => sorry(context),
+                child: Icon(
+                  Icons.add,
+                  size: 26.0,
+                ),
+              ),
+            ),
+          ],
+          Padding(
+            padding: EdgeInsets.only(left: 20.0),
+            child: InkWell(
+              onTap: () => Navigator.of(context, rootNavigator: false).push(
+                MaterialPageRoute(
+                  builder: (context) => TeacherStudentsScreen.create(
+                    context: context,
+                    centers: [bloc.chosenCenter],
+                  ),
+                ),
+              ),
+              child: Icon(
+                Icons.school,
+                size: 26.0,
+              ),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => createInstance(context),

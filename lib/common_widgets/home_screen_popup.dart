@@ -20,7 +20,7 @@ class HomeScreenPopUp extends StatelessWidget {
           if (value == 1)
             PlatformAlertDialog(
               content:
-                  'هذا البرنامج صدقة عن روح المرحومة وفاء خليل صديق نرجو  لها الدعاء',
+                  'هذا البرنامج صدقة عن روح المرحومة وفاء خليل صديق نرجو  لها الدعاء\n الإصدار 1.0.3 ',
               defaultActionText: 'حسنا',
               title: 'حول التطبيق',
             ).show(context);

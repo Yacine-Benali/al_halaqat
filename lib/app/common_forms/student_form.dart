@@ -29,9 +29,11 @@ class StudentForm extends StatefulWidget {
     this.halaqatList,
     @required this.showUserHalaqa,
     @required this.hidePassword,
+    this.presetHalaqa,
   }) : super(key: key);
   final GlobalKey<FormState> studentFormKey;
   final StudyCenter center;
+  final String presetHalaqa;
 
   final ValueChanged<Student> onSaved;
   final Student student;
@@ -117,6 +119,9 @@ class _NewStudentFormState extends State<StudentForm>
     usernameInitValue = username?.replaceAll('@al-halaqat.firebaseapp.com', '');
     halaqatLearningIn = sanitizeHalaqatLearningIn(halaqatLearningIn);
 
+    if (widget.presetHalaqa != null) {
+      halaqatLearningIn.add(widget.presetHalaqa);
+    }
     _save();
 
     super.initState();

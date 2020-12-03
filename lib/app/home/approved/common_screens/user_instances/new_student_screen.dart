@@ -14,14 +14,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-class TeacherNewStudentScreen extends StatefulWidget {
-  const TeacherNewStudentScreen({
+class NewStudentScreen extends StatefulWidget {
+  const NewStudentScreen({
     Key key,
     @required this.bloc,
     @required this.student,
     @required this.chosenCenter,
     @required this.halaqatList,
     @required this.isRemovable,
+    @required this.preset,
   }) : super(key: key);
 
   final TeacherStudentsBloc bloc;
@@ -29,12 +30,13 @@ class TeacherNewStudentScreen extends StatefulWidget {
   final StudyCenter chosenCenter;
   final List<Halaqa> halaqatList;
   final bool isRemovable;
+  final String preset;
 
   @override
   _AdminNewStudentScreenState createState() => _AdminNewStudentScreenState();
 }
 
-class _AdminNewStudentScreenState extends State<TeacherNewStudentScreen> {
+class _AdminNewStudentScreenState extends State<NewStudentScreen> {
   final GlobalKey<FormState> studentFormKey = GlobalKey<FormState>();
   Student student;
   ProgressDialog pr;
@@ -145,6 +147,7 @@ class _AdminNewStudentScreenState extends State<TeacherNewStudentScreen> {
         isEnabled: true,
         isRemovable: widget.chosenCenter.canTeacherRemoveStudentsFromHalaqa,
         hidePassword: hidePassword,
+        presetHalaqa: widget.preset,
       ),
     );
   }

@@ -10,15 +10,40 @@ exports.onMessageCreated = functions.firestore
 
         const doc = snap.data()
         const receiverId = doc.receiverId
-        const user = await db.collection('users').doc(receiverId).get();
-        if (user.data().pushToken != null) {
+        const receiverUser = await db.collection('users').doc(receiverId).get();
+        const senderUser = await db.collection('users').doc(doc.receiverId).get();
+        const conversationDoc = await db.collection('conversations').doc(context.params.conversationId).get();
+        const conversationDocdata = conversationDoc.data();
+        if (receiverUser.data().pushToken != null) {
 
             var payload = {
                 notification: {
                     title: 'وصلتك رسالة جديدة',
                     body: ' ',
+                    
                 },
-                token: user.data().pushToken,
+                data: {
+                    click_action: "FLUTTER_NOTIFICATION_CLICK",
+                    centerId: conversationDocdata.centerId,
+                    isEnabled: true,
+                    latestMessage: {
+                        content: conversationDocdata.latestMessage.content,
+                        receiverId: conversationDocdata.latestMessage.receiverId,
+                        seen: conversationDocdata.latestMessage.seen,
+                        senderId: conversationDocdata.latestMessage.senderId,
+                        timestamp: conversationDocdata.latestMessage.timestamp,
+                    },
+                    student: {
+                        id: conversationDocdata.student.id,
+                        name: conversationDocdata.student.name,
+                    },
+
+                    teacher: {
+                        id: conversationDocdata.teacher.name,
+                        name: conversationDocdata.teacher.id,
+                    },
+                },
+                token: receiverUser.data().pushToken,
             }
             return admin.messaging().send(payload);
         } else

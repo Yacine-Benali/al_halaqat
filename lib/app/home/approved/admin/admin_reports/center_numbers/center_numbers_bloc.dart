@@ -56,9 +56,7 @@ class CenterNumbersBloc {
   }
 
   List<String> getColumnTitle() {
-    List<String> columnTitleList = List();
-
-    return columnTitleList;
+    return ['المركز', 'المعلمين', 'الطلاب', 'الحلقات'];
   }
 
   Future<String> getReportasCsv(
@@ -66,26 +64,22 @@ class CenterNumbersBloc {
     var excel = Excel.createExcel();
     Sheet sheetObject = excel['Sheet1'];
 
+    print(centerNumbers.activeTeachers.toString());
     List<String> row = List();
     row.addAll(getColumnTitle());
     sheetObject.insertRowIterables(row, 0);
     row.clear();
     row.add(centerNumbers.centerName);
-    row.add(
-      showArchived
-          ? centerNumbers.activeTeachers.toString()
-          : centerNumbers.archivedTeachers.toString(),
-    );
-    row.add(
-      showArchived
-          ? centerNumbers.activeStudents.toString()
-          : centerNumbers.archivedStudents.toString(),
-    );
-    row.add(
-      showArchived
-          ? centerNumbers.activeHalaqat.toString()
-          : centerNumbers.archivedStudents.toString(),
-    );
+    if (showArchived) {
+      row.add(centerNumbers.archivedTeachers.toString());
+      row.add(centerNumbers.archivedStudents.toString());
+      row.add(centerNumbers.archivedStudents.toString());
+    } else {
+      row.add(centerNumbers.activeTeachers.toString());
+      row.add(centerNumbers.activeStudents.toString());
+      row.add(centerNumbers.activeHalaqat.toString());
+    }
+
     sheetObject.appendRow(row);
 
     LocalStorageService storage = LocalStorageService();
