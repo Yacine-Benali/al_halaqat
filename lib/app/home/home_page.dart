@@ -70,7 +70,9 @@ class _BaseScreenState extends State<HomePage> {
                 initialRoute: '/',
                 onGenerateRoute: (routeSettings) {
                   return MaterialPageRoute(
-                    builder: (context) => BaseScreen(),
+                    builder: (context) => BaseScreen(
+                      navigatorKey: navigatorKey,
+                    ),
                   );
                 },
               ),

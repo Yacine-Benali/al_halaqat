@@ -19,6 +19,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BaseScreen extends StatefulWidget {
+  const BaseScreen({Key key, @required this.navigatorKey}) : super(key: key);
+  final GlobalKey<NavigatorState> navigatorKey;
+
   @override
   _BaseScreenState createState() => _BaseScreenState();
 }
@@ -30,7 +33,10 @@ class _BaseScreenState extends State<BaseScreen> {
 
     final Database database = Provider.of<Database>(context, listen: false);
     final AuthUser user = Provider.of<AuthUser>(context, listen: false);
-    FirebaseMessagingService messagingService = FirebaseMessagingService();
+    FirebaseMessagingService messagingService = FirebaseMessagingService(
+      navigatorKey: widget.navigatorKey,
+      context: context,
+    );
     messagingService.configFirebaseNotification(user.uid, database);
   }
 
@@ -102,8 +108,14 @@ class _BaseScreenState extends State<BaseScreen> {
     }
     if (snapshot.connectionState == ConnectionState.active &&
         snapshot.data == null) {
-      return JoinUsScreen();
-      //return AdminCenterForm();
+      return FutureBuilder<Object>(
+          future: Future.delayed(Duration(seconds: 1)),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done)
+              return JoinUsScreen();
+
+            return Scaffold(body: Center(child: CircularProgressIndicator()));
+          });
     }
     return Scaffold(body: Center(child: CircularProgressIndicator()));
   }

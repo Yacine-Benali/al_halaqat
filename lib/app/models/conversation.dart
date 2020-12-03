@@ -51,6 +51,43 @@ class Conversation {
     }
   }
 
+  factory Conversation.fromNotificationData(
+    dynamic notification,
+  ) {
+    dynamic data = notification['data'];
+    if (data == null) {
+      return null;
+    } else {
+      final String groupChatId = data['groupeChatId'];
+      Message latestMessage = Message(
+        content: data['latestMessagecontent'],
+        id: data['latestMessagesenderId'],
+        receiverId: data['latestMessagereceiverId'],
+        seen: (data['latestMessageseen'] == 'true'),
+        senderId: data['latestMessagesenderId'],
+        timestamp: null,
+      );
+
+      //
+      ConversationUser teacher =
+          ConversationUser(id: data['teacherId'], name: data['teacherName']);
+      ConversationUser student =
+          ConversationUser(id: data['studentId'], name: data['studentName']);
+      //
+      bool isEnabled = (data['isEnabled'] == 'true');
+      String centerId = data['centerId'];
+
+      return Conversation(
+        groupChatId: groupChatId,
+        latestMessage: latestMessage,
+        student: student,
+        teacher: teacher,
+        isEnabled: isEnabled,
+        centerId: centerId,
+      );
+    }
+  }
+
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'latestMessage': latestMessage.toMap(),

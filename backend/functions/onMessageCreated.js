@@ -20,28 +20,22 @@ exports.onMessageCreated = functions.firestore
                 notification: {
                     title: 'وصلتك رسالة جديدة',
                     body: ' ',
-                    
+
                 },
                 data: {
-                    click_action: "FLUTTER_NOTIFICATION_CLICK",
-                    centerId: conversationDocdata.centerId,
-                    isEnabled: true,
-                    latestMessage: {
-                        content: conversationDocdata.latestMessage.content,
-                        receiverId: conversationDocdata.latestMessage.receiverId,
-                        seen: conversationDocdata.latestMessage.seen,
-                        senderId: conversationDocdata.latestMessage.senderId,
-                        timestamp: conversationDocdata.latestMessage.timestamp,
-                    },
-                    student: {
-                        id: conversationDocdata.student.id,
-                        name: conversationDocdata.student.name,
-                    },
-
-                    teacher: {
-                        id: conversationDocdata.teacher.name,
-                        name: conversationDocdata.teacher.id,
-                    },
+                    "click_action": "FLUTTER_NOTIFICATION_CLICK",
+                    "centerId": `${conversationDocdata.centerId}`,
+                    "isEnabled": `${conversationDocdata.isEnabled}`,
+                    "groupeChatId":`${conversationDoc.id}`,
+                    "latestMessagecontent": `${conversationDocdata.latestMessage.content}`,
+                    "latestMessagereceiverId": `${conversationDocdata.latestMessage.receiverId}`,
+                    "latestMessageseen": `${conversationDocdata.latestMessage.seen}`,
+                    "latestMessagesenderId": `${conversationDocdata.latestMessage.senderId}`,
+                    "latestMessagetimestamp": `${conversationDocdata.latestMessage.timestamp}`,
+                    "studentId": `${conversationDocdata.student.id}`,
+                    "studentName": `${conversationDocdata.student.name}`,
+                    "teacherId": `${conversationDocdata.teacher.name}`,
+                    "teacherName": `${conversationDocdata.teacher.id}`,
                 },
                 token: receiverUser.data().pushToken,
             }
