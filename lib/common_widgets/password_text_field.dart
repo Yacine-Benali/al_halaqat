@@ -54,7 +54,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'كلمة المرور ية',
+            'كلمة المرور ',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
           ),
           SizedBox(

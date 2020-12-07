@@ -41,7 +41,7 @@ exports.onUserUpdated = functions.firestore
             if (isStudent && userDocAfter.state == 'deleted') {
                 console.log('student deleted');
                 const admins = await db.collection('users').where('centers', 'array-contains', userDocAfter.center).
-                where('isAdmin', '==', true).get();
+                    where('isAdmin', '==', true).get();
 
                 if (admins.docs.length > 0) {
                     admins.forEach(async (adminDoc) => {
@@ -68,15 +68,18 @@ exports.onUserUpdated = functions.firestore
                 });
                 //name in report card
                 const reportCardQuerySnapshot = await db.collection('reportCards').where('studentId', '==', userId).get();
-                for (var i in reportCardQuerySnapshot.docs) {
-                    const reportcardDoc = reportCardQuerySnapshot.docs[i]
-                    batch.update(reportcardDoc.ref, { 'studentName': userDocAfter.name });
-                    // evaluations
-                    const evaluationsQuerySnapshot = await db.collection(`reportCards/${reportcardDoc.id}/evaluations/`).get();
-                    evaluationsQuerySnapshot.forEach((evalDoc) => {
-                        batch.update(evalDoc.ref, { 'studentName': userDocAfter.name });
-                    });
+                if (reportCardQuerySnapshot.length != 0) {
+                    for (var i in reportCardQuerySnapshot.docs) {
+                        const reportcardDoc = reportCardQuerySnapshot.docs[i]
+                        batch.update(reportcardDoc.ref, { 'studentName': userDocAfter.name });
+                        // evaluations
+                        const evaluationsQuerySnapshot = await db.collection(`reportCards/${reportcardDoc.id}/evaluations/`).get();
+                        evaluationsQuerySnapshot.forEach((evalDoc) => {
+                            batch.update(evalDoc.ref, { 'studentName': userDocAfter.name });
+                        });
+                    }
                 }
+
                 return batch.commit();
             } else if (userDocBefore.name != userDocAfter.name) {
                 //ga or admin or teacher name change
