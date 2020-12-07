@@ -46,6 +46,7 @@ class _StudentHalaqaInfoScreenState extends State<StudentHalaqaInfoScreen> {
   }
 
   List<Widget> getTabBarView() {
+    print('tab bar');
     List<Widget> tabBarViewList = List(titles.length);
     tabBarViewList[0] = StudentHalaqaEvaluationScreen(
       bloc: bloc,
@@ -82,12 +83,7 @@ class _StudentHalaqaInfoScreenState extends State<StudentHalaqaInfoScreen> {
         ),
         body: Builder(
           builder: (context) {
-            if (widget.studentProfile.evaluationsList.isNotEmpty &&
-                widget.studentProfile.instancesList.isNotEmpty) {
-              return TabBarView(children: getTabBarView());
-            } else {
-              return TabBarView(children: buildErrorTabBarView());
-            }
+            return TabBarView(children: getTabBarView());
           },
         ),
       ),

@@ -31,6 +31,7 @@ class _StudentHalaqaAttendanceScreenState
   initState() {
     studentAttendaceList = bloc.getStudentAttendance(widget.instancesList);
     attendanceState = KeyTranslate.attendanceState.keys.toList();
+    print(widget.instancesList.length);
     super.initState();
   }
 
