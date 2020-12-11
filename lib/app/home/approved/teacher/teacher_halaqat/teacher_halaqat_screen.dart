@@ -140,6 +140,8 @@ class _TeacherHalaqatScreenState extends State<TeacherHalaqatScreen> {
               snapshot.data,
               chosenCenter,
             );
+            halaqatList
+                .sort((a, b) => a.name.toString().compareTo(b.name.toString()));
             if (halaqatList.isNotEmpty) {
               return _buildList(halaqatList);
             } else {

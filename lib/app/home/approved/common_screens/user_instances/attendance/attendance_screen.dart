@@ -23,6 +23,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
 class AttendanceScreen extends StatefulWidget {
@@ -441,10 +442,17 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     return tableRowList;
   }
 
+  String getTitle() {
+    DateTime createdAt2 =
+        bloc.instance.createdAt?.toDate()?.toLocal() ?? DateTime.now();
+    String dateString = intl.DateFormat.yMMMEd('ar').format(createdAt2);
+    return dateString;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Center(child: Text('تسجيل الحضور')), actions: [
+        appBar: AppBar(title: Center(child: Text(getTitle())), actions: [
           Padding(
               padding: EdgeInsets.only(left: 20.0),
               child: InkWell(

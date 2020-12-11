@@ -164,6 +164,8 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
               chosenHalaqaState,
               chosenCenter,
             );
+            halaqatList
+                .sort((a, b) => a.name.toString().compareTo(b.name.toString()));
             if (halaqatList.isNotEmpty) {
               return _buildList(halaqatList, teachersList);
             } else {

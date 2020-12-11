@@ -253,6 +253,8 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
                   snapshot.data.halaqatList,
                   chosenCenter,
                 );
+                studentsList.sort(
+                    (a, b) => a.name.toString().compareTo(b.name.toString()));
                 return Scaffold(
                   appBar: AppBar(
                     actions: [
