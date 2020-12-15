@@ -3,6 +3,7 @@ library flappy_search_bar;
 import 'dart:async';
 
 import 'package:alhalaqat/app/models/student.dart';
+import 'package:alhalaqat/app/models/teacher.dart';
 import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
@@ -397,12 +398,16 @@ class _SearchBarState<T> extends State<SearchBar<T>>
       suggestions2.sort((a, b) {
         if (a is Student && b is Student) {
           return a.readableId.toString().compareTo(b.readableId.toString());
+        } else if (a is Teacher && b is Teacher) {
+          return a.readableId.toString().compareTo(b.readableId.toString());
         } else
           return 1;
       });
     } else if (sortOption == 'sortByName') {
       suggestions2.sort((a, b) {
         if (a is Student && b is Student) {
+          return a.name.toString().compareTo(b.name.toString());
+        } else if (a is Teacher && b is Teacher) {
           return a.name.toString().compareTo(b.name.toString());
         } else
           return 1;

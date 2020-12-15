@@ -81,6 +81,24 @@ class AdminTeacherBloc {
     }
   }
 
+  Future<List<Teacher>> getTeacherSearch(
+    List<Teacher> studentsList,
+    String search,
+  ) async {
+    print("Resident search = $search");
+    if (search == "empty") return [];
+    if (search == "error") throw Error();
+    List<Teacher> filteredSearchList = [];
+
+    for (Teacher s in studentsList) {
+      if (s.name.toLowerCase().contains(search.toLowerCase()) ||
+          s.readableId.toLowerCase().contains(search.toLowerCase())) {
+        filteredSearchList.add(s);
+      }
+    }
+    return filteredSearchList;
+  }
+
   Future<void> modifieTeacher(
     Teacher oldTeacher,
     Teacher newTeacher,

@@ -10,6 +10,7 @@ import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:alhalaqat/app/models/teacher.dart';
 import 'package:alhalaqat/app/models/user.dart';
 import 'package:alhalaqat/app/models/user_halaqa.dart';
+import 'package:alhalaqat/common_packages/pk_search_bar/pk_search_bar.dart';
 import 'package:alhalaqat/common_widgets/empty_content.dart';
 import 'package:alhalaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/platform_report_dialog.dart';
@@ -268,21 +269,66 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
     List<Halaqa> availableHalaqatList,
   ) {
     if (teachersList.isNotEmpty) {
-      return ListView.separated(
-        itemCount: teachersList.length,
-        separatorBuilder: (context, index) => Divider(height: 0.5),
-        itemBuilder: (context, index) {
-          List<Halaqa> currentHalaqaList = List();
-          currentHalaqaList.addAll(availableHalaqatList);
+      return _buildList(teachersList, halaqatList, availableHalaqatList);
+    } else {
+      return EmptyContent(
+        title: 'لا يوجد  ',
+        message: 'لا يوجد  ',
+      );
+    }
+  }
 
-          Teacher teacher = teachersList[index];
-          if (teacher.halaqatTeachingIn.isNotEmpty) {
-            for (String currentHalaqaId in teacher.halaqatTeachingIn) {
-              for (Halaqa halaqa in halaqatList) {
-                if (currentHalaqaId == halaqa.id) currentHalaqaList.add(halaqa);
-              }
+  Widget _buildList(
+    List<Teacher> teachersList,
+    List<Halaqa> halaqatList,
+    List<Halaqa> availableHalaqatList,
+  ) {
+    return SearchBar<Teacher>(
+      searchBarPadding: EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 5),
+      headerPadding: EdgeInsets.only(left: 0, right: 0),
+      listPadding: EdgeInsets.only(left: 0, right: 0),
+      hintText: "إبحث بالاسم  أو الرقم التعريفي",
+      hintStyle: TextStyle(
+        color: Colors.black54,
+      ),
+      textStyle: TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.normal,
+      ),
+      iconActiveColor: Colors.deepPurple,
+      shrinkWrap: true,
+      mainAxisSpacing: 5,
+      crossAxisSpacing: 5,
+      suggestions: teachersList,
+      minimumChars: 1,
+      emptyWidget: Center(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10, right: 10),
+          child: Text("لم يتم العثور على أي معلم"),
+        ),
+      ),
+      onError: (error) {
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child: Text("$error", textAlign: TextAlign.center),
+          ),
+        );
+      },
+      onSearch: (s) async => bloc.getTeacherSearch(teachersList, s),
+      buildSuggestion: (Teacher teacher, int index) {
+        List<Halaqa> currentHalaqaList = List();
+        currentHalaqaList.addAll(availableHalaqatList);
+
+        Teacher teacher = teachersList[index];
+        if (teacher.halaqatTeachingIn.isNotEmpty) {
+          for (String currentHalaqaId in teacher.halaqatTeachingIn) {
+            for (Halaqa halaqa in halaqatList) {
+              if (currentHalaqaId == halaqa.id) currentHalaqaList.add(halaqa);
             }
           }
+        }
+        if (index == teachersList.length - 1) {
           return Column(
             children: [
               AdminTeacherTileWidget(
@@ -293,18 +339,40 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
                 scaffoldKey: _scaffoldKey,
                 chosenCenter: chosenCenter,
               ),
-              if (index == teachersList.length - 1) ...[
-                SizedBox(height: 75),
-              ],
+              SizedBox(height: 75),
             ],
           );
-        },
-      );
-    } else {
-      return EmptyContent(
-        title: 'لا يوجد  ',
-        message: 'لا يوجد  ',
-      );
-    }
+        }
+        return AdminTeacherTileWidget(
+          halaqatList: currentHalaqaList,
+          teacher: teacher,
+          chosenTeacherState: chosenTeacherState,
+          bloc: bloc,
+          scaffoldKey: _scaffoldKey,
+          chosenCenter: chosenCenter,
+        );
+      },
+      onItemFound: (Teacher teacher, int index) {
+        List<Halaqa> currentHalaqaList = List();
+        currentHalaqaList.addAll(availableHalaqatList);
+
+        Teacher teacher = teachersList[index];
+        if (teacher.halaqatTeachingIn.isNotEmpty) {
+          for (String currentHalaqaId in teacher.halaqatTeachingIn) {
+            for (Halaqa halaqa in halaqatList) {
+              if (currentHalaqaId == halaqa.id) currentHalaqaList.add(halaqa);
+            }
+          }
+        }
+        return AdminTeacherTileWidget(
+          halaqatList: currentHalaqaList,
+          teacher: teacher,
+          chosenTeacherState: chosenTeacherState,
+          bloc: bloc,
+          scaffoldKey: _scaffoldKey,
+          chosenCenter: chosenCenter,
+        );
+      },
+    );
   }
 }

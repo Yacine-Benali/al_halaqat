@@ -222,7 +222,10 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
             items: sortOptions.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
-                child: Text(KeyTranslate.sort[value]),
+                child: Text(
+                  KeyTranslate.sort[value],
+                  textAlign: TextAlign.right,
+                ),
               );
             }).toList(),
           ),
