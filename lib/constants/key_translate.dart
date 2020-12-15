@@ -252,8 +252,8 @@ class KeyTranslate {
   };
 
   static const Map<String, String> sort = {
-    'sortByName': 'تصنيف حسب الإسم',
-    'sortById': 'تصنيف حسب رت',
+    'sortByName': 'أب',
+    'sortById': '12',
   };
   static const List<String> educationalLevel = [
     'الصف أولى',

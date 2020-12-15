@@ -15,7 +15,6 @@ class AdminHalaqatProvider {
         path: APIPath.halaqatCollection(),
         builder: (data, documentId) => Halaqa.fromMap(data),
         queryBuilder: (query) => query.where('centerId', whereIn: centerIds),
-        sort: (a, b) => a.createdAt.compareTo(b.createdAt),
       );
 
   Stream<List<Teacher>> fetchTeachers(
@@ -27,7 +26,6 @@ class AdminHalaqatProvider {
       queryBuilder: (query) => query
           .where('isTeacher', isEqualTo: true)
           .where('centers', arrayContainsAny: centerIds),
-      sort: (a, b) => a.createdAt.compareTo(b.createdAt),
     );
   }
 

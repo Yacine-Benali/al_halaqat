@@ -63,9 +63,13 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
   String chosenHalaqaState;
   StudyCenter chosenCenter;
   Stream<UserHalaqa<Teacher>> teachersHalaqatListStream;
-
+  List<String> sortOptions = KeyTranslate.sort.keys.toList();
+  String sortOption;
+  List<Halaqa> halaqatList;
   @override
   void initState() {
+    sortOption = sortOptions.elementAt(0);
+
     if (bloc.admin is Admin) {
       halaqatStateList = KeyTranslate.adminHalaqatState.keys.toList();
     } else {
@@ -83,7 +87,7 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Center(child: Text('المراكز')),
+        title: Center(child: Text('الحلقات')),
         centerTitle: true,
         actions: [
           Padding(
@@ -159,15 +163,14 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<Teacher> teachersList = snapshot.data.usersList;
-            List<Halaqa> halaqatList = bloc.getFilteredHalaqatList(
+            halaqatList = bloc.getFilteredHalaqatList(
               snapshot.data.halaqatList,
               chosenHalaqaState,
               chosenCenter,
             );
-            halaqatList
-                .sort((a, b) => a.name.toString().compareTo(b.name.toString()));
+            sort();
             if (halaqatList.isNotEmpty) {
-              return _buildList(halaqatList, teachersList);
+              return _buildList(teachersList);
             } else {
               return EmptyContent(
                 title: 'لا يوجد أي حلقات ',
@@ -186,30 +189,71 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
     );
   }
 
-  Widget _buildList(List<Halaqa> halaqatList, List<Teacher> teachersLis) {
-    return ListView.separated(
-      itemCount: halaqatList.length,
-      separatorBuilder: (context, index) => Divider(height: 0.5),
-      itemBuilder: (context, index) {
-        Halaqa halaqa = halaqatList[index];
-        Teacher teacher = bloc.getTeacherOfHalaqa(halaqa, teachersLis);
-        return Column(
-          children: [
-            AdminHalqaTileWidget(
-              teacher: teacher,
-              bloc: bloc,
-              halaqa: halaqa,
-              scaffoldKey: _scaffoldKey,
-              chosenHalaqaState: chosenHalaqaState,
-              chosenCenter: chosenCenter,
-              halaqatList: halaqatList,
-            ),
-            if (index == halaqatList.length - 1) ...[
-              SizedBox(height: 75),
-            ],
-          ],
-        );
-      },
+  void sort() {
+    if ((halaqatList?.length ?? 0) != 0) {
+      if (sortOption == 'sortById') {
+        halaqatList.sort((a, b) {
+          return a.readableId.compareTo(b.readableId);
+        });
+      } else if (sortOption == 'sortByName') {
+        halaqatList.sort((a, b) {
+          return a.name.compareTo(b.name);
+        });
+      }
+    }
+  }
+
+  Widget _buildList(List<Teacher> teachersLis) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: DropdownButton<String>(
+            value: sortOption,
+            isExpanded: true,
+            iconSize: 24,
+            elevation: 16,
+            onChanged: (String newValue) {
+              sortOption = newValue;
+              // sort() no need to call it since it will be called when
+              // rebuilding the StreamBuilder widget
+              setState(() {});
+            },
+            items: sortOptions.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(KeyTranslate.sort[value]),
+              );
+            }).toList(),
+          ),
+        ),
+        Expanded(
+          child: ListView.separated(
+            itemCount: halaqatList.length,
+            separatorBuilder: (context, index) => Divider(height: 0.5),
+            itemBuilder: (context, index) {
+              Halaqa halaqa = halaqatList[index];
+              Teacher teacher = bloc.getTeacherOfHalaqa(halaqa, teachersLis);
+              return Column(
+                children: [
+                  AdminHalqaTileWidget(
+                    teacher: teacher,
+                    bloc: bloc,
+                    halaqa: halaqa,
+                    scaffoldKey: _scaffoldKey,
+                    chosenHalaqaState: chosenHalaqaState,
+                    chosenCenter: chosenCenter,
+                    halaqatList: halaqatList,
+                  ),
+                  if (index == halaqatList.length - 1) ...[
+                    SizedBox(height: 75),
+                  ],
+                ],
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

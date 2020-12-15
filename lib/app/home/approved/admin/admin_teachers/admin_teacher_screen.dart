@@ -230,8 +230,6 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
               chosenCenter,
             );
 
-            teachersList
-                .sort((a, b) => a.name.toString().compareTo(b.name.toString()));
             return Scaffold(
               floatingActionButton: FloatingActionButton(
                 onPressed: () =>
