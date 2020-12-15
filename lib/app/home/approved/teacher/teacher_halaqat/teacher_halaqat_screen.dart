@@ -8,6 +8,7 @@ import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:alhalaqat/app/models/teacher.dart';
 import 'package:alhalaqat/app/models/user.dart';
 import 'package:alhalaqat/common_widgets/empty_content.dart';
+import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:alhalaqat/services/auth.dart';
 import 'package:alhalaqat/services/database.dart';
 import 'package:flutter/material.dart';
@@ -60,9 +61,12 @@ class _TeacherHalaqatScreenState extends State<TeacherHalaqatScreen> {
   StudyCenter chosenCenter;
   Stream<List<Halaqa>> halaqatListStream;
   int numberOfHalaqatTeachingIn;
-
+  List<String> sortOptions = KeyTranslate.sort.keys.toList();
+  String sortOption;
+  List<Halaqa> halaqatList;
   @override
   void initState() {
+    sortOption = sortOptions.elementAt(0);
     chosenCenter = widget.centers[0];
     halaqatListStream = bloc.fetchHalaqat(bloc.teacher.halaqatTeachingIn);
     numberOfHalaqatTeachingIn = bloc.teacher.halaqatTeachingIn?.length;
@@ -81,7 +85,7 @@ class _TeacherHalaqatScreenState extends State<TeacherHalaqatScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Center(child: Text('المراكز')),
+        title: Center(child: Text('الحلقات')),
         centerTitle: true,
         actions: [
           Padding(
@@ -136,14 +140,13 @@ class _TeacherHalaqatScreenState extends State<TeacherHalaqatScreen> {
             );
 
           if (snapshot.hasData) {
-            final List<Halaqa> halaqatList = bloc.getFilteredHalaqatList(
+            halaqatList = bloc.getFilteredHalaqatList(
               snapshot.data,
               chosenCenter,
             );
-            halaqatList
-                .sort((a, b) => a.name.toString().compareTo(b.name.toString()));
+            sort();
             if (halaqatList.isNotEmpty) {
-              return _buildList(halaqatList);
+              return _buildList();
             } else {
               return EmptyContent(
                 title: 'لا يوجد أي حلقات ',
@@ -162,25 +165,72 @@ class _TeacherHalaqatScreenState extends State<TeacherHalaqatScreen> {
     );
   }
 
-  Widget _buildList(List<Halaqa> halaqatList) {
-    return ListView.separated(
-      itemCount: halaqatList.length,
-      separatorBuilder: (context, index) => Divider(height: 0.5),
-      itemBuilder: (context, index) {
-        return Column(
-          children: [
-            TeacherHalqaTileWidget(
-              halaqa: halaqatList[index],
-              chosenCenter: chosenCenter,
-              bloc: bloc,
-              halaqatList: halaqatList,
+  void sort() {
+    if ((halaqatList?.length ?? 0) != 0) {
+      if (sortOption == 'sortById') {
+        halaqatList.sort((a, b) {
+          return a.readableId.compareTo(b.readableId);
+        });
+      } else if (sortOption == 'sortByName') {
+        halaqatList.sort((a, b) {
+          return a.name.compareTo(b.name);
+        });
+      }
+    }
+  }
+
+  Widget _buildList() {
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DropdownButton<String>(
+              value: sortOption,
+              isExpanded: false,
+              iconSize: 24,
+              elevation: 16,
+              onChanged: (String newValue) {
+                sortOption = newValue;
+                // sort() no need to call it since it will be called when
+                // rebuilding the StreamBuilder widget
+                setState(() {});
+              },
+              items: sortOptions.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(
+                    KeyTranslate.sort[value],
+                    textAlign: TextAlign.right,
+                  ),
+                );
+              }).toList(),
             ),
-            if (index == halaqatList.length - 1) ...[
-              SizedBox(height: 75),
-            ],
-          ],
-        );
-      },
+          ),
+        ),
+        Expanded(
+          child: ListView.separated(
+            itemCount: halaqatList.length,
+            separatorBuilder: (context, index) => Divider(height: 0.5),
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  TeacherHalqaTileWidget(
+                    halaqa: halaqatList[index],
+                    chosenCenter: chosenCenter,
+                    bloc: bloc,
+                    halaqatList: halaqatList,
+                  ),
+                  if (index == halaqatList.length - 1) ...[
+                    SizedBox(height: 75),
+                  ],
+                ],
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
