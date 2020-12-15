@@ -206,28 +206,31 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
   Widget _buildList(List<Teacher> teachersLis) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: DropdownButton<String>(
-            value: sortOption,
-            isExpanded: true,
-            iconSize: 24,
-            elevation: 16,
-            onChanged: (String newValue) {
-              sortOption = newValue;
-              // sort() no need to call it since it will be called when
-              // rebuilding the StreamBuilder widget
-              setState(() {});
-            },
-            items: sortOptions.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(
-                  KeyTranslate.sort[value],
-                  textAlign: TextAlign.right,
-                ),
-              );
-            }).toList(),
+        Align(
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DropdownButton<String>(
+              value: sortOption,
+              isExpanded: false,
+              iconSize: 24,
+              elevation: 16,
+              onChanged: (String newValue) {
+                sortOption = newValue;
+                // sort() no need to call it since it will be called when
+                // rebuilding the StreamBuilder widget
+                setState(() {});
+              },
+              items: sortOptions.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(
+                    KeyTranslate.sort[value],
+                    textAlign: TextAlign.right,
+                  ),
+                );
+              }).toList(),
+            ),
           ),
         ),
         Expanded(
