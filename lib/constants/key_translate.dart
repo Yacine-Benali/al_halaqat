@@ -251,6 +251,10 @@ class KeyTranslate {
     "ZW": "زيمبابوي",
   };
 
+  static const Map<String, String> sort = {
+    'sortByName': 'تصنيف حسب الإسم',
+    'sortById': 'تصنيف حسب رت',
+  };
   static const List<String> educationalLevel = [
     'الصف أولى',
     'الصف الثانية',

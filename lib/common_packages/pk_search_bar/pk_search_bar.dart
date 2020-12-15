@@ -2,6 +2,8 @@ library flappy_search_bar;
 
 import 'dart:async';
 
+import 'package:alhalaqat/app/models/student.dart';
+import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -263,9 +265,14 @@ class _SearchBarState<T> extends State<SearchBar<T>>
   bool _animate = false;
   List<T> _list = [];
   SearchBarController searchBarController;
-
+  List<String> sortOptions = KeyTranslate.sort.keys.toList();
+  String sortOption;
+  List<T> suggestions2;
   @override
   void initState() {
+    suggestions2 = widget.suggestions;
+    sortOption = sortOptions.elementAt(0);
+    sort();
     super.initState();
     searchBarController =
         widget.searchBarController ?? SearchBarController<T>();
@@ -377,7 +384,7 @@ class _SearchBarState<T> extends State<SearchBar<T>>
     } else if (_searchQueryController.text.length < widget.minimumChars) {
       if (widget.placeHolder != null) return widget.placeHolder;
       return _buildListView(
-          widget.suggestions, widget.buildSuggestion ?? widget.onItemFound);
+          suggestions2, widget.buildSuggestion ?? widget.onItemFound);
     } else if (_list.isNotEmpty) {
       return _buildListView(_list, widget.onItemFound);
     } else {
@@ -385,9 +392,28 @@ class _SearchBarState<T> extends State<SearchBar<T>>
     }
   }
 
+  void sort() {
+    if (sortOption == 'sortById') {
+      suggestions2.sort((a, b) {
+        if (a is Student && b is Student) {
+          return a.readableId.toString().compareTo(b.readableId.toString());
+        } else
+          return 1;
+      });
+    } else if (sortOption == 'sortByName') {
+      suggestions2.sort((a, b) {
+        if (a is Student && b is Student) {
+          return a.name.toString().compareTo(b.name.toString());
+        } else
+          return 1;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final widthMax = MediaQuery.of(context).size.width;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -451,6 +477,24 @@ class _SearchBarState<T> extends State<SearchBar<T>>
                                       ),
                                     )
                                   : new Container(),
+                              DropdownButton<String>(
+                                value: sortOption,
+                                iconSize: 24,
+                                elevation: 16,
+                                onChanged: (String newValue) {
+                                  sortOption = newValue;
+                                  sort();
+                                  setState(() {});
+                                },
+                                items: sortOptions
+                                    .map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(KeyTranslate.sort[value]),
+                                  );
+                                }).toList(),
+                              ),
                             ],
                           ),
                         ),
