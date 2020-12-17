@@ -60,7 +60,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
     studentProfileFuture = bloc.getStudentProfile();
     titles = List();
     titles.add('ملف شخصي');
-    titles.add('ملخص');
+    titles.add('الحفظ');
     User user = Provider.of<User>(context, listen: false);
     if (user is GlobalAdmin)
       hidePassword = false;

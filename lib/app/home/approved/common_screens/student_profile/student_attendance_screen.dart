@@ -131,7 +131,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('تسجيل الحضور'),
+        title: Text(bloc.student.name),
       ),
       body: SingleChildScrollView(
         child: Card(

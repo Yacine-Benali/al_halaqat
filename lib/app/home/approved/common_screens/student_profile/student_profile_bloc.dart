@@ -63,7 +63,7 @@ class StudentProfileBloc {
 
   List<String> getAttendaceTableTitle() {
     List<String> columnTitleList = List();
-    columnTitleList.add('إسم');
+    columnTitleList.add('التاريخ');
     columnTitleList.addAll(KeyTranslate.attendanceState.values);
     columnTitleList.addAll([
       'ملاحظة',
