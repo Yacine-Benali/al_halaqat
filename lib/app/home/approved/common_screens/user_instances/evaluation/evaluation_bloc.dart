@@ -33,8 +33,11 @@ class EvaluationBloc {
   }
 
   String format2(EvaluationHelper eval) {
-    String one = eval.fromSoura + '(${eval.fromAya})';
-    String two = eval.toSoura + '(${eval.toAya})';
+    String fromAya = eval.fromAya == 0 ? ' ' : '(${eval.fromAya})';
+    String toAya = eval.toAya == 0 ? ' ' : '(${eval.toAya})';
+
+    String one = eval.fromSoura + fromAya;
+    String two = eval.toSoura + toAya;
     return one + '--' + two;
   }
 
@@ -63,8 +66,12 @@ class EvaluationBloc {
   }
 
   List<String> getAyatList(String soura) {
+    if (soura == ' ') {
+      return ['0'];
+    }
     int finalAyaNumber = quran.data[soura];
     List<String> ayatList = List();
+
     for (int i = 1; i <= finalAyaNumber; i++) ayatList.add('$i');
 
     return ayatList;
@@ -126,6 +133,12 @@ class EvaluationBloc {
         'name': user.name,
         'id': user.id,
       };
+    }
+
+    if (evaluation.memorized.fromSoura == ' ') {
+      String reportCardId = studentId + '_' + instance.halaqaId;
+      await Future.wait([provider.setEvaluation(reportCardId, evaluation)]);
+      return;
     }
 
     evaluationsList.add(evaluation);

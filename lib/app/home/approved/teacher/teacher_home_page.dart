@@ -152,7 +152,6 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final List<StudyCenter> items = snapshot.data;
-
               if (items.isNotEmpty) {
                 return _buildContent(items, teacher);
               } else {

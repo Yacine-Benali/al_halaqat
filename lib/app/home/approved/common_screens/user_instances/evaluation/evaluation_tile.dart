@@ -37,7 +37,11 @@ class EvaluationTile extends StatelessWidget {
             Expanded(flex: 2, child: Text(bloc.format2(evaluation.memorized))),
             Expanded(
               flex: 1,
-              child: Text(evaluation.memorized.mark.toString()),
+              child: Text(
+                evaluation.memorized.mark.toString() == '0'
+                    ? ' '
+                    : evaluation.memorized.mark.toString(),
+              ),
             ),
           ],
         ),
@@ -50,7 +54,11 @@ class EvaluationTile extends StatelessWidget {
             ),
             Expanded(
               flex: 1,
-              child: Text(evaluation.rehearsed.mark.toString()),
+              child: Text(
+                evaluation.rehearsed.mark.toString() == '0'
+                    ? ' '
+                    : evaluation.rehearsed.mark.toString(),
+              ),
             ),
           ],
         ),

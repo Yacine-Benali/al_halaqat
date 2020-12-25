@@ -40,9 +40,18 @@ class _NewEvaluationScreenState extends State<NewEvaluationScreen> {
   int rehearsedMark;
   //
   ProgressDialog pr;
+  List souratList = [];
+  List<String> possibleMarks = [];
+  bool isMemorizedEnabled;
+  bool isRehearsedEnabled;
 
   @override
   void initState() {
+    possibleMarks = bloc.getPossibleMarks();
+    isMemorizedEnabled = true;
+    isRehearsedEnabled = true;
+    souratList = bloc.getSouratList();
+    souratList.insert(0, ' ');
     pr = ProgressDialog(
       context,
       type: ProgressDialogType.Normal,
@@ -97,6 +106,14 @@ class _NewEvaluationScreenState extends State<NewEvaluationScreen> {
       rehearsed: rehearsed,
     );
 
+    if (memorizedFromSoura == ' ' && rehearsedFromSoura == ' ') {
+      PlatformAlertDialog(
+        title: 'فشلت العملية',
+        content: '',
+        defaultActionText: 'حسنا',
+      ).show(context);
+      return;
+    }
     try {
       await pr.show();
       bloc.validateEvaluation(evaluation);
@@ -181,10 +198,23 @@ class _NewEvaluationScreenState extends State<NewEvaluationScreen> {
           Expanded(
             child: DropdownButtonFormField2(
               value: memorizedFromSoura,
-              possibleValues: bloc.getSouratList(),
+              possibleValues: souratList,
               title: 'من سورة',
               onSaved: (String value) {
                 memorizedFromSoura = value;
+                if (memorizedFromSoura == ' ') {
+                  memorizedFromAya = 0;
+                  isMemorizedEnabled = false;
+                  memorizedToAya = 0;
+                  memorizedToSoura = ' ';
+                  memorizedMark = 0;
+                } else {
+                  memorizedToSoura = memorizedFromSoura;
+                  memorizedFromAya = 1;
+                  memorizedToAya = 1;
+                  isMemorizedEnabled = true;
+                  memorizedMark = 1;
+                }
                 setState(() {});
               },
               isEnabled: true,
@@ -199,7 +229,7 @@ class _NewEvaluationScreenState extends State<NewEvaluationScreen> {
                 int temp = int.parse(value);
                 memorizedFromAya = temp;
               },
-              isEnabled: true,
+              isEnabled: isMemorizedEnabled,
             ),
           ),
         ],
@@ -209,13 +239,13 @@ class _NewEvaluationScreenState extends State<NewEvaluationScreen> {
           Expanded(
             child: DropdownButtonFormField2(
               value: memorizedToSoura,
-              possibleValues: bloc.getSouratList(),
+              possibleValues: souratList,
               title: 'إلى سورة',
               onSaved: (String value) {
                 memorizedToSoura = value;
                 setState(() {});
               },
-              isEnabled: true,
+              isEnabled: isMemorizedEnabled,
             ),
           ),
           Expanded(
@@ -227,20 +257,20 @@ class _NewEvaluationScreenState extends State<NewEvaluationScreen> {
                 int temp = int.parse(value);
                 memorizedToAya = temp;
               },
-              isEnabled: true,
+              isEnabled: isMemorizedEnabled,
             ),
           ),
         ],
       ),
       DropdownButtonFormField2(
         value: memorizedMark.toString(),
-        possibleValues: bloc.getPossibleMarks(),
+        possibleValues: isMemorizedEnabled ? possibleMarks : ['0'],
         title: 'التقييم',
         onSaved: (String value) {
           int temp = int.parse(value);
           memorizedMark = temp;
         },
-        isEnabled: true,
+        isEnabled: isMemorizedEnabled,
       ),
     ];
   }
@@ -252,10 +282,23 @@ class _NewEvaluationScreenState extends State<NewEvaluationScreen> {
           Expanded(
             child: DropdownButtonFormField2(
               value: rehearsedFromSoura,
-              possibleValues: bloc.getSouratList(),
+              possibleValues: souratList,
               title: 'من سورة',
               onSaved: (String value) {
                 rehearsedFromSoura = value;
+                if (rehearsedFromSoura == ' ') {
+                  rehearsedFromAya = 0;
+                  isRehearsedEnabled = false;
+                  rehearsedToAya = 0;
+                  rehearsedToSoura = ' ';
+                  rehearsedMark = 0;
+                } else {
+                  rehearsedToSoura = rehearsedFromSoura;
+                  rehearsedFromAya = 1;
+                  rehearsedToAya = 1;
+                  isRehearsedEnabled = true;
+                  rehearsedMark = 1;
+                }
                 setState(() {});
               },
               isEnabled: true,
@@ -270,7 +313,7 @@ class _NewEvaluationScreenState extends State<NewEvaluationScreen> {
                 int temp = int.parse(value);
                 rehearsedFromAya = temp;
               },
-              isEnabled: true,
+              isEnabled: isRehearsedEnabled,
             ),
           ),
         ],
@@ -280,13 +323,13 @@ class _NewEvaluationScreenState extends State<NewEvaluationScreen> {
           Expanded(
             child: DropdownButtonFormField2(
               value: rehearsedToSoura,
-              possibleValues: bloc.getSouratList(),
+              possibleValues: souratList,
               title: 'إلى سورة',
               onSaved: (String value) {
                 rehearsedToSoura = value;
                 setState(() {});
               },
-              isEnabled: true,
+              isEnabled: isRehearsedEnabled,
             ),
           ),
           Expanded(
@@ -298,20 +341,20 @@ class _NewEvaluationScreenState extends State<NewEvaluationScreen> {
                 int temp = int.parse(value);
                 rehearsedToAya = temp;
               },
-              isEnabled: true,
+              isEnabled: isRehearsedEnabled,
             ),
           ),
         ],
       ),
       DropdownButtonFormField2(
         value: rehearsedMark.toString(),
-        possibleValues: bloc.getPossibleMarks(),
+        possibleValues: isRehearsedEnabled ? possibleMarks : ['0'],
         title: 'التقييم',
         onSaved: (String value) {
           int temp = int.parse(value);
           rehearsedMark = temp;
         },
-        isEnabled: true,
+        isEnabled: isRehearsedEnabled,
       ),
     ];
   }
