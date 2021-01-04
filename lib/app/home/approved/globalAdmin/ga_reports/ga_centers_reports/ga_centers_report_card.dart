@@ -17,10 +17,10 @@ class GaCentersReportCard extends StatelessWidget {
 
   String getAddress(StudyCenter center) {
     return KeyTranslate.isoCountryToArabic[center.country] +
-        ' ' +
-        center.city +
-        ' ' +
-        center.street;
+            ' ' +
+            center.city ??
+        '' + ' ' + center.street ??
+        '';
   }
 
   TableRow buildColumnBlock() {
