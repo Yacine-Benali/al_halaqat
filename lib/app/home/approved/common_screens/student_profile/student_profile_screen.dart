@@ -166,6 +166,8 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
             length: titles.length,
             child: Scaffold(
               appBar: AppBar(
+                title: Text(bloc.student.name),
+                centerTitle: true,
                 bottom: TabBar(
                   isScrollable: true,
                   tabs: buildTabBars(),
