@@ -1,4 +1,3 @@
-import 'package:alhalaqat/app/home/approved/common_screens/student_profile/student_profile_screen.dart';
 import 'package:alhalaqat/app/home/approved/common_screens/user_instances/attendance/attendance_bloc.dart';
 import 'package:alhalaqat/app/home/approved/common_screens/user_instances/attendance/attendance_provider.dart';
 import 'package:alhalaqat/app/home/approved/common_screens/user_instances/evaluation/evaluation_screen.dart';
@@ -6,7 +5,6 @@ import 'package:alhalaqat/app/models/admin.dart';
 import 'package:alhalaqat/app/models/halaqa.dart';
 import 'package:alhalaqat/app/models/instance.dart';
 import 'package:alhalaqat/app/models/quran.dart';
-import 'package:alhalaqat/app/models/student.dart';
 import 'package:alhalaqat/app/models/student_attendance.dart';
 import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:alhalaqat/app/models/teacher_summery.dart';
@@ -257,19 +255,21 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   }
 
   Future<void> openStudentProfile(String studentId) async {
-    Student student = bloc.getStudentFromId(studentId);
-    await Navigator.of(context, rootNavigator: false).push(
-      MaterialPageRoute(
-        builder: (context) => StudentProfileScreen.create(
-          context: context,
-          halaqatList: widget.halaqatList,
-          student: student,
-          quran: quran,
-          studentRoaming: studentRoaming,
-        ),
-        fullscreenDialog: true,
-      ),
-    );
+    // TODO for some raison this is causing an error
+    // Student student = bloc.getStudentFromId(studentId);
+    // await Navigator.of(context, rootNavigator: false).push(
+    //   MaterialPageRoute(
+    //     builder: (context) => StudentProfileScreen.create(
+    //       onTap: () {},
+    //       context: context,
+    //       halaqatList: widget.halaqatList,
+    //       student: student,
+    //       quran: quran,
+    //       studentRoaming: studentRoaming,
+    //     ),
+    //     fullscreenDialog: true,
+    //   ),
+    // );
   }
 
   List<TableRow> buildRowList() {

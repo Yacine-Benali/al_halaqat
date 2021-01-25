@@ -159,6 +159,19 @@ class _AdminStudentTileWidgetState extends State<AdminStudentTileWidget> {
           onTap: () => Navigator.of(context, rootNavigator: false).push(
             MaterialPageRoute(
               builder: (context) => StudentProfileScreen.create(
+                onTap: () {
+                  Navigator.of(context, rootNavigator: false).push(
+                    MaterialPageRoute(
+                      builder: (context) => AdminNewStudentScreen(
+                        bloc: widget.bloc,
+                        student: widget.student,
+                        chosenCenter: widget.chosenCenter,
+                        halaqatList: widget.halaqatList,
+                      ),
+                      fullscreenDialog: true,
+                    ),
+                  );
+                },
                 context: context,
                 halaqatList: widget.halaqatList,
                 student: widget.student,

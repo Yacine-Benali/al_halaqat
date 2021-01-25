@@ -17,8 +17,12 @@ import 'package:provider/provider.dart';
 
 class StudentProfileScreen extends StatefulWidget {
   final StudentProfileBloc bloc;
-
-  const StudentProfileScreen._({Key key, this.bloc}) : super(key: key);
+  final VoidCallback onTap;
+  const StudentProfileScreen._({
+    Key key,
+    @required this.bloc,
+    @required this.onTap,
+  }) : super(key: key);
 
   static Widget create({
     @required BuildContext context,
@@ -26,6 +30,7 @@ class StudentProfileScreen extends StatefulWidget {
     @required Student student,
     @required Quran quran,
     @required bool studentRoaming,
+    @required VoidCallback onTap,
   }) {
     Database database = Provider.of<Database>(context, listen: false);
 
@@ -41,6 +46,7 @@ class StudentProfileScreen extends StatefulWidget {
 
     return StudentProfileScreen._(
       bloc: bloc,
+      onTap: onTap,
     );
   }
 
@@ -168,6 +174,18 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
               appBar: AppBar(
                 title: Text(bloc.student.name),
                 centerTitle: true,
+                actions: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.0),
+                    child: InkWell(
+                      onTap: widget.onTap,
+                      child: Icon(
+                        Icons.edit,
+                        size: 26.0,
+                      ),
+                    ),
+                  ),
+                ],
                 bottom: TabBar(
                   isScrollable: true,
                   tabs: buildTabBars(),
