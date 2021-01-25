@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DropdownButtonFormField2 extends StatelessWidget {
-  const DropdownButtonFormField2({
+  DropdownButtonFormField2({
     Key key,
     @required this.value,
     @required this.possibleValues,
@@ -11,12 +11,13 @@ class DropdownButtonFormField2 extends StatelessWidget {
   }) : super(key: key);
   final String title;
   final List<String> possibleValues;
-  final String value;
+  String value;
   final bool isEnabled;
   final ValueChanged<String> onSaved;
 
   @override
   Widget build(BuildContext context) {
+    if (!possibleValues.contains(value)) value = possibleValues[0];
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(

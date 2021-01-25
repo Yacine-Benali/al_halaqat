@@ -75,6 +75,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   List<String> attendanceState;
   bool studentRoaming;
   ProgressDialog pr;
+  bool canChange;
   //
 
   @override
@@ -87,6 +88,13 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     quranFuture = bloc.fetchQuran();
     attendanceState = KeyTranslate.attendanceState.keys.toList();
 
+    var a = DateTime.now().difference(bloc.instance.createdAt.toDate());
+    print(a.inDays);
+    if (a.inDays > 31) {
+      canChange = false;
+    } else {
+      canChange = true;
+    }
     pr = ProgressDialog(
       context,
       type: ProgressDialogType.Normal,
@@ -107,7 +115,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   void action() async {
     try {
       await pr.show();
-      bloc.saveInstance(instance);
+
       await Future.delayed(Duration(seconds: 1));
       await pr.hide();
 
@@ -148,6 +156,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           children: <Widget>[
             Expanded(
               child: TextFormField(
+                enabled: canChange,
                 maxLength: 100,
                 initialValue: studentAttendance.note,
                 onChanged: (value) => newNote = value,
@@ -190,6 +199,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           children: <Widget>[
             Expanded(
               child: TextFormField(
+                enabled: canChange,
                 maxLength: 100,
                 initialValue: teacherSummery.note,
                 onChanged: (value) => newNote = value,
@@ -278,10 +288,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             alignment: Alignment.center,
             height: kMinInteractiveDimension,
             child: Checkbox(
-              onChanged: (value) {
-                instance.teacherSummery.state = attendanceState[0];
-                setState(() {});
-              },
+              onChanged: canChange
+                  ? (value) {
+                      instance.teacherSummery.state = attendanceState[0];
+                      setState(() {});
+                    }
+                  : null,
               value: instance.teacherSummery.state == attendanceState[0],
             ),
           ),
@@ -289,10 +301,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             alignment: Alignment.center,
             height: kMinInteractiveDimension,
             child: Checkbox(
-              onChanged: (value) {
-                instance.teacherSummery.state = attendanceState[1];
-                setState(() {});
-              },
+              onChanged: canChange
+                  ? (value) {
+                      instance.teacherSummery.state = attendanceState[1];
+                      setState(() {});
+                    }
+                  : null,
               value: instance.teacherSummery.state == attendanceState[1],
             ),
           ),
@@ -300,10 +314,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             alignment: Alignment.center,
             height: kMinInteractiveDimension,
             child: Checkbox(
-              onChanged: (value) {
-                instance.teacherSummery.state = attendanceState[2];
-                setState(() {});
-              },
+              onChanged: canChange
+                  ? (value) {
+                      instance.teacherSummery.state = attendanceState[2];
+                      setState(() {});
+                    }
+                  : null,
               value: instance.teacherSummery.state == attendanceState[2],
             ),
           ),
@@ -311,10 +327,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             alignment: Alignment.center,
             height: kMinInteractiveDimension,
             child: Checkbox(
-              onChanged: (value) {
-                instance.teacherSummery.state = attendanceState[3];
-                setState(() {});
-              },
+              onChanged: canChange
+                  ? (value) {
+                      instance.teacherSummery.state = attendanceState[3];
+                      setState(() {});
+                    }
+                  : null,
               value: instance.teacherSummery.state == attendanceState[3],
             ),
           ),
@@ -360,10 +378,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           alignment: Alignment.center,
           height: kMinInteractiveDimension,
           child: Checkbox(
-            onChanged: (value) {
-              studentAttendance.state = attendanceState[0];
-              setState(() {});
-            },
+            onChanged: canChange
+                ? (value) {
+                    studentAttendance.state = attendanceState[0];
+                    setState(() {});
+                  }
+                : null,
             value: studentAttendance.state == attendanceState[0],
           ),
         ),
@@ -371,10 +391,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           alignment: Alignment.center,
           height: kMinInteractiveDimension,
           child: Checkbox(
-            onChanged: (value) {
-              studentAttendance.state = attendanceState[1];
-              setState(() {});
-            },
+            onChanged: canChange
+                ? (value) {
+                    studentAttendance.state = attendanceState[1];
+                    setState(() {});
+                  }
+                : null,
             value: studentAttendance.state == attendanceState[1],
           ),
         ),
@@ -382,10 +404,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           alignment: Alignment.center,
           height: kMinInteractiveDimension,
           child: Checkbox(
-            onChanged: (value) {
-              studentAttendance.state = attendanceState[2];
-              setState(() {});
-            },
+            onChanged: canChange
+                ? (value) {
+                    studentAttendance.state = attendanceState[2];
+                    setState(() {});
+                  }
+                : null,
             value: studentAttendance.state == attendanceState[2],
           ),
         ),
@@ -393,10 +417,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           alignment: Alignment.center,
           height: kMinInteractiveDimension,
           child: Checkbox(
-            onChanged: (value) {
-              studentAttendance.state = attendanceState[3];
-              setState(() {});
-            },
+            onChanged: canChange
+                ? (value) {
+                    studentAttendance.state = attendanceState[3];
+                    setState(() {});
+                  }
+                : null,
             value: studentAttendance.state == attendanceState[3],
           ),
         ),
@@ -452,17 +478,24 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Center(child: Text(getTitle())), actions: [
-          Padding(
-              padding: EdgeInsets.only(left: 20.0),
-              child: InkWell(
-                onTap: action,
-                child: Icon(
-                  Icons.save,
-                  size: 26.0,
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(getTitle()),
+          actions: [
+            if (canChange) ...[
+              Padding(
+                padding: EdgeInsets.only(left: 20.0),
+                child: InkWell(
+                  onTap: action,
+                  child: Icon(
+                    Icons.save,
+                    size: 26.0,
+                  ),
                 ),
-              )),
-        ]),
+              ),
+            ]
+          ],
+        ),
         body: FutureBuilder(
           future: Future.wait([instanceFuture, quranFuture]),
           builder: (context, AsyncSnapshot<List<dynamic>> snapshots) {
