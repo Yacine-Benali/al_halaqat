@@ -11,14 +11,10 @@ class GaAdminsProvider {
 
   final Database database;
 
-  Stream<List<Admin>> fetcheGaAdmins(
-    int limitNumber,
-  ) =>
-      database.collectionStream(
+  Stream<List<Admin>> fetcheGaAdmins() => database.collectionStream(
         path: APIPath.usersCollection(),
         builder: (data, documentId) => Admin.fromMap(data, documentId),
-        queryBuilder: (query) =>
-            query.where('isAdmin', isEqualTo: true).limit(limitNumber),
+        queryBuilder: (query) => query.where('isAdmin', isEqualTo: true),
         sort: (rhs, lhs) => lhs.createdAt.compareTo(rhs.createdAt),
       );
 

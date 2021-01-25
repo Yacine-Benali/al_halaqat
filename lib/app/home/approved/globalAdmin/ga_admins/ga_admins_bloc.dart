@@ -27,17 +27,10 @@ class GaAdminsBloc {
   Future<List<StudyCenter>> fetchCenters() async =>
       this.centersList = await provider.fetchCenters();
   Stream<List<Admin>> get adminsListStream => adminsListStreamController.stream;
-  Future<void> fetchMoreAdminsList() async {
-    if (limit >= 1000)
-      limit = 1000;
-    else
-      limit += 20;
-    await Future.delayed(const Duration(milliseconds: 750));
-  }
 
   Future<void> fetchAdminsList() async {
     await fetchCenters();
-    Stream stream = provider.fetcheGaAdmins(limit);
+    Stream stream = provider.fetcheGaAdmins();
 
     stream.listen((list) {
       if (!adminsListStreamController.isClosed) {

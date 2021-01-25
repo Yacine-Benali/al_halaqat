@@ -68,7 +68,7 @@ class _GaAdminsScreenState extends State<GaAdminsScreen> {
           setState(() {
             isLoading = true;
           });
-          bloc.fetchMoreAdminsList().then((value) {
+          Future.delayed(Duration(milliseconds: 500)).then((value) {
             setState(() {
               isLoading = false;
             });
@@ -151,6 +151,7 @@ class _GaAdminsScreenState extends State<GaAdminsScreen> {
         stream: adminsStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            snapshot.data.forEach((element) => print(element.username));
             adminsList =
                 bloc.getFilteredAdminsList(snapshot.data, chosenAdminsState);
 
