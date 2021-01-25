@@ -1,5 +1,6 @@
 import 'package:alhalaqat/app/home/approved/admin/admin_home_page.dart';
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_centers/ga_about_center_screen.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_centers/ga_center_admins/ga_center_admins_screen.dart';
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_bloc.dart';
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_centers/ga_new_center_screen.dart';
 import 'package:alhalaqat/app/models/study_center.dart';
@@ -39,7 +40,7 @@ class _GaCentersTileWidgetState extends State<GaCentersTileWidget> {
   ProgressDialog pr;
 
   @override
-  initState() {
+  void initState() {
     pr = ProgressDialog(
       widget.scaffoldKey.currentContext,
       type: ProgressDialogType.Normal,
@@ -89,6 +90,16 @@ class _GaCentersTileWidgetState extends State<GaCentersTileWidget> {
           fullscreenDialog: true,
         ),
       );
+    } else if (action == 'findAdmins') {
+      await Navigator.of(context, rootNavigator: false).push(
+        MaterialPageRoute(
+          builder: (context) => GaCenterAdminsScreen.create(
+            context: context,
+            studyCenter: widget.center,
+          ),
+          fullscreenDialog: true,
+        ),
+      );
     } else {
       final bool didRequestSignOut = await PlatformAlertDialog(
         title: KeyTranslate.actionsList[action],
@@ -133,8 +144,14 @@ class _GaCentersTileWidgetState extends State<GaCentersTileWidget> {
     List<String> actions = List();
     switch (widget.center.state) {
       case 'approved':
-        actions
-            .addAll(['aboutCenter', 'aboutAdmin', 'edit', 'archive', 'delete']);
+        actions.addAll([
+          'aboutCenter',
+          'aboutAdmin',
+          'edit',
+          'archive',
+          'delete',
+          'findAdmins'
+        ]);
         break;
       case 'archived':
         actions.addAll(['aboutCenter', 'aboutAdmin', 'reApprove']);

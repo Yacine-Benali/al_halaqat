@@ -88,8 +88,8 @@ class FirebaseMessagingService {
     });
 
     _firebaseMessaging.getToken().then((String newToken) async {
-      print('************user token*************');
-      print(newToken);
+      //  print('************user token*************');
+      // print(newToken);
       SharedPreferences perfs = await SharedPreferences.getInstance();
       LocalStorageService storageService = LocalStorageService(perfs: perfs);
       String oldToken = storageService.getValue('pushToken');

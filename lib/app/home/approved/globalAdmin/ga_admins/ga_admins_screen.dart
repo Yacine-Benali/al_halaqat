@@ -57,13 +57,10 @@ class _GaAdminsScreenState extends State<GaAdminsScreen> {
     adminsStream = bloc.adminsListStream;
     isLoading = false;
     bloc.fetchAdminsList();
-
     listScrollController.addListener(() {
       double maxScroll = listScrollController.position.maxScrollExtent;
       double currentScroll = listScrollController.position.pixels;
       if (maxScroll == currentScroll) {
-        print('load more messages');
-
         if (adminsList.isNotEmpty) {
           setState(() {
             isLoading = true;
@@ -151,7 +148,6 @@ class _GaAdminsScreenState extends State<GaAdminsScreen> {
         stream: adminsStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            snapshot.data.forEach((element) => print(element.username));
             adminsList =
                 bloc.getFilteredAdminsList(snapshot.data, chosenAdminsState);
 
