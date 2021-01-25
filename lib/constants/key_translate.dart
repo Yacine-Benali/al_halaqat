@@ -355,6 +355,15 @@ class KeyTranslate {
     'pending': 'قيد الانتظار',
   };
 
+  static const Map<String, String> centerState = {
+    'approved': 'نشط',
+    'archived': 'مؤرشف ',
+    'deleted': 'محذوف ',
+    'empty': 'بدون حالة',
+    'pendingWithCenter': 'قيد الانتظار',
+    'pending': 'قيد الانتظار',
+  };
+
   static const Map<String, String> createUserAuthType = {
     'usernameAndPassword': 'اسم  المستخدم',
     'emailAndPassword': 'إيمايل',

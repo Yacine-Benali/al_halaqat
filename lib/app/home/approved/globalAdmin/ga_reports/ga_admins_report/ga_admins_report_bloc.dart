@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admin_report_provider.dart';
-import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admin_report_row.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admins_report_provider.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admins_report_row.dart';
 import 'package:alhalaqat/app/models/admin.dart';
 import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:alhalaqat/common_widgets/format.dart';
@@ -83,7 +83,7 @@ class GaAdminReportBloc {
       fuckingRow.add(row.admin.readableId);
       fuckingRow.add(row.admin.name);
       fuckingRow.add(row.center?.name ?? '');
-      fuckingRow.add(KeyTranslate.reportsState[row.state] ?? '');
+      fuckingRow.add(KeyTranslate.centerState[row.state] ?? '');
       fuckingRow.add(row.admin.dateOfBirth.toString());
       fuckingRow.add(row.admin.gender);
       fuckingRow.add(KeyTranslate.isoCountryToArabic[row.admin.nationality]);

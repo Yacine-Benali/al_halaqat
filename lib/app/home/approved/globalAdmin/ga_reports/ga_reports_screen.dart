@@ -1,5 +1,5 @@
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/admin_logs/admin_logs_screen.dart';
-import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admin_report_screen.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admins_report_screen.dart';
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_centers_reports/ga_centers_report_screen.dart';
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_halaqat_reports/ga_halaqat_report_screen.dart';
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_students_reports/ga_students_report_screen.dart';

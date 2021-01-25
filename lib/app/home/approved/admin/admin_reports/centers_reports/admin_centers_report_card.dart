@@ -1,18 +1,28 @@
-import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admin_report_row.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:alhalaqat/common_widgets/format.dart';
 import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-class GaAdminReportCard extends StatelessWidget {
-  const GaAdminReportCard({
+import 'admin_center_report_row.dart';
+
+class AdminCentersReportCard extends StatelessWidget {
+  const AdminCentersReportCard({
     Key key,
     @required this.rowList,
     @required this.columnTitleList,
   }) : super(key: key);
 
-  final List<GaAdminReportRow> rowList;
+  final List<AdminCenterReportRow> rowList;
   final List<String> columnTitleList;
+
+  String getAddress(StudyCenter center) {
+    return KeyTranslate.isoCountryToArabic[center.country] +
+            ' ' +
+            center.city ??
+        '' + ' ' + center.street ??
+        '';
+  }
 
   TableRow buildColumnBlock() {
     List<TableCell> cells = [];
@@ -24,7 +34,7 @@ class GaAdminReportCard extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerRight,
             child: AutoSizeText(
-              '$columnTitle',
+              '$columnTitle' ?? '',
               wrapWords: false,
             ),
           ),
@@ -38,14 +48,14 @@ class GaAdminReportCard extends StatelessWidget {
   List<TableRow> buildRowList() {
     List<TableRow> tableRowList = List();
 
-    for (GaAdminReportRow row in rowList) {
+    for (AdminCenterReportRow row in rowList) {
       TableRow tableRow = TableRow(children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
             alignment: Alignment.centerRight,
             child: AutoSizeText(
-              row.admin.readableId,
+              row.center.readableId ?? '',
             ),
           ),
         ),
@@ -54,7 +64,7 @@ class GaAdminReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.admin.name),
+            child: AutoSizeText(row.center.name) ?? '',
           ),
         ),
         Padding(
@@ -62,22 +72,7 @@ class GaAdminReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.center?.name ?? ''),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-              alignment: Alignment.centerRight,
-              height: kMinInteractiveDimension,
-              child: AutoSizeText(KeyTranslate.reportsState[row.state] ?? '')),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            alignment: Alignment.centerRight,
-            height: kMinInteractiveDimension,
-            child: AutoSizeText(row.admin.dateOfBirth.toString()),
+            child: AutoSizeText(getAddress(row.center) ?? ''),
           ),
         ),
         Padding(
@@ -85,7 +80,7 @@ class GaAdminReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.admin.gender),
+            child: AutoSizeText(row.center.phoneNumber ?? ''),
           ),
         ),
         Padding(
@@ -94,7 +89,7 @@ class GaAdminReportCard extends StatelessWidget {
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
             child: AutoSizeText(
-                KeyTranslate.isoCountryToArabic[row.admin.nationality]),
+                Format.date(row.center.createdAt.toDate() ?? DateTime.now())),
           ),
         ),
         Padding(
@@ -102,7 +97,7 @@ class GaAdminReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.admin.address),
+            child: AutoSizeText(row.center.createdBy['name'] ?? ''),
           ),
         ),
         Padding(
@@ -110,7 +105,7 @@ class GaAdminReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.admin.phoneNumber),
+            child: AutoSizeText(row.numberOfApprovedStudents.toString() ?? ''),
           ),
         ),
         Padding(
@@ -118,7 +113,7 @@ class GaAdminReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.admin.educationalLevel),
+            child: AutoSizeText(row.numberOfArchivedStudents.toString() ?? ''),
           ),
         ),
         Padding(
@@ -126,7 +121,7 @@ class GaAdminReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.admin.etablissement),
+            child: AutoSizeText(row.numberOfApprovedTeachers.toString() ?? ''),
           ),
         ),
         Padding(
@@ -134,7 +129,7 @@ class GaAdminReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.admin.note),
+            child: AutoSizeText(row.numberOfArchivedTeachers.toString() ?? ''),
           ),
         ),
         Padding(
@@ -142,7 +137,7 @@ class GaAdminReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(Format.date(row.admin.createdAt.toDate())),
+            child: AutoSizeText(row.numberOfApprovedHalaqat.toString() ?? ''),
           ),
         ),
         Padding(
@@ -150,7 +145,16 @@ class GaAdminReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.admin.createdBy['name']),
+            child: AutoSizeText(row.numberOfArchivedHalaqat.toString() ?? ''),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            alignment: Alignment.centerRight,
+            height: kMinInteractiveDimension,
+            child:
+                AutoSizeText(KeyTranslate.centerState[row.center.state] ?? ''),
           ),
         ),
       ]);
@@ -168,8 +172,8 @@ class GaAdminReportCard extends StatelessWidget {
         child: Container(
           child: Card(
             child: Table(
-              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
               defaultColumnWidth: FixedColumnWidth(125),
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
               border: TableBorder(
                 horizontalInside:
                     BorderSide(width: 1.0, color: Colors.grey[350]),

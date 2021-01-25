@@ -13,6 +13,8 @@ import 'package:alhalaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'centers_reports/admin_centers_report_screen.dart';
+
 class AdminReportsScreen extends StatefulWidget {
   const AdminReportsScreen._({
     Key key,
@@ -99,6 +101,20 @@ class _AdminReportsScreenState extends State<AdminReportsScreen> {
                   children: [
                     SizedBox(height: 70.0),
                     MenuButtonWidget(
+                      text: 'ملخص كل المراكز',
+                      onPressed: () =>
+                          Navigator.of(context, rootNavigator: false).push(
+                        MaterialPageRoute(
+                          builder: (context) => AdminCentersReportScreen.create(
+                            context: context,
+                            centersList: widget.centers,
+                          ),
+                          fullscreenDialog: true,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    MenuButtonWidget(
                       text: 'المركز',
                       onPressed: () =>
                           Navigator.of(context, rootNavigator: false).push(
@@ -173,7 +189,8 @@ class _AdminReportsScreenState extends State<AdminReportsScreen> {
             } else {
               return EmptyContent(
                 title: '',
-                message: 'mesemptysage',
+                //TODO translate
+                message: 'there are no halaqat for this center',
               );
             }
           } else if (snapshot.hasError) {

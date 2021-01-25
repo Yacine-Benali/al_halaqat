@@ -1,7 +1,7 @@
-import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admin_report_bloc.dart';
-import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admin_report_card.dart';
-import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admin_report_provider.dart';
-import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admin_report_row.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admins_report_bloc.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admins_report_card.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admins_report_provider.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_admins_report/ga_admins_report_row.dart';
 import 'package:alhalaqat/common_widgets/empty_content.dart';
 import 'package:alhalaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/platform_report_dialog.dart';

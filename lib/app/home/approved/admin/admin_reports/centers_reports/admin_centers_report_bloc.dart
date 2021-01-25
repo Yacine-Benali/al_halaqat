@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_centers_reports/ga_center_report_row.dart';
-import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_centers_reports/ga_centers_report_provider.dart';
 import 'package:alhalaqat/app/models/halaqa.dart';
 import 'package:alhalaqat/app/models/student.dart';
 import 'package:alhalaqat/app/models/study_center.dart';
@@ -12,17 +10,22 @@ import 'package:alhalaqat/services/local_storage_service.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/foundation.dart';
 
-class GaCentersReportBloc {
-  GaCentersReportBloc({
+import 'admin_center_report_row.dart';
+import 'admin_centers_report_provider.dart';
+
+class AdminCentersReportBloc {
+  AdminCentersReportBloc({
     @required this.provider,
+    @required this.centersList,
   });
 
-  final GaCentersReportProvider provider;
+  final AdminCentersReportProvider provider;
+  final List<StudyCenter> centersList;
 
-  Future<List<GaCenterReportRow>> getCenterReports() async {
-    List<GaCenterReportRow> list = List();
+  Future<List<AdminCenterReportRow>> getCenterReports() async {
+    List<AdminCenterReportRow> list = List();
 
-    List<StudyCenter> centersList = await provider.fetchCenters();
+    // List<StudyCenter> centersList = await provider.fetchCenters();
     for (StudyCenter center in centersList) {
       List<Student> approvedStudentsList =
           await provider.fetchCenterStudents(center.id, 'approved');
@@ -39,7 +42,7 @@ class GaCentersReportBloc {
       List<Teacher> archivedTeachersList =
           await provider.fetchCenterTeachers(center.id, 'archived');
 
-      GaCenterReportRow row = GaCenterReportRow(
+      AdminCenterReportRow row = AdminCenterReportRow(
         center: center,
         numberOfApprovedStudents: approvedStudentsList.length ?? 0,
         numberOfArchivedStudents: archivedStudentsList.length ?? 0,
@@ -82,7 +85,7 @@ class GaCentersReportBloc {
         center.street;
   }
 
-  Future<String> getReportasCsv(List<GaCenterReportRow> rowList) async {
+  Future<String> getReportasCsv(List<AdminCenterReportRow> rowList) async {
     var excel = Excel.createExcel();
     Sheet centesSheet = excel['المراكز'];
     excel.delete('Sheet1');
@@ -92,7 +95,7 @@ class GaCentersReportBloc {
     centesSheet.insertRowIterables(stamp, 0);
 
     centesSheet.appendRow(getColumnTitle());
-    for (GaCenterReportRow row in rowList) {
+    for (AdminCenterReportRow row in rowList) {
       List<String> fuckingRow = List();
       fuckingRow.add(row.center.readableId);
       fuckingRow.add(row.center.name);

@@ -57,7 +57,6 @@ class _BaseScreenState extends State<HomePage> {
     return StreamBuilder<User>(
       stream: userStream,
       builder: (context, snapshot) {
-        print(snapshot);
         return Provider<AsyncSnapshot<User>>.value(
           value: snapshot,
           child: Provider<User>.value(
