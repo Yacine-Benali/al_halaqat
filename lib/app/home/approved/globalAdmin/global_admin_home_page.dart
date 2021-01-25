@@ -1,5 +1,6 @@
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_admins/ga_admins_screen.dart';
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_screen.dart';
+import 'package:alhalaqat/app/home/approved/globalAdmin/ga_config/ga_config_screen.dart';
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_global_admins/ga_global_admins_screen.dart';
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_profile/ga_profile_screen.dart';
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_reports/ga_reports_screen.dart';
@@ -72,6 +73,21 @@ class _GlobalAdminHomePageState extends State<GlobalAdminHomePage> {
         ),
         actions: [
           HomeScreenPopUp(),
+          Padding(
+            padding: EdgeInsets.only(left: 20.0),
+            child: InkWell(
+              onTap: () => Navigator.of(context, rootNavigator: false).push(
+                MaterialPageRoute(
+                  builder: (context) => GaConfigScreen.create(context: context),
+                  fullscreenDialog: true,
+                ),
+              ),
+              child: Icon(
+                Icons.settings,
+                size: 26.0,
+              ),
+            ),
+          ),
           Padding(
             padding: EdgeInsets.only(left: 20.0),
             child: InkWell(

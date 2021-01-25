@@ -41,14 +41,17 @@ class GaRequestTileWidget extends StatelessWidget {
   }
 
   Widget _buildTitle() {
-    String t = gaRequest.action == 'join-new' ? "انضمام مشرف" : "إنشاء مركز";
+    String t =
+        ((gaRequest.action == 'join-new') ? "انضمام مشرف" : "إنشاء مركز");
+    print(t);
     return Text(
-      t +
-          ': ' +
-          '${gaRequest.admin.name} ' +
-          actionTranslate[gaRequest.action] +
-          ' ' +
-          gaRequest.center.name,
+      t ??
+          '' +
+              ': ' +
+              '${gaRequest.admin.name} ' +
+              actionTranslate[gaRequest.action] +
+              ' ' +
+              gaRequest.center.name,
     );
   }
 

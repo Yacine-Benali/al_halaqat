@@ -47,4 +47,6 @@ class APIPath {
       'centers/$centerId/logs';
 
   static String adminLogsCollection() => 'adminLogs';
+  static String gaConfigDocument() =>
+      '/globalConfiguration/globalAdminConfiguration';
 }
