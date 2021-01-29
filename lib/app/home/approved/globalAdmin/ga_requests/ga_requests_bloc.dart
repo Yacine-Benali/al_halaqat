@@ -71,7 +71,6 @@ class GaRequestsBloc {
       );
     } else if (globalAdminRequest.action == 'join-existing') {
       //join-existing
-
       if (globalAdminRequest.state == 'approved') {
         //approved
         // print("approved");

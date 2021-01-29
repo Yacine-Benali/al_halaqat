@@ -11,7 +11,7 @@ const onRequestApproved = require('./onRequestApproved');
 const onInstanceCreated = require('./onInstanceCreated');
 const onMessageCreated = require('./onMessageCreated');
 const onAdminRequestCreated = require('./onAdminRequestCreated');
-
+const autoAccept = require('./autoAccept');
 
 //admin
 //exports.defaultConfig = defaultConfig.defaultConfig;
@@ -23,5 +23,5 @@ exports.onRequestApproved = onRequestApproved.onRequestApproved;
 exports.onInstanceCreated = onInstanceCreated.onInstanceCreated;
 exports.onMessageCreated = onMessageCreated.onMessageCreated;
 exports.onAdminRequestCreated = onAdminRequestCreated.onAdminRequestCreated;
-
+exports.autoAccept = autoAccept.autoAccept;
 

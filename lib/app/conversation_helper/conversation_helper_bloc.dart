@@ -245,14 +245,14 @@ class ConversationHelpeBloc {
   }
 
   Future<void> onAdminAcceptance(Admin admin, String centerId) async {
-    print('on admin acceptance');
+    //print('on admin acceptance');
     final ConversationHelperProvide provider =
         ConversationHelperProvide(database: database);
     final List<Student> studentsList =
         await provider.fetchCenterStudents(centerId);
 
     for (Student student in studentsList) {
-      print('foudn studnents');
+      // print('foudn studnents');
       String groupeChatId = _calculateGroupeChatId(student.id, admin.id);
 
       Conversation conversation = Conversation(
