@@ -1,4 +1,4 @@
-package com.benalitechnologies.alhalaqat
+package com.darwichtech.alhalaqat
 
 import io.flutter.embedding.android.FlutterActivity
 

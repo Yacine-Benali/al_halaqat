@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "975934860489-gmpq3vpppckvienr7qukrvhad94amett.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.benalitechnologies.alhalaqat",
+            "certificate_hash": "7ffef29121b1bb26878b0514c65ec25e3b8367bd"
+          }
+        },
+        {
           "client_id": "975934860489-l5sm19mrifpkf034mvk3g0iu51bufe8g.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -38,6 +46,57 @@
             {
               "client_id": "975934860489-c5di3thivlle9cioiuj4epoi2g56chfb.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "975934860489-d7v82kuo3euehocmnaoappua3mub70of.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.benalitechnologies.alhalaqat"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:975934860489:android:0a0cea782f11043edb3118",
+        "android_client_info": {
+          "package_name": "com.darwichtech.alhalaqat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "975934860489-m1f7ntedm7qii04r8si590192suiicgs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.darwichtech.alhalaqat",
+            "certificate_hash": "3498103d37ecca38fe7abf71cdddc865055ad98e"
+          }
+        },
+        {
+          "client_id": "975934860489-c5di3thivlle9cioiuj4epoi2g56chfb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIoJ_HNH87R7hHv1-zqha1QNJjnsdlcag"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "975934860489-c5di3thivlle9cioiuj4epoi2g56chfb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "975934860489-d7v82kuo3euehocmnaoappua3mub70of.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.benalitechnologies.alhalaqat"
+              }
             }
           ]
         }
