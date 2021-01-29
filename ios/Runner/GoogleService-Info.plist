@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>975934860489-jr1eubku4se0thdrgep7ks8700heo2ks.apps.googleusercontent.com</string>
+	<string>975934860489-vlkfcdqi9cr14n423rltnt36aq74idnj.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.975934860489-jr1eubku4se0thdrgep7ks8700heo2ks</string>
+	<string>com.googleusercontent.apps.975934860489-vlkfcdqi9cr14n423rltnt36aq74idnj</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>975934860489-gmpq3vpppckvienr7qukrvhad94amett.apps.googleusercontent.com</string>
+	<string>975934860489-54k9n98sihlmfq0psbv7fjtpdr6hvpa1.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBAl3vi88JEN8eVhMTi8wFjvtOs8ghDBSQ</string>
 	<key>GCM_SENDER_ID</key>
@@ -31,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:975934860489:ios:6fde8bb7d615c641db3118</string>
+	<string>1:975934860489:ios:b02701b4859ea016db3118</string>
 	<key>DATABASE_URL</key>
 	<string>https://al-halaqat.firebaseio.com</string>
 </dict>
