@@ -1,10 +1,10 @@
 import 'package:alhalaqat/app/conversation_helper/conversation_helper_bloc.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/user_instances/addition/addition_screen.dart';
 import 'package:alhalaqat/app/home/approved/common_screens/user_instances/instance_tile_widget.dart';
 import 'package:alhalaqat/app/home/approved/common_screens/user_instances/intances_bloc.dart';
 import 'package:alhalaqat/app/home/approved/common_screens/user_instances/intances_provider.dart';
 import 'package:alhalaqat/app/home/approved/teacher/teacher_students/teacher_students_bloc.dart';
 import 'package:alhalaqat/app/home/approved/teacher/teacher_students/teacher_students_provider.dart';
-import 'package:alhalaqat/app/home/approved/teacher/teacher_students/teacher_students_screen.dart';
 import 'package:alhalaqat/app/logs_helper/logs_helper_bloc.dart';
 import 'package:alhalaqat/app/models/halaqa.dart';
 import 'package:alhalaqat/app/models/instance.dart';
@@ -270,10 +270,11 @@ class _InstancesScreenState extends State<InstancesScreen> {
               child: InkWell(
                 onTap: () => Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
-                    builder: (context) => TeacherStudentsScreen.create(
+                    builder: (context) => AdditionScreen.create(
                       context: context,
-                      centers: [bloc.chosenCenter],
+                      halaqa: bloc.halaqa,
                     ),
+                    fullscreenDialog: true,
                   ),
                 ),
                 child: Icon(

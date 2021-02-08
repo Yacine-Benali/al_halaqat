@@ -113,7 +113,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   void action() async {
     try {
       await pr.show();
-
+      bloc.saveInstance(instance);
       await Future.delayed(Duration(seconds: 1));
       await pr.hide();
 

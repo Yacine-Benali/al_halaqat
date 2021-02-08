@@ -102,6 +102,32 @@ class Student extends User {
     );
   }
 
+  Student copyWith({List<String> halaqatLearningIn}) {
+    return Student(
+      id: this.id,
+      name: this.name,
+      dateOfBirth: this.dateOfBirth,
+      gender: this.gender,
+      nationality: this.nationality,
+      address: this.address,
+      phoneNumber: this.phoneNumber,
+      educationalLevel: this.educationalLevel,
+      etablissement: this.etablissement,
+      note: this.note,
+      readableId: this.readableId,
+      username: this.username,
+      password: this.password,
+      state: this.state,
+      createdAt: this.createdAt,
+      createdBy: this.createdBy,
+      center: this.center,
+      halaqatLearningIn: halaqatLearningIn ?? this.halaqatLearningIn,
+      isStudent: this.isStudent,
+      //
+      parentPhoneNumber: parentPhoneNumber,
+    );
+  }
+
   @override
   Map<String, dynamic> toMap() {
     return {
