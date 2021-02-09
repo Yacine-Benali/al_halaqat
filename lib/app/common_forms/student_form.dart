@@ -80,6 +80,7 @@ class _NewStudentFormState extends State<StudentForm>
   Map<String, String> createdBy;
   String center;
   List<String> halaqatLearningIn;
+  List<String> halaqatOrganizingIn;
   //
   bool isStudent;
   String parentPhoneNumber;
@@ -113,6 +114,7 @@ class _NewStudentFormState extends State<StudentForm>
     createdBy = student?.createdBy ?? Map<String, String>();
     center = student?.center;
     halaqatLearningIn = student?.halaqatLearningIn ?? List<String>();
+    halaqatOrganizingIn = student?.halaqatOrganizingIn ?? List<String>();
     isStudent = student?.isStudent;
     parentPhoneNumber = student?.parentPhoneNumber ?? ' ';
     //
@@ -122,6 +124,7 @@ class _NewStudentFormState extends State<StudentForm>
     if (widget.presetHalaqa != null) {
       halaqatLearningIn.add(widget.presetHalaqa);
     }
+
     _save();
 
     super.initState();
@@ -149,6 +152,7 @@ class _NewStudentFormState extends State<StudentForm>
       createdBy: createdBy,
       halaqatLearningIn: halaqatLearningIn,
       center: center,
+      halaqatOrganizingIn: halaqatOrganizingIn,
     );
     widget.onSaved(newStudent);
   }
@@ -361,7 +365,7 @@ class _NewStudentFormState extends State<StudentForm>
                       autovalidate: false,
                       titleText: 'حلقات ',
                       validator: (value) => null,
-                      dataSource: buildMap(widget.halaqatList),
+                      dataSource: buildHalaqatLearningInMap(widget.halaqatList),
                       textField: 'display',
                       valueField: 'value',
                       okButtonLabel: 'حسنا',
@@ -369,6 +373,36 @@ class _NewStudentFormState extends State<StudentForm>
                       hintText: 'انقر هنا للاختيار الحلقات',
                       onSaved: (values) {
                         halaqatLearningIn = List<String>.from(values);
+
+                        _save();
+                        setState(() {});
+                      },
+                    ),
+                  ),
+                  IgnorePointer(
+                    ignoring: !widget.isEnabled,
+                    child: MultiSelectFormField(
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey,
+                          width: widget.isEnabled ? 2.5 : 1.2,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      initialValue: halaqatOrganizingIn,
+                      fillColor: Colors.transparent,
+                      autovalidate: false,
+                      titleText: ' 2 حلقات ',
+                      validator: (value) => null,
+                      dataSource: buildHalaqatOrganizingInMap(
+                          widget.halaqatList, halaqatLearningIn),
+                      textField: 'display',
+                      valueField: 'value',
+                      okButtonLabel: 'حسنا',
+                      cancelButtonLabel: 'إلغاء',
+                      hintText: 'انقر هنا للاختيار الحلقات',
+                      onSaved: (values) {
+                        halaqatOrganizingIn = List<String>.from(values);
                         _save();
                       },
                     ),
@@ -396,7 +430,8 @@ class _NewStudentFormState extends State<StudentForm>
     return List<String>();
   }
 
-  List<Map<String, String>> buildMap(List<Halaqa> halaqatList) {
+  List<Map<String, String>> buildHalaqatLearningInMap(
+      List<Halaqa> halaqatList) {
     List<Map<String, String>> subjectDataSource = List();
     for (Halaqa halaqa in halaqatList) {
       subjectDataSource.add(
@@ -406,6 +441,26 @@ class _NewStudentFormState extends State<StudentForm>
         },
       );
     }
+    return subjectDataSource;
+  }
+
+  List<Map<String, String>> buildHalaqatOrganizingInMap(
+      List<Halaqa> halaqatList, List<String> halaqatLearningIn2) {
+    List<Map<String, String>> subjectDataSource = List();
+
+    for (Halaqa halaqa in halaqatList) {
+      for (String halaqaLearningInId in halaqatLearningIn2) {
+        if (halaqa.id == halaqaLearningInId) {
+          subjectDataSource.add(
+            {
+              "display": halaqa.name,
+              "value": halaqa.id,
+            },
+          );
+        }
+      }
+    }
+    print(subjectDataSource);
     return subjectDataSource;
   }
 }

@@ -265,25 +265,25 @@ class _InstancesScreenState extends State<InstancesScreen> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 20.0),
-              child: InkWell(
-                onTap: () => Navigator.of(context, rootNavigator: false).push(
-                  MaterialPageRoute(
-                    builder: (context) => AdditionScreen.create(
-                      context: context,
-                      halaqa: bloc.halaqa,
-                    ),
-                    fullscreenDialog: true,
+          ],
+          Padding(
+            padding: EdgeInsets.only(left: 20.0),
+            child: InkWell(
+              onTap: () => Navigator.of(context, rootNavigator: false).push(
+                MaterialPageRoute(
+                  builder: (context) => AdditionScreen.create(
+                    context: context,
+                    halaqa: bloc.halaqa,
                   ),
-                ),
-                child: Icon(
-                  Icons.school,
-                  size: 26.0,
+                  fullscreenDialog: true,
                 ),
               ),
+              child: Icon(
+                Icons.school,
+                size: 26.0,
+              ),
             ),
-          ],
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(

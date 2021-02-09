@@ -42,7 +42,11 @@ class TeacherStudentsBloc {
     if (halaqatId.isEmpty) {
       partitionedList.add(['emptyId']);
     }
-
+    /*
+    calling students of each sublist
+     may result in duplicate data as one student can be in the first sublist
+     and in the second sublist 
+     */
     List<Stream<List<Student>>> studentStreamList = partitionedList
         .map((sublist) => provider.fetchStudents(sublist))
         .toList();
@@ -51,8 +55,12 @@ class TeacherStudentsBloc {
         .map((sublist) => provider.fetchHalaqat(sublist))
         .toList();
 
-    Stream<List<Student>> studentsStream = Rx.combineLatest(studentStreamList,
-        (List<List<Student>> values) => values.expand((x) => x).toList());
+    Stream<List<Student>> studentsStream =
+        Rx.combineLatest(studentStreamList, (List<List<Student>> values) {
+      List<Student> notUniqueStudentsList = values.expand((x) => x).toList();
+      List<Student> uniqueStudentsList = notUniqueStudentsList.toSet().toList();
+      return uniqueStudentsList;
+    });
 
     Stream<List<Halaqa>> halaqatStream = Rx.combineLatest(halaqatStreamList,
         (List<List<Halaqa>> values) => values.expand((x) => x).toList());

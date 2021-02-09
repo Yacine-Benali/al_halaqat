@@ -244,11 +244,13 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
             builder: (context, snapshot) {
               if (snapshot.hasData && quranSnapshot.hasData) {
                 quran = quranSnapshot.data;
+
                 List<Student> studentsList = bloc.getFilteredStudentsList(
                   snapshot.data.usersList,
                   chosenCenter,
                   chosenStudentState,
                 );
+
                 halaqatList = bloc.getFilteredHalaqaList(
                   snapshot.data.halaqatList,
                   chosenCenter,
