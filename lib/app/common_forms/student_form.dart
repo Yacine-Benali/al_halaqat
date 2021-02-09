@@ -392,7 +392,7 @@ class _NewStudentFormState extends State<StudentForm>
                       initialValue: halaqatOrganizingIn,
                       fillColor: Colors.transparent,
                       autovalidate: false,
-                      titleText: ' 2 حلقات ',
+                      titleText: 'الحلقات المشرف عليها',
                       validator: (value) => null,
                       dataSource: buildHalaqatOrganizingInMap(
                           widget.halaqatList, halaqatLearningIn),
@@ -460,6 +460,7 @@ class _NewStudentFormState extends State<StudentForm>
         }
       }
     }
+    print(halaqatOrganizingIn);
     print(subjectDataSource);
     return subjectDataSource;
   }

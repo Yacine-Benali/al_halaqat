@@ -65,7 +65,7 @@ class _StudentHalaqatScreenState extends State<StudentHalaqatScreen> {
       return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          title: Center(child: Text('الحلقات')),
+          title: Text('الحلقات'),
           centerTitle: true,
         ),
         body: FutureBuilder<List<StudentProfile>>(

@@ -43,6 +43,7 @@ class TeacherStudentsBloc {
       partitionedList.add(['emptyId']);
     }
     /*
+    warning
     calling students of each sublist
      may result in duplicate data as one student can be in the first sublist
      and in the second sublist 
@@ -57,8 +58,10 @@ class TeacherStudentsBloc {
 
     Stream<List<Student>> studentsStream =
         Rx.combineLatest(studentStreamList, (List<List<Student>> values) {
+      //! fix for above warning
       List<Student> notUniqueStudentsList = values.expand((x) => x).toList();
       List<Student> uniqueStudentsList = notUniqueStudentsList.toSet().toList();
+
       return uniqueStudentsList;
     });
 

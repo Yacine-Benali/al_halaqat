@@ -46,7 +46,6 @@ class _StudentHalaqaInfoScreenState extends State<StudentHalaqaInfoScreen> {
   }
 
   List<Widget> getTabBarView() {
-    print('tab bar');
     List<Widget> tabBarViewList = List(titles.length);
     tabBarViewList[0] = StudentHalaqaEvaluationScreen(
       bloc: bloc,

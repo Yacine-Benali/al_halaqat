@@ -25,10 +25,18 @@ class AttendanceBloc {
     List<String> columnTitleList = List();
     columnTitleList.add('الاسم');
     columnTitleList.addAll(KeyTranslate.attendanceState.values);
-    columnTitleList.addAll([
-      'ملاحظة',
-      'تقييم',
-    ]);
+
+    if (!(user is Student)) {
+      columnTitleList.addAll([
+        'ملاحظة',
+        'تقييم',
+      ]);
+    } else {
+      columnTitleList.addAll([
+        'ملاحظة',
+      ]);
+    }
+
     return columnTitleList;
   }
 

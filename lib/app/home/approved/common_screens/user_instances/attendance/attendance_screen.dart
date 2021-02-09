@@ -5,8 +5,10 @@ import 'package:alhalaqat/app/models/admin.dart';
 import 'package:alhalaqat/app/models/halaqa.dart';
 import 'package:alhalaqat/app/models/instance.dart';
 import 'package:alhalaqat/app/models/quran.dart';
+import 'package:alhalaqat/app/models/student.dart';
 import 'package:alhalaqat/app/models/student_attendance.dart';
 import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/models/teacher.dart';
 import 'package:alhalaqat/app/models/teacher_summery.dart';
 import 'package:alhalaqat/app/models/user.dart';
 import 'package:alhalaqat/common_widgets/empty_content.dart';
@@ -275,7 +277,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   List<TableRow> buildRowList() {
     List<TableRow> tableRowList = List();
 
-    if (bloc.user is Admin) {
+    if (!(bloc.user is Teacher)) {
       tableRowList.add(TableRow(
         children: [
           Container(
@@ -348,11 +350,13 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               onPressed: () => _teacherNoteWidget(instance.teacherSummery),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-            alignment: Alignment.center,
-            height: kMinInteractiveDimension,
-          ),
+          if (!(bloc.user is Student)) ...[
+            Container(
+              padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+              alignment: Alignment.center,
+              height: kMinInteractiveDimension,
+            ),
+          ],
         ],
       ));
     }
@@ -438,29 +442,31 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             onPressed: () => _studentNoteWidget(studentAttendance),
           ),
         ),
-        Container(
-          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-          alignment: Alignment.center,
-          height: kMinInteractiveDimension,
-          child: FlatButton(
-            child: Icon(
-              Icons.book,
-              color: Colors.grey,
-            ),
-            onPressed: () => Navigator.of(context, rootNavigator: false).push(
-              MaterialPageRoute(
-                builder: (context) => EvaluationScreen.create(
-                  context: context,
-                  instance: instance,
-                  studentId: studentAttendance.id,
-                  quran: quran,
-                  studentName: studentAttendance.name,
+        if (!(bloc.user is Student)) ...[
+          Container(
+            padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+            alignment: Alignment.center,
+            height: kMinInteractiveDimension,
+            child: FlatButton(
+              child: Icon(
+                Icons.book,
+                color: Colors.grey,
+              ),
+              onPressed: () => Navigator.of(context, rootNavigator: false).push(
+                MaterialPageRoute(
+                  builder: (context) => EvaluationScreen.create(
+                    context: context,
+                    instance: instance,
+                    studentId: studentAttendance.id,
+                    quran: quran,
+                    studentName: studentAttendance.name,
+                  ),
+                  fullscreenDialog: true,
                 ),
-                fullscreenDialog: true,
               ),
             ),
           ),
-        ),
+        ]
       ]);
 
       tableRowList.add(tableRow);

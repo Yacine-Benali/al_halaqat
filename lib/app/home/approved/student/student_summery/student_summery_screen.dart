@@ -51,7 +51,7 @@ class _StudentSummeryScreenState extends State<StudentSummeryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('المراكز')),
+        title: Center(child: Text('')),
         centerTitle: true,
       ),
       body: FutureBuilder<ReportCard>(
@@ -70,8 +70,8 @@ class _StudentSummeryScreenState extends State<StudentSummeryScreen> {
             }
           } else if (snapshot.hasError) {
             return EmptyContent(
-              title: 'Something went wrong',
-              message: 'Can\'t load items right now',
+              title: '',
+              message: '',
             );
           }
           return Center(child: CircularProgressIndicator());

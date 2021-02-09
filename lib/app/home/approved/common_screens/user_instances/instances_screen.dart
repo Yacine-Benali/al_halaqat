@@ -8,6 +8,7 @@ import 'package:alhalaqat/app/home/approved/teacher/teacher_students/teacher_stu
 import 'package:alhalaqat/app/logs_helper/logs_helper_bloc.dart';
 import 'package:alhalaqat/app/models/halaqa.dart';
 import 'package:alhalaqat/app/models/instance.dart';
+import 'package:alhalaqat/app/models/student.dart';
 import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:alhalaqat/app/models/teacher.dart';
 import 'package:alhalaqat/app/models/user.dart';
@@ -129,22 +130,15 @@ class _InstancesScreenState extends State<InstancesScreen> {
     return pickedDate;
   }
 
-  Future<TimeOfDay> _selectTime(
-      BuildContext context, TimeOfDay cuurentTime) async {
-    final pickedTime =
-        await showTimePicker(context: context, initialTime: cuurentTime);
-    return pickedTime;
-  }
-
   void createInstance(BuildContext context) async {
-    final bool didRequestSignOut = await PlatformAlertDialog(
+    final bool iscreateInstance = await PlatformAlertDialog(
       title: 'هل تريد إنشاء جلسة الآن',
       content: 'هل أنت متأكد ؟',
       cancelActionText: 'إلغاء',
       defaultActionText: 'حسنا',
     ).show(context);
 
-    if (didRequestSignOut == true) {
+    if (iscreateInstance == true) {
       // get the date
       DateTime instanceDate = await _selectDate(context, DateTime.now());
       if (instanceDate == null) {
@@ -266,24 +260,26 @@ class _InstancesScreenState extends State<InstancesScreen> {
               ),
             ),
           ],
-          Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: InkWell(
-              onTap: () => Navigator.of(context, rootNavigator: false).push(
-                MaterialPageRoute(
-                  builder: (context) => AdditionScreen.create(
-                    context: context,
-                    halaqa: bloc.halaqa,
+          if (!(bloc.user is Student)) ...[
+            Padding(
+              padding: EdgeInsets.only(left: 20.0),
+              child: InkWell(
+                onTap: () => Navigator.of(context, rootNavigator: false).push(
+                  MaterialPageRoute(
+                    builder: (context) => AdditionScreen.create(
+                      context: context,
+                      halaqa: bloc.halaqa,
+                    ),
+                    fullscreenDialog: true,
                   ),
-                  fullscreenDialog: true,
+                ),
+                child: Icon(
+                  Icons.school,
+                  size: 26.0,
                 ),
               ),
-              child: Icon(
-                Icons.school,
-                size: 26.0,
-              ),
             ),
-          ),
+          ]
         ],
       ),
       floatingActionButton: FloatingActionButton(

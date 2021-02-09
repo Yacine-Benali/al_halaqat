@@ -1,4 +1,5 @@
 import 'package:alhalaqat/app/home/approved/common_screens/conversation/conversations_screen.dart';
+import 'package:alhalaqat/app/home/approved/student/organizer_halaqat/organizer_halaqat_screen.dart';
 import 'package:alhalaqat/app/home/approved/student/s_profile/s_profile_screen.dart';
 import 'package:alhalaqat/app/home/approved/student/student_halaqat/student_halaqat_screen.dart';
 import 'package:alhalaqat/app/home/approved/student/student_summery/student_summery_screen.dart';
@@ -30,9 +31,11 @@ class _StudentHomePageState extends State<StudentHomePage> {
   Stream<List<StudyCenter>> studyCentersStream;
   Database database;
   Student student;
+  bool isOrganizer;
 
   @override
   initState() {
+    isOrganizer = false;
     student = Provider.of<User>(context, listen: false);
     database = Provider.of<Database>(context, listen: false);
 
@@ -65,6 +68,13 @@ class _StudentHomePageState extends State<StudentHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    student = Provider.of<User>(context, listen: false);
+    if (student.halaqatOrganizingIn != null) {
+      if (student.halaqatOrganizingIn.length > 0)
+        isOrganizer = true;
+      else
+        isOrganizer = false;
+    }
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text('')),
@@ -108,7 +118,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
               final StudyCenter item = snapshot.data;
 
               if (item.state == 'approved') {
-                return _buildContent();
+                return _buildContent(item);
               } else {
                 return EmptyContent(
                   title: Strings.yourCenterisArchived,
@@ -126,7 +136,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
     );
   }
 
-  Widget _buildContent() {
+  Widget _buildContent(StudyCenter item) {
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(16.0),
@@ -139,7 +149,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
               Logo(),
               SizedBox(height: 30.0),
               MenuButtonWidget(
-                text: ' الحلقات',
+                text: ' الحلقات كطالب',
                 onPressed: () async =>
                     await Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
@@ -150,6 +160,20 @@ class _StudentHomePageState extends State<StudentHomePage> {
                 ),
               ),
               SizedBox(height: 10),
+              if (isOrganizer) ...[
+                MenuButtonWidget(
+                  text: 'الحلقات كمساعد',
+                  onPressed: () async =>
+                      await Navigator.of(context, rootNavigator: false).push(
+                    MaterialPageRoute(
+                      builder: (context) => OrganizerHalaqatScreen.create(
+                          context: context, studyCenter: item),
+                      fullscreenDialog: true,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+              ],
               MenuButtonWidget(
                 text: ' ملخص الحفظ',
                 onPressed: () async =>

@@ -269,6 +269,7 @@ class _SearchBarState<T> extends State<SearchBar<T>>
   List<String> sortOptions = KeyTranslate.sort.keys.toList();
   String sortOption;
   List<T> suggestions2;
+
   @override
   void initState() {
     suggestions2 = widget.suggestions;
@@ -280,6 +281,14 @@ class _SearchBarState<T> extends State<SearchBar<T>>
     searchBarController.setListener(this);
     searchBarController.setTextController(
         _searchQueryController, widget.minimumChars);
+  }
+
+  @override
+  void didChangeDependencies() {
+    // print('dependecny changed*******');
+    suggestions2 = widget.suggestions;
+    sort();
+    super.didChangeDependencies();
   }
 
   @override

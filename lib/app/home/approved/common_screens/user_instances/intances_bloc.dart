@@ -35,9 +35,6 @@ class InstancesBloc {
 
   Stream<List<Instance>> get instancesStream => instancessListController.stream;
 
-  // Stream<List<Instance>> fetchAllInstance() =>
-  //     provider.fetchAllInstances(halaqa.id);
-
   void fetchFirstInstances() {
     Stream<List<Instance>> latestInstancesStream =
         provider.fetchIlatestInstances(halaqa.id);
@@ -140,7 +137,7 @@ class InstancesBloc {
         logsHelperBloc.adminInstanceLog(
             user, instance, ObjectAction.add, chosenCenter),
         provider.setInstance(instance)
-      ]);
+      ]); //TODO @HIGH student as organizer is not logged in the system
     } else
       provider.setInstance(instance);
   }
