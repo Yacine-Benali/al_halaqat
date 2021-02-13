@@ -1,4 +1,5 @@
 import 'package:alhalaqat/app/home/approved/common_screens/conversation/conversations_screen.dart';
+import 'package:alhalaqat/app/home/approved/teacher/teacher_center_attendance/t_center_attendance_screen.dart';
 import 'package:alhalaqat/app/home/approved/teacher/teacher_center_request/teacher_center_request_screen.dart';
 import 'package:alhalaqat/app/home/approved/teacher/teacher_halaqat/teacher_halaqat_screen.dart';
 import 'package:alhalaqat/app/home/approved/teacher/teacher_profile/teacher_profile_screen.dart';
@@ -204,6 +205,20 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
                     builder: (context) => TeacherStudentsScreen.create(
+                      context: context,
+                      centers: items,
+                    ),
+                    fullscreenDialog: true,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              MenuButtonWidget(
+                text: ' إدارة الحضور',
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: false).push(
+                  MaterialPageRoute(
+                    builder: (context) => TCenterAttendanceScreen.create(
                       context: context,
                       centers: items,
                     ),

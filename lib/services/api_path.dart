@@ -48,5 +48,13 @@ class APIPath {
 
   static String adminLogsCollection() => 'adminLogs';
   static String gaConfigDocument() =>
-      '/globalConfiguration/globalAdminConfiguration';
+      'globalConfiguration/globalAdminConfiguration';
+
+  static String teacherCenterAttendanceCollection(
+          String centerId, String teacherId) =>
+      'centers/$centerId/teachersCenterAttendance/$teacherId/attendance';
+
+  static String teacherCenterAttendanceDocument(
+          String centerId, String teacherId, String tCenterAttendanceId) =>
+      'centers/$centerId/teachersCenterAttendance/$teacherId/attendance/$tCenterAttendanceId';
 }

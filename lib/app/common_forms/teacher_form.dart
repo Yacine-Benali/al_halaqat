@@ -5,10 +5,10 @@ import 'package:alhalaqat/app/models/teacher.dart';
 import 'package:alhalaqat/app/sign_in/validator.dart';
 import 'package:alhalaqat/common_packages/multiselect_formfield/multiselect_formfield.dart';
 import 'package:alhalaqat/common_widgets/country_picker.dart';
-import 'package:alhalaqat/common_widgets/date_picker.dart';
 import 'package:alhalaqat/common_widgets/drop_down_form_field2.dart';
 import 'package:alhalaqat/common_widgets/password_text_field.dart';
 import 'package:alhalaqat/common_widgets/text_form_field2.dart';
+import 'package:alhalaqat/common_widgets/year_picker2.dart';
 import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -230,7 +230,7 @@ class _NewStudentFormState extends State<TeacherForm>
                   inputFormatter: FilteringTextInputFormatter.deny(''),
                   onChanged: (value) => name = value,
                 ),
-                DatePicker(
+                YearPicker2(
                     isEnabled: widget.isEnabled,
                     initialValue: dateOfBirth,
                     title: 'سنة الميلاد ',
