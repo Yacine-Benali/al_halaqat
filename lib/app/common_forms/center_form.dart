@@ -162,7 +162,7 @@ class _CenterFormState extends State<CenterForm> {
               hintText: 'أدخل رقم هاتف مركز',
               errorText: 'خطأ',
               maxLength: 10,
-              inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
+              inputFormatter: FilteringTextInputFormatter.digitsOnly,
               onChanged: (value) => phoneNumber = value,
               isPhoneNumber: true,
             ),

@@ -30,15 +30,16 @@ class TimePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final valueStyle = Theme.of(context).textTheme.headline6;
+    final valueStyle = Theme.of(context).textTheme.bodyText1;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         Expanded(
           flex: 4,
           child: InputDropdown(
+            labelText: labelText,
             valueText: selectedTime.format(context),
-            valueStyle: valueStyle,
+            //valueStyle: valueStyle,
             onPressed: () => _selectTime(context),
           ),
         ),

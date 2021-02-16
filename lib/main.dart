@@ -15,11 +15,11 @@ void main() async {
   final appleSignInAvailable = await AppleSignInAvailable.check();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Firebase.initializeApp();
+
   runApp(MyApp(appleSignInAvailable: appleSignInAvailable));
 }
 
 class MyApp extends StatelessWidget {
-  // [initialAuthServiceType] is made configurable for testing
   const MyApp({this.appleSignInAvailable});
   final AppleSignInAvailable appleSignInAvailable;
 

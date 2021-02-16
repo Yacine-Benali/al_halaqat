@@ -120,7 +120,7 @@ class _TeacherCenterRequestScreenState
                 hintText: 'الرقم التعريفي للمركز',
                 errorText: 'خطأ',
                 maxLength: 20,
-                inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
+                inputFormatter: FilteringTextInputFormatter.digitsOnly,
                 onChanged: (value) => centerId = value,
                 isEnabled: true,
                 isPhoneNumber: true,

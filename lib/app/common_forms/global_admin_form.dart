@@ -203,7 +203,7 @@ class _NewGlobalAdminFormState extends State<GlobalAdminForm>
                   hintText: 'أدخل رقم هاتفك',
                   errorText: 'خطأ',
                   maxLength: 10,
-                  inputFormatter: WhitelistingTextInputFormatter.digitsOnly,
+                  inputFormatter: FilteringTextInputFormatter.digitsOnly,
                   onChanged: (value) => phoneNumber = value,
                   isPhoneNumber: true,
                 ),

@@ -7,6 +7,7 @@ class TCenterAttendanceProvider {
   TCenterAttendanceProvider({@required this.database});
 
   final Database database;
+  String getUniqueId() => database.getUniqueId();
 
   Stream<List<TeacherCenterAttendance>> getTCenterAttendaceList(
     String centerId,

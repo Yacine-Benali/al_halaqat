@@ -34,7 +34,7 @@ class DatePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final valueStyle = Theme.of(context).textTheme.headline6;
+    final valueStyle = Theme.of(context).textTheme.bodyText1;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
@@ -43,7 +43,7 @@ class DatePicker extends StatelessWidget {
           child: InputDropdown(
             labelText: labelText,
             valueText: date(selectedDate),
-            valueStyle: valueStyle,
+            //valueStyle: valueStyle,
             onPressed: () => _selectDate(context),
           ),
         ),

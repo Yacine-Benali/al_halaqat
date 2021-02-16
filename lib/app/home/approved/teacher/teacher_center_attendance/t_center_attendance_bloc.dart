@@ -21,10 +21,14 @@ class TCenterAttendanceBloc {
   Future<void> saveTcenterAttendance(
     StudyCenter studyCenter,
     TeacherCenterAttendance teacherCenterAttendance,
-  ) =>
-      provider.saveTcenterAttendance(
-        studyCenter.id,
-        teacher.id,
-        teacherCenterAttendance,
-      );
+  ) {
+    if (teacherCenterAttendance.id == null) {
+      teacherCenterAttendance.id = provider.getUniqueId();
+    }
+    return provider.saveTcenterAttendance(
+      studyCenter.id,
+      teacher.id,
+      teacherCenterAttendance,
+    );
+  }
 }

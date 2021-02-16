@@ -1,9 +1,12 @@
 import 'package:alhalaqat/app/home/approved/teacher/teacher_center_attendance/t_center_attendance_bloc.dart';
+import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/models/teacher_center_attendance.dart';
 import 'package:alhalaqat/common_widgets/date_picker.dart';
 import 'package:alhalaqat/common_widgets/firebase_exception_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/progress_dialog.dart';
+import 'package:alhalaqat/common_widgets/text_form_field2.dart';
 import 'package:alhalaqat/common_widgets/time_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +16,13 @@ class TNewCenterAttendance extends StatefulWidget {
   const TNewCenterAttendance({
     Key key,
     @required this.bloc,
+    @required this.studyCenter,
+    @required this.teacherCenterAttendance,
   }) : super(key: key);
 
   final TCenterAttendanceBloc bloc;
+  final StudyCenter studyCenter;
+  final TeacherCenterAttendance teacherCenterAttendance;
 
   @override
   _TNewCenterAttendanceState createState() => _TNewCenterAttendanceState();
@@ -24,9 +31,24 @@ class TNewCenterAttendance extends StatefulWidget {
 class _TNewCenterAttendanceState extends State<TNewCenterAttendance> {
   TCenterAttendanceBloc get bloc => widget.bloc;
   ProgressDialog pr;
+  Timestamp date;
+  TimeOfDay timeIn;
+  TimeOfDay timeOut;
+  int noSessions;
+  int noHours;
+  String note;
+  String id;
+  GlobalKey<FormState> fromKey = GlobalKey<FormState>();
 
   @override
   void initState() {
+    date = widget?.teacherCenterAttendance?.date ?? Timestamp.now();
+    timeIn = widget?.teacherCenterAttendance?.timeIn ?? TimeOfDay.now();
+    timeOut = widget?.teacherCenterAttendance?.timeOut ?? TimeOfDay.now();
+    noSessions = widget?.teacherCenterAttendance?.noSessions;
+    noHours = widget?.teacherCenterAttendance?.noHours;
+    note = widget?.teacherCenterAttendance?.note;
+    id = widget?.teacherCenterAttendance?.id;
     pr = ProgressDialog(
       context,
       type: ProgressDialogType.Normal,
@@ -47,37 +69,55 @@ class _TNewCenterAttendanceState extends State<TNewCenterAttendance> {
   }
 
   void save() async {
-    try {
-      await pr.show();
-      // bloc.validateEvaluation(evaluation);
-      // widget.bloc.setEvaluation(evaluation, widget.evaluationsList);
-      await Future.delayed(Duration(seconds: 1));
-      await pr.hide();
-
-      PlatformAlertDialog(
-        title: 'نجح الحفظ',
-        content: 'تم حفظ البيانات',
-        defaultActionText: 'حسنا',
-      ).show(context);
-      Navigator.of(context).pop();
-    } catch (e) {
-      await pr.hide();
-      if (e is PlatformException) {
-        PlatformExceptionAlertDialog(
-          title: 'فشلت العملية',
-          exception: e,
-        ).show(context);
-      } else if (e is FirebaseException)
-        FirebaseExceptionAlertDialog(
-          title: 'فشلت العملية',
-          exception: e,
-        ).show(context);
-      else
+    if (fromKey.currentState.validate()) {
+      if (timeIn.isLaterThen(timeOut)) {
         PlatformAlertDialog(
           title: 'فشلت العملية',
-          content: 'فشلت العملية',
+          content: 'وقت الخروج يجب أن يكون أكبر من وقت الدخول',
           defaultActionText: 'حسنا',
         ).show(context);
+      } else {
+        var teacherCenterAt = TeacherCenterAttendance(
+          id: id,
+          date: date,
+          timeIn: timeIn,
+          timeOut: timeOut,
+          noHours: noHours,
+          noSessions: noSessions,
+          note: note,
+        );
+        try {
+          await pr.show();
+          await bloc.saveTcenterAttendance(widget.studyCenter, teacherCenterAt);
+          await Future.delayed(Duration(seconds: 1));
+          await pr.hide();
+
+          PlatformAlertDialog(
+            title: 'نجح الحفظ',
+            content: 'تم حفظ البيانات',
+            defaultActionText: 'حسنا',
+          ).show(context);
+          Navigator.of(context).pop();
+        } catch (e) {
+          await pr.hide();
+          if (e is PlatformException) {
+            PlatformExceptionAlertDialog(
+              title: 'فشلت العملية',
+              exception: e,
+            ).show(context);
+          } else if (e is FirebaseException)
+            FirebaseExceptionAlertDialog(
+              title: 'فشلت العملية',
+              exception: e,
+            ).show(context);
+          else
+            PlatformAlertDialog(
+              title: 'فشلت العملية',
+              content: 'فشلت العملية',
+              defaultActionText: 'حسنا',
+            ).show(context);
+        }
+      }
     }
   }
 
@@ -103,12 +143,36 @@ class _TNewCenterAttendanceState extends State<TNewCenterAttendance> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              buildDatePicker(),
-              buildTimePicker(),
-            ],
+          child: Form(
+            key: fromKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildDatePicker(),
+                Divider(
+                  color: Colors.black,
+                  height: 10,
+                ),
+                SizedBox(height: 30),
+                buildTimeInPicker(),
+                Divider(
+                  color: Colors.black,
+                  height: 10,
+                ),
+                SizedBox(height: 30),
+                buildTimeOutPicker(),
+                Divider(
+                  color: Colors.black,
+                  height: 10,
+                ),
+                SizedBox(height: 30),
+                buildNumberOfSessions(),
+                SizedBox(height: 10),
+                buildNumberOfHours(),
+                SizedBox(height: 10),
+                buildNote(),
+              ],
+            ),
           ),
         ),
       ),
@@ -117,17 +181,88 @@ class _TNewCenterAttendanceState extends State<TNewCenterAttendance> {
 
   Widget buildDatePicker() {
     return DatePicker(
-      labelText: 'rr',
-      selectedDate: DateTime.now(),
-      onSelectedDate: (t) {},
+      labelText: 'اليوم',
+      selectedDate: date.toDate(),
+      onSelectedDate: (t) {
+        date = Timestamp.fromDate(t);
+        setState(() {});
+      },
     );
   }
 
-  Widget buildTimePicker() {
+  Widget buildTimeInPicker() {
     return TimePicker(
-      labelText: 'rr',
-      selectedTime: TimeOfDay.now(),
-      onSelectedTime: (t) {},
+      labelText: 'وقت الدخول',
+      selectedTime: timeIn,
+      onSelectedTime: (t) {
+        timeIn = t;
+        setState(() {});
+      },
+    );
+  }
+
+  Widget buildTimeOutPicker() {
+    return TimePicker(
+      labelText: 'وقت الخروج',
+      selectedTime: timeOut,
+      onSelectedTime: (t) {
+        timeOut = t;
+        setState(() {});
+      },
+    );
+  }
+
+  Widget buildNumberOfSessions() {
+    return TextFormField2(
+      initialValue: noSessions?.toString() ?? '',
+      onSaved: (String value) {},
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'خطأ';
+        }
+      },
+      errorText: 'خطأ',
+      hintText: 'عدد الجلسات التي تم تدريسها',
+      inputFormatter: FilteringTextInputFormatter.digitsOnly,
+      isEnabled: true,
+      isPhoneNumber: true,
+      maxLength: 2,
+      onChanged: (String value) {
+        noSessions = int.parse(value);
+      },
+      title: 'عدد الجلسات',
+    );
+  }
+
+  Widget buildNumberOfHours() {
+    return TextFormField2(
+      initialValue: noHours?.toString() ?? '',
+      validator: (String value) {},
+      errorText: 'خطأ',
+      hintText: 'عدد الساعات التي تم تدريسها',
+      inputFormatter: FilteringTextInputFormatter.digitsOnly,
+      isEnabled: true,
+      isPhoneNumber: true,
+      maxLength: 2,
+      onChanged: (String value) {
+        noHours = int.parse(value);
+      },
+      title: 'عدد الساعات',
+    );
+  }
+
+  Widget buildNote() {
+    return TextFormField2(
+      isEnabled: true,
+      title: 'ملاحظة',
+      initialValue: note ?? '',
+      hintText: 'أدخل ملاحظة',
+      errorText: 'خطأ',
+      maxLength: 100,
+      inputFormatter: FilteringTextInputFormatter.deny(''),
+      isPhoneNumber: false,
+      onChanged: (value) => note = value,
+      validator: (value) => null,
     );
   }
 }

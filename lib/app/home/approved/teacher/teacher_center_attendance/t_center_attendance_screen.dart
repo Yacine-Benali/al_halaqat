@@ -4,6 +4,7 @@ import 'package:alhalaqat/app/home/approved/teacher/teacher_center_attendance/t_
 import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:alhalaqat/app/models/teacher_center_attendance.dart';
 import 'package:alhalaqat/app/models/user.dart';
+import 'package:alhalaqat/common_widgets/format.dart';
 import 'package:alhalaqat/common_widgets/snapshot_items_builder.dart';
 import 'package:alhalaqat/services/database.dart';
 import 'package:flutter/material.dart';
@@ -96,6 +97,8 @@ class _TCenterAttendanceScreenState extends State<TCenterAttendanceScreen> {
           MaterialPageRoute(
             builder: (context) => TNewCenterAttendance(
               bloc: bloc,
+              studyCenter: chosenCenter,
+              teacherCenterAttendance: null,
             ),
             fullscreenDialog: true,
           ),
@@ -108,8 +111,23 @@ class _TCenterAttendanceScreenState extends State<TCenterAttendanceScreen> {
         builder: (context, snapshot) {
           return SnapshotItemBuilder<TeacherCenterAttendance>(
             itemBuilder: (BuildContext context, item) {
+              String s =
+                  'من${item.timeIn.format(context)} إلى${item.timeOut.format(context)}';
               return ListTile(
-                title: Text('hello'),
+                title: Text(Format.date(item.date.toDate())),
+                subtitle: Text(s),
+                onTap: () {
+                  Navigator.of(context, rootNavigator: false).push(
+                    MaterialPageRoute(
+                      builder: (context) => TNewCenterAttendance(
+                        bloc: bloc,
+                        studyCenter: chosenCenter,
+                        teacherCenterAttendance: item,
+                      ),
+                      fullscreenDialog: true,
+                    ),
+                  );
+                },
               );
             },
             message: '',
