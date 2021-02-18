@@ -48,11 +48,11 @@ class _TCenterAttendanceScreenState extends State<TCenterAttendanceScreen> {
   TCenterAttendanceBloc get bloc => widget.bloc;
 
   StudyCenter chosenCenter;
-  Stream<List<TeacherCenterAttendance>> halaqatListStream;
+  Stream<List<TeacherCenterAttendance>> teacherCenterAttendanceStream;
   @override
   void initState() {
     chosenCenter = widget.centers[0];
-    halaqatListStream = bloc.fetchTCenterAttendance(chosenCenter);
+    teacherCenterAttendanceStream = bloc.fetchTCenterAttendance(chosenCenter);
     super.initState();
   }
 
@@ -78,7 +78,8 @@ class _TCenterAttendanceScreenState extends State<TCenterAttendanceScreen> {
                   setState(() {
                     chosenCenter = newValue;
                   });
-                  halaqatListStream = bloc.fetchTCenterAttendance(chosenCenter);
+                  teacherCenterAttendanceStream =
+                      bloc.fetchTCenterAttendance(chosenCenter);
                 },
                 items: widget.centers
                     .map<DropdownMenuItem<StudyCenter>>((StudyCenter value) {
@@ -107,15 +108,19 @@ class _TCenterAttendanceScreenState extends State<TCenterAttendanceScreen> {
         child: Icon(Icons.add),
       ),
       body: StreamBuilder<List<TeacherCenterAttendance>>(
-        stream: halaqatListStream,
+        stream: teacherCenterAttendanceStream,
         builder: (context, snapshot) {
           return SnapshotItemBuilder<TeacherCenterAttendance>(
             itemBuilder: (BuildContext context, item) {
-              String s =
+              String subtitle1 =
                   'من${item.timeIn.format(context)} إلى${item.timeOut.format(context)}';
+              String subtitle2 = 'عدد الجلسات: ${item.noSessions}';
               return ListTile(
                 title: Text(Format.date(item.date.toDate())),
-                subtitle: Text(s),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [Text(subtitle1), Text(subtitle2)],
+                ),
                 onTap: () {
                   Navigator.of(context, rootNavigator: false).push(
                     MaterialPageRoute(

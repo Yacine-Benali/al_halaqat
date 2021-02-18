@@ -1,5 +1,6 @@
 import 'package:alhalaqat/app/home/approved/admin/admin_teachers/admin_new_teacher_screen.dart';
 import 'package:alhalaqat/app/home/approved/admin/admin_teachers/admin_teacher_bloc.dart';
+import 'package:alhalaqat/app/home/approved/admin/admin_teachers/teacher_profile/a_teacher_profile_screen.dart';
 import 'package:alhalaqat/app/models/halaqa.dart';
 import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:alhalaqat/app/models/teacher.dart';
@@ -164,13 +165,19 @@ class _AdminTeacherTileWidgetState extends State<AdminTeacherTileWidget> {
                   ? null
                   : () => Navigator.of(context, rootNavigator: false).push(
                         MaterialPageRoute(
-                          builder: (context) => AdminNewTeacherScreen(
-                            bloc: widget.bloc,
-                            chosenCenter: widget.chosenCenter,
-                            teacher: widget.teacher,
+                          builder: (context) => ATeacherProfileScreen.create(
+                            context: context,
                             halaqatList: widget.halaqatList,
-                            isEnabled: false,
+                            teacher: widget.teacher,
+                            studyCenter: widget.chosenCenter,
                           ),
+                          // AdminNewTeacherScreen(
+                          //   bloc: widget.bloc,
+                          //   chosenCenter: widget.chosenCenter,
+                          //   teacher: widget.teacher,
+                          //   halaqatList: widget.halaqatList,
+                          //   isEnabled: false,
+                          // ),
                           fullscreenDialog: true,
                         ),
                       ),

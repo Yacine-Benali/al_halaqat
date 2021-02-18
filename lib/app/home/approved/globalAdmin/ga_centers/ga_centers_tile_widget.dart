@@ -1,4 +1,3 @@
-import 'package:alhalaqat/app/home/approved/admin/admin_home_page.dart';
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_centers/ga_about_center_screen.dart';
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_centers/ga_center_admins/ga_center_admins_screen.dart';
 import 'package:alhalaqat/app/home/approved/globalAdmin/ga_centers/ga_centers_bloc.dart';
@@ -178,34 +177,35 @@ class _GaCentersTileWidgetState extends State<GaCentersTileWidget> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(widget.center.name),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            KeyTranslate.isoCountryToArabic[widget.center.country] +
-                ' ' +
-                widget.center.city,
-          ),
-          Text(widget.center.readableId),
-        ],
-      ),
-      trailing: widget.center.state == 'deleted'
-          ? Container(
-              height: 1,
-              width: 1,
-            )
-          : _buildAction(),
-      enabled: widget.center.state == 'approved' ? true : false,
-      onTap: () async => await Navigator.of(context, rootNavigator: false).push(
-        MaterialPageRoute(
-          builder: (context) => AdminHomePage(
-            isGlobalAdmin: true,
-            centerId: widget.center.id,
-          ),
-          fullscreenDialog: true,
+        title: Text(widget.center.name),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              KeyTranslate.isoCountryToArabic[widget.center.country] +
+                  ' ' +
+                  widget.center.city,
+            ),
+            Text(widget.center.readableId),
+          ],
         ),
-      ),
-    );
+        trailing: widget.center.state == 'deleted'
+            ? Container(
+                height: 1,
+                width: 1,
+              )
+            : _buildAction(),
+        enabled: widget.center.state == 'approved' ? true : false,
+        onTap: () async {
+          // await Navigator.of(context, rootNavigator: false).push(
+          //   MaterialPageRoute(
+          //     builder: (context) => AdminHomePage(
+          //       isGlobalAdmin: true,
+          //       centerId: widget.center.id,
+          //     ),
+          //     fullscreenDialog: true,
+          //   ),
+          // );
+        });
   }
 }

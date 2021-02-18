@@ -1,5 +1,4 @@
-import 'package:alhalaqat/app/home/approved/teacher/teacher_center_attendance/t_center_attendance_bloc.dart';
-import 'package:alhalaqat/app/models/study_center.dart';
+import 'package:alhalaqat/app/home/approved/admin/admin_teachers/teacher_profile/a_teacher_profile_bloc.dart';
 import 'package:alhalaqat/app/models/teacher_center_attendance.dart';
 import 'package:alhalaqat/common_widgets/date_picker.dart';
 import 'package:alhalaqat/common_widgets/firebase_exception_alert_dialog.dart';
@@ -12,24 +11,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class TNewCenterAttendance extends StatefulWidget {
-  const TNewCenterAttendance({
+class ATNewCenterAttendance extends StatefulWidget {
+  const ATNewCenterAttendance({
     Key key,
     @required this.bloc,
-    @required this.studyCenter,
     @required this.teacherCenterAttendance,
   }) : super(key: key);
 
-  final TCenterAttendanceBloc bloc;
-  final StudyCenter studyCenter;
+  final ATeacherProfileBloc bloc;
   final TeacherCenterAttendance teacherCenterAttendance;
 
   @override
-  _TNewCenterAttendanceState createState() => _TNewCenterAttendanceState();
+  _ATNewCenterAttendanceState createState() => _ATNewCenterAttendanceState();
 }
 
-class _TNewCenterAttendanceState extends State<TNewCenterAttendance> {
-  TCenterAttendanceBloc get bloc => widget.bloc;
+class _ATNewCenterAttendanceState extends State<ATNewCenterAttendance> {
+  ATeacherProfileBloc get bloc => widget.bloc;
   ProgressDialog pr;
   Timestamp date;
   TimeOfDay timeIn;
@@ -88,7 +85,7 @@ class _TNewCenterAttendanceState extends State<TNewCenterAttendance> {
         );
         try {
           await pr.show();
-          await bloc.saveTcenterAttendance(widget.studyCenter, teacherCenterAt);
+          await bloc.saveTcenterAttendance(teacherCenterAt);
           await Future.delayed(Duration(seconds: 1));
           await pr.hide();
 
