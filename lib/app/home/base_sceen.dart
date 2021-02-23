@@ -1,6 +1,7 @@
 import 'package:alhalaqat/app/home/approved/admin/admin_home_page.dart';
 import 'package:alhalaqat/app/home/approved/globalAdmin/global_admin_home_page.dart';
 import 'package:alhalaqat/app/home/approved/student/student_home_page.dart';
+import 'package:alhalaqat/app/home/approved/supervisor/supervisor_home_page.dart';
 import 'package:alhalaqat/app/home/approved/teacher/teacher_home_page.dart';
 import 'package:alhalaqat/app/home/notApproved/archived_deleted_screen.dart';
 import 'package:alhalaqat/app/home/notApproved/join_us_screen.dart';
@@ -8,6 +9,7 @@ import 'package:alhalaqat/app/home/notApproved/pending_screen.dart';
 import 'package:alhalaqat/app/models/admin.dart';
 import 'package:alhalaqat/app/models/global_admin.dart';
 import 'package:alhalaqat/app/models/student.dart';
+import 'package:alhalaqat/app/models/supervisor.dart';
 import 'package:alhalaqat/app/models/teacher.dart';
 import 'package:alhalaqat/app/models/user.dart';
 import 'package:alhalaqat/common_widgets/empty_content.dart';
@@ -84,6 +86,14 @@ class _BaseScreenState extends State<BaseScreen> {
       } else if (user is Teacher) {
         if (isThereAnApprovedCenter(user.centerState)) {
           return TeacherHomePage();
+        } else if (isTherePendingCenter(user.centerState)) {
+          return PendingScreen();
+        } else {
+          return ArchivedDeletedEmptyScreen(user: user);
+        }
+      } else if (user is Supervisor) {
+        if (isThereAnApprovedCenter(user.centerState)) {
+          return SupervisorHomePage();
         } else if (isTherePendingCenter(user.centerState)) {
           return PendingScreen();
         } else {

@@ -25,6 +25,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import 'admin_supervisors/admin_supervisors_screen.dart';
+
 class AdminHomePage extends StatefulWidget {
   const AdminHomePage({
     Key key,
@@ -240,6 +242,20 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
                     builder: (context) => AdminTeachersScreen.create(
+                      context: context,
+                      centers: items,
+                    ),
+                    fullscreenDialog: true,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              MenuButtonWidget(
+                text: ' 2 إدارة المعلمين',
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: false).push(
+                  MaterialPageRoute(
+                    builder: (context) => AdminSupervisorsScreen.create(
                       context: context,
                       centers: items,
                     ),

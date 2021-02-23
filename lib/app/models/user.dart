@@ -1,5 +1,6 @@
 import 'package:alhalaqat/app/models/admin.dart';
 import 'package:alhalaqat/app/models/global_admin.dart';
+import 'package:alhalaqat/app/models/supervisor.dart';
 import 'package:alhalaqat/app/models/teacher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -45,6 +46,7 @@ abstract class User {
         data.containsKey('isGlobalAdmin') ? data['isGlobalAdmin'] : false;
     final bool isAdmin = data['isAdmin'] ?? false;
     final bool isTeacher = data['isTeacher'] ?? false;
+    final bool isSupervisor = data['isSupervisor'] ?? false;
     final bool isStudent = data['isStudent'] ?? false;
     User user;
     if (isGloabalAdmin)
@@ -53,6 +55,8 @@ abstract class User {
       user = Admin.fromMap(data, documentId);
     else if (isTeacher)
       user = Teacher.fromMap(data, documentId);
+    else if (isSupervisor)
+      user = Supervisor.fromMap(data, documentId);
     else if (isStudent) user = Student.fromMap(data, documentId);
 
     return user;
