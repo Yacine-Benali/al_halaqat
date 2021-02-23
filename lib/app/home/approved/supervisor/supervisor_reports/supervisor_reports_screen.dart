@@ -50,7 +50,8 @@ class _SupervisorHomePageState extends State<SupervisorReportsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('التقارير ')),
+        centerTitle: true,
+        title: Text('التقارير '),
       ),
       body: FutureBuilder(
         future: halaqatFuture,

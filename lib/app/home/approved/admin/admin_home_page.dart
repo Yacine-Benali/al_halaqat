@@ -251,7 +251,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
               ),
               SizedBox(height: 10),
               MenuButtonWidget(
-                text: ' 2 إدارة المعلمين',
+                text: 'إدارة المنسقين',
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
