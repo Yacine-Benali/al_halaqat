@@ -21,7 +21,7 @@ class ATeacherProfileBloc {
   List<String> getTabBarTitles() {
     List<String> titlesList = List();
     titlesList.add('ملف شخصي');
-    titlesList.add('حضور في المركز');
+    titlesList.add('حضور في ${studyCenter.name}');
 
     return titlesList;
   }

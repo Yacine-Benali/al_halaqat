@@ -122,7 +122,7 @@ class _ATNewCenterAttendanceState extends State<ATNewCenterAttendance> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('حضور'),
+        title: Text('حضور ${bloc.studyCenter.name}'),
         centerTitle: true,
         actions: <Widget>[
           Padding(

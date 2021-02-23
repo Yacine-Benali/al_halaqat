@@ -245,7 +245,7 @@ class _InstancesScreenState extends State<InstancesScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('الجلسات'),
+        title: Text(bloc.halaqa.name),
         centerTitle: true,
         actions: [
           if (bloc.user is Teacher) ...[

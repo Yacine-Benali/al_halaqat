@@ -20,14 +20,15 @@ class HomeScreenPopUp extends StatelessWidget {
           if (value == 1)
             PlatformAlertDialog(
               content:
-                  'هذا البرنامج صدقة عن روح المرحومة وفاء خليل صديق نرجو  لها الدعاء\n الإصدار 1.0.4 ',
+                  'هذا البرنامج صدقة عن روح المرحومة وفاء خليل صديق نرجو  لها الدعاء\n الإصدار 1.2.0 ',
               defaultActionText: 'حسنا',
               title: 'حول التطبيق',
             ).show(context);
           else
             PlatformAlertDialog(
               content:
-                  "للاستفسارات والملاحظات يرجى التواصل عبر الإيميل على العنوان Alhalaqatt@gmail.com",
+                  "للاستفسارات والملاحظات يرجى التواصل عبر الإيميل على العنوان Alhalaqatt@gmail.com" +
+                      "\nأو عبر الفيسبوك على صفحتنا: facebook.com/alhalaqatapp  \n",
               defaultActionText: 'حسنا',
               title: 'اتصل بنا',
             ).show(context);
