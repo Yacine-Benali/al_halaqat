@@ -3,8 +3,8 @@ import 'package:alhalaqat/services/api_path.dart';
 import 'package:alhalaqat/services/database.dart';
 import 'package:flutter/foundation.dart';
 
-class TeacherReportsProvider {
-  TeacherReportsProvider({@required this.database});
+class SupervisorReportsProvider {
+  SupervisorReportsProvider({@required this.database});
 
   final Database database;
 

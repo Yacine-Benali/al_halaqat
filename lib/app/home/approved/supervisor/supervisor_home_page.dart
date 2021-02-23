@@ -1,5 +1,6 @@
 import 'package:alhalaqat/app/home/approved/supervisor/supervisor_halaqat/supervisor_halaqat_screen.dart';
 import 'package:alhalaqat/app/home/approved/supervisor/supervisor_profile/teacher_profile_screen.dart';
+import 'package:alhalaqat/app/home/approved/supervisor/supervisor_reports/supervisor_reports_screen.dart';
 import 'package:alhalaqat/app/home/approved/supervisor/supervisor_students/supervisor_students_screen.dart';
 import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:alhalaqat/app/models/supervisor.dart';
@@ -208,35 +209,20 @@ class _SupervisorHomePageState extends State<SupervisorHomePage> {
                   ),
                 ),
               ),
-
               SizedBox(height: 10),
               MenuButtonWidget(
-                  text: 'المحادثات',
-                  onPressed: () async {
-                    // await Navigator.of(context, rootNavigator: false).push(
-                    //   MaterialPageRoute(
-                    //     builder: (context) => ConversationScreen.create(
-                    //       context: context,
-                    //     ),
-                    //     fullscreenDialog: true,
-                    //   ),
-                    // );
-                    setState(() {});
-                  }),
-              SizedBox(height: 10),
-              // MenuButtonWidget(
-              //   text: 'التقارير ',
-              //   onPressed: () async =>
-              //       await Navigator.of(context, rootNavigator: false).push(
-              //     MaterialPageRoute(
-              //       builder: (context) => SupervisorReportsScreen.create(
-              //         context: context,
-              //         halaqatId: teacher.halaqatTeachingIn,
-              //       ),
-              //       fullscreenDialog: true,
-              //     ),
-              //   ),
-              // ),
+                text: 'التقارير ',
+                onPressed: () async =>
+                    await Navigator.of(context, rootNavigator: false).push(
+                  MaterialPageRoute(
+                    builder: (context) => SupervisorReportsScreen.create(
+                      context: context,
+                      halaqatId: supervisor.halaqatSupervisingIn,
+                    ),
+                    fullscreenDialog: true,
+                  ),
+                ),
+              ),
             ],
           ),
         ),

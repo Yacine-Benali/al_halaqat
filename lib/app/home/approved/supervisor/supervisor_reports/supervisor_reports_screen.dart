@@ -1,7 +1,7 @@
 import 'package:alhalaqat/app/home/approved/common_screens/reports/s_attendance/s_attendance_screen.dart';
 import 'package:alhalaqat/app/home/approved/common_screens/reports/s_learning/s_learning_screen.dart';
-import 'package:alhalaqat/app/home/approved/teacher/teacher_reports/teacher_reports_bloc.dart';
-import 'package:alhalaqat/app/home/approved/teacher/teacher_reports/teacher_reports_provider.dart';
+import 'package:alhalaqat/app/home/approved/supervisor/supervisor_reports/supervisor_reports_bloc.dart';
+import 'package:alhalaqat/app/home/approved/supervisor/supervisor_reports/supervisor_reports_provider.dart';
 import 'package:alhalaqat/app/models/halaqa.dart';
 import 'package:alhalaqat/common_widgets/empty_content.dart';
 import 'package:alhalaqat/common_widgets/menu_button_widget.dart';
@@ -9,11 +9,11 @@ import 'package:alhalaqat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class TeacherReportsScreen extends StatefulWidget {
-  const TeacherReportsScreen._({Key key, @required this.bloc})
+class SupervisorReportsScreen extends StatefulWidget {
+  const SupervisorReportsScreen._({Key key, @required this.bloc})
       : super(key: key);
 
-  final TeacherReportsBloc bloc;
+  final SupervisorReportsBloc bloc;
 
   static Widget create({
     @required BuildContext context,
@@ -21,23 +21,23 @@ class TeacherReportsScreen extends StatefulWidget {
   }) {
     Database database = Provider.of<Database>(context, listen: false);
 
-    TeacherReportsProvider provider =
-        TeacherReportsProvider(database: database);
-    TeacherReportsBloc bloc = TeacherReportsBloc(
+    SupervisorReportsProvider provider =
+        SupervisorReportsProvider(database: database);
+    SupervisorReportsBloc bloc = SupervisorReportsBloc(
       provider: provider,
       halaqatId: halaqatId,
     );
-    return TeacherReportsScreen._(
+    return SupervisorReportsScreen._(
       bloc: bloc,
     );
   }
 
   @override
-  _TeacherHomePageState createState() => _TeacherHomePageState();
+  _SupervisorHomePageState createState() => _SupervisorHomePageState();
 }
 
-class _TeacherHomePageState extends State<TeacherReportsScreen> {
-  TeacherReportsBloc get bloc => widget.bloc;
+class _SupervisorHomePageState extends State<SupervisorReportsScreen> {
+  SupervisorReportsBloc get bloc => widget.bloc;
   Future<List<List<Halaqa>>> halaqatFuture;
 
   @override

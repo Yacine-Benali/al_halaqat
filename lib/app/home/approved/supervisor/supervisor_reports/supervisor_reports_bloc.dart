@@ -1,14 +1,14 @@
-import 'package:alhalaqat/app/home/approved/teacher/teacher_reports/teacher_reports_provider.dart';
+import 'package:alhalaqat/app/home/approved/supervisor/supervisor_reports/supervisor_reports_provider.dart';
 import 'package:alhalaqat/app/models/halaqa.dart';
 import 'package:flutter/foundation.dart';
 
-class TeacherReportsBloc {
-  TeacherReportsBloc({
+class SupervisorReportsBloc {
+  SupervisorReportsBloc({
     @required this.provider,
     @required this.halaqatId,
   });
 
-  final TeacherReportsProvider provider;
+  final SupervisorReportsProvider provider;
   final List<String> halaqatId;
 
   Future<List<List<Halaqa>>> fetchHalaqat() {
