@@ -12,26 +12,32 @@ class PlatformReportDialog extends PlatformWidget {
   final String filePath;
 
   Future<bool> show(BuildContext context) async {
-    return
-        // Platform.isIOS
-        //     ? await showCupertinoDialog<bool>(
-        //         context: context,
-        //         builder: (context) => this,
-        //       )
-        //     :
-        await showDialog<bool>(
-      context: context,
-      barrierDismissible: true,
-      builder: (context) => this,
-    );
+    return Platform.isIOS
+        ? await showCupertinoDialog<bool>(
+            context: context,
+            builder: (context) => this,
+          )
+        : await showDialog<bool>(
+            context: context,
+            barrierDismissible: true,
+            builder: (context) => this,
+          );
   }
 
   @override
   Widget buildCupertinoWidget(BuildContext context) {
     return CupertinoAlertDialog(
-      title: Text('title'),
-      content: Text('content'),
-      actions: [Text('')],
+      title: Text('نجح الحفظ'),
+      content: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('نجح الحفظ'),
+          Text(filePath),
+        ],
+      ),
+      actions: _buildActions(context),
     );
   }
 
