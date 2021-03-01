@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:alhalaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/platform_widget.dart';
 import 'package:flutter/cupertino.dart';
