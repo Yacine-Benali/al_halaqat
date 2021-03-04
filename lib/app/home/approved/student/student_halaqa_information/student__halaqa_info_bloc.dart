@@ -22,6 +22,7 @@ class StudentHalaqaInfoBloc {
       'التقييم',
       'المراجعة',
       'التقييم',
+      'الملاحظة',
     ];
   }
 
@@ -35,7 +36,7 @@ class StudentHalaqaInfoBloc {
   String format2(EvaluationHelper eval) {
     String one = eval.fromSoura + '(${eval.fromAya})';
     String two = eval.toSoura + '(${eval.toAya})';
-    return one + ' ' + two;
+    return one + '\n' + two;
   }
 
   String format(DateTime dateTime) {

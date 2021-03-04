@@ -1,5 +1,6 @@
 import 'package:alhalaqat/app/home/approved/student/student_halaqa_information/student__halaqa_info_bloc.dart';
 import 'package:alhalaqat/app/models/evaluation.dart';
+import 'package:alhalaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/size_config.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -42,12 +43,15 @@ class _StudentAttendanceScreenState
                 left: BorderSide(color: Colors.grey, width: 2),
               ),
             ),
-            padding: EdgeInsets.all(8),
+            padding: EdgeInsets.all(4),
             child: Align(
-              alignment: Alignment.centerLeft,
-              child: AutoSizeText(
-                '${studentEvaluationsTitle[i]}',
-                wrapWords: false,
+              alignment: Alignment.center,
+              child: RotatedBox(
+                quarterTurns: 3,
+                child: AutoSizeText(
+                  '${studentEvaluationsTitle[i]}',
+                  wrapWords: false,
+                ),
               ),
             ),
           ),
@@ -56,12 +60,15 @@ class _StudentAttendanceScreenState
       } else {
         TableCell cell = TableCell(
           child: Container(
-            padding: EdgeInsets.all(8),
+            padding: EdgeInsets.all(4),
             child: Align(
-              alignment: Alignment.centerLeft,
-              child: AutoSizeText(
-                '${studentEvaluationsTitle[i]}',
-                wrapWords: false,
+              alignment: Alignment.center,
+              child: RotatedBox(
+                quarterTurns: 3,
+                child: AutoSizeText(
+                  '${studentEvaluationsTitle[i]}',
+                  wrapWords: false,
+                ),
               ),
             ),
           ),
@@ -77,25 +84,22 @@ class _StudentAttendanceScreenState
 
     for (Evaluation evaluation in widget.evaluationsList) {
       TableRow tableRow = TableRow(children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            alignment: Alignment.center,
-            child: AutoSizeText(
-              bloc.format(
-                evaluation?.createdAt?.toDate() ?? DateTime.now(),
-              ),
-              wrapWords: false,
+        Container(
+          padding: const EdgeInsets.all(4.0),
+          alignment: Alignment.center,
+          child: AutoSizeText(
+            bloc.format(
+              evaluation?.createdAt?.toDate() ?? DateTime.now(),
             ),
+            wrapWords: false,
           ),
         ),
         Container(
           alignment: Alignment.center,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              bloc.format2(evaluation.memorized),
-            ),
+          padding: const EdgeInsets.all(4.0),
+          child: AutoSizeText(
+            bloc.format2(evaluation.rehearsed),
+            maxLines: 2,
           ),
         ),
         Container(
@@ -112,24 +116,42 @@ class _StudentAttendanceScreenState
         ),
         Container(
           alignment: Alignment.center,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              bloc.format2(evaluation.rehearsed),
-            ),
+          padding: const EdgeInsets.all(4.0),
+          child: AutoSizeText(
+            bloc.format2(evaluation.rehearsed),
+            maxLines: 2,
           ),
         ),
         Container(
           alignment: Alignment.center,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              evaluation.rehearsed.mark.toString(),
+          padding: const EdgeInsets.all(4.0),
+          child: Text(
+            evaluation.rehearsed.mark.toString(),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.all(4.0),
+          alignment: Alignment.center,
+          height: kMinInteractiveDimension,
+          child: TextButton(
+            child: Center(
+              child: Icon(
+                Icons.message,
+                color: Colors.grey,
+              ),
             ),
+            onPressed: () {
+              PlatformAlertDialog(
+                content: evaluation.note,
+                defaultActionText: 'حسنا',
+                title: '',
+              ).show(context);
+            },
           ),
         ),
       ]);
 
+      print(tableRowList.length);
       tableRowList.add(tableRow);
     }
     return tableRowList;
@@ -147,6 +169,14 @@ class _StudentAttendanceScreenState
               maxWidth: SizeConfig.screenWidth,
             ),
             child: Table(
+              // columnWidths: {
+              //   0: FlexColumnWidth(1.0),
+              //   1: FlexColumnWidth(2.0),
+              //   2: FlexColumnWidth(0.5),
+              //   3: FlexColumnWidth(2.0),
+              //   4: FlexColumnWidth(0.5),
+              //   5: FlexColumnWidth(1),
+              // },
               defaultVerticalAlignment: TableCellVerticalAlignment.middle,
               border: TableBorder(
                 horizontalInside:

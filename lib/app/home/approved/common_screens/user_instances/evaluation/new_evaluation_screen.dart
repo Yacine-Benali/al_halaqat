@@ -6,6 +6,7 @@ import 'package:alhalaqat/common_widgets/firebase_exception_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/progress_dialog.dart';
+import 'package:alhalaqat/common_widgets/text_form_field2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -44,7 +45,7 @@ class _NewEvaluationScreenState extends State<NewEvaluationScreen> {
   List<String> possibleMarks = [];
   bool isMemorizedEnabled;
   bool isRehearsedEnabled;
-
+  String note;
   @override
   void initState() {
     possibleMarks = bloc.getPossibleMarks();
@@ -102,6 +103,7 @@ class _NewEvaluationScreenState extends State<NewEvaluationScreen> {
       createdAt: null,
       instanceId: null,
       studentName: null,
+      note: note,
       memorized: memorized,
       rehearsed: rehearsed,
     );
@@ -185,6 +187,8 @@ class _NewEvaluationScreenState extends State<NewEvaluationScreen> {
                 ),
                 SizedBox(height: 10),
                 if (true) ..._buildRehearsedForm(),
+                SizedBox(height: 10),
+                buildNote()
               ],
             ),
           ),
@@ -357,5 +361,20 @@ class _NewEvaluationScreenState extends State<NewEvaluationScreen> {
         isEnabled: isRehearsedEnabled,
       ),
     ];
+  }
+
+  Widget buildNote() {
+    return TextFormField2(
+      isEnabled: true,
+      title: 'ملاحظة',
+      initialValue: note ?? '',
+      hintText: 'أدخل ملاحظة',
+      errorText: 'خطأ',
+      maxLength: 100,
+      inputFormatter: FilteringTextInputFormatter.deny(''),
+      isPhoneNumber: false,
+      onChanged: (value) => note = value,
+      validator: (value) => null,
+    );
   }
 }

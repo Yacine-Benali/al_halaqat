@@ -11,6 +11,7 @@ class Evaluation {
     @required this.createdBy,
     @required this.memorized,
     @required this.rehearsed,
+    @required this.note,
   });
 
   String id;
@@ -20,7 +21,7 @@ class Evaluation {
   Map<String, String> createdBy;
   EvaluationHelper memorized;
   EvaluationHelper rehearsed;
-
+  String note;
   factory Evaluation.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
       return null;
@@ -32,6 +33,7 @@ class Evaluation {
     EvaluationHelper memorized = EvaluationHelper.fromMap(data['memorized']);
     EvaluationHelper rehearsed = EvaluationHelper.fromMap(data['rehearsed']);
     Map<String, String> createdBy = Map<String, String>.from(data['createdBy']);
+    String note = data['note'] ?? '';
 
     return Evaluation(
       id: id,
@@ -41,6 +43,7 @@ class Evaluation {
       memorized: memorized,
       rehearsed: rehearsed,
       createdBy: createdBy,
+      note: note,
     );
   }
 
@@ -52,6 +55,7 @@ class Evaluation {
       'createdBy': createdBy,
       'memorized': memorized.toMap(),
       'rehearsed': rehearsed.toMap(),
+      'note': note,
     };
   }
 }
