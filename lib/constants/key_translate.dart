@@ -251,6 +251,7 @@ class KeyTranslate {
     "ZW": "زيمبابوي",
   };
 
+  static const sum = "المجموع";
   static const Map<String, String> sort = {
     'sortByName': 'أب',
     'sortById': '12',

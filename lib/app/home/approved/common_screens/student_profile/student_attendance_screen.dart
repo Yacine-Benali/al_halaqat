@@ -1,5 +1,6 @@
 import 'package:alhalaqat/app/home/approved/common_screens/student_profile/student_profile_bloc.dart';
 import 'package:alhalaqat/app/models/instance.dart';
+import 'package:alhalaqat/app/models/local_attendance_summery.dart';
 import 'package:alhalaqat/app/models/student_attendance.dart';
 import 'package:alhalaqat/common_widgets/platform_alert_dialog.dart';
 import 'package:alhalaqat/common_widgets/size_config.dart';
@@ -26,10 +27,13 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   StudentProfileBloc get bloc => widget.bloc;
   List<StudentAttendance> studentAttendaceList;
   List<String> attendanceState;
+  LocalAttendanceSummery studentAttendanceSummery;
 
   @override
   initState() {
     studentAttendaceList = bloc.getStudentAttendance(widget.instancesList);
+    studentAttendanceSummery =
+        bloc.getStudentAttendanceSummery(studentAttendaceList);
     attendanceState = KeyTranslate.attendanceState.keys.toList();
     super.initState();
   }
@@ -64,8 +68,43 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
     return TableRow(children: cells);
   }
 
+  TableRow buildSummery() {
+    return TableRow(children: [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          alignment: Alignment.center,
+          child: Text(KeyTranslate.sum),
+        ),
+      ),
+      // TODO create function that returns the following container
+      Container(
+          alignment: Alignment.center,
+          height: kMinInteractiveDimension,
+          child: Text(studentAttendanceSummery.present.toString())),
+      Container(
+          alignment: Alignment.center,
+          height: kMinInteractiveDimension,
+          child: Text(studentAttendanceSummery.latee.toString())),
+      Container(
+          alignment: Alignment.center,
+          height: kMinInteractiveDimension,
+          child: Text(studentAttendanceSummery.absent.toString())),
+      Container(
+          alignment: Alignment.center,
+          height: kMinInteractiveDimension,
+          child: Text(studentAttendanceSummery.absentWithExecuse.toString())),
+      Container(
+          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+          alignment: Alignment.center,
+          height: kMinInteractiveDimension,
+          child: Text('')),
+    ]);
+  }
+
   List<TableRow> buildRowList() {
     List<TableRow> tableRowList = List();
+    tableRowList.add(buildSummery());
 
     for (int i = 0; i < studentAttendaceList.length; i++) {
       StudentAttendance studentAttendance = studentAttendaceList[i];
@@ -78,6 +117,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                 .format(widget.instancesList.elementAt(i).createdAt.toDate())),
           ),
         ),
+        // TODO create function that returns the following container
         Container(
           alignment: Alignment.center,
           height: kMinInteractiveDimension,

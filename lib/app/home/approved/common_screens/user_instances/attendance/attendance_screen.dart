@@ -486,6 +486,15 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     return dateString;
   }
 
+  void selectAll() {
+    for (StudentAttendance studentAttendance
+        in instance.studentAttendanceList) {
+      studentAttendance.state =
+          KeyTranslate.attendanceState.keys.toList().elementAt(0);
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -494,6 +503,16 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           title: Text(getTitle()),
           actions: [
             if (canChange) ...[
+              Padding(
+                padding: EdgeInsets.only(left: 20.0),
+                child: InkWell(
+                  onTap: selectAll,
+                  child: Icon(
+                    Icons.check,
+                    size: 26.0,
+                  ),
+                ),
+              ),
               Padding(
                 padding: EdgeInsets.only(left: 20.0),
                 child: InkWell(

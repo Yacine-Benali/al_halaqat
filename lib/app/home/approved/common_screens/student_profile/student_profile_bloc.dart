@@ -5,6 +5,7 @@ import 'package:alhalaqat/app/models/evaluation.dart';
 import 'package:alhalaqat/app/models/evaluation_helper.dart';
 import 'package:alhalaqat/app/models/halaqa.dart';
 import 'package:alhalaqat/app/models/instance.dart';
+import 'package:alhalaqat/app/models/local_attendance_summery.dart';
 import 'package:alhalaqat/app/models/quran.dart';
 import 'package:alhalaqat/app/models/report_card.dart';
 import 'package:alhalaqat/app/models/report_card_summery.dart';
@@ -29,6 +30,25 @@ class StudentProfileBloc {
   final Student student;
   final Quran quran;
   final bool studentRoaming;
+
+  LocalAttendanceSummery getStudentAttendanceSummery(
+      List<StudentAttendance> studentAttendanceList) {
+    List<String> attendanceState = KeyTranslate.attendanceState.keys.toList();
+    LocalAttendanceSummery summery = LocalAttendanceSummery();
+
+    for (StudentAttendance attendance in studentAttendanceList) {
+      if (attendance.state == attendanceState[0]) {
+        summery.present++;
+      } else if (attendance.state == attendanceState[1]) {
+        summery.latee++;
+      } else if (attendance.state == attendanceState[2]) {
+        summery.absent++;
+      } else if (attendance.state == attendanceState[3]) {
+        summery.absentWithExecuse++;
+      }
+    }
+    return summery;
+  }
 
   List<String> getSouratList() {
     return quran.data.keys.toList();
