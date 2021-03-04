@@ -21,7 +21,7 @@ class FirebaseMessagingService {
   final GlobalKey<NavigatorState> navigatorKey;
   final BuildContext context;
 
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
@@ -55,41 +55,40 @@ class FirebaseMessagingService {
 
   Future<void> configFirebaseNotification(String uid, Database database) async {
     //print('configuring FIREBASE MESSAGING');
-
     configLocalNotification();
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Got a message whilst in the foreground!');
+      print('Message data: ${message.data}');
+
+      if (message.notification != null) {
+        print('Message also contained a notification: ${message.notification}');
         print("onMessage: $message");
 
-        showNotification(message);
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
-        //showNotification(message);
-        takeToChatScreen(message);
-      },
-      //onBackgroundMessage: showNotification,
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-        takeToChatScreen(message);
-      },
-    );
-
-    _firebaseMessaging
-        .requestNotificationPermissions(const IosNotificationSettings(
-      sound: true,
-      badge: true,
-      alert: true,
-      provisional: true,
-    ));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
+        showNotification(message.notification);
+      }
     });
 
+    // _firebaseMessaging
+    //     .requestNotificationPermissions(const IosNotificationSettings(
+    //   sound: true,
+    //   badge: true,
+    //   alert: true,
+    //   provisional: true,
+    // ));
+
+    await _firebaseMessaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
     _firebaseMessaging.getToken().then((String newToken) async {
-      //  print('************user token*************');
-      // print(newToken);
+      print('************user token*************');
+      print(newToken);
       SharedPreferences perfs = await SharedPreferences.getInstance();
       LocalStorageService storageService = LocalStorageService(perfs: perfs);
       String oldToken = storageService.getValue('pushToken');
@@ -105,7 +104,7 @@ class FirebaseMessagingService {
     });
   }
 
-  Future<void> showNotification(Map<String, dynamic> message) async {
+  Future<void> showNotification(RemoteNotification message) async {
     int id = Random().nextInt(1000);
     print('showing notification called*****************');
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
@@ -124,8 +123,8 @@ class FirebaseMessagingService {
     );
     await flutterLocalNotificationsPlugin.show(
       id,
-      message['notification']['title'].toString(),
-      message['notification']['body'].toString(),
+      message.title,
+      message.body,
       platformChannelSpecifics,
     );
   }

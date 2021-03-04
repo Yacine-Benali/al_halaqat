@@ -150,39 +150,41 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     String newNote = studentAttendance.note;
     bool isConfirm = await showDialog<bool>(
       context: context,
-      child: AlertDialog(
-        contentPadding: const EdgeInsets.all(16.0),
-        content: Row(
-          children: <Widget>[
-            Expanded(
-              child: TextFormField(
-                enabled: canChange,
-                maxLength: 100,
-                initialValue: studentAttendance.note,
-                onChanged: (value) => newNote = value,
-                autofocus: true,
-                decoration: InputDecoration(
-                  labelText: 'ملاحظة',
-                  hintText: 'ملاحظة',
-                  counter: Text(''),
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(16.0),
+          content: Row(
+            children: <Widget>[
+              Expanded(
+                child: TextFormField(
+                  enabled: canChange,
+                  maxLength: 100,
+                  initialValue: studentAttendance.note,
+                  onChanged: (value) => newNote = value,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    labelText: 'ملاحظة',
+                    hintText: 'ملاحظة',
+                    counter: Text(''),
+                  ),
                 ),
-              ),
-            )
+              )
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('إلغاء'),
+              onPressed: () =>
+                  Navigator.of(context, rootNavigator: true).pop(false),
+            ),
+            TextButton(
+              child: const Text('حفظ'),
+              onPressed: () =>
+                  Navigator.of(context, rootNavigator: true).pop(true),
+            ),
           ],
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: const Text('إلغاء'),
-            onPressed: () =>
-                Navigator.of(context, rootNavigator: true).pop(false),
-          ),
-          FlatButton(
-            child: const Text('حفظ'),
-            onPressed: () =>
-                Navigator.of(context, rootNavigator: true).pop(true),
-          ),
-        ],
-      ),
+        );
+      },
     );
     if (isConfirm == true && newNote != studentAttendance.note.toString()) {
       studentAttendance.note = newNote;
@@ -192,41 +194,42 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   Future<void> _teacherNoteWidget(TeacherSummery teacherSummery) async {
     String newNote = teacherSummery.note;
     bool isConfirm = await showDialog<bool>(
-      context: context,
-      child: AlertDialog(
-        contentPadding: const EdgeInsets.all(16.0),
-        content: Row(
-          children: <Widget>[
-            Expanded(
-              child: TextFormField(
-                enabled: canChange,
-                maxLength: 100,
-                initialValue: teacherSummery.note,
-                onChanged: (value) => newNote = value,
-                autofocus: true,
-                decoration: InputDecoration(
-                  labelText: 'ملاحظة',
-                  hintText: 'ملاحظة',
-                  counter: Text(''),
-                ),
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            contentPadding: const EdgeInsets.all(16.0),
+            content: Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextFormField(
+                    enabled: canChange,
+                    maxLength: 100,
+                    initialValue: teacherSummery.note,
+                    onChanged: (value) => newNote = value,
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      labelText: 'ملاحظة',
+                      hintText: 'ملاحظة',
+                      counter: Text(''),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('إلغاء'),
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: true).pop(false),
               ),
-            )
-          ],
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: const Text('إلغاء'),
-            onPressed: () =>
-                Navigator.of(context, rootNavigator: true).pop(false),
-          ),
-          FlatButton(
-            child: const Text('حفظ'),
-            onPressed: () =>
-                Navigator.of(context, rootNavigator: true).pop(true),
-          ),
-        ],
-      ),
-    );
+              TextButton(
+                child: const Text('حفظ'),
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: true).pop(true),
+              ),
+            ],
+          );
+        });
     if (isConfirm == true && newNote != teacherSummery.note.toString()) {
       teacherSummery.note = newNote;
     }
@@ -342,7 +345,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
             alignment: Alignment.center,
             height: kMinInteractiveDimension,
-            child: FlatButton(
+            child: TextButton(
               child: Icon(
                 Icons.message,
                 color: Colors.grey,
@@ -434,12 +437,14 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
           alignment: Alignment.center,
           height: kMinInteractiveDimension,
-          child: FlatButton(
+          child: TextButton(
             child: Icon(
               Icons.message,
               color: Colors.grey,
             ),
-            onPressed: () => _studentNoteWidget(studentAttendance),
+            onPressed: () {
+              _studentNoteWidget(studentAttendance);
+            },
           ),
         ),
         if (!(bloc.user is Student)) ...[
@@ -447,7 +452,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
             alignment: Alignment.center,
             height: kMinInteractiveDimension,
-            child: FlatButton(
+            child: TextButton(
               child: Icon(
                 Icons.book,
                 color: Colors.grey,

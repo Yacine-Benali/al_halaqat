@@ -9,7 +9,12 @@ class MultiSelectDialogItem<V> {
 
 class MultiSelectDialog<V> extends StatefulWidget {
   MultiSelectDialog(
-      {Key key, this.items, this.initialSelectedValues, this.title, this.okButtonLabel, this.cancelButtonLabel})
+      {Key key,
+      this.items,
+      this.initialSelectedValues,
+      this.title,
+      this.okButtonLabel,
+      this.cancelButtonLabel})
       : super(key: key);
 
   final List<MultiSelectDialogItem<V>> items;
@@ -64,11 +69,11 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
         ),
       ),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text(widget.cancelButtonLabel),
           onPressed: _onCancelTap,
         ),
-        FlatButton(
+        TextButton(
           child: Text(widget.okButtonLabel),
           onPressed: _onSubmitTap,
         )

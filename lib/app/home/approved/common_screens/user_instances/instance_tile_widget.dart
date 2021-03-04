@@ -62,38 +62,40 @@ class _InstanceTileWidgetState extends State<InstanceTileWidget> {
   Future<void> _showDialog() async {
     bool isConfirm = await showDialog<bool>(
       context: context,
-      child: AlertDialog(
-        contentPadding: const EdgeInsets.all(16.0),
-        content: Row(
-          children: <Widget>[
-            Expanded(
-              child: TextFormField(
-                maxLength: 100,
-                initialValue: widget.instance.note,
-                onChanged: (value) => newNote = value,
-                autofocus: true,
-                decoration: InputDecoration(
-                  labelText: 'ملاحظة',
-                  hintText: 'ملاحظة',
-                  counter: Text(''),
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(16.0),
+          content: Row(
+            children: <Widget>[
+              Expanded(
+                child: TextFormField(
+                  maxLength: 100,
+                  initialValue: widget.instance.note,
+                  onChanged: (value) => newNote = value,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    labelText: 'ملاحظة',
+                    hintText: 'ملاحظة',
+                    counter: Text(''),
+                  ),
                 ),
-              ),
-            )
+              )
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('إلغاء'),
+              onPressed: () =>
+                  Navigator.of(context, rootNavigator: true).pop(false),
+            ),
+            TextButton(
+              child: const Text('حفظ'),
+              onPressed: () =>
+                  Navigator.of(context, rootNavigator: true).pop(true),
+            ),
           ],
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: const Text('إلغاء'),
-            onPressed: () =>
-                Navigator.of(context, rootNavigator: true).pop(false),
-          ),
-          FlatButton(
-            child: const Text('حفظ'),
-            onPressed: () =>
-                Navigator.of(context, rootNavigator: true).pop(true),
-          ),
-        ],
-      ),
+        );
+      },
     );
     if (isConfirm && widget.instance.note.toString() != newNote) {
       widget.instance.note = newNote;

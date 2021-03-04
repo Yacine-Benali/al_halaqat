@@ -198,7 +198,7 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
             onPressed: model.isLoading ? null : _submit,
           ),
           SizedBox(height: 8.0),
-          FlatButton(
+          TextButton(
             key: Key('secondary-button'),
             child: model.formType == EmailPasswordSignInFormType.signIn
                 ? RichText(

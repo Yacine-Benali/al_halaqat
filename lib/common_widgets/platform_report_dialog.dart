@@ -63,11 +63,11 @@ class PlatformReportDialog extends PlatformWidget {
 
   List<Widget> _buildActions(BuildContext context) {
     return <Widget>[
-      FlatButton(
+      TextButton(
         child: const Text('إلغاء'),
         onPressed: () => Navigator.of(context, rootNavigator: true).pop(false),
       ),
-      FlatButton(
+      TextButton(
           child: const Text('فتح الملف'),
           onPressed: () async {
             OpenResult b = await OpenFile.open(filePath);
@@ -80,7 +80,7 @@ class PlatformReportDialog extends PlatformWidget {
                 ),
               ).show(context);
           }),
-      FlatButton(
+      TextButton(
         child: const Text('مشاركة الملف'),
         onPressed: () => Share.shareFiles([filePath], text: 'report'),
       ),
