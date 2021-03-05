@@ -154,9 +154,15 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
           padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
           alignment: Alignment.center,
           height: kMinInteractiveDimension,
-          child: RaisedButton(
-            child: Text(''),
-            onPressed: () => _studentNoteWidget(studentAttendance),
+          child: TextButton(
+            child: Icon(
+              Icons.message,
+              color:
+                  studentAttendance.note == null ? Colors.grey : Colors.indigo,
+            ),
+            onPressed: () {
+              _studentNoteWidget(studentAttendance);
+            },
           ),
         ),
       ]);

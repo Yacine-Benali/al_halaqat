@@ -1,5 +1,6 @@
 import 'package:alhalaqat/app/home/approved/common_screens/user_instances/attendance/attendance_provider.dart';
 import 'package:alhalaqat/app/models/instance.dart';
+import 'package:alhalaqat/app/models/local_attendance_summery.dart';
 import 'package:alhalaqat/app/models/quran.dart';
 import 'package:alhalaqat/app/models/student.dart';
 import 'package:alhalaqat/app/models/student_attendance.dart';
@@ -19,6 +20,25 @@ class AttendanceBloc {
   final Instance instance;
   final User user;
   List<Student> gStudentsList;
+
+  LocalAttendanceSummery getStudentAttendanceSummery(
+      List<StudentAttendance> studentAttendanceList) {
+    List<String> attendanceState = KeyTranslate.attendanceState.keys.toList();
+    LocalAttendanceSummery summery = LocalAttendanceSummery();
+
+    for (StudentAttendance attendance in studentAttendanceList) {
+      if (attendance.state == attendanceState[0]) {
+        summery.present++;
+      } else if (attendance.state == attendanceState[1]) {
+        summery.latee++;
+      } else if (attendance.state == attendanceState[2]) {
+        summery.absent++;
+      } else if (attendance.state == attendanceState[3]) {
+        summery.absentWithExecuse++;
+      }
+    }
+    return summery;
+  }
 
   Future<Quran> fetchQuran() async => await provider.fetchQuran();
   List<String> getColumnTitle() {

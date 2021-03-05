@@ -4,6 +4,7 @@ import 'package:alhalaqat/app/home/approved/common_screens/user_instances/evalua
 import 'package:alhalaqat/app/models/admin.dart';
 import 'package:alhalaqat/app/models/halaqa.dart';
 import 'package:alhalaqat/app/models/instance.dart';
+import 'package:alhalaqat/app/models/local_attendance_summery.dart';
 import 'package:alhalaqat/app/models/quran.dart';
 import 'package:alhalaqat/app/models/student.dart';
 import 'package:alhalaqat/app/models/student_attendance.dart';
@@ -77,7 +78,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   ProgressDialog pr;
   bool canChange;
   //
-
+  LocalAttendanceSummery studentAttendanceSummery;
   @override
   void initState() {
     if (bloc.user is Admin)
@@ -189,6 +190,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     if (isConfirm == true && newNote != studentAttendance.note.toString()) {
       studentAttendance.note = newNote;
     }
+
+    setState(() {});
   }
 
   Future<void> _teacherNoteWidget(TeacherSummery teacherSummery) async {
@@ -277,9 +280,50 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     // );
   }
 
+  TableRow buildSummery() {
+    studentAttendanceSummery =
+        bloc.getStudentAttendanceSummery(instance.studentAttendanceList);
+    return TableRow(children: [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          alignment: Alignment.center,
+          child: Text(KeyTranslate.sum),
+        ),
+      ),
+      // TODO create function that returns the following container
+      Container(
+          alignment: Alignment.center,
+          height: kMinInteractiveDimension,
+          child: Text(studentAttendanceSummery.present.toString())),
+      Container(
+          alignment: Alignment.center,
+          height: kMinInteractiveDimension,
+          child: Text(studentAttendanceSummery.latee.toString())),
+      Container(
+          alignment: Alignment.center,
+          height: kMinInteractiveDimension,
+          child: Text(studentAttendanceSummery.absent.toString())),
+      Container(
+          alignment: Alignment.center,
+          height: kMinInteractiveDimension,
+          child: Text(studentAttendanceSummery.absentWithExecuse.toString())),
+      Container(
+          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+          alignment: Alignment.center,
+          height: kMinInteractiveDimension,
+          child: Text('')),
+      Container(
+          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+          alignment: Alignment.center,
+          height: kMinInteractiveDimension,
+          child: Text('')),
+    ]);
+  }
+
   List<TableRow> buildRowList() {
     List<TableRow> tableRowList = List();
-
+    tableRowList.add(buildSummery());
     if (!(bloc.user is Teacher)) {
       tableRowList.add(TableRow(
         children: [
@@ -440,7 +484,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           child: TextButton(
             child: Icon(
               Icons.message,
-              color: Colors.grey,
+              color:
+                  studentAttendance.note == null ? Colors.grey : Colors.indigo,
             ),
             onPressed: () {
               _studentNoteWidget(studentAttendance);
@@ -543,7 +588,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     ),
                     child: Form(
                       key: _formKey,
-                      autovalidate: true,
+                      autovalidateMode: AutovalidateMode.always,
                       child: Table(
                         defaultVerticalAlignment:
                             TableCellVerticalAlignment.middle,
