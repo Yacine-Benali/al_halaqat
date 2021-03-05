@@ -312,7 +312,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
           alignment: Alignment.center,
           height: kMinInteractiveDimension,
-          child: Text('')),
+          child: Text(studentAttendanceSummery.note.toString())),
       Container(
           padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
           alignment: Alignment.center,

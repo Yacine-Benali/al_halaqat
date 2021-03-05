@@ -37,6 +37,9 @@ class StudentProfileBloc {
     LocalAttendanceSummery summery = LocalAttendanceSummery();
 
     for (StudentAttendance attendance in studentAttendanceList) {
+      if (attendance.note != null && attendance.note != '') {
+        summery.note++;
+      }
       if (attendance.state == attendanceState[0]) {
         summery.present++;
       } else if (attendance.state == attendanceState[1]) {
