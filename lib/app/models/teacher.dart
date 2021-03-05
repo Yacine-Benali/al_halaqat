@@ -122,4 +122,10 @@ class Teacher extends User {
       'halaqatTeachingIn': halaqatTeachingIn,
     };
   }
+
+  @override
+  bool operator ==(other) => other is Teacher && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }

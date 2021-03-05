@@ -2,6 +2,7 @@ import 'package:alhalaqat/app/home/approved/admin/admin_reports/admin_reports_bl
 import 'package:alhalaqat/app/home/approved/admin/admin_reports/admin_reports_provider.dart';
 import 'package:alhalaqat/app/home/approved/admin/admin_reports/center_logs/center_logs_screen.dart';
 import 'package:alhalaqat/app/home/approved/admin/admin_reports/center_numbers/center_numbers_screen.dart';
+import 'package:alhalaqat/app/home/approved/admin/admin_reports/t__center_attendance/t_center_attendance_screen.dart';
 import 'package:alhalaqat/app/home/approved/admin/admin_reports/t_attendance/t_attendance_screen.dart';
 import 'package:alhalaqat/app/home/approved/common_screens/reports/s_attendance/s_attendance_screen.dart';
 import 'package:alhalaqat/app/home/approved/common_screens/reports/s_learning/s_learning_screen.dart';
@@ -137,6 +138,20 @@ class _AdminReportsScreenState extends State<AdminReportsScreen> {
                               context: context,
                               halaqatList: items,
                               center: chosenCenter),
+                          fullscreenDialog: true,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    MenuButtonWidget(
+                      text: ' 2 حضور المعلمين',
+                      onPressed: () =>
+                          Navigator.of(context, rootNavigator: false).push(
+                        MaterialPageRoute(
+                          builder: (context) => TCenterAttendanceScreen.create(
+                            context: context,
+                            center: chosenCenter,
+                          ),
                           fullscreenDialog: true,
                         ),
                       ),

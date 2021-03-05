@@ -21,12 +21,6 @@ class _DateRangePickerState extends State<DateRangePicker> {
   List<DateTime> dateTimeRange;
   TextStyle textStyle;
 
-  void save() {
-    dateTimeRange[1] = dateTimeRange[1].add(Duration(hours: 23));
-    widget.firstDate(dateTimeRange[0]);
-    widget.lastDate(dateTimeRange[1]);
-  }
-
   @override
   void initState() {
     dateTimeRange = List(2);
@@ -44,6 +38,12 @@ class _DateRangePickerState extends State<DateRangePicker> {
     super.initState();
   }
 
+  void save() {
+    dateTimeRange[1] = dateTimeRange[1].add(Duration(hours: 23));
+    widget.firstDate(dateTimeRange[0]);
+    widget.lastDate(dateTimeRange[1]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -53,7 +53,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
           initialFirstDate: dateTimeRange[0],
           initialLastDate: dateTimeRange[1],
           firstDate: DateTime(DateTime.now().year - 1),
-          lastDate: DateTime.now(),
+          lastDate: DateTime.now().add(Duration(hours: 23)),
         );
         if (picked != null && picked.length == 2) {
           dateTimeRange[0] = picked[0];
