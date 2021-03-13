@@ -67,6 +67,12 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                   enabled: widget.isEnabled,
                   controller: _controller,
                   onChanged: (value) => widget.onPasswordCreated(value),
+                  validator: (t) {
+                    if (t == null || t == '')
+                      return '';
+                    else
+                      return null;
+                  },
                 ),
               ),
               widget.isEnabled

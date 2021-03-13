@@ -21,13 +21,20 @@ class AttendanceBloc {
   final User user;
   List<Student> gStudentsList;
 
+  bool isNoteEmpty(String note) {
+    if (note != null && note != '' && note != ' ') {
+      return false;
+    } else
+      return true;
+  }
+
   LocalAttendanceSummery getStudentAttendanceSummery(
       List<StudentAttendance> studentAttendanceList) {
     List<String> attendanceState = KeyTranslate.attendanceState.keys.toList();
     LocalAttendanceSummery summery = LocalAttendanceSummery();
 
     for (StudentAttendance attendance in studentAttendanceList) {
-      if (attendance.note != null && attendance.note != '') {
+      if (!isNoteEmpty(attendance.note)) {
         summery.note++;
       }
       if (attendance.state == attendanceState[0]) {
@@ -40,6 +47,7 @@ class AttendanceBloc {
         summery.absentWithExecuse++;
       }
     }
+    // print(summery.present);
     return summery;
   }
 

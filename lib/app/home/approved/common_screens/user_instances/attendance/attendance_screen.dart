@@ -236,6 +236,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     if (isConfirm == true && newNote != teacherSummery.note.toString()) {
       teacherSummery.note = newNote;
     }
+    setState(() {});
   }
 
   TableRow buildColumnBlock() {
@@ -392,7 +393,9 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             child: TextButton(
               child: Icon(
                 Icons.message,
-                color: Colors.grey,
+                color: bloc.isNoteEmpty(instance.teacherSummery.note)
+                    ? Colors.grey
+                    : Colors.indigo,
               ),
               onPressed: () => _teacherNoteWidget(instance.teacherSummery),
             ),
@@ -484,8 +487,9 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           child: TextButton(
             child: Icon(
               Icons.message,
-              color:
-                  studentAttendance.note == null ? Colors.grey : Colors.indigo,
+              color: bloc.isNoteEmpty(studentAttendance.note)
+                  ? Colors.grey
+                  : Colors.indigo,
             ),
             onPressed: () {
               _studentNoteWidget(studentAttendance);

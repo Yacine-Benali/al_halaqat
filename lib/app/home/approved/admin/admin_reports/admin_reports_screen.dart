@@ -144,7 +144,7 @@ class _AdminReportsScreenState extends State<AdminReportsScreen> {
                     ),
                     SizedBox(height: 10),
                     MenuButtonWidget(
-                      text: ' 2 حضور المعلمين',
+                      text: 'دوام المعلمين',
                       onPressed: () =>
                           Navigator.of(context, rootNavigator: false).push(
                         MaterialPageRoute(

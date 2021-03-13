@@ -164,6 +164,7 @@ class _NewAdminFormState extends State<AdminForm>
 
   @override
   Widget build(BuildContext context) {
+    print(widget.includeUsernameAndPassword);
     return Scaffold(
       body: Form(
         onChanged: () {
