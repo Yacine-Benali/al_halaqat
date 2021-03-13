@@ -113,10 +113,9 @@ class AdminSupervisorsBloc {
     }
     newSupervisor.halaqatSupervisingIn = temp;
     await provider.createSupervisor(newSupervisor);
-    /*
-      TODO logs specefic to supervisor are not being record
-      creating editing deleting supervisor
-    */
+    // TODO logs specefic to supervisor are not being record
+    //  creating editing deleting supervisor
+
     // await Future.wait([
 
     //   logsHelperBloc.adminTeacherLog(
@@ -154,10 +153,10 @@ class AdminSupervisorsBloc {
       };
 
       await provider.createSupervisor(supervisor);
-      /*
-      TODO logs specefic to supervisor are not being record
-      creating editing deleting supervisor
-    */
+
+      // TODO logs specefic to supervisor are not being record
+      //  creating editing deleting supervisor
+
       // await Future.wait([
       //   logsHelperBloc.adminTeacherLog(
       //       admin, teacher, ObjectAction.add, chosenCenter),

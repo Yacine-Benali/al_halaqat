@@ -150,6 +150,7 @@ class _AdminTeachersScreenState extends State<AdminTeachersScreen> {
         title: Center(child: Text('')),
         centerTitle: true,
         actions: [
+          // todo @high text overflow problem
           Padding(
             padding: EdgeInsets.only(left: 20.0),
             child: Center(

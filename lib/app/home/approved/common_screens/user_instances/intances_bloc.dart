@@ -137,7 +137,7 @@ class InstancesBloc {
         logsHelperBloc.adminInstanceLog(
             user, instance, ObjectAction.add, chosenCenter),
         provider.setInstance(instance)
-      ]); //TODO @HIGH student as organizer is not logged in the system
+      ]); //TODO @high student as organizer is not logged in the system
     } else
       provider.setInstance(instance);
   }
