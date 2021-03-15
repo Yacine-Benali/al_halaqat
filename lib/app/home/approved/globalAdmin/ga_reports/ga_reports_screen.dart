@@ -17,7 +17,8 @@ class _GaReportsScreenState extends State<GaReportsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Center(child: Text('التقارير ')),
+          centerTitle: true,
+          title: Text('التقارير '),
         ),
         body: Padding(
           padding: EdgeInsets.all(16.0),
