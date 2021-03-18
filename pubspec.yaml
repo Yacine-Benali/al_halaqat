@@ -36,7 +36,7 @@ dependencies:
   tuple: ^1.0.3
   path_provider: ^1.6.14
   permission_handler: ^5.1.0
-  open_file: ^3.0.1
+  open_file: ^3.1.0
   excel: ^1.1.5
   share: ^0.6.5
   shared_preferences: ^0.5.12+2
@@ -59,7 +59,7 @@ dependencies:
   #third party signin
   google_sign_in: ^4.5.1 
   apple_sign_in: ^0.1.0
-  flutter_login_facebook: ^0.2.1
+  flutter_login_facebook: ^0.4.2+3 
   # dead
   flutter_launcher_icons: ^0.8.0
   rename: ^1.2.0

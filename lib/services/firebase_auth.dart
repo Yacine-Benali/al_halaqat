@@ -88,7 +88,7 @@ class FirebaseAuthService implements Auth {
     final fb = FacebookLogin();
     final result = await fb.logIn(permissions: []);
 
-    if (result.status == FacebookLoginStatus.Success) {
+    if (result.status == FacebookLoginStatus.success) {
       if (result.accessToken != null) {
         final UserCredential authResult =
             await _firebaseAuth.signInWithCredential(
