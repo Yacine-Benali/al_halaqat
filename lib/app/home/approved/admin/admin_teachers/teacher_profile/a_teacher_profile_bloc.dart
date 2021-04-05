@@ -41,4 +41,13 @@ class ATeacherProfileBloc {
       teacherCenterAttendance,
     );
   }
+
+  Future<void> executeAction(
+      TeacherCenterAttendance teacherCenterAttendance, String action) async {
+    switch (action) {
+      case 'delete':
+        await provider.deleteTcenterAttendance(
+            studyCenter.id, teacher.id, teacherCenterAttendance);
+    }
+  }
 }

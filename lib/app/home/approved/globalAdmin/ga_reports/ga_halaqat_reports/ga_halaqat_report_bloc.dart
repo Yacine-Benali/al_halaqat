@@ -28,7 +28,8 @@ class GaCHalaqatReportBloc {
     for (Halaqa halaqa in halaqatList) {
       StudyCenter center;
       for (StudyCenter existingCenter in centersList) {
-        if (existingCenter.id == halaqa.centerId) center = existingCenter;
+        //! the exstingcenter is null
+        if (existingCenter?.id == halaqa.centerId) center = existingCenter;
       }
       if (center == null) {
         StudyCenter newCenter =

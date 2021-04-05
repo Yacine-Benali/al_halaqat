@@ -1,7 +1,7 @@
+import 'package:alhalaqat/app/home/approved/admin/admin_teachers/teacher_profile/a_t_center_attendace_tile.dart';
 import 'package:alhalaqat/app/home/approved/admin/admin_teachers/teacher_profile/a_t_new_center_attendance_screen.dart';
 import 'package:alhalaqat/app/home/approved/admin/admin_teachers/teacher_profile/a_teacher_profile_bloc.dart';
 import 'package:alhalaqat/app/models/teacher_center_attendance.dart';
-import 'package:alhalaqat/common_widgets/format.dart';
 import 'package:alhalaqat/common_widgets/snapshot_items_builder.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +20,7 @@ class ATCenterAttendanceScreen extends StatefulWidget {
 
 class _ATCenterAttendanceScreenState extends State<ATCenterAttendanceScreen> {
   ATeacherProfileBloc get bloc => widget.bloc;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Stream<List<TeacherCenterAttendance>> teacherCenterAttendanceStream;
   @override
@@ -31,6 +32,7 @@ class _ATCenterAttendanceScreenState extends State<ATCenterAttendanceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context, rootNavigator: false).push(
@@ -51,26 +53,10 @@ class _ATCenterAttendanceScreenState extends State<ATCenterAttendanceScreen> {
         builder: (context, snapshot) {
           return SnapshotItemBuilder<TeacherCenterAttendance>(
             itemBuilder: (BuildContext context, item) {
-              String subtitle1 =
-                  'من${item.timeIn.format(context)} إلى${item.timeOut.format(context)}';
-              String subtitle2 = 'عدد الجلسات: ${item.noSessions}';
-              return ListTile(
-                title: Text(Format.date(item.date.toDate())),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [Text(subtitle1), Text(subtitle2)],
-                ),
-                onTap: () {
-                  Navigator.of(context, rootNavigator: false).push(
-                    MaterialPageRoute(
-                      builder: (context) => ATNewCenterAttendance(
-                        bloc: bloc,
-                        teacherCenterAttendance: item,
-                      ),
-                      fullscreenDialog: true,
-                    ),
-                  );
-                },
+              return ATCenterAttendanceTile(
+                bloc: bloc,
+                scaffoldKey: _scaffoldKey,
+                teacherCenterAttendance: item,
               );
             },
             message: '',

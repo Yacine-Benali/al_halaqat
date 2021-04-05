@@ -29,4 +29,14 @@ class TCenterAttendanceProvider {
         data: teacherCenterAttendance.toMap(),
         merge: true,
       );
+
+  Future<void> deleteTcenterAttendance(
+    String centerId,
+    String teacherId,
+    TeacherCenterAttendance teacherCenterAttendance,
+  ) =>
+      database.deleteDocument(
+        path: APIPath.teacherCenterAttendanceDocument(
+            centerId, teacherId, teacherCenterAttendance.id),
+      );
 }

@@ -77,7 +77,7 @@ class GaHalaqatReportCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: AutoSizeText(row.center.name),
+            child: AutoSizeText(row.center?.name ?? 'deleted'),
           ),
         ),
         Padding(

@@ -43,6 +43,7 @@ class _GaCentersReportScreenState extends State<GaHalaqaReportScreen> {
   @override
   void initState() {
     rowListFuture = bloc.getHalaqatReport();
+    //print(widget.)
     pr = ProgressDialog(
       context,
       type: ProgressDialogType.Normal,

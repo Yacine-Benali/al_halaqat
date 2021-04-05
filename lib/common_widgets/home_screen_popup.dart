@@ -1,3 +1,4 @@
+import 'package:alhalaqat/constants/strings.dart';
 import 'package:flutter/material.dart';
 
 import 'platform_alert_dialog.dart';
@@ -20,7 +21,8 @@ class HomeScreenPopUp extends StatelessWidget {
           if (value == 1)
             PlatformAlertDialog(
               content:
-                  'هذا البرنامج صدقة عن روح المرحومة وفاء خليل صديق نرجو  لها الدعاء\n الإصدار 1.2.0 ',
+                  """هذا البرنامج صدقة عن روح المرحومة وفاء خليل صديق نرجو  لها الدعاء
+                  \n  الإصدار ${Strings.appVersion}""",
               defaultActionText: 'حسنا',
               title: 'حول التطبيق',
             ).show(context);

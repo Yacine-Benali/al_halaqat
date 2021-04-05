@@ -1,5 +1,7 @@
 class Strings {
   //
+  //
+  static const String appVersion = '1.3.0';
   static const String yourCenterisArchived = 'المركز الخاص بك تم تعطيله';
   static const String youAreArchived = 'لقد تم تعطيل الحساب الخاص بك ';
   static const String contactUs =

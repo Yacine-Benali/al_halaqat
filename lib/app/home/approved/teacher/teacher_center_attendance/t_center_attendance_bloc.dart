@@ -31,4 +31,13 @@ class TCenterAttendanceBloc {
       teacherCenterAttendance,
     );
   }
+
+  Future<void> executeAction(StudyCenter studyCenter,
+      TeacherCenterAttendance teacherCenterAttendance, String action) async {
+    switch (action) {
+      case 'delete':
+        await provider.deleteTcenterAttendance(
+            studyCenter.id, teacher.id, teacherCenterAttendance);
+    }
+  }
 }
