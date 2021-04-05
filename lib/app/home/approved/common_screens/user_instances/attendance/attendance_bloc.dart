@@ -57,14 +57,14 @@ class AttendanceBloc {
     columnTitleList.add('الاسم');
     columnTitleList.addAll(KeyTranslate.attendanceState.values);
 
-    if (!(user is Student)) {
+    if (user is Student) {
       columnTitleList.addAll([
         'ملاحظة',
-        'تقييم',
       ]);
     } else {
       columnTitleList.addAll([
         'ملاحظة',
+        'تقييم',
       ]);
     }
 

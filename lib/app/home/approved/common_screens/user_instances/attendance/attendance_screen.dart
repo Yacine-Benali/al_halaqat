@@ -314,11 +314,14 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           alignment: Alignment.center,
           height: kMinInteractiveDimension,
           child: Text(studentAttendanceSummery.note.toString())),
-      Container(
+      if (!(bloc.user is Student)) ...[
+        Container(
           padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
           alignment: Alignment.center,
           height: kMinInteractiveDimension,
-          child: Text('')),
+          child: Text(''),
+        ),
+      ],
     ]);
   }
 
