@@ -68,16 +68,6 @@ class _TCenterAttendanceCardState extends State<TCenterAttendanceCard> {
           Container(
             alignment: Alignment.centerRight,
             height: kMinInteractiveDimension,
-            child: Text(teacherAttendance.hoursThought.toString()),
-          ),
-          Container(
-            alignment: Alignment.centerRight,
-            height: kMinInteractiveDimension,
-            child: Text(teacherAttendance.noSessions.toString()),
-          ),
-          Container(
-            alignment: Alignment.centerRight,
-            height: kMinInteractiveDimension,
             child: Text(teacherAttendance.hoursStayed.toString()),
           ),
         ],

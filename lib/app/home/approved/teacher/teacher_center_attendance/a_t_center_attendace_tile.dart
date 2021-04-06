@@ -33,7 +33,6 @@ class ATCenterAttendanceTile extends StatefulWidget {
 class _ATCenterAttendanceTileState extends State<ATCenterAttendanceTile> {
   ProgressDialog pr;
   String subtitle1;
-  String subtitle2;
   @override
   void initState() {
     pr = ProgressDialog(
@@ -119,14 +118,10 @@ class _ATCenterAttendanceTileState extends State<ATCenterAttendanceTile> {
   Widget build(BuildContext context) {
     subtitle1 =
         'من${widget.teacherCenterAttendance.timeIn.format(context)} إلى${widget.teacherCenterAttendance.timeOut.format(context)}';
-    subtitle2 = 'عدد الجلسات: ${widget.teacherCenterAttendance.noSessions}';
 
     return ListTile(
       title: Text(Format.date(widget.teacherCenterAttendance.date.toDate())),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [Text(subtitle1), Text(subtitle2)],
-      ),
+      subtitle: Text(subtitle1),
       onTap: () {
         Navigator.of(context, rootNavigator: false).push(
           MaterialPageRoute(

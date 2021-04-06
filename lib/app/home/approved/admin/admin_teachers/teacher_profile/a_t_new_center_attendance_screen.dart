@@ -42,8 +42,6 @@ class _ATNewCenterAttendanceState extends State<ATNewCenterAttendance> {
     date = widget?.teacherCenterAttendance?.date ?? Timestamp.now();
     timeIn = widget?.teacherCenterAttendance?.timeIn ?? TimeOfDay.now();
     timeOut = widget?.teacherCenterAttendance?.timeOut ?? TimeOfDay.now();
-    noSessions = widget?.teacherCenterAttendance?.noSessions;
-    noHours = widget?.teacherCenterAttendance?.noHours;
     note = widget?.teacherCenterAttendance?.note;
     id = widget?.teacherCenterAttendance?.id;
     pr = ProgressDialog(
@@ -79,8 +77,6 @@ class _ATNewCenterAttendanceState extends State<ATNewCenterAttendance> {
           date: date,
           timeIn: timeIn,
           timeOut: timeOut,
-          noHours: noHours,
-          noSessions: noSessions,
           note: note,
         );
         try {
@@ -163,10 +159,6 @@ class _ATNewCenterAttendanceState extends State<ATNewCenterAttendance> {
                   height: 10,
                 ),
                 SizedBox(height: 30),
-                buildNumberOfSessions(),
-                SizedBox(height: 10),
-                buildNumberOfHours(),
-                SizedBox(height: 10),
                 buildNote(),
               ],
             ),
@@ -206,45 +198,6 @@ class _ATNewCenterAttendanceState extends State<ATNewCenterAttendance> {
         timeOut = t;
         setState(() {});
       },
-    );
-  }
-
-  Widget buildNumberOfSessions() {
-    return TextFormField2(
-      initialValue: noSessions?.toString() ?? '',
-      onSaved: (String value) {},
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'خطأ';
-        }
-      },
-      errorText: 'خطأ',
-      hintText: 'عدد الجلسات التي تم تدريسها',
-      inputFormatter: FilteringTextInputFormatter.digitsOnly,
-      isEnabled: true,
-      isPhoneNumber: true,
-      maxLength: 2,
-      onChanged: (String value) {
-        noSessions = int.parse(value);
-      },
-      title: 'عدد الجلسات',
-    );
-  }
-
-  Widget buildNumberOfHours() {
-    return TextFormField2(
-      initialValue: noHours?.toString() ?? '',
-      validator: (String value) {},
-      errorText: 'خطأ',
-      hintText: 'عدد الساعات التي تم تدريسها',
-      inputFormatter: FilteringTextInputFormatter.digitsOnly,
-      isEnabled: true,
-      isPhoneNumber: true,
-      maxLength: 2,
-      onChanged: (String value) {
-        noHours = int.parse(value);
-      },
-      title: 'عدد الساعات',
     );
   }
 

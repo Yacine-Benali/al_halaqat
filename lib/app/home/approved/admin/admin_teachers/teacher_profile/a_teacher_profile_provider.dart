@@ -16,6 +16,7 @@ class ATeacherProfileProvider {
       database.collectionStream(
         path: APIPath.teacherCenterAttendanceCollection(centerId, teacherId),
         builder: (data, id) => TeacherCenterAttendance.fromMap(data, id),
+        queryBuilder: (query) => query.orderBy('date', descending: true),
       );
 
   Future<void> saveTcenterAttendance(

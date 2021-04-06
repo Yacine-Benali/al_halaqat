@@ -51,6 +51,7 @@ class _ATCenterAttendanceScreenState extends State<ATCenterAttendanceScreen> {
       body: StreamBuilder<List<TeacherCenterAttendance>>(
         stream: teacherCenterAttendanceStream,
         builder: (context, snapshot) {
+          print(snapshot);
           return SnapshotItemBuilder<TeacherCenterAttendance>(
             itemBuilder: (BuildContext context, item) {
               return ATCenterAttendanceTile(

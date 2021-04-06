@@ -35,9 +35,6 @@ class TCenterAttendanceBloc {
 
       for (TeacherCenterAttendance attendance in attendanceList) {
         int hoursStayed = attendance.timeOut.hour - attendance.timeIn.hour;
-        print(hoursStayed);
-        teacherSummery.noSessions += attendance.noSessions ?? 0;
-        teacherSummery.hoursThought += attendance.noHours ?? 0;
         teacherSummery.hoursStayed += hoursStayed ?? 0;
       }
       list.add(teacherSummery);
@@ -48,8 +45,6 @@ class TCenterAttendanceBloc {
   List<String> getColumnTitle() {
     List<String> columnTitleList = List();
     columnTitleList.add('اسم');
-    columnTitleList.add('ساعات التعليم');
-    columnTitleList.add('عدد الحصص');
     columnTitleList.add('ساعات الدوام');
 
     return columnTitleList;
@@ -70,8 +65,6 @@ class TCenterAttendanceBloc {
     for (int i = 0; i < list.length; i++) {
       List<String> row = List();
       row.add(list[i].teacherName);
-      row.add(list[i].hoursThought.toString());
-      row.add(list[i].noSessions.toString());
       row.add(list[i].hoursStayed.toString());
       sheetObject.appendRow(row);
     }
@@ -89,6 +82,6 @@ class TCenterAttendanceBloc {
   String getFileName(List<LocalTCAReport> l, DateTime first, DateTime last) {
     String a = Format.date(first);
     String b = Format.date(last);
-    return '${l[0].teacherName}-' + a + '-' + b + '.xlsx';
+    return 'teacherAttendance-' + a + '-' + b + '.xlsx';
   }
 }
