@@ -13,6 +13,7 @@ import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tuple/tuple.dart';
 
 class StudentForm extends StatefulWidget {
   const StudentForm({
@@ -29,11 +30,9 @@ class StudentForm extends StatefulWidget {
     this.halaqatList,
     @required this.showUserHalaqa,
     @required this.hidePassword,
-    this.presetHalaqa,
   }) : super(key: key);
   final GlobalKey<FormState> studentFormKey;
   final StudyCenter center;
-  final String presetHalaqa;
 
   final ValueChanged<Student> onSaved;
   final Student student;
@@ -85,7 +84,11 @@ class _NewStudentFormState extends State<StudentForm>
   bool isStudent;
   String parentPhoneNumber;
   //
+  List<String> availableHalaqatLearningIn;
+  List<String> unavailableHalaqatLearningIn;
 
+  List<String> availableHalaqatOrganizingIn;
+  List<String> unavailableHalaqatOrganizingIn;
   @override
   void initState() {
     centerFormTitle =
@@ -119,11 +122,18 @@ class _NewStudentFormState extends State<StudentForm>
     parentPhoneNumber = student?.parentPhoneNumber ?? ' ';
     //
     usernameInitValue = username?.replaceAll('@al-halaqat.firebaseapp.com', '');
-    halaqatLearningIn = sanitizeHalaqatLearningIn(halaqatLearningIn);
 
-    if (widget.presetHalaqa != null) {
-      halaqatLearningIn.add(widget.presetHalaqa);
-    }
+    var temp1 = buildAvail(halaqatLearningIn, widget.halaqatList);
+
+    availableHalaqatLearningIn = temp1.item1;
+
+    unavailableHalaqatLearningIn = temp1.item2;
+
+    var temp2 = buildAvail(halaqatOrganizingIn, widget.halaqatList);
+
+    availableHalaqatOrganizingIn = temp2.item1;
+
+    unavailableHalaqatOrganizingIn = temp2.item2;
 
     _save();
 
@@ -360,7 +370,7 @@ class _NewStudentFormState extends State<StudentForm>
                         ),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      initialValue: halaqatLearningIn,
+                      initialValue: availableHalaqatLearningIn,
                       fillColor: Colors.transparent,
                       autovalidate: false,
                       titleText: 'حلقات ',
@@ -372,7 +382,10 @@ class _NewStudentFormState extends State<StudentForm>
                       cancelButtonLabel: 'إلغاء',
                       hintText: 'انقر هنا للاختيار الحلقات',
                       onSaved: (values) {
-                        halaqatLearningIn = List<String>.from(values);
+                        availableHalaqatLearningIn = List<String>.from(values);
+                        halaqatLearningIn.clear();
+                        halaqatLearningIn.addAll(availableHalaqatLearningIn);
+                        halaqatLearningIn.addAll(unavailableHalaqatLearningIn);
 
                         _save();
                         setState(() {});
@@ -389,20 +402,35 @@ class _NewStudentFormState extends State<StudentForm>
                         ),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      initialValue: halaqatOrganizingIn,
+                      initialValue: availableHalaqatOrganizingIn,
                       fillColor: Colors.transparent,
                       autovalidate: false,
-                      titleText: 'الحلقات المشرف عليها',
-                      validator: (value) => null,
-                      dataSource: buildHalaqatOrganizingInMap(
-                          widget.halaqatList, halaqatLearningIn),
+                      titleText: 'مساعد في هذه الحلقات',
+                      validator: (values) {
+                        List<String> tt = List<String>.from(values);
+
+                        for (String value in tt) {
+                          if (!halaqatLearningIn.contains(value)) {
+                            return 'لا يمكن للطالب أن يكون مساعداً في حلقة لا ينتمي إليها. يرجى إضافته للحلقة أولاً';
+                          }
+                        }
+                        return null;
+                      },
+                      dataSource: buildHalaqatLearningInMap(widget.halaqatList),
                       textField: 'display',
                       valueField: 'value',
                       okButtonLabel: 'حسنا',
                       cancelButtonLabel: 'إلغاء',
                       hintText: 'انقر هنا للاختيار الحلقات',
                       onSaved: (values) {
-                        halaqatOrganizingIn = List<String>.from(values);
+                        availableHalaqatOrganizingIn =
+                            List<String>.from(values);
+                        halaqatOrganizingIn.clear();
+                        halaqatOrganizingIn
+                            .addAll(availableHalaqatOrganizingIn);
+                        halaqatOrganizingIn
+                            .addAll(unavailableHalaqatOrganizingIn);
+
                         _save();
                       },
                     ),
@@ -416,18 +444,26 @@ class _NewStudentFormState extends State<StudentForm>
     );
   }
 
-  //TODO @low this exist both in teacher and student form need abstractions
-  List<String> sanitizeHalaqatLearningIn(List<String> halaqatLearningIn2) {
-    if (widget.halaqatList?.isNotEmpty ?? false) {
-      List<String> allHalaqatIds = widget.halaqatList.map((e) => e.id).toList();
+  Tuple2<List<String>, List<String>> buildAvail(
+      List<String> halaqatLearningIn, List<Halaqa> halaqatList) {
+    List<String> availableHalaqatList = List();
+    List<String> unavailableHalaqatList = List();
 
-      List<String> cleanHalaqatLearningIn = List<String>();
-      halaqatLearningIn2.forEach((e) {
-        if (allHalaqatIds.contains(e)) cleanHalaqatLearningIn.add(e);
-      });
-      return cleanHalaqatLearningIn;
+    for (String halaqaLearningInId in halaqatLearningIn) {
+      bool found = false;
+      if (halaqatList != null) {
+        for (Halaqa halaqa in halaqatList) {
+          if (halaqa.id == halaqaLearningInId) {
+            found = true;
+            availableHalaqatList.add(halaqaLearningInId);
+          }
+        }
+      }
+      if (!found) unavailableHalaqatList.add(halaqaLearningInId);
     }
-    return List<String>();
+
+    return Tuple2<List<String>, List<String>>(
+        availableHalaqatList, unavailableHalaqatList);
   }
 
   List<Map<String, String>> buildHalaqatLearningInMap(
@@ -441,27 +477,6 @@ class _NewStudentFormState extends State<StudentForm>
         },
       );
     }
-    return subjectDataSource;
-  }
-
-  List<Map<String, String>> buildHalaqatOrganizingInMap(
-      List<Halaqa> halaqatList, List<String> halaqatLearningIn2) {
-    List<Map<String, String>> subjectDataSource = List();
-
-    for (Halaqa halaqa in halaqatList) {
-      for (String halaqaLearningInId in halaqatLearningIn2) {
-        if (halaqa.id == halaqaLearningInId) {
-          subjectDataSource.add(
-            {
-              "display": halaqa.name,
-              "value": halaqa.id,
-            },
-          );
-        }
-      }
-    }
-    print(halaqatOrganizingIn);
-    print(subjectDataSource);
     return subjectDataSource;
   }
 }

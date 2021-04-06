@@ -127,6 +127,9 @@ class _BaseScreenState extends State<BaseScreen> {
             return Scaffold(body: Center(child: CircularProgressIndicator()));
           });
     }
-    return Scaffold(body: Center(child: CircularProgressIndicator()));
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(child: CircularProgressIndicator()),
+    );
   }
 }

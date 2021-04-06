@@ -32,6 +32,7 @@ class LandingPage extends StatelessWidget {
             }
           } else {
             return Scaffold(
+              appBar: AppBar(),
               body: Center(
                 child: CircularProgressIndicator(),
               ),

@@ -13,6 +13,7 @@ import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tuple/tuple.dart';
 
 class TeacherForm extends StatefulWidget {
   const TeacherForm({
@@ -75,6 +76,9 @@ class _NewStudentFormState extends State<TeacherForm>
   //
   bool isTeacher;
   List<String> halaqatTeachingIn;
+  //
+  List<String> availableHalaqatTeachingIn;
+  List<String> unavailableHalaqatTeachingIn;
 
   @override
   void initState() {
@@ -108,10 +112,13 @@ class _NewStudentFormState extends State<TeacherForm>
 
     halaqatTeachingIn = teacher?.halaqatTeachingIn ?? List<String>();
 
-    halaqatTeachingIn = sanitizeHalaqatTeachingIn(halaqatTeachingIn);
     //
     usernameInitValue = username?.replaceAll('@al-halaqat.firebaseapp.com', '');
-
+    //
+    var temp1 = buildAvail(halaqatTeachingIn, widget.halaqatList);
+    availableHalaqatTeachingIn = temp1.item1;
+    unavailableHalaqatTeachingIn = temp1.item2;
+    //
     _save();
     super.initState();
   }
@@ -328,20 +335,25 @@ class _NewStudentFormState extends State<TeacherForm>
                         ),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      initialValue: halaqatTeachingIn,
+                      initialValue: availableHalaqatTeachingIn,
                       fillColor: Colors.transparent,
                       autovalidate: false,
                       titleText: 'حلقات يعلم فيها',
                       validator: (value) => null,
-                      dataSource: buildMap(widget.halaqatList),
+                      dataSource: buildTeachingInMap(widget.halaqatList),
                       textField: 'display',
                       valueField: 'value',
                       okButtonLabel: 'حسنا',
                       cancelButtonLabel: 'إلغاء',
                       hintText: 'انقر هنا للاختيار الحلقات',
                       onSaved: (values) {
-                        halaqatTeachingIn = List<String>.from(values);
+                        availableHalaqatTeachingIn = List<String>.from(values);
+                        halaqatTeachingIn.clear();
+                        halaqatTeachingIn.addAll(availableHalaqatTeachingIn);
+                        halaqatTeachingIn.addAll(unavailableHalaqatTeachingIn);
+
                         _save();
+                        setState(() {});
                       },
                     ),
                   ),
@@ -354,20 +366,29 @@ class _NewStudentFormState extends State<TeacherForm>
     );
   }
 
-  List<String> sanitizeHalaqatTeachingIn(List<String> halaqatTeachingIn2) {
-    if (widget.halaqatList?.isNotEmpty ?? false) {
-      List<String> allHalaqatIds = widget.halaqatList.map((e) => e.id).toList();
+  Tuple2<List<String>, List<String>> buildAvail(
+      List<String> halaqatLearningIn, List<Halaqa> halaqatList) {
+    List<String> availableHalaqatList = List();
+    List<String> unavailableHalaqatList = List();
 
-      List<String> cleanHalaqatLearningIn = List<String>();
-      halaqatTeachingIn2.forEach((e) {
-        if (allHalaqatIds.contains(e)) cleanHalaqatLearningIn.add(e);
-      });
-      return cleanHalaqatLearningIn;
+    for (String halaqaLearningInId in halaqatLearningIn) {
+      bool found = false;
+      if (halaqatList != null) {
+        for (Halaqa halaqa in halaqatList) {
+          if (halaqa.id == halaqaLearningInId) {
+            found = true;
+            availableHalaqatList.add(halaqaLearningInId);
+          }
+        }
+      }
+      if (!found) unavailableHalaqatList.add(halaqaLearningInId);
     }
-    return List<String>();
+
+    return Tuple2<List<String>, List<String>>(
+        availableHalaqatList, unavailableHalaqatList);
   }
 
-  List<Map<String, String>> buildMap(List<Halaqa> halaqatList) {
+  List<Map<String, String>> buildTeachingInMap(List<Halaqa> halaqatList) {
     List<Map<String, String>> subjectDataSource = List();
     for (Halaqa halaqa in halaqatList) {
       subjectDataSource.add(

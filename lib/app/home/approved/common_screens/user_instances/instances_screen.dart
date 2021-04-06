@@ -232,7 +232,6 @@ class _InstancesScreenState extends State<InstancesScreen> {
           chosenCenter: bloc.chosenCenter,
           halaqatList: [bloc.halaqa],
           isRemovable: null,
-          preset: bloc.halaqa.id,
           student: null,
         ),
         fullscreenDialog: true,

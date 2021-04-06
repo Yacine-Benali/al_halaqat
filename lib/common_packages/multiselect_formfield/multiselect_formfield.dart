@@ -56,9 +56,10 @@ class MultiSelectFormField extends FormField<dynamic> {
 
               if (state.value != null) {
                 state.value.forEach((item) {
-                  var existingItem = dataSource.singleWhere(
-                      (itm) => itm[valueField] == item,
-                      orElse: () => null);
+                  var existingItem = dataSource.singleWhere((itm) {
+                    return itm[valueField] == item;
+                  }, orElse: () => null);
+
                   selectedOptions.add(Chip(
                     label: Text(existingItem[textField],
                         overflow: TextOverflow.ellipsis),
