@@ -117,6 +117,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
             );
           } else {
             return Scaffold(
+              //TODO @meduim if a user center is deactivated he can not log out
               appBar: AppBar(),
               body: EmptyContent(
                 title: Strings.yourCenterisArchived,

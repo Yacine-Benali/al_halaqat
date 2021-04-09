@@ -84,7 +84,7 @@ class _SupervisorHalaqatScreenState extends State<SupervisorHalaqatScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('الحلقات'),
+        title: Text('إدارة الحلقات'),
         centerTitle: true,
       ),
       body: StreamBuilder<List<Halaqa>>(

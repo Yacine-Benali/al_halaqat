@@ -85,7 +85,7 @@ class _TeacherHalaqatScreenState extends State<TeacherHalaqatScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('الحلقات'),
+        title: Text('إدارة الحلقات'),
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(

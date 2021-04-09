@@ -53,7 +53,7 @@ class _AdminCentersScreenState extends State<AdminCentersScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('المراكز'),
+        title: Text('إدارة المراكز'),
         centerTitle: true,
       ),
       body: StreamBuilder<List<StudyCenter>>(

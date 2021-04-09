@@ -147,7 +147,7 @@ class _AdminSupervisorsScreenState extends State<AdminSupervisorsScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Center(child: Text('')),
+        title: Text(''),
         centerTitle: true,
         actions: [
           Padding(

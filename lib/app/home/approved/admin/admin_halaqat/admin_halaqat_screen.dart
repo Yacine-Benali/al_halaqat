@@ -87,7 +87,7 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Center(child: Text('الحلقات')),
+        title: Text('إدارة الحلقات'),
         centerTitle: true,
         actions: [
           Padding(

@@ -258,6 +258,8 @@ class _AdminsStudentsScreenState extends State<TeacherStudentsScreen> {
 
                 return Scaffold(
                   appBar: AppBar(
+                    title: Text('إدارة الطلاب'),
+                    centerTitle: true,
                     actions: [
                       chosenCenter.canTeachersEditStudents
                           ? Padding(
