@@ -20,15 +20,15 @@ class AdminHalaqatScreen extends StatefulWidget {
   const AdminHalaqatScreen._({
     Key key,
     @required this.bloc,
-    @required this.centers,
+    @required this.center,
   }) : super(key: key);
 
   final AdminHalaqaBloc bloc;
-  final List<StudyCenter> centers;
+  final StudyCenter center;
 
   static Widget create({
     @required BuildContext context,
-    @required List<StudyCenter> centers,
+    @required StudyCenter center,
   }) {
     Database database = Provider.of<Database>(context, listen: false);
     User user = Provider.of<User>(context, listen: false);
@@ -46,7 +46,7 @@ class AdminHalaqatScreen extends StatefulWidget {
 
     return AdminHalaqatScreen._(
       bloc: bloc,
-      centers: centers,
+      center: center,
     );
   }
 
@@ -75,9 +75,9 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
     } else {
       halaqatStateList = KeyTranslate.gaHalaqatState.keys.toList();
     }
-    chosenCenter = widget.centers[0];
+    chosenCenter = widget.center;
     chosenHalaqaState = halaqatStateList[0];
-    teachersHalaqatListStream = bloc.fetchTeachers(widget.centers);
+    teachersHalaqatListStream = bloc.fetchTeachers([widget.center]);
 
     super.initState();
   }
@@ -90,32 +90,6 @@ class _AdminHalaqatScreenState extends State<AdminHalaqatScreen> {
         title: Center(child: Text('الحلقات')),
         centerTitle: true,
         actions: [
-          Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: Center(
-              child: DropdownButton<StudyCenter>(
-                dropdownColor: Colors.indigo,
-                value: chosenCenter,
-                icon: Icon(Icons.arrow_drop_down, color: Colors.white),
-                iconSize: 24,
-                underline: Container(),
-                elevation: 0,
-                style: TextStyle(color: Colors.white, fontSize: 20),
-                onChanged: (StudyCenter newValue) {
-                  setState(() {
-                    chosenCenter = newValue;
-                  });
-                },
-                items: widget.centers
-                    .map<DropdownMenuItem<StudyCenter>>((StudyCenter value) {
-                  return DropdownMenuItem<StudyCenter>(
-                    value: value,
-                    child: Text(value.name),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
           Padding(
             padding: EdgeInsets.only(left: 20.0),
             child: Center(

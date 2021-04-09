@@ -1,6 +1,7 @@
 import 'package:alhalaqat/app/sign_in/email_password/email_password_sign_in_page.dart';
 import 'package:alhalaqat/app/sign_in/sign_in_bloc.dart';
 import 'package:alhalaqat/app/sign_in/social_sign_in_button.dart';
+import 'package:alhalaqat/common_widgets/home_screen_popup.dart';
 import 'package:alhalaqat/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:alhalaqat/constants/keys.dart';
 import 'package:alhalaqat/constants/strings.dart';
@@ -101,6 +102,9 @@ class SignInPage extends StatelessWidget {
         centerTitle: true,
         elevation: 2.0,
         title: Text('الحلقات'),
+        actions: [
+          HomeScreenPopUp(),
+        ],
       ),
       // Hide developer menu while loading in progress.
       // This is so that it's not possible to switch auth service while a request is in progress

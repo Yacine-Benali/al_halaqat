@@ -41,7 +41,8 @@ dependencies:
   share: ^0.6.5
   shared_preferences: ^0.5.12+2
   #ui
-  menu_button: ^1.4.1
+  menu_button: ^1.4.2+1
+  update_available: ^2.0.0
   # temp fix for ButtonTheme.bar
   country_pickers: ^2.0.0
   date_range_picker:

@@ -1,5 +1,6 @@
 import 'package:alhalaqat/app/conversation_helper/conversation_helper_bloc.dart';
 import 'package:alhalaqat/app/home/approved/common_screens/user_instances/addition/addition_screen.dart';
+import 'package:alhalaqat/app/home/approved/common_screens/user_instances/attendance/attendance_screen.dart';
 import 'package:alhalaqat/app/home/approved/common_screens/user_instances/instance_tile_widget.dart';
 import 'package:alhalaqat/app/home/approved/common_screens/user_instances/intances_bloc.dart';
 import 'package:alhalaqat/app/home/approved/common_screens/user_instances/intances_provider.dart';
@@ -167,6 +168,18 @@ class _InstancesScreenState extends State<InstancesScreen> {
           content: 'يرجى إدخال المعلومات',
           defaultActionText: 'حسنا',
         ).show(context);
+
+        Navigator.of(context, rootNavigator: false).push(
+          MaterialPageRoute(
+            builder: (context) => AttendanceScreen.create(
+              context: context,
+              instance: instances[0],
+              halaqatList: widget.halaqatList,
+              chosenCenter: bloc.chosenCenter,
+            ),
+            fullscreenDialog: true,
+          ),
+        );
       } catch (e) {
         await pr.hide();
         if (e is PlatformException) {

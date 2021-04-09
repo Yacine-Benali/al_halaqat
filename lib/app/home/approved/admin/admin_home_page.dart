@@ -10,6 +10,7 @@ import 'package:alhalaqat/app/home/approved/common_screens/conversation/conversa
 import 'package:alhalaqat/app/models/admin.dart';
 import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:alhalaqat/app/models/user.dart';
+import 'package:alhalaqat/common_widgets/center_drop_down.dart';
 import 'package:alhalaqat/common_widgets/empty_content.dart';
 import 'package:alhalaqat/common_widgets/home_screen_popup.dart';
 import 'package:alhalaqat/common_widgets/logo.dart';
@@ -45,6 +46,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
   Stream<List<StudyCenter>> studyCentersStream;
   Database database;
   List<String> centerIds;
+  StudyCenter chosenCenter;
 
   List<String> getApprovedCenterIds(Admin admin) {
     List<String> approvedCenters = List();
@@ -94,118 +96,132 @@ class _AdminHomePageState extends State<AdminHomePage> {
       centerIds = [widget.centerId];
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text('')),
-        leading: !widget.isGlobalAdmin
-            ? Padding(
-                padding: EdgeInsets.only(right: 20.0),
+    return StreamBuilder<List<StudyCenter>>(
+      stream: database.collectionStream(
+        path: APIPath.centersCollection(),
+        builder: (data, documentId) => StudyCenter.fromMap(data, documentId),
+        queryBuilder: (query) => query
+            .where(
+              FieldPath.documentId,
+              whereIn: centerIds,
+            )
+            .where('state', isEqualTo: 'approved'),
+      ),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final List<StudyCenter> items = snapshot.data;
+          if (items.isNotEmpty) {
+            return Scaffold(
+              appBar: _buildAppBar(items),
+              body: _buildContent(items),
+            );
+          } else {
+            Scaffold(
+              appBar: AppBar(),
+              body: EmptyContent(
+                title: Strings.yourCenterisArchived,
+                message: '',
+              ),
+            );
+          }
+        } else if (snapshot.hasError) {
+          Scaffold(
+            appBar: AppBar(),
+            body: EmptyContent(
+              title: 'Something went wrong',
+              message: 'Can\'t load items right now',
+            ),
+          );
+        }
+        return Center(child: CircularProgressIndicator());
+      },
+    );
+  }
+
+  Widget _buildAppBar(List<StudyCenter> centers) {
+    return AppBar(
+      title: Center(child: Text('')),
+      leading: !widget.isGlobalAdmin
+          ? Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: InkWell(
+                onTap: () => _confirmSignOut(context),
+                child: Icon(
+                  Icons.exit_to_app,
+                  size: 26.0,
+                ),
+              ),
+            )
+          : SizedBox(),
+      actions: !widget.isGlobalAdmin
+          ? [
+              CenterDropDown(
+                centers: centers,
+                onChanged: (center) {
+                  chosenCenter = center;
+                },
+              ),
+              HomeScreenPopUp(),
+              FutureBuilder(
+                future: FirebaseFirestore.instance.waitForPendingWrites(),
+                builder: (_, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done)
+                    return Container();
+                  else
+                    return Padding(
+                      padding: EdgeInsets.only(left: 20.0),
+                      child: Icon(
+                        Icons.cloud_upload,
+                        size: 26.0,
+                      ),
+                    );
+                },
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 20.0),
                 child: InkWell(
-                  onTap: () => _confirmSignOut(context),
+                  onTap: () => Navigator.of(context, rootNavigator: false).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          AdminGaRequestScreen.create(context: context),
+                      fullscreenDialog: true,
+                    ),
+                  ),
                   child: Icon(
-                    Icons.exit_to_app,
+                    Icons.add,
                     size: 26.0,
                   ),
                 ),
-              )
-            : SizedBox(),
-        actions: !widget.isGlobalAdmin
-            ? [
-                HomeScreenPopUp(),
-                FutureBuilder(
-                  future: FirebaseFirestore.instance.waitForPendingWrites(),
-                  builder: (_, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done)
-                      return Container();
-                    else
-                      return Padding(
-                        padding: EdgeInsets.only(left: 20.0),
-                        child: Icon(
-                          Icons.cloud_upload,
-                          size: 26.0,
-                        ),
-                      );
-                  },
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 20.0),
-                  child: InkWell(
-                    onTap: () =>
-                        Navigator.of(context, rootNavigator: false).push(
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            AdminGaRequestScreen.create(context: context),
-                        fullscreenDialog: true,
-                      ),
-                    ),
-                    child: Icon(
-                      Icons.add,
-                      size: 26.0,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 20.0),
+                child: InkWell(
+                  onTap: () => Navigator.of(context, rootNavigator: false).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          AdminProfileScreen.create(context: context),
+                      fullscreenDialog: true,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 20.0),
-                  child: InkWell(
-                    onTap: () =>
-                        Navigator.of(context, rootNavigator: false).push(
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            AdminProfileScreen.create(context: context),
-                        fullscreenDialog: true,
-                      ),
-                    ),
-                    child: Icon(
-                      Icons.account_circle,
-                      size: 26.0,
-                    ),
+                  child: Icon(
+                    Icons.account_circle,
+                    size: 26.0,
                   ),
                 ),
-              ]
-            : [
-                Padding(
-                  padding: EdgeInsets.only(left: 20.0),
-                  child: InkWell(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Icon(
-                      Icons.chevron_right,
-                      size: 26.0,
-                    ),
+              ),
+            ]
+          : [
+              Padding(
+                padding: EdgeInsets.only(left: 20.0),
+                child: InkWell(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Icon(
+                    Icons.chevron_right,
+                    size: 26.0,
                   ),
                 ),
-              ],
-      ),
-      body: StreamBuilder<List<StudyCenter>>(
-          stream: database.collectionStream(
-            path: APIPath.centersCollection(),
-            builder: (data, documentId) =>
-                StudyCenter.fromMap(data, documentId),
-            queryBuilder: (query) => query
-                .where(
-                  FieldPath.documentId,
-                  whereIn: centerIds,
-                )
-                .where('state', isEqualTo: 'approved'),
-          ),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final List<StudyCenter> items = snapshot.data;
-              if (items.isNotEmpty) {
-                return _buildContent(items);
-              } else {
-                return EmptyContent(
-                  title: Strings.yourCenterisArchived,
-                  message: '',
-                );
-              }
-            } else if (snapshot.hasError) {
-              return EmptyContent(
-                title: 'Something went wrong',
-                message: 'Can\'t load items right now',
-              );
-            }
-            return Center(child: CircularProgressIndicator());
-          }),
+              ),
+            ],
     );
   }
 
@@ -228,7 +244,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       MaterialPageRoute(
                         builder: (context) => AdminHalaqatScreen.create(
                           context: context,
-                          centers: items,
+                          center: chosenCenter,
                         ),
                         fullscreenDialog: true,
                       ),
@@ -243,7 +259,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   MaterialPageRoute(
                     builder: (context) => AdminTeachersScreen.create(
                       context: context,
-                      centers: items,
+                      center: chosenCenter,
                     ),
                     fullscreenDialog: true,
                   ),
@@ -257,7 +273,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   MaterialPageRoute(
                     builder: (context) => AdminSupervisorsScreen.create(
                       context: context,
-                      centers: items,
+                      center: chosenCenter,
                     ),
                     fullscreenDialog: true,
                   ),
@@ -271,7 +287,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   MaterialPageRoute(
                     builder: (context) => AdminsStudentsScreen.create(
                       context: context,
-                      centers: items,
+                      center: chosenCenter,
                     ),
                     fullscreenDialog: true,
                   ),
@@ -316,7 +332,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
                     builder: (context) => AdminReportsScreen.create(
-                        context: context, centers: items),
+                      context: context,
+                      centers: items,
+                      center: chosenCenter,
+                    ),
                     fullscreenDialog: true,
                   ),
                 ),
@@ -329,7 +348,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   MaterialPageRoute(
                     builder: (context) => CenterRequestsScreen.create(
                       context: context,
-                      centers: items,
+                      center: chosenCenter,
                     ),
                     fullscreenDialog: true,
                   ),
