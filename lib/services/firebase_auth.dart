@@ -1,4 +1,7 @@
+import 'package:alhalaqat/services/api_path.dart';
 import 'package:alhalaqat/services/auth.dart';
+import 'package:alhalaqat/services/database.dart';
+import 'package:alhalaqat/services/firestore_database.dart';
 import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
@@ -151,7 +154,19 @@ class FirebaseAuthService implements Auth {
     await googleSignIn.signOut();
     final FacebookLogin facebookLogin = FacebookLogin();
     await facebookLogin.logOut();
+    await removeFCMToken();
     return _firebaseAuth.signOut();
+  }
+
+  Future<void> removeFCMToken() async {
+    if (_firebaseAuth?.currentUser?.uid != null) {
+      Database database = FirestoreDatabase();
+      await database.setData(
+        path: APIPath.userDocument(_firebaseAuth.currentUser.uid),
+        data: {'pushToken': null},
+        merge: true,
+      );
+    }
   }
 
   @override

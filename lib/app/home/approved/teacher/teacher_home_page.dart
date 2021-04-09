@@ -98,7 +98,7 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
                   body: _buildContent(items, teacher),
                 );
               } else {
-                Scaffold(
+                return Scaffold(
                   appBar: AppBar(),
                   body: EmptyContent(
                     title: Strings.yourCenterisArchived,
@@ -107,7 +107,7 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
                 );
               }
             } else if (snapshot.hasError) {
-              Scaffold(
+              return Scaffold(
                 appBar: AppBar(),
                 body: EmptyContent(
                   title: 'Something went wrong',

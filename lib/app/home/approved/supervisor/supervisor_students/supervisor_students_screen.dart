@@ -22,15 +22,15 @@ class SupervisorStudentsScreen extends StatefulWidget {
   const SupervisorStudentsScreen._({
     Key key,
     @required this.bloc,
-    @required this.centers,
+    @required this.center,
   }) : super(key: key);
 
   final SupervisorStudentsBloc bloc;
-  final List<StudyCenter> centers;
+  final StudyCenter center;
 
   static Widget create({
     @required BuildContext context,
-    @required List<StudyCenter> centers,
+    @required StudyCenter center,
   }) {
     Database database = Provider.of<Database>(context, listen: false);
     User supervisor = Provider.of<User>(context, listen: false);
@@ -47,7 +47,7 @@ class SupervisorStudentsScreen extends StatefulWidget {
 
     return SupervisorStudentsScreen._(
       bloc: bloc,
-      centers: centers,
+      center: center,
     );
   }
 
@@ -71,7 +71,7 @@ class _AdminsStudentsScreenState extends State<SupervisorStudentsScreen> {
   void initState() {
     studentsStream = bloc.fetchStudents();
     quranFuture = bloc.fetchQuran();
-    chosenCenter = widget.centers[0];
+    chosenCenter = widget.center;
     chosenStudentState = 'approved';
     pr = ProgressDialog(
       context,
@@ -251,34 +251,6 @@ class _AdminsStudentsScreenState extends State<SupervisorStudentsScreen> {
                 return Scaffold(
                   appBar: AppBar(
                     actions: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 20.0),
-                        child: Center(
-                          child: DropdownButton<StudyCenter>(
-                            dropdownColor: Colors.indigo,
-                            value: chosenCenter,
-                            icon: Icon(Icons.arrow_drop_down,
-                                color: Colors.white),
-                            iconSize: 24,
-                            underline: Container(),
-                            elevation: 0,
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                            onChanged: (StudyCenter newValue) {
-                              setState(() {
-                                chosenCenter = newValue;
-                              });
-                            },
-                            items: widget.centers
-                                .map<DropdownMenuItem<StudyCenter>>(
-                                    (StudyCenter value) {
-                              return DropdownMenuItem<StudyCenter>(
-                                value: value,
-                                child: Text(value.name),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ),
                       true
                           ? Padding(
                               padding: EdgeInsets.only(left: 20.0),

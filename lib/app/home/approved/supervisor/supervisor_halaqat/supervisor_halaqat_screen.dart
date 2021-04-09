@@ -16,15 +16,15 @@ class SupervisorHalaqatScreen extends StatefulWidget {
   const SupervisorHalaqatScreen._({
     Key key,
     @required this.bloc,
-    @required this.centers,
+    @required this.center,
   }) : super(key: key);
 
   final SupervisorHalaqaBloc bloc;
-  final List<StudyCenter> centers;
+  final StudyCenter center;
 
   static Widget create({
     @required BuildContext context,
-    @required List<StudyCenter> centers,
+    @required StudyCenter center,
   }) {
     Database database = Provider.of<Database>(context, listen: false);
     User user = Provider.of<User>(context, listen: false);
@@ -43,7 +43,7 @@ class SupervisorHalaqatScreen extends StatefulWidget {
 
     return SupervisorHalaqatScreen._(
       bloc: bloc,
-      centers: centers,
+      center: center,
     );
   }
 
@@ -66,7 +66,7 @@ class _SupervisorHalaqatScreenState extends State<SupervisorHalaqatScreen> {
   @override
   void initState() {
     sortOption = sortOptions.elementAt(0);
-    chosenCenter = widget.centers[0];
+    chosenCenter = widget.center;
     halaqatListStream = bloc.fetchHalaqat(bloc.supervisor.halaqatSupervisingIn);
     numberOfHalaqatTeachingIn = bloc.supervisor.halaqatSupervisingIn?.length;
     super.initState();
@@ -84,36 +84,8 @@ class _SupervisorHalaqatScreenState extends State<SupervisorHalaqatScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Center(child: Text('الحلقات')),
+        title: Text('الحلقات'),
         centerTitle: true,
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: Center(
-              child: DropdownButton<StudyCenter>(
-                dropdownColor: Colors.indigo,
-                value: chosenCenter,
-                icon: Icon(Icons.arrow_drop_down, color: Colors.white),
-                iconSize: 24,
-                underline: Container(),
-                elevation: 0,
-                style: TextStyle(color: Colors.white, fontSize: 20),
-                onChanged: (StudyCenter newValue) {
-                  setState(() {
-                    chosenCenter = newValue;
-                  });
-                },
-                items: widget.centers
-                    .map<DropdownMenuItem<StudyCenter>>((StudyCenter value) {
-                  return DropdownMenuItem<StudyCenter>(
-                    value: value,
-                    child: Text(value.name),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-        ],
       ),
       body: StreamBuilder<List<Halaqa>>(
         stream: halaqatListStream,

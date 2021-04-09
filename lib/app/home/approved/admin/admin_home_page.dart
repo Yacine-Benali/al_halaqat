@@ -116,7 +116,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
               body: _buildContent(items),
             );
           } else {
-            Scaffold(
+            return Scaffold(
               appBar: AppBar(),
               body: EmptyContent(
                 title: Strings.yourCenterisArchived,
@@ -125,7 +125,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
             );
           }
         } else if (snapshot.hasError) {
-          Scaffold(
+          return Scaffold(
             appBar: AppBar(),
             body: EmptyContent(
               title: 'Something went wrong',
