@@ -14,15 +14,15 @@ class TCenterAttendanceScreen extends StatefulWidget {
   const TCenterAttendanceScreen._({
     Key key,
     @required this.bloc,
-    @required this.centers,
+    @required this.center,
   }) : super(key: key);
 
   final TCenterAttendanceBloc bloc;
-  final List<StudyCenter> centers;
+  final StudyCenter center;
 
   static Widget create({
     @required BuildContext context,
-    @required List<StudyCenter> centers,
+    @required StudyCenter center,
   }) {
     Database database = Provider.of<Database>(context, listen: false);
     User user = Provider.of<User>(context, listen: false);
@@ -35,7 +35,7 @@ class TCenterAttendanceScreen extends StatefulWidget {
     );
     return TCenterAttendanceScreen._(
       bloc: bloc,
-      centers: centers,
+      center: center,
     );
   }
 
@@ -52,7 +52,7 @@ class _TCenterAttendanceScreenState extends State<TCenterAttendanceScreen> {
   Stream<List<TeacherCenterAttendance>> teacherCenterAttendanceStream;
   @override
   void initState() {
-    chosenCenter = widget.centers[0];
+    chosenCenter = widget.center;
     teacherCenterAttendanceStream = bloc.fetchTCenterAttendance(chosenCenter);
     super.initState();
   }
@@ -62,38 +62,8 @@ class _TCenterAttendanceScreenState extends State<TCenterAttendanceScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Center(child: Text('')),
+        title: Text('إدارة الحضور'),
         centerTitle: true,
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: Center(
-              child: DropdownButton<StudyCenter>(
-                dropdownColor: Colors.indigo,
-                value: chosenCenter,
-                icon: Icon(Icons.arrow_drop_down, color: Colors.white),
-                iconSize: 24,
-                underline: Container(),
-                elevation: 0,
-                style: TextStyle(color: Colors.white, fontSize: 20),
-                onChanged: (StudyCenter newValue) {
-                  setState(() {
-                    chosenCenter = newValue;
-                  });
-                  teacherCenterAttendanceStream =
-                      bloc.fetchTCenterAttendance(chosenCenter);
-                },
-                items: widget.centers
-                    .map<DropdownMenuItem<StudyCenter>>((StudyCenter value) {
-                  return DropdownMenuItem<StudyCenter>(
-                    value: value,
-                    child: Text(value.name),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context, rootNavigator: false).push(

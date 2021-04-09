@@ -8,6 +8,7 @@ import 'package:alhalaqat/app/home/approved/teacher/teacher_students/teacher_stu
 import 'package:alhalaqat/app/models/study_center.dart';
 import 'package:alhalaqat/app/models/teacher.dart';
 import 'package:alhalaqat/app/models/user.dart';
+import 'package:alhalaqat/common_widgets/center_drop_down.dart';
 import 'package:alhalaqat/common_widgets/empty_content.dart';
 import 'package:alhalaqat/common_widgets/home_screen_popup.dart';
 import 'package:alhalaqat/common_widgets/logo.dart';
@@ -31,6 +32,8 @@ class TeacherHomePage extends StatefulWidget {
 class _TeacherHomePageState extends State<TeacherHomePage> {
   Stream<List<StudyCenter>> studyCentersStream;
   Database database;
+
+  StudyCenter chosenCenter;
   List<String> getApprovedCenterIds(Teacher teacher) {
     List<String> approvedCenters = List();
     teacher.centerState.forEach((key, value) {
@@ -73,71 +76,7 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
   @override
   Widget build(BuildContext context) {
     Teacher teacher = Provider.of<User>(context, listen: true);
-
     return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text('')),
-        leading: Padding(
-          padding: EdgeInsets.only(right: 20.0),
-          child: InkWell(
-            onTap: () => _confirmSignOut(context),
-            child: Icon(
-              Icons.exit_to_app,
-              size: 26.0,
-            ),
-          ),
-        ),
-        actions: [
-          HomeScreenPopUp(),
-          FutureBuilder(
-            future: FirebaseFirestore.instance.waitForPendingWrites(),
-            builder: (_, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done)
-                return Container();
-              else
-                return Padding(
-                  padding: EdgeInsets.only(left: 20.0),
-                  child: Icon(
-                    Icons.cloud_upload,
-                    size: 26.0,
-                  ),
-                );
-            },
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: InkWell(
-              onTap: () => Navigator.of(context, rootNavigator: false).push(
-                MaterialPageRoute(
-                  builder: (context) =>
-                      TeacherCenterRequestScreen.create(context: context),
-                  fullscreenDialog: true,
-                ),
-              ),
-              child: Icon(
-                Icons.add,
-                size: 26.0,
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: InkWell(
-              onTap: () => Navigator.of(context, rootNavigator: false).push(
-                MaterialPageRoute(
-                  builder: (context) =>
-                      TeacherProfileScreen.create(context: context),
-                  fullscreenDialog: true,
-                ),
-              ),
-              child: Icon(
-                Icons.account_circle,
-                size: 26.0,
-              ),
-            ),
-          ),
-        ],
-      ),
       body: StreamBuilder<List<StudyCenter>>(
           stream: database.collectionStream(
             path: APIPath.centersCollection(),
@@ -154,21 +93,102 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
             if (snapshot.hasData) {
               final List<StudyCenter> items = snapshot.data;
               if (items.isNotEmpty) {
-                return _buildContent(items, teacher);
+                return Scaffold(
+                  appBar: _buildAppBar(items),
+                  body: _buildContent(items, teacher),
+                );
               } else {
-                return EmptyContent(
-                  title: Strings.yourCenterisArchived,
-                  message: '',
+                Scaffold(
+                  appBar: AppBar(),
+                  body: EmptyContent(
+                    title: Strings.yourCenterisArchived,
+                    message: '',
+                  ),
                 );
               }
             } else if (snapshot.hasError) {
-              return EmptyContent(
-                title: 'Something went wrong',
-                message: 'Can\'t load items right now',
+              Scaffold(
+                appBar: AppBar(),
+                body: EmptyContent(
+                  title: 'Something went wrong',
+                  message: 'Can\'t load items right now',
+                ),
               );
             }
             return Center(child: CircularProgressIndicator());
           }),
+    );
+  }
+
+  Widget _buildAppBar(List<StudyCenter> centers) {
+    return AppBar(
+      title: Center(child: Text('')),
+      leading: Padding(
+        padding: EdgeInsets.only(right: 20.0),
+        child: InkWell(
+          onTap: () => _confirmSignOut(context),
+          child: Icon(
+            Icons.exit_to_app,
+            size: 26.0,
+          ),
+        ),
+      ),
+      actions: [
+        CenterDropDown(
+          centers: centers,
+          onChanged: (center) {
+            chosenCenter = center;
+          },
+        ),
+        HomeScreenPopUp(),
+        FutureBuilder(
+          future: FirebaseFirestore.instance.waitForPendingWrites(),
+          builder: (_, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done)
+              return Container();
+            else
+              return Padding(
+                padding: EdgeInsets.only(left: 20.0),
+                child: Icon(
+                  Icons.cloud_upload,
+                  size: 26.0,
+                ),
+              );
+          },
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 20.0),
+          child: InkWell(
+            onTap: () => Navigator.of(context, rootNavigator: false).push(
+              MaterialPageRoute(
+                builder: (context) =>
+                    TeacherCenterRequestScreen.create(context: context),
+                fullscreenDialog: true,
+              ),
+            ),
+            child: Icon(
+              Icons.add,
+              size: 26.0,
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 20.0),
+          child: InkWell(
+            onTap: () => Navigator.of(context, rootNavigator: false).push(
+              MaterialPageRoute(
+                builder: (context) =>
+                    TeacherProfileScreen.create(context: context),
+                fullscreenDialog: true,
+              ),
+            ),
+            child: Icon(
+              Icons.account_circle,
+              size: 26.0,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -191,7 +211,7 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
                       MaterialPageRoute(
                         builder: (context) => TeacherHalaqatScreen.create(
                           context: context,
-                          centers: items,
+                          center: chosenCenter,
                         ),
                         fullscreenDialog: true,
                       ),
@@ -206,7 +226,7 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
                   MaterialPageRoute(
                     builder: (context) => TeacherStudentsScreen.create(
                       context: context,
-                      centers: items,
+                      center: chosenCenter,
                     ),
                     fullscreenDialog: true,
                   ),
@@ -214,13 +234,13 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
               ),
               SizedBox(height: 10),
               MenuButtonWidget(
-                text: ' إدارة الحضور',
+                text: 'إدارة الحضور',
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: false).push(
                   MaterialPageRoute(
                     builder: (context) => TCenterAttendanceScreen.create(
                       context: context,
-                      centers: items,
+                      center: chosenCenter,
                     ),
                     fullscreenDialog: true,
                   ),

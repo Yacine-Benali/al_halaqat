@@ -18,15 +18,15 @@ class TeacherHalaqatScreen extends StatefulWidget {
   const TeacherHalaqatScreen._({
     Key key,
     @required this.bloc,
-    @required this.centers,
+    @required this.center,
   }) : super(key: key);
 
   final TeacherHalaqaBloc bloc;
-  final List<StudyCenter> centers;
+  final StudyCenter center;
 
   static Widget create({
     @required BuildContext context,
-    @required List<StudyCenter> centers,
+    @required StudyCenter center,
   }) {
     Database database = Provider.of<Database>(context, listen: false);
     User user = Provider.of<User>(context, listen: false);
@@ -45,7 +45,7 @@ class TeacherHalaqatScreen extends StatefulWidget {
 
     return TeacherHalaqatScreen._(
       bloc: bloc,
-      centers: centers,
+      center: center,
     );
   }
 
@@ -67,7 +67,7 @@ class _TeacherHalaqatScreenState extends State<TeacherHalaqatScreen> {
   @override
   void initState() {
     sortOption = sortOptions.elementAt(0);
-    chosenCenter = widget.centers[0];
+    chosenCenter = widget.center;
     halaqatListStream = bloc.fetchHalaqat(bloc.teacher.halaqatTeachingIn);
     numberOfHalaqatTeachingIn = bloc.teacher.halaqatTeachingIn?.length;
     super.initState();
@@ -85,36 +85,8 @@ class _TeacherHalaqatScreenState extends State<TeacherHalaqatScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Center(child: Text('الحلقات')),
+        title: Text('الحلقات'),
         centerTitle: true,
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: Center(
-              child: DropdownButton<StudyCenter>(
-                dropdownColor: Colors.indigo,
-                value: chosenCenter,
-                icon: Icon(Icons.arrow_drop_down, color: Colors.white),
-                iconSize: 24,
-                underline: Container(),
-                elevation: 0,
-                style: TextStyle(color: Colors.white, fontSize: 20),
-                onChanged: (StudyCenter newValue) {
-                  setState(() {
-                    chosenCenter = newValue;
-                  });
-                },
-                items: widget.centers
-                    .map<DropdownMenuItem<StudyCenter>>((StudyCenter value) {
-                  return DropdownMenuItem<StudyCenter>(
-                    value: value,
-                    child: Text(value.name),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context, rootNavigator: false).push(
