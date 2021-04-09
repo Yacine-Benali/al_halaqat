@@ -181,8 +181,7 @@ class _AdminReportsScreenState extends State<AdminReportsScreen> {
             } else {
               return EmptyContent(
                 title: '',
-                //TODO translate
-                message: 'there are no halaqat for this center',
+                message: 'يجب إنشاء حلقات لإنشاء التقارير',
               );
             }
           } else if (snapshot.hasError) {
