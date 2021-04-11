@@ -33,7 +33,7 @@ class HomeScreenPopUp extends StatelessWidget {
             PlatformAlertDialog(
               content:
                   """هذا البرنامج صدقة عن روح المرحومة وفاء خليل صديق نرجو  لها الدعاء
-                  \n  الإصدار ${Strings.appVersion}""",
+                  """,
               defaultActionText: 'حسنا',
               title: 'حول التطبيق',
             ).show(context);
@@ -59,7 +59,7 @@ class HomeScreenPopUp extends StatelessWidget {
               PlatformAlertDialog(
                 content: text,
                 defaultActionText: 'حسنا',
-                title: '*',
+                title: 'فحص التحديثات',
               ).show(context);
             });
           }

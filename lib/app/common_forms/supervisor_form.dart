@@ -13,6 +13,7 @@ import 'package:alhalaqat/constants/key_translate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tuple/tuple.dart';
 
 class SupervisorForm extends StatefulWidget {
   const SupervisorForm({
@@ -75,6 +76,9 @@ class _NewStudentFormState extends State<SupervisorForm>
   //
   bool isSupervisor;
   List<String> halaqatSupervisingIn;
+  //
+  List<String> availableHalaqatSupervisingIn;
+  List<String> unavailableHalaqatSupervisingIn;
 
   @override
   void initState() {
@@ -107,10 +111,12 @@ class _NewStudentFormState extends State<SupervisorForm>
     isSupervisor = supervisor?.isSupervisor;
 
     halaqatSupervisingIn = supervisor?.halaqatSupervisingIn ?? List<String>();
-
-    halaqatSupervisingIn = sanitizeHalaqatTeachingIn(halaqatSupervisingIn);
     //
     usernameInitValue = username?.replaceAll('@al-halaqat.firebaseapp.com', '');
+    //
+    var temp1 = buildAvail(halaqatSupervisingIn, widget.halaqatList);
+    availableHalaqatSupervisingIn = temp1.item1;
+    unavailableHalaqatSupervisingIn = temp1.item2;
 
     _save();
     super.initState();
@@ -333,15 +339,23 @@ class _NewStudentFormState extends State<SupervisorForm>
                       autovalidate: false,
                       titleText: 'حلقات يشرف عليها',
                       validator: (value) => null,
-                      dataSource: buildMap(widget.halaqatList),
+                      dataSource: buildSupervisingInMap(widget.halaqatList),
                       textField: 'display',
                       valueField: 'value',
                       okButtonLabel: 'حسنا',
                       cancelButtonLabel: 'إلغاء',
                       hintText: 'انقر هنا للاختيار الحلقات',
                       onSaved: (values) {
-                        halaqatSupervisingIn = List<String>.from(values);
+                        availableHalaqatSupervisingIn =
+                            List<String>.from(values);
+                        halaqatSupervisingIn.clear();
+                        halaqatSupervisingIn
+                            .addAll(availableHalaqatSupervisingIn);
+                        halaqatSupervisingIn
+                            .addAll(unavailableHalaqatSupervisingIn);
+
                         _save();
+                        setState(() {});
                       },
                     ),
                   ),
@@ -354,20 +368,29 @@ class _NewStudentFormState extends State<SupervisorForm>
     );
   }
 
-  List<String> sanitizeHalaqatTeachingIn(List<String> halaqatTeachingIn2) {
-    if (widget.halaqatList?.isNotEmpty ?? false) {
-      List<String> allHalaqatIds = widget.halaqatList.map((e) => e.id).toList();
+  Tuple2<List<String>, List<String>> buildAvail(
+      List<String> halaqatLearningIn, List<Halaqa> halaqatList) {
+    List<String> availableHalaqatList = List();
+    List<String> unavailableHalaqatList = List();
 
-      List<String> cleanHalaqatLearningIn = List<String>();
-      halaqatTeachingIn2.forEach((e) {
-        if (allHalaqatIds.contains(e)) cleanHalaqatLearningIn.add(e);
-      });
-      return cleanHalaqatLearningIn;
+    for (String halaqaLearningInId in halaqatLearningIn) {
+      bool found = false;
+      if (halaqatList != null) {
+        for (Halaqa halaqa in halaqatList) {
+          if (halaqa.id == halaqaLearningInId) {
+            found = true;
+            availableHalaqatList.add(halaqaLearningInId);
+          }
+        }
+      }
+      if (!found) unavailableHalaqatList.add(halaqaLearningInId);
     }
-    return List<String>();
+
+    return Tuple2<List<String>, List<String>>(
+        availableHalaqatList, unavailableHalaqatList);
   }
 
-  List<Map<String, String>> buildMap(List<Halaqa> halaqatList) {
+  List<Map<String, String>> buildSupervisingInMap(List<Halaqa> halaqatList) {
     List<Map<String, String>> subjectDataSource = List();
     for (Halaqa halaqa in halaqatList) {
       subjectDataSource.add(

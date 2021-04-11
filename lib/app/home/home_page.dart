@@ -57,6 +57,7 @@ class _BaseScreenState extends State<HomePage> {
     return StreamBuilder<User>(
       stream: userStream,
       builder: (context, snapshot) {
+        print('tiktok: ' + snapshot?.data?.toMap().toString());
         return Provider<AsyncSnapshot<User>>.value(
           value: snapshot,
           child: Provider<User>.value(
