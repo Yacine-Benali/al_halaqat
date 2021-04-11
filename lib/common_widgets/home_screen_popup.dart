@@ -48,13 +48,10 @@ class HomeScreenPopUp extends StatelessWidget {
           } else if (value == 3) {
             getUpdateAvailability().then((value) {
               final text = value.fold(
-                available: () =>
-                    "There's an update to you app! Please, update it "
-                    "so you have access to the latest features!",
-                notAvailable: () => 'No update is available for your app.',
+                available: () => ".هناك تحديث جديد، قم بالتحديث ",
+                notAvailable: () => '.لا تحديث جديد، لديك آخر إصدار',
                 unknown: () =>
-                    "It was not possible to determine if there is or not "
-                    "an update for your app.",
+                    ".لم نتمكن من التأكد من وجود تحديثات، يرجى المحاولة لاحقاً",
               );
               PlatformAlertDialog(
                 content: text,
