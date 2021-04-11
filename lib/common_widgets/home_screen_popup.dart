@@ -19,7 +19,7 @@ class HomeScreenPopUp extends StatelessWidget {
               ),
               PopupMenuItem<int>(
                 value: 3,
-                child: Text("فحص التحديثات"),
+                child: Text("تأكد من التحديثات"),
               ),
               PopupMenuItem<int>(
                 value: 4,
@@ -56,7 +56,7 @@ class HomeScreenPopUp extends StatelessWidget {
               PlatformAlertDialog(
                 content: text,
                 defaultActionText: 'حسنا',
-                title: 'فحص التحديثات',
+                title: 'تأكد من التحديثات',
               ).show(context);
             });
           }
