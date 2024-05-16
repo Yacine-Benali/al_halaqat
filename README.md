@@ -1,7 +1,20 @@
 # Al Halaqat - a School Management App
+![logo](readme_images/logo.png)
 
 ## Overview
 The **School Management App** is a comprehensive application designed to cater to the needs of supervisors, teachers, and students involved teaching at mosques. This app facilitates the management and organization teaching sessions and fosters seamless interaction among all participants. 
+
+<p align="center">
+  <img src="readme_images/1.png" alt="Screenshot 1" width="300"/>
+  <img src="readme_images/2.png" alt="Screenshot 2" width="300"/>
+  <img src="readme_images/3.png" alt="Screenshot 3" width="300"/>
+</p>
+
+<p align="center">
+  <img src="readme_images/4.png" alt="Screenshot 1" width="300"/>
+  <img src="readme_images/5.png" alt="Screenshot 2" width="300"/>
+  <img src="readme_images/6.png" alt="Screenshot 3" width="300"/>
+</p>
 
 ## Key Features
 - **Integrated Sessions Management**: Streamline the coordination and oversight of all sessions within each school.
